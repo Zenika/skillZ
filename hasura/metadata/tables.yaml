@@ -1,0 +1,142 @@
+- table:
+    schema: public
+    name: Agency
+  array_relationships:
+  - name: Users
+    using:
+      foreign_key_constraint_on:
+        column: agencyId
+        table:
+          schema: public
+          name: User
+- table:
+    schema: public
+    name: Certification
+- table:
+    schema: public
+    name: Experience
+  object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+  array_relationships:
+  - name: ExperienceSkills
+    using:
+      foreign_key_constraint_on:
+        column: experienceId
+        table:
+          schema: public
+          name: ExperienceSkill
+- table:
+    schema: public
+    name: ExperienceSkill
+  object_relationships:
+  - name: Experience
+    using:
+      foreign_key_constraint_on: experienceId
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skillId
+- table:
+    schema: public
+    name: Skill
+  array_relationships:
+  - name: ExperienceSkills
+    using:
+      foreign_key_constraint_on:
+        column: skillId
+        table:
+          schema: public
+          name: ExperienceSkill
+  - name: TechnicalAppetites
+    using:
+      foreign_key_constraint_on:
+        column: skillId
+        table:
+          schema: public
+          name: TechnicalAppetite
+  - name: UserSkills
+    using:
+      foreign_key_constraint_on:
+        column: skillId
+        table:
+          schema: public
+          name: UserSkill
+- table:
+    schema: public
+    name: TechnicalAppetite
+  object_relationships:
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skillId
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+  array_relationships:
+  - name: TechnicalAppetiteSteps
+    using:
+      foreign_key_constraint_on:
+        column: technicalAppetiteId
+        table:
+          schema: public
+          name: TechnicalAppetiteStep
+- table:
+    schema: public
+    name: TechnicalAppetiteStep
+  object_relationships:
+  - name: TechnicalAppetite
+    using:
+      foreign_key_constraint_on: technicalAppetiteId
+- table:
+    schema: public
+    name: User
+  object_relationships:
+  - name: Agency
+    using:
+      foreign_key_constraint_on: agencyId
+  array_relationships:
+  - name: Experiences
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: Experience
+  - name: TechnicalAppetites
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: TechnicalAppetite
+  - name: UserCertifications
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: UserCertification
+  - name: UserSkills
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: UserSkill
+- table:
+    schema: public
+    name: UserCertification
+  object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+- table:
+    schema: public
+    name: UserSkill
+  object_relationships:
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skillId
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
