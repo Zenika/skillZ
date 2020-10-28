@@ -15,4 +15,9 @@ jobs:
             - checkout
 
 
+workflows:
+  version: 2
 
+  test:
+    jobs:
+      - test_auto_apply_migrations
