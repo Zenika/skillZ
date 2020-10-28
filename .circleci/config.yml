@@ -13,32 +13,31 @@ orbs:
             - run:
                 name: Wait for Hasura
                 command: dockerize -wait tcp://hasura:8080 -timeout 1m
-
-jobs:
-    test_auto_apply_migrations:
-        docker:
-            - image: circleci/node
-        steps:
-            - checkout
-            # - run:
-            #     name: up the hasura env
-            #     command: docker-compose up -d
-            - mount-hasura
-            - run:
-                name: Wait for Hasura
-                command: dockerize -wait tcp://hasura:8080 -timeout 1m
-            # - run:
-            #     name: install cli
-            #     command: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
-            # - run:
-            #     name: run migrations
-            #     command: hasura migrate apply
-            # - run:
-            #     name: run metadatas
-            #     command: hasura metadata apply 
-            # - run:
-            #     name: run migrations
-            #     command: hasura seed apply
+      jobs:
+        test_auto_apply_migrations:
+            docker:
+                - image: circleci/node
+            steps:
+                - checkout
+                # - run:
+                #     name: up the hasura env
+                #     command: docker-compose up -d
+                - mount-hasura
+                - run:
+                    name: Wait for Hasura
+                    command: dockerize -wait tcp://hasura:8080 -timeout 1m
+                # - run:
+                #     name: install cli
+                #     command: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+                # - run:
+                #     name: run migrations
+                #     command: hasura migrate apply
+                # - run:
+                #     name: run metadatas
+                #     command: hasura metadata apply 
+                # - run:
+                #     name: run migrations
+                #     command: hasura seed apply
 
 workflows:
   test:
