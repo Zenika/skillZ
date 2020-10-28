@@ -16,6 +16,9 @@ jobs:
                 HASURA_GRAPHQL_ADMIN_SECRET: key
         steps:
             - checkout
+            - run:
+                name: 'Wait for Hasura'
+                command: dockerize -wait tcp://localhost:8080 -timeout 1m
 
 
 workflows:
