@@ -10,7 +10,7 @@ jobs:
                 POSTGRES_PASSWORD: postgrespassword
             - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
               name: hasura
-              command: ["sh", "-c", "sleep 30 && graphql-engine serve"]
+              command: ["sh", "-c", "sleep 30 && graphql-engine serve && hasura-cli migrate apply --endpoint http://hasura:8080 && hasura-cli metadata apply --endpoint http://hasura:8080 && hasura-cli seed apply --endpoint http://hasura:8080"]
               environment: 
                 HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
                 HASURA_GRAPHQL_ADMIN_SECRET: key
@@ -19,10 +19,6 @@ jobs:
             - run:
                 name: Wait for Hasura
                 command: dockerize -wait tcp://hasura:8080 -timeout 1m
-            - run:
-                name: apply migrations, metadata and seeds
-                working_directory: hasura
-                command: hasura-cli migrate apply --endpoint http://hasura:8080 && hasura-cli metadata apply --endpoint http://hasura:8080 && hasura-cli seed apply --endpoint http://hasura:8080
 
 
 workflows:
