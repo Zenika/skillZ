@@ -1,19 +1,33 @@
 version: 2.1
 
-jobs:
-    test_auto_apply_migrations:
-        docker:
-            - image: circleci/node
-            - image: postgres:12
+orbs:
+    hasura:
+        orbs: 
+            - postgres: postgres:12
               name: postgres
               environment:
                 POSTGRES_PASSWORD: postgrespassword
-            - image: hasura/graphql-engine:v1.3.2.cli-migrations
+            - hasura: hasura/graphql-engine:v1.3.2.cli-migrations-v2
               name: hasura
               command: ["sh", "-c", "sleep 30 && graphql-engine serve"]
               environment: 
                 HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
                 HASURA_GRAPHQL_ADMIN_SECRET: key
+
+jobs:
+    test_auto_apply_migrations:
+        docker:
+            - image: circleci/node
+            # - image: postgres:12
+            #   name: postgres
+            #   environment:
+            #     POSTGRES_PASSWORD: postgrespassword
+            # - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
+            #   name: hasura
+            #   command: ["sh", "-c", "sleep 30 && graphql-engine serve"]
+            #   environment: 
+            #     HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+            #     HASURA_GRAPHQL_ADMIN_SECRET: key
         steps:
             - checkout
             - run:
@@ -26,4 +40,4 @@ workflows:
 
   test:
     jobs:
-      - test_auto_apply_migrations
+      - hasura/test_auto_apply_migrations
