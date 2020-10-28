@@ -41,8 +41,6 @@ jobs:
             #     command: hasura seed apply
 
 workflows:
-  version: 2
-
   test:
     jobs:
       - mount-hasura/test_auto_apply_migrations
