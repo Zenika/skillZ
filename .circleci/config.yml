@@ -5,10 +5,14 @@ orbs:
       orbs:
         docker: circleci/docker@1.5.0
       commands:
-        my_command:
+        mount-hasura:
           steps:
-            - checkout
-            - run: docker-compose up -d
+            - run: 
+                name: Mount the containers
+                command: docker-compose up -d
+            - run:
+                name: Wait for Hasura
+                command: dockerize -wait tcp://hasura:8080 -timeout 1m
 
 jobs:
     test_auto_apply_migrations:
@@ -19,6 +23,7 @@ jobs:
             # - run:
             #     name: up the hasura env
             #     command: docker-compose up -d
+            - mount-hasura
             - run:
                 name: Wait for Hasura
                 command: dockerize -wait tcp://hasura:8080 -timeout 1m
