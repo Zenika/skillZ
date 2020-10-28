@@ -1,29 +1,43 @@
 version: 2.1
 
+orbs:
+    mount-hasura:
+      orbs:
+        docker: circleci/docker@1.5.0
+      commands:
+        my_command:
+          steps:
+            - checkout
+            - run: docker-compose up -d
+
 jobs:
     test_auto_apply_migrations:
         docker:
             - image: circleci/node
-            - image: postgres:12
-              name: postgres
-              environment:
-                POSTGRES_PASSWORD: postgrespassword
-            - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
-              name: hasura
-              command: ["sh", "-c", "sleep 30 && graphql-engine serve && hasura-cli migrate apply --endpoint http://hasura:8080 && hasura-cli metadata apply --endpoint http://hasura:8080 && hasura-cli seed apply --endpoint http://hasura:8080"]
-              environment: 
-                HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-                HASURA_GRAPHQL_ADMIN_SECRET: key
         steps:
             - checkout
+            # - run:
+            #     name: up the hasura env
+            #     command: docker-compose up -d
             - run:
                 name: Wait for Hasura
                 command: dockerize -wait tcp://hasura:8080 -timeout 1m
-
+            # - run:
+            #     name: install cli
+            #     command: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+            # - run:
+            #     name: run migrations
+            #     command: hasura migrate apply
+            # - run:
+            #     name: run metadatas
+            #     command: hasura metadata apply 
+            # - run:
+            #     name: run migrations
+            #     command: hasura seed apply
 
 workflows:
   version: 2
 
   test:
     jobs:
-      - test_auto_apply_migrations
+      - mount-hasura/test_auto_apply_migrations
