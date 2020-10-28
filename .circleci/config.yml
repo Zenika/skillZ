@@ -8,7 +8,7 @@ orbs:
         mount-hasura:
           steps:
             - checkout
-            - install-docker-compose
+            - docker/install-docker-compose
             - run: 
                 name: Mount the containers
                 command: docker-compose up -d
