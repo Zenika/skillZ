@@ -5,11 +5,13 @@ jobs:
         docker:
             - image: circleci/node
             - image: postgres:12
+              name: postgres
               environment:
                 POSTGRES_PASSWORD: postgrespassword
             - image: hasura/graphql-engine:v1.3.2.cli-migrations
+              name: hasura
               environment: 
-                HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@localhost:5432/postgres
+                HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
                 HASURA_GRAPHQL_ADMIN_SECRET: key
         steps:
             - checkout
