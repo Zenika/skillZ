@@ -10,13 +10,6 @@ orbs:
             - docker/install-docker
             - docker/install-docker-compose
             - docker/install-dockerize
-            - run: docker ps -a
-            - run: 
-                name: Mount the containers
-                command: docker-compose up -d
-            - run:
-                name: Wait for Hasura
-                command: dockerize -wait tcp://hasura:8080 -timeout 1m
       jobs:
         test_auto_apply_migrations:
             docker:
@@ -27,6 +20,10 @@ orbs:
                 #     name: up the hasura env
                 #     command: docker-compose up -d
                 - mount-hasura
+                - run: docker ps -a
+                - run: 
+                    name: Mount the containers
+                    command: docker-compose up -d
                 - run:
                     name: Wait for Hasura
                     command: dockerize -wait tcp://hasura:8080 -timeout 1m
