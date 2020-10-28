@@ -1,0 +1,18 @@
+version: 2.1
+
+jobs:
+    test_auto_apply_migrations:
+        docker:
+            - image: circleci/node
+            - image: hasura/graphql-engine:v1.3.2.cli-migrations
+              environment: 
+                HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@localhost:5432/postgres
+                HASURA_GRAPHQL_ADMIN_SECRET: key
+            - image: postgres:12
+              environment:
+                POSTGRES_PASSWORD: postgrespassword
+        steps:
+            - checkout
+
+
+
