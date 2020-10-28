@@ -18,7 +18,7 @@ jobs:
             - checkout
             - run:
                 name: 'Wait for Hasura'
-                command: dockerize -wait tcp://localhost:8080 -timeout 1m
+                command: dockerize -wait tcp://hasura:8080 -timeout 1m
 
 
 workflows:
