@@ -1,7 +1,5 @@
 version: 2.1
 
-orbs:
-  cypress: cypress-io/cypress@1
 executors:
   front:
     docker:
@@ -165,7 +163,7 @@ workflows:
       - front-unit-test:
           requires:
             - front-install-dependencies
-      - cypress/run:
+      - front-integration-test:
           requires:
             - front-install-dependencies
       - api-build-and-test
