@@ -4,6 +4,9 @@ executors:
   front:
     docker:
       - image: circleci/node
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
   hasura:
     docker:
       - image: circleci/node
@@ -19,12 +22,6 @@ executors:
   rust:
     docker:
       - image: circleci/rust
-  cypress:
-    docker:
-      - image: cypress/base:10
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
 
 commands:
   setup-rust-cache:
@@ -90,7 +87,6 @@ jobs:
       - save_cache:
           paths:
             - ./front/node_modules
-            - ~/.cache
           key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
   front-qc-prettier:
     executor: front
@@ -129,17 +125,27 @@ jobs:
           working_directory: front
           command: npm test
   front-integration-test:
-    executor: cypress
+    executor: front
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+            - v1-packaging-front-dependencies-cypress-
       - run:
           name: install more dependencies
           working_directory: front
           command: npm install
+          - save_cache:
+            paths:
+              - ./front/node_modules
+              - ~/.cache
+            key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+      - save_cache:
+          paths:
+            - ./front/node_modules
+            - ~/.cache
+          key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - run:
           name: 'Wait for server startup for a minute max'
           command: sudo npm i -g wait-on && wait-on -t 60000 http://localhost:3000
