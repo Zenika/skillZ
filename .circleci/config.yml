@@ -143,7 +143,10 @@ jobs:
           key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - run:
           name: 'Wait for server startup for a minute max'
-          command: sudo npm i -g wait-on && wait-on -t 60000 http://localhost:3000
+          command: |
+            sudo npm i -g wait-on
+            npm start 
+            wait-on -t 60000 http://localhost:3000
       - run:
           name: integration-test
           working_directory: front
