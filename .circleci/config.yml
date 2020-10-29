@@ -4,6 +4,7 @@ executors:
   front:
     docker:
       - image: circleci/node
+        name: front
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -147,11 +148,11 @@ jobs:
           command: |
             sudo npm i -g wait-on
             npm start 
-            wait-on -t 60000 http://localhost:3000
+            wait-on -t 60000 http://front:3000
       - run:
           name: integration-test
           working_directory: front
-          command: npm run cypress:run
+          command: npm run cypress:run -- --config baseUrl=http://front:3000
   api-build-and-test:
     executor: rust
     steps:
