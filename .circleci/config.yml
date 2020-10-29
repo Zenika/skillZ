@@ -142,19 +142,11 @@ jobs:
             - ~/.cache
           key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - run:
-          name: 'install wait-on and start the react dev server'
+          name: 'run server in baackground and test'
           working_directory: front
           command: |
-            sudo npm i -g wait-on
-            npm start
-      - run:
-          name: 'Wait for server startup for a minute max'
-          working_directory: front
-          command: wait-on -t 60000 http://localhost
-      - run:
-          name: integration-test
-          working_directory: front
-          command: npm run cypress:run -- --config baseUrl=http://localhost
+            sudo npm i -g start-server-and-test
+            start-server-and-test start http://localhost:3000 cypress:run
   api-build-and-test:
     executor: rust
     steps:
