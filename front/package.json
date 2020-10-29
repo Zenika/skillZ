@@ -24,7 +24,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "prettier": "prettier *.json \"src/**/*.{js,jsx,ts,tsx}\"",
+    "prettier:check": "npm run prettier -- --check",
+    "prettier:write": "npm run prettier -- --write"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
   }
 }

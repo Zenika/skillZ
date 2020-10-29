@@ -1,46 +1,145 @@
 version: 2.1
 
-orbs:
-    mount-hasura:
-      orbs:
-        docker: circleci/docker@1.5.0
-      commands:
-        mount-hasura:
-          steps:
-            - docker/install-docker
-            - docker/install-docker-compose
-            - docker/install-dockerize
-      jobs:
-        test_auto_apply_migrations:
-            docker:
-                - image: circleci/node
-            steps:
-                - checkout
-                # - run:
-                #     name: up the hasura env
-                #     command: docker-compose up -d
-                - mount-hasura
-                - run: docker ps -a
-                - run: 
-                    name: Mount the containers
-                    command: docker-compose up -d
-                - run:
-                    name: Wait for Hasura
-                    command: dockerize -wait tcp://hasura:8080 -timeout 1m
-                # - run:
-                #     name: install cli
-                #     command: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
-                # - run:
-                #     name: run migrations
-                #     command: hasura migrate apply
-                # - run:
-                #     name: run metadatas
-                #     command: hasura metadata apply 
-                # - run:
-                #     name: run migrations
-                #     command: hasura seed apply
+executors:
+  front:
+    docker:
+      - image: circleci/node
+  hasura:
+    docker:
+      - image: hasura/graphql-engine:1.3.2.cli-migrations-v2
+  rust:
+    docker:
+      - image: circleci/rust
+
+commands:
+  setup-rust-cache:
+    steps:
+      - run:
+          name: Install sccache
+          command: |
+            cargo install sccache
+            echo 'export "RUSTC_WRAPPER"="sccache"' >> $BASH_ENV
+            echo 'export "SCCACHE_CACHE_SIZE"="5G"' >> $BASH_ENV
+            sccache --version
+  restore-rust-cache:
+    steps:
+      - restore_cache:
+          name: Restore sccache cache
+          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}
+  save-rust-cache:
+    steps:
+      - save_cache:
+          name: Save sccache cache
+          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
+          paths:
+            - "~/.cache/sccache"
+
+jobs:
+  hasura-test-apply-migrations:
+    executor: hasura
+    working_directory: hasura
+    steps:
+      - checkout
+      - run:
+          name: migrate
+          command: hasura migrate apply
+      - run:
+          name: metadata
+          command: hasura metadata apply
+      - run:
+          name: seeds
+          command: hasura seeds apply
+  front-install-dependencies:
+    executor: front
+    working_directory: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: install-dependencies
+          command: npm ci
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+  front-qc-prettier:
+    executor: front
+    working_directory: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: qc-prettier
+          command: npm run prettier:check
+  front-build:
+    executor: front
+    working_directory: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: build
+          command: npm run build
+  front-unit-test:
+    executor: front
+    working_directory: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: unit-test
+          command: npm test
+  front-integration-test:
+    executor: front
+    working_directory: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: integration-test
+          command: npm run cypress:run
+  api-build-and-test:
+    executor: rust
+    working_directory: api
+    steps:
+      - checkout
+      - setup-rust-cache
+      - restore-rust-cache
+      - run:
+          name: test
+          command: cargo test
+      - save-rust-cache
 
 workflows:
-  test:
+  qc-test-depoy:
     jobs:
-      - mount-hasura/test_auto_apply_migrations
+      - hasura-test-apply-migrations
+      - front-install-dependencies
+      - front-qc-prettier:
+          requires:
+            - front-install-dependencies
+      - front-build:
+          requires:
+            - front-install-dependencies
+      - front-unit-test:
+          requires:
+            - front-install-dependencies
+      - front-integration-test:
+          requires:
+            - front-install-dependencies
+      - api-build-and-test
