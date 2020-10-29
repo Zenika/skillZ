@@ -1,5 +1,7 @@
 version: 2.1
 
+orbs:
+  cypress: cypress-io/cypress@1
 executors:
   front:
     docker:
@@ -7,15 +9,15 @@ executors:
   hasura:
     docker:
       - image: circleci/node
+      - image: postgres:12
+        name: postgres
+        environment:
+          POSTGRES_PASSWORD: postgrespassword
       - image: hasura/graphql-engine:v1.3.2.cli-migrations
         name: hasura
         environment: 
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
-      - image: postgres:12
-        name: postgres
-        environment:
-          POSTGRES_PASSWORD: postgrespassword
   rust:
     docker:
       - image: circleci/rust
@@ -59,7 +61,7 @@ jobs:
       - checkout
       - run:
           name: 'Wait for Hasura for a minute max'
-          command: npx wait-on -t 60000 http://hasura:8080
+          command: npm i -g wait-on && wait-on -t 60000 http://hasura:8080
       - run:
           name: migrate
           working_directory: hasura
@@ -125,7 +127,6 @@ jobs:
           working_directory: front
           command: npm test
   front-integration-test:
-    executor: cypress
     steps:
       - checkout
       - restore_cache:
@@ -162,7 +163,7 @@ workflows:
       - front-unit-test:
           requires:
             - front-install-dependencies
-      - front-integration-test:
+      - cypress/front-integration-test:
           requires:
             - front-install-dependencies
       - api-build-and-test
