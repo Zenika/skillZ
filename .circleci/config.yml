@@ -89,6 +89,7 @@ jobs:
       - save_cache:
           paths:
             - ./front/node_modules
+            - ~/.cache
           key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
   front-qc-prettier:
     executor: front
@@ -163,7 +164,7 @@ workflows:
       - front-unit-test:
           requires:
             - front-install-dependencies
-      - cypress/front-integration-test:
+      - cypress/run:
           requires:
             - front-install-dependencies
       - api-build-and-test
