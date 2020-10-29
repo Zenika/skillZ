@@ -143,12 +143,15 @@ jobs:
             - ~/.cache
           key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - run:
-          name: 'Wait for server startup for a minute max'
+          name: 'install wait-on and start the react dev server'
           working_directory: front
           command: |
             sudo npm i -g wait-on
-            npm start 
-            wait-on -t 60000 http://front:3000
+            npm start
+      - run:
+          name: 'Wait for server startup for a minute max'
+          working_directory: front
+          command: wait-on -t 60000 http://front:3000
       - run:
           name: integration-test
           working_directory: front
