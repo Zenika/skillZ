@@ -58,20 +58,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'Wait for Hasura for a minute max'
-          command: sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
+        name: 'install hasura cli'
+        command: sudo npm i -g hasura-cli
+      - run:
+          name: 'wait for Hasura for a minute max'
+          command: dockerize -wait tcp://localhost:8080 -timeout 1m #sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
       - run:
           name: migrate
           working_directory: hasura
-          command: hasura-cli migrate apply --endpoint http://hasura:8080
+          command: hasura migrate apply --endpoint http://hasura:8080
       - run:
           name: metadata
           working_directory: hasura
-          command: hasura-cli metadata apply --endpoint http://hasura:8080
+          command: hasura metadata apply --endpoint http://hasura:8080
       - run:
           name: seeds
           working_directory: hasura
-          command: hasura-cli seeds apply --endpoint http://hasura:8080
+          command: hasura seeds apply --endpoint http://hasura:8080
   front-install-dependencies:
     executor: front
     steps:
@@ -137,6 +140,9 @@ jobs:
           name: install more dependencies
           working_directory: front
           command: npm install
+      - run:
+          name: 'Wait for server startup for a minute max'
+          command: sudo npm i -g wait-on && wait-on -t 60000 http://localhost:3000
       - run:
           name: integration-test
           working_directory: front
