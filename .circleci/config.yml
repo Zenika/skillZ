@@ -45,41 +45,38 @@ jobs:
       - run:
           name: migrate
           working_directory: hasura
-          command: hasura migrate apply
+          command: hasura-cli migrate apply
       - run:
           name: metadata
           working_directory: hasura
-          command: hasura metadata apply
+          command: hasura-cli metadata apply
       - run:
           name: seeds
           working_directory: hasura
-          command: hasura seeds apply
+          command: hasura-cli seeds apply
   front-install-dependencies:
     executor: front
     steps:
       - checkout
       - restore_cache:
-          working_directory: front
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
             - v1-packaging-front-dependencies-
       - run:
           name: install-dependencies
           working_directory: front
           command: npm ci
       - save_cache:
-          working_directory: front
           paths:
-            - ./node_modules
-          key: v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - ./front/node_modules
+          key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
   front-qc-prettier:
     executor: front
     steps:
       - checkout
       - restore_cache:
-          working_directory: front
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
             - v1-packaging-front-dependencies-
       - run:
           working_directory: front
@@ -90,9 +87,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          working_directory: front
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
             - v1-packaging-front-dependencies-
       - run:
           name: build
@@ -103,9 +99,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          working_directory: front
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
             - v1-packaging-front-dependencies-
       - run:
           name: unit-test
@@ -116,9 +111,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          working_directory: front
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
             - v1-packaging-front-dependencies-
       - run:
           name: integration-test
