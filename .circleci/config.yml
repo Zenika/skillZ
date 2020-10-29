@@ -4,7 +4,6 @@ executors:
   front:
     docker:
       - image: circleci/node
-        name: front
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -151,11 +150,11 @@ jobs:
       - run:
           name: 'Wait for server startup for a minute max'
           working_directory: front
-          command: wait-on -t 60000 http://front:3000
+          command: wait-on -t 60000 http://localhost
       - run:
           name: integration-test
           working_directory: front
-          command: npm run cypress:run -- --config baseUrl=http://front:3000
+          command: npm run cypress:run -- --config baseUrl=http://localhost
   api-build-and-test:
     executor: rust
     steps:
