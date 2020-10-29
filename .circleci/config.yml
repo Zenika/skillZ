@@ -136,11 +136,6 @@ jobs:
           name: install more dependencies
           working_directory: front
           command: npm install
-          - save_cache:
-            paths:
-              - ./front/node_modules
-              - ~/.cache
-            key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - save_cache:
           paths:
             - ./front/node_modules
