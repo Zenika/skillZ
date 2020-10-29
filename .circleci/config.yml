@@ -6,10 +6,25 @@ executors:
       - image: circleci/node
   hasura:
     docker:
-      - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
+      - image: circleci/node
+      - image: hasura/graphql-engine:v1.3.2.cli-migrations
+        name: hasura
+        environment: 
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+          HASURA_GRAPHQL_ADMIN_SECRET: key
+      - image: postgres:12
+        name: postgres
+        environment:
+          POSTGRES_PASSWORD: postgrespassword
   rust:
     docker:
       - image: circleci/rust
+  cypress:
+    docker:
+      - image: cypress/base:10
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
 
 commands:
   setup-rust-cache:
@@ -43,17 +58,20 @@ jobs:
     steps:
       - checkout
       - run:
+          name: 'Wait for Hasura for a minute max'
+          command: npx wait-on -t 60000 http://hasura:8080
+      - run:
           name: migrate
           working_directory: hasura
-          command: hasura-cli migrate apply
+          command: hasura-cli migrate apply --endpoint http://hasura:8080
       - run:
           name: metadata
           working_directory: hasura
-          command: hasura-cli metadata apply
+          command: hasura-cli metadata apply --endpoint http://hasura:8080
       - run:
           name: seeds
           working_directory: hasura
-          command: hasura-cli seeds apply
+          command: hasura-cli seeds apply --endpoint http://hasura:8080
   front-install-dependencies:
     executor: front
     steps:
@@ -107,7 +125,7 @@ jobs:
           working_directory: front
           command: npm test
   front-integration-test:
-    executor: front
+    executor: cypress
     steps:
       - checkout
       - restore_cache:
