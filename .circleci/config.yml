@@ -162,16 +162,6 @@ workflows:
           working_directory: front
           start: npm start
           wait-on: 'http://localhost:1234'
-          executor: cypress/browsers-chrome69
-          browser: chrome
-      - cypress/run:
-          requires:
-            - cypress/install
-          cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-          working_directory: front
-          start: npm start
-          wait-on: 'http://localhost:1234'
           executor: cypress/browsers-chrome78-ff70
           browser: chrome
       - cypress/run:
