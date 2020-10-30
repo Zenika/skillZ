@@ -7,9 +7,6 @@ executors:
   front:
     docker:
       - image: circleci/node
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
   hasura:
     docker:
       - image: circleci/node
@@ -127,29 +124,6 @@ jobs:
           name: unit-test
           working_directory: front
           command: npm run test:unit
-  # front-integration-test:
-  #   executor: front
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys:
-  #           - v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-  #           - v1-packaging-front-dependencies-cypress-
-  #     - run:
-  #         name: install more dependencies
-  #         working_directory: front
-  #         command: npm install
-  #     - save_cache:
-  #         paths:
-  #           - ./front/node_modules
-  #           - ~/.cache
-  #         key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-  #     - run:
-  #         name: 'run server in baackground and test'
-  #         working_directory: front
-  #         command: |
-  #           sudo npm i -g start-server-and-test
-  #           start-server-and-test start http://localhost:3000 cypress:run
   api-build-and-test:
     executor: rust
     steps:
@@ -188,4 +162,26 @@ workflows:
           working_directory: front
           start: npm start
           wait-on: 'http://localhost:1234'
+          executor: cypress/browsers-chrome69
+          browser: chrome
+      - cypress/run:
+          requires:
+            - cypress/install
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+          working_directory: front
+          start: npm start
+          wait-on: 'http://localhost:1234'
+          executor: browsers-chrome78-ff70
+          browser: chrome
+      - cypress/run:
+          requires:
+            - cypress/install
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+          working_directory: front
+          start: npm start
+          wait-on: 'http://localhost:1234'
+          executor: browsers-chrome78-ff70
+          browser: ff
       - api-build-and-test
