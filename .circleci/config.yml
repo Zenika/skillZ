@@ -126,7 +126,7 @@ jobs:
       - run:
           name: unit-test
           working_directory: front
-          command: npm test
+          command: npm run test:unit
   # front-integration-test:
   #   executor: front
   #   steps:
@@ -176,10 +176,14 @@ workflows:
       - front-unit-test:
           requires:
             - front-install-dependencies
-      # - front-integration-test:
-      #     requires:
-      #       - front-install-dependencies
+      - cypress/install:
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - cypress/run:
+          requires:
+            - cypress/install
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
           working_directory: front
           start: npm start
           wait-on: 'http://localhost:1234'
