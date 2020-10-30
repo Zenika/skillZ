@@ -155,6 +155,7 @@ workflows:
           cache-key: >-
             v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - cypress/run:
+          name: Chrome Cypress Run
           requires:
             - cypress/install
           cache-key: >-
@@ -164,7 +165,10 @@ workflows:
           wait-on: 'http://localhost:1234'
           executor: cypress/browsers-chrome78-ff70
           browser: chrome
+          parallel: true
+          parallelism: 2
       - cypress/run:
+          name: Firefox Cypress Run
           requires:
             - cypress/install
           cache-key: >-
@@ -173,5 +177,7 @@ workflows:
           start: npm start
           wait-on: 'http://localhost:1234'
           executor: cypress/browsers-chrome78-ff70
-          browser: ff
+          browser: firefox
+          parallel: true
+          parallelism: 2
       - api-build-and-test
