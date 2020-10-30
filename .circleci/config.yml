@@ -181,6 +181,6 @@ workflows:
       #       - front-install-dependencies
       - cypress/run:
           working_directory: front
-          start: PUBLIC_URL=http://localhost npm start
-          wait-on: 'http://localhost:3000'
+          start: npm start
+          wait-on: 'http://localhost:1234'
       - api-build-and-test
