@@ -177,6 +177,7 @@ workflows:
           requires:
             - front-install-dependencies
       - cypress/install:
+          working_directory: front
           cache-key: >-
             v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
       - cypress/run:
