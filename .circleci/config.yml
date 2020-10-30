@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  cypress: cypress-io/cypress@1
+
 executors:
   front:
     docker:
@@ -173,7 +176,11 @@ workflows:
       - front-unit-test:
           requires:
             - front-install-dependencies
-      - front-integration-test:
-          requires:
-            - front-install-dependencies
+      # - front-integration-test:
+      #     requires:
+      #       - front-install-dependencies
+      - cypress/run:
+          working_directory: front
+          start: npm start
+          wait-on: 'http://localhost:3000'
       - api-build-and-test
