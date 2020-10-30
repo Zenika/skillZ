@@ -172,7 +172,7 @@ workflows:
           working_directory: front
           start: npm start
           wait-on: 'http://localhost:1234'
-          executor: browsers-chrome78-ff70
+          executor: cypress/browsers-chrome78-ff70
           browser: chrome
       - cypress/run:
           requires:
@@ -182,6 +182,6 @@ workflows:
           working_directory: front
           start: npm start
           wait-on: 'http://localhost:1234'
-          executor: browsers-chrome78-ff70
+          executor: cypress/browsers-chrome78-ff70
           browser: ff
       - api-build-and-test
