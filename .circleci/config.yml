@@ -1,0 +1,183 @@
+version: 2.1
+
+orbs:
+  cypress: cypress-io/cypress@1
+
+executors:
+  front:
+    docker:
+      - image: circleci/node
+  hasura:
+    docker:
+      - image: circleci/node
+      - image: postgres:12
+        name: postgres
+        environment:
+          POSTGRES_PASSWORD: postgrespassword
+      - image: hasura/graphql-engine:v1.3.2.cli-migrations
+        name: hasura
+        environment: 
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+          HASURA_GRAPHQL_ADMIN_SECRET: key
+  rust:
+    docker:
+      - image: circleci/rust
+
+commands:
+  setup-rust-cache:
+    steps:
+      - run:
+          name: Install sccache
+          working_directory: api
+          command: |
+            cargo install sccache
+            echo 'export "RUSTC_WRAPPER"="sccache"' >> $BASH_ENV
+            echo 'export "SCCACHE_CACHE_SIZE"="5G"' >> $BASH_ENV
+            sccache --version
+  restore-rust-cache:
+    steps:
+      - restore_cache:
+          name: Restore sccache cache
+          working_directory: api
+          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}
+  save-rust-cache:
+    steps:
+      - save_cache:
+          name: Save sccache cache
+          working_directory: api
+          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
+          paths:
+            - "~/.cache/sccache"
+
+jobs:
+  hasura-test-apply-migrations:
+    executor: hasura
+    steps:
+      - checkout
+      - run:
+          name: 'install hasura cli'
+          command: sudo npm i -g hasura-cli
+      - run:
+          name: 'wait for Hasura for a minute max'
+          command: dockerize -wait tcp://hasura:8080 -timeout 1m #sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
+      - run:
+          name: migrate
+          working_directory: hasura
+          command: hasura migrate apply --endpoint http://hasura:8080
+      - run:
+          name: metadata
+          working_directory: hasura
+          command: hasura metadata apply --endpoint http://hasura:8080
+      - run:
+          name: seeds
+          working_directory: hasura
+          command: hasura seeds apply --endpoint http://hasura:8080
+  front-install-dependencies:
+    executor: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: install-dependencies
+          working_directory: front
+          command: npm ci
+      - save_cache:
+          paths:
+            - ./front/node_modules
+          key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
+  front-qc-prettier:
+    executor: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          working_directory: front
+          name: qc-prettier
+          command: npm run prettier:check
+  front-build:
+    executor: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: build
+          working_directory: front
+          command: npm run build
+  front-unit-test:
+    executor: front
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
+            - v1-packaging-front-dependencies-
+      - run:
+          name: unit-test
+          working_directory: front
+          command: npm run test:unit
+  api-build-and-test:
+    executor: rust
+    steps:
+      - checkout
+      - setup-rust-cache
+      - restore-rust-cache
+      - run:
+          name: test
+          working_directory: api
+          command: cargo test
+      - save-rust-cache
+
+workflows:
+  qc-test-depoy:
+    jobs:
+      - hasura-test-apply-migrations
+      - front-install-dependencies
+      - front-qc-prettier:
+          requires:
+            - front-install-dependencies
+      - front-build:
+          requires:
+            - front-install-dependencies
+      - front-unit-test:
+          requires:
+            - front-install-dependencies
+      - cypress/install:
+          working_directory: front
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+      - cypress/run:
+          name: chrome-cypress-run
+          requires:
+            - cypress/install
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+          working_directory: front
+          start: npm start
+          wait-on: 'http://localhost:1234'
+          executor: cypress/browsers-chrome78-ff70
+          browser: chrome
+          parallel: true
+          parallelism: 2
+      - cypress/run:
+          name: firefox-cypress-run
+          requires:
+            - cypress/install
+          cache-key: >-
+            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+          working_directory: front
+          start: npm start
+          wait-on: 'http://localhost:1234'
+          executor: cypress/browsers-chrome78-ff70
+          browser: firefox
+          parallel: true
+          parallelism: 2
+      - api-build-and-test
