@@ -127,29 +127,29 @@ jobs:
           name: unit-test
           working_directory: front
           command: npm test
-  front-integration-test:
-    executor: front
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-cypress-
-      - run:
-          name: install more dependencies
-          working_directory: front
-          command: npm install
-      - save_cache:
-          paths:
-            - ./front/node_modules
-            - ~/.cache
-          key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-      - run:
-          name: 'run server in baackground and test'
-          working_directory: front
-          command: |
-            sudo npm i -g start-server-and-test
-            start-server-and-test start http://localhost:3000 cypress:run
+  # front-integration-test:
+  #   executor: front
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+  #           - v1-packaging-front-dependencies-cypress-
+  #     - run:
+  #         name: install more dependencies
+  #         working_directory: front
+  #         command: npm install
+  #     - save_cache:
+  #         paths:
+  #           - ./front/node_modules
+  #           - ~/.cache
+  #         key: v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+  #     - run:
+  #         name: 'run server in baackground and test'
+  #         working_directory: front
+  #         command: |
+  #           sudo npm i -g start-server-and-test
+  #           start-server-and-test start http://localhost:3000 cypress:run
   api-build-and-test:
     executor: rust
     steps:
