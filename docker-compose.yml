@@ -4,7 +4,7 @@ services:
     image: postgres:12
     restart: always
     volumes:
-    - $PWD/data:/var/lib/postgresql/data
+    - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
@@ -15,9 +15,9 @@ services:
     - "postgres"
     restart: always
     volumes:
-      - $PWD/hasura/migrations:/hasura-migrations
-      - $PWD/hasura/metadata:/hasura-metadata
-      - $PWD/hasura/seeds:/hasura-seeds
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+      - ./hasura/seeds:/hasura-seeds
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
