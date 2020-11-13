@@ -131,10 +131,13 @@ jobs:
     executor: docker
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
       - run:
           name: docker login
           working_directory: front
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USERNAME --password-stdin
       - run:
           name: docker build
           working_directory: front
@@ -158,10 +161,13 @@ jobs:
     executor: docker
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
       - run:
           name: docker login
-          working_directory: api
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+          working_directory: front
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USERNAME --password-stdin
       - run:
           name: docker build
           working_directory: api
