@@ -137,7 +137,7 @@ jobs:
       - run:
           name: docker login
           working_directory: front
-          command: echo $DOCKER_PASS | docker login -u $DOCKER_USERNAME --password-stdin
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
       - run:
           name: docker build
           working_directory: front
@@ -167,7 +167,7 @@ jobs:
       - run:
           name: docker login
           working_directory: front
-          command: echo $DOCKER_PASS | docker login -u $DOCKER_USERNAME --password-stdin
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
       - run:
           name: docker build
           working_directory: api
