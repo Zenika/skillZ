@@ -134,7 +134,7 @@ jobs:
       - run:
           name: docker login
           working_directory: front
-          command: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: docker build
           working_directory: front
@@ -161,7 +161,7 @@ jobs:
       - run:
           name: docker login
           working_directory: api
-          command: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: docker build
           working_directory: api
