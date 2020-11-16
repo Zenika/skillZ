@@ -20,8 +20,18 @@ const App: React.FC = () => {
             </Link>
           </div>
           <div>
-            <a className="App-header-item-translation cy-translation-en" onClick={() => changeTranslation("en")}>EN</a>
-            <a className="App-header-item-translation cy-translation-fr" onClick={() => changeTranslation("fr")}>FR</a>
+            <a
+              className="App-header-item-translation cy-translation-en"
+              onClick={() => changeTranslation("en")}
+            >
+              EN
+            </a>
+            <a
+              className="App-header-item-translation cy-translation-fr"
+              onClick={() => changeTranslation("fr")}
+            >
+              FR
+            </a>
           </div>
         </header>
         <div className="content">
