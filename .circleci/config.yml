@@ -22,6 +22,9 @@ executors:
   rust:
     docker:
       - image: circleci/rust
+  docker:
+    docker:
+      - image: docker:stable
 
 commands:
   setup-rust-cache:
@@ -124,6 +127,25 @@ jobs:
           name: unit-test
           working_directory: front
           command: npm run test:unit
+  front-docker-build-and-push:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run:
+          name: docker login
+          working_directory: front
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+      - run:
+          name: docker build
+          working_directory: front
+          command: docker build -t zenika/zprofile-front .
+      - run:
+          name: docker push
+          working_directory: front
+          command: docker push zenika/zprofile-front
   api-build-and-test:
     executor: rust
     steps:
@@ -135,6 +157,26 @@ jobs:
           working_directory: api
           command: cargo test
       - save-rust-cache
+  api-docker-build-and-push:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run:
+          name: docker login
+          working_directory: front
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+      - run:
+          name: docker build
+          working_directory: api
+          command: docker build -t zenika/zprofile-api .
+      - run:
+          name: docker push
+          working_directory: api
+          command: docker push zenika/zprofile-api
+      
 
 workflows:
   qc-test-depoy:
@@ -180,4 +222,16 @@ workflows:
           browser: firefox
           parallel: true
           parallelism: 2
+      - front-docker-build-and-push:
+          requires:
+            - firefox-cypress-run
+            - chrome-cypress-run
+            - front-unit-test
+            - front-build
+            - front-qc-prettier
+          context: docker-hub-zenika
       - api-build-and-test
+      - api-docker-build-and-push:
+          requires:
+            - api-build-and-test
+          context: docker-hub-zenika
