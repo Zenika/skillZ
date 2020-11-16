@@ -5,6 +5,6 @@ COPY . .
 RUN npm ci \
     && npm run build
 
-FROM nginx:latest
+FROM nginx:1.19.4
 
 COPY --from=builder /app/dist /usr/share/nginx/html
