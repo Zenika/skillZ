@@ -41,18 +41,28 @@ spec:
   ports:
     - port: 8080
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: hasura-ingress
+  name: hasura-ingress-route
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: hasura
-            port:
-              number: 8080
+  routes:
+  - kind: Rule
+    priority: 2
+    middlewares:
+    - name: hasura-replace-regex
+      namespace: default 
+    match: PathPrefix("/api")
+    services:
+    - kind: Service
+      name: hasura
+      port: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: hasura-replace-regex
+spec:
+  replacePathRegex:
+    regex: /api/(.*)
+    replacement: /$1/
