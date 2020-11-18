@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { proxy, useProxy } from "valtio";
 import { appStateContext } from "./AppContext";
-import { AppState } from "./types";
+import { AppState, AppStateContext } from "./types";
 import "./App.css";
 import Greetings from "./Greetings/Greetings";
 
@@ -14,7 +14,7 @@ const App: React.FC = () => {
     first_name: "Clément",
   });
   const appSnapshot: AppState = useProxy(appState);
-  const appStateContextValue = { appState, appSnapshot };
+  const appStateContextValue: AppStateContext = { appState, appSnapshot };
 
   return (
     <appStateContext.Provider value={appStateContextValue}>
