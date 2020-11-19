@@ -1,11 +1,13 @@
+export type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  agencyId: string;
+};
+
 export type AppState = {
-  user: {
-    first_name?: string;
-    last_name?: string;
-    email?: string;
-    agency?: string;
-  };
-  agencies: { id: string; name: string }[];
+  user?: User;
+  agencies: { id: string}[];
 };
 
 export type AppStateContext = {
