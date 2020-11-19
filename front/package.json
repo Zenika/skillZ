@@ -19,7 +19,9 @@
     "test:unit": "ava ",
     "test:integration": "npm run cypress:run",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:run:firefox": "cypress run --browser firefox",
+    "cypress:run:chrome": "cypress run --browser chrome",
+    "cypress:run": "npm run cypress:run:firefox && npm run cypress:run:chrome",
     "prettier": "prettier *.json \"src/**/*.{js,jsx,ts,tsx}\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write"
