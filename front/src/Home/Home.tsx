@@ -7,11 +7,7 @@ const Home: React.FC = () => {
   const { appState, setAppState } = useContext(appStateContext);
   const { t, i18n } = useTranslation();
 
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;

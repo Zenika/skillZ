@@ -7,7 +7,7 @@ export type User = {
 
 export type AppState = {
   user?: User;
-  agencies: { id: string}[];
+  agencies: { id: string }[];
 };
 
 export type AppStateContext = {
