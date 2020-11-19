@@ -1445,11 +1445,6 @@
     "write-file-atomic" "^3.0.3"
     "yargs" "^16.0.3"
 
-"await-of@^3.1.0":
-  "integrity" "sha512-tVvzIx4MNE4pX4S2iSulqKiZj+Zv7riYDuCrMoAQMP7XujQttP80RTf73S0DM20Vonrd+4I+hvOid1k/MVyKvg=="
-  "resolved" "https://registry.npmjs.org/await-of/-/await-of-3.1.0.tgz"
-  "version" "3.1.0"
-
 "aws-sign2@~0.7.0":
   "integrity" "sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg="
   "resolved" "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.7.0.tgz"

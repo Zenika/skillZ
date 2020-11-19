@@ -4,7 +4,6 @@
 describe("Home page", function () {
   beforeEach(function () {
     cy.visit("/");
-    cy.wait(500);// Need a better way to do wait for render
   });
 
   it("renders the home page", function () {

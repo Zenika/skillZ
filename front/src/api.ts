@@ -16,11 +16,11 @@ export const fetchAPI = async (
     headers: { "content-type": "application/json", ...headers },
   });
   if (!response.ok) {
-    throw new Error(
-      `Error from request => status: ${
-        response.status
-      }, error: ${await response.json()}`
-    );
+    throw response;
   }
-  return await response.json();
+  const result = await response.json();
+  if (result.errors) {
+    throw new Error(result.errors);
+  }
+  return result;
 };

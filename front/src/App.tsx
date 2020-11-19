@@ -1,37 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { of } from "await-of";
 import { appStateContext } from "./AppContext";
 import { AppState, AppStateContext } from "./types";
 import "./App.css";
 import Greetings from "./Greetings/Greetings";
 import { fetchAPI } from "./api";
+import { QUERIES } from "./queries";
 
 const API_URL = "http://localhost:8080/v1/graphql";
 
-const fetchAgencies = async () => {
-  const [res, err] = await of(
-    fetchAPI(
-      fetch,
-      API_URL,
-      {
-        query: `query MyQuery {
-    Agency {
-      id
-      name
-    }
-  }`,
-      },
-      { "x-hasura-admin-secret": "key" }
-    )
+const fetchAgencies = () =>
+  fetchAPI(
+    fetch,
+    API_URL,
+    {
+      query: QUERIES.getAgencies,
+    },
+    { "x-hasura-admin-secret": "key" }
   );
-  if (err) {
-    console.error("An error occured", err);
-    return;
-  }
-  return res;
-};
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -47,7 +34,7 @@ const App: React.FC = () => {
   useEffect(() => {
     fetchAgencies()
       .then((result) =>
-        setAppState({ ...appState, agencies: result?.data?.Agency })
+        setAppState({ ...appState, agencies: result.data.Agency || [] })
       )
       .catch((err) => console.error(err));
   }, []);
