@@ -179,7 +179,7 @@ jobs:
       
 
 workflows:
-  qc-test-depoy:
+  qc-test-deploy:
     jobs:
       - hasura-test-apply-migrations
       - front-install-dependencies
