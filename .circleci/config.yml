@@ -16,7 +16,7 @@ executors:
           POSTGRES_PASSWORD: postgrespassword
       - image: hasura/graphql-engine:v1.3.2.cli-migrations
         name: hasura
-        environment: 
+        environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
   rust:
@@ -58,10 +58,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'install hasura cli'
+          name: "install hasura cli"
           command: sudo npm i -g hasura-cli
       - run:
-          name: 'wait for Hasura for a minute max'
+          name: "wait for Hasura for a minute max"
           command: dockerize -wait tcp://hasura:8080 -timeout 1m #sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
       - run:
           name: migrate
@@ -176,7 +176,6 @@ jobs:
           name: docker push
           working_directory: api
           command: docker push zenika/zprofile-api
-      
 
 workflows:
   qc-test-deploy:
@@ -204,7 +203,7 @@ workflows:
             v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
           working_directory: front
           start: npm start
-          wait-on: 'http://localhost:1234'
+          wait-on: "http://localhost:1234"
           executor: cypress/browsers-chrome78-ff70
           browser: chrome
           parallel: true
@@ -217,7 +216,7 @@ workflows:
             v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
           working_directory: front
           start: npm start
-          wait-on: 'http://localhost:1234'
+          wait-on: "http://localhost:1234"
           executor: cypress/browsers-chrome78-ff70
           browser: firefox
           parallel: true

@@ -22,7 +22,7 @@
     "cypress:run:firefox": "cypress run --browser firefox",
     "cypress:run:chrome": "cypress run --browser chrome",
     "cypress:run": "npm run cypress:run:firefox && npm run cypress:run:chrome",
-    "prettier": "prettier *.json \"src/**/*.{js,jsx,ts,tsx}\"",
+    "prettier": "prettier *.json \"src/**/*.{js,jsx,ts,tsx}\" \"../.circleci/config.yml\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write"
   },
