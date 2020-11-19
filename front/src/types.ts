@@ -1,11 +1,14 @@
 export type AppState = {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  agency?: string;
+  user: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    agency?: string;
+  };
+  agencies: { id: string; name: string }[];
 };
 
 export type AppStateContext = {
   appState: AppState;
-  readonly appSnapshot: AppState;
+  setAppState: React.Dispatch<React.SetStateAction<AppState>>
 };

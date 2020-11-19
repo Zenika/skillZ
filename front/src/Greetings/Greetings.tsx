@@ -3,11 +3,11 @@ import { appStateContext } from "../AppContext";
 import "./Greetings.css";
 
 const Greetings: React.FC = () => {
-  const { appState, appSnapshot } = useContext(appStateContext);
+  const { appState, setAppState } = useContext(appStateContext);
 
   return (
     <div>
-      <p>Greetings {appSnapshot.first_name}</p>
+      <p>Greetings {appState.user.first_name}</p>
     </div>
   );
 };

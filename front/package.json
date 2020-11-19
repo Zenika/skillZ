@@ -10,8 +10,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-i18next": "^11.7.3",
-    "react-router-dom": "^5.2.0",
-    "valtio": "^0.2.1"
+    "react-router-dom": "^5.2.0"
   },
   "scripts": {
     "start": "parcel public/index.html",
@@ -31,6 +30,7 @@
     "@types/react-dom": "16.9.8",
     "@types/react-router-dom": "^5.1.6",
     "ava": "^3.13.0",
+    "await-of": "^3.1.0",
     "cypress": "5.4.0",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.1.2",
