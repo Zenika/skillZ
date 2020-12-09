@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   return (
     <header className="App-header">
       <div>
-        <NavLink  to="/" className="App-header-item">
+        <NavLink to="/" className="App-header-item">
           {t("nav.home")}
         </NavLink>
         <NavLink to="/profile" className="App-header-item">

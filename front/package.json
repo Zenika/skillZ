@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "parcel --no-source-maps public/index.html",
-    "build": "parcel build public/index.html",
+    "build": "parcel build --no-source-maps public/index.html",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "ava ",
     "test:integration": "npm run cypress:run",

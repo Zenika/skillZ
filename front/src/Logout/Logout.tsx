@@ -7,7 +7,10 @@ const Logout = () => {
   const { logout, isAuthenticated } = useAuth0();
 
   return (
-    <button hidden={!isAuthenticated} onClick={() => logout({ returnTo: window.location.origin })}>
+    <button
+      hidden={!isAuthenticated}
+      onClick={() => logout({ returnTo: window.location.origin })}
+    >
       {t("nav.logout")}
     </button>
   );

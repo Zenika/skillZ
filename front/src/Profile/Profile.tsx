@@ -7,9 +7,7 @@ const Profile = () => {
   const { t } = useTranslation();
   const { isAuthenticated, user } = useAuth0();
   if (!isAuthenticated) {
-      return (
-          <Login />
-      )
+    return <Login />;
   }
   return (
     <div>

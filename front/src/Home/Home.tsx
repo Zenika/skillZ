@@ -10,12 +10,10 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth0();
   if (!isAuthenticated) {
-    return <Login />
+    return <Login />;
   }
-  
-  return (
-    <div></div>
-  );
+
+  return <div></div>;
 };
 
 export default Home;
