@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { of } from "await-of";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { appStateContext } from "./AppContext";
 import { AppState, AppStateContext } from "./types";
 import "./App.css";
-import Greetings from "./Greetings/Greetings";
+import Home from "./Home/Home";
 import { fetchAPI } from "./api/api";
 import { QUERIES } from "./api/queries";
-import Login from "./Login/Login";
+import Greetings from "./Greetings/Greetings";
 import { API_URL } from "./config";
+import Profile from "./Profile/Profile";
+import Navbar from "./Navbar/Navbar";
 
 const fetchAgencies = async () =>
   (
@@ -24,12 +27,11 @@ const fetchAgencies = async () =>
   ).data.Agency;
 
 const App: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const changeTranslation = (locale: string) => i18n.changeLanguage(locale);
   const [appState, setAppState] = useState<AppState>({
     agencies: [],
   });
   const appStateContextValue: AppStateContext = { appState, setAppState };
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -44,48 +46,30 @@ const App: React.FC = () => {
 
   return (
     <appStateContext.Provider value={appStateContextValue}>
-      <Router>
-        <div className="App">
-          <header className="App-header">
-            <div>
-              <Link to="/" className="App-header-item">
-                {t("nav.home")}
-              </Link>
-              <Link to="/profile" className="App-header-item">
-                {t("nav.profile")}
-              </Link>
+      <Auth0Provider
+        domain="zenika.eu.auth0.com"
+        clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
+        redirectUri={window.location.origin}
+      >
+        <Router>
+          <div className="App">
+            <Navbar />
+            <div className="content">
+              <Switch>
+                <Route path="/greetings">
+                  <Greetings />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
+                </Route>
+                <Route path="/">
+                  <Home />
+                </Route>
+              </Switch>
             </div>
-            <div>
-              <a
-                className="App-header-item-translation cy-translation-en"
-                onClick={() => changeTranslation("en")}
-              >
-                EN
-              </a>
-              <a
-                className="App-header-item-translation cy-translation-fr"
-                onClick={() => changeTranslation("fr")}
-              >
-                FR
-              </a>
-            </div>
-          </header>
-          <div className="content">
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/profile">
-                <p>profile</p>
-              </Route>
-              <Route path="/">
-                <p>home</p>
-                <Greetings />
-              </Route>
-            </Switch>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Auth0Provider>
     </appStateContext.Provider>
   );
 };

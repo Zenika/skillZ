@@ -1,17 +1,17 @@
 {
   "nav": {
     "home": "Home",
-    "profile": "Profile"
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "login": {
-    "title": "Login",
-    "description": "You must login to access the app",
-    "email": "Enter your email",
-    "submit": "Login",
-    "invalidEmail": "The given email adress is not valid",
-    "noAccountDescription": "We couldn't find your profile. Help us create a new one !",
-    "agency": "Select your agency",
-    "register": "Continue"
+    "title": "Welcome !",
+    "description": "This app aims to make it easy to share your skills and technical appetite, but first you must login !",
+    "button": "Login",
+    "alreadyLoggedIn": "You're already logged in, redirecting ..."
+  },
+  "home": {
+    
   },
   "agencies": {
     "193743a5-ae7a-4fe2-9c15-0257c8eb3ca6": "Paris",

@@ -1,17 +1,20 @@
 {
   "nav": {
     "home": "Accueil",
-    "profile": "Profil"
+    "profile": "Profil",
+    "logout": "Se déconnecter"
   },
   "login": {
-    "title": "Connexion",
-    "description": "Vous devez vous authentifier pour accéder à l'application",
-    "email": "Saisir votre addresse email",
-    "submit": "Se connecter",
-    "invalidEmail": "L'addresse rentrée n'est pas valide",
-    "noAccountDescription": "Nous n'avons pas pu trouver votre profil. Aidez nous à en créer un nouveau !",
-    "agency": "Selectionnez votre agence",
-    "register": "Continuer"
+    "title": "Bienvenue !",
+    "description": "Cette application rend facile le partage de vos compétences et appétence technique, mais vous devez d'abord vous connecter !",
+    "button": "Se connecter",
+    "alreadyLoggedIn": "Vous êtes déjà connectés, redirection ..."
+  },
+  "home": {
+    
+  },
+  "home": {
+
   },
   "agencies": {
     "193743a5-ae7a-4fe2-9c15-0257c8eb3ca6": "Paris",

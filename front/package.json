@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@auth0/auth0-react": "^1.2.0",
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.0.21",
@@ -13,7 +14,7 @@
     "react-router-dom": "^5.2.0"
   },
   "scripts": {
-    "start": "parcel public/index.html",
+    "start": "parcel --no-source-maps public/index.html",
     "build": "parcel build public/index.html",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "ava ",
