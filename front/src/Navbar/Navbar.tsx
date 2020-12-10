@@ -14,9 +14,13 @@ const Navbar: React.FC = () => {
         <NavLink to="/" className="App-header-item">
           {t("nav.home")}
         </NavLink>
-        <NavLink to="/profile" className="App-header-item">
-          {t("nav.profile")}
-        </NavLink>
+        {isAuthenticated ? (
+          <NavLink to="/profile" className="App-header-item">
+            {t("nav.profile")}
+          </NavLink>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="App-header-item">ZProfile</div>
       <div>
@@ -32,7 +36,7 @@ const Navbar: React.FC = () => {
         >
           FR
         </a>
-        <Logout />
+        {isAuthenticated ? <Logout /> : <></>}
       </div>
     </header>
   );

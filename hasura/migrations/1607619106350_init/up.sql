@@ -1,4 +1,4 @@
-CREATE TABLE "public"."User"("email" text NOT NULL, "agencyId" uuid NOT NULL, PRIMARY KEY ("email") );
+CREATE TABLE "public"."User"("email" text NOT NULL,"agency" text NOT NULL, PRIMARY KEY ("email") );
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE TABLE "public"."Skill"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, PRIMARY KEY ("id") );
@@ -30,10 +30,17 @@ alter table "public"."UserSkill" add constraint "UserSkill_level_between_1_and_5
 CREATE TABLE "public"."TechnicalAppetite"("userEmail" text NOT NULL, "skillId" uuid NOT NULL, "created_at" date NOT NULL DEFAULT now(), "level" integer NOT NULL DEFAULT 1, PRIMARY KEY ("userEmail","skillId","created_at") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("skillId") REFERENCES "public"."Skill"("id") ON UPDATE restrict ON DELETE restrict, CONSTRAINT "TechnicalAppetite_level_between_1_and_5" CHECK (level >= 1 AND level <= 5));
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-CREATE TABLE "public"."Agency"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, PRIMARY KEY ("id") );
+CREATE TABLE "public"."Agency"("name" text NOT NULL, PRIMARY KEY ("name") );
 
-alter table "public"."User"
-           add constraint "User_agencyId_fkey"
-           foreign key ("agencyId")
-           references "public"."Agency"
-           ("id") on update restrict on delete restrict;
+INSERT INTO public."Agency" (name) VALUES ('Paris');
+INSERT INTO public."Agency" (name) VALUES ('Nantes');
+INSERT INTO public."Agency" (name) VALUES ('Singapore');
+INSERT INTO public."Agency" (name) VALUES ('Bordeaux');
+INSERT INTO public."Agency" (name) VALUES ('Brest');
+INSERT INTO public."Agency" (name) VALUES ('Montreal');
+INSERT INTO public."Agency" (name) VALUES ('Grenoble');
+INSERT INTO public."Agency" (name) VALUES ('Lyon');
+INSERT INTO public."Agency" (name) VALUES ('Rennes');
+INSERT INTO public."Agency" (name) VALUES ('Lille');
+
+CREATE TABLE "public"."UserAgency"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "userEmail" Text NOT NULL, "agency" text NOT NULL, "updatedAt" date NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("agency") REFERENCES "public"."Agency"("name") ON UPDATE restrict ON DELETE restrict);

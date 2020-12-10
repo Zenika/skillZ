@@ -4,13 +4,10 @@ import { useTranslation } from "react-i18next";
 
 const Logout = () => {
   const { t } = useTranslation();
-  const { logout, isAuthenticated } = useAuth0();
+  const { logout } = useAuth0();
 
   return (
-    <button
-      hidden={!isAuthenticated}
-      onClick={() => logout({ returnTo: window.location.origin })}
-    >
+    <button onClick={() => logout({ returnTo: window.location.origin })}>
       {t("nav.logout")}
     </button>
   );

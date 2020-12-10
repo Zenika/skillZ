@@ -31,7 +31,6 @@ const App: React.FC = () => {
     agencies: [],
   });
   const appStateContextValue: AppStateContext = { appState, setAppState };
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     (async () => {
