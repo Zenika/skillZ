@@ -22,7 +22,7 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: key
       HASURA_GRAPHQL_CLI_ENVIRONMENT: default
-      
+      HASURA_GRAPHQL_JWT_SECRET: ${ZPROFILE_GRAPHQL_JWT_SECRET}
 volumes:
   db_data:
   # hasura-migrations:

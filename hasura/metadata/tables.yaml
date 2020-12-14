@@ -9,6 +9,13 @@
         table:
           schema: public
           name: UserAgency
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - name
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: Skill
@@ -77,6 +84,36 @@
         table:
           schema: public
           name: UserSkill
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        email:
+          _eq: x-hasura-user-email
+      columns:
+      - agency
+      - email
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - agency
+      - email
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - agency
+      - email
+      filter:
+        email:
+          _eq: x-hasura-user-email
+      check:
+        email:
+          _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserAgency
@@ -87,6 +124,26 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - agency
+      - updatedAt
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - agency
+      - updatedAt
+      - userEmail
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: UserSkill

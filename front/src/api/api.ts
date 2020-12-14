@@ -20,7 +20,7 @@ export const fetchAPI = async (
   }
   const result = await response.json();
   if (result.errors) {
-    throw new Error(result.errors);
+    throw new Error(result.errors.map((err: any) => err.message));
   }
   return result;
 };

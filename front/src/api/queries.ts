@@ -1,19 +1,14 @@
 export const QUERIES = {
   getAgencies: `query getAgencies {
         Agency {
-          id
+          name
         }
       }`,
   getUser: `query getUser($email: String) {
     User(where: {email: {_eq: $email}}, limit: 1) {
-      Agency {
-        id
-        name
-      }
+      agency
       email
-      firstName
-      lastName
     }
-  }
+  }  
   `,
 };

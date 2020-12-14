@@ -1,13 +1,20 @@
+export type StoredUser = {
+  email: string;
+  agency: string;
+};
+
 export type User = {
   firstName: string;
   lastName: string;
   email: string;
-  agencyId: string;
+  agency: string;
 };
 
 export type AppState = {
   user?: User;
-  agencies: { id: string }[];
+  agencies: string[];
+  token?: string;
+  initialized: boolean;
 };
 
 export type AppStateContext = {
