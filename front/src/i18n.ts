@@ -11,18 +11,18 @@ i18n
   .init({
     resources: {
       en: {
-        translation: enTranslation,
+        translation: enTranslation
       },
       fr: {
-        translation: frTranslation,
-      },
+        translation: frTranslation
+      }
     },
     fallbackLng: "en",
     debug: true,
     //keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
-      escapeValue: false, // react already safes from xss
-    },
+      escapeValue: false // react already safes from xss
+    }
   });
 
 export default i18n;

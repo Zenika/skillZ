@@ -3,8 +3,7 @@ import { AppStateContext } from "./types";
 
 export const appStateContext = React.createContext<AppStateContext>({
   appState: {
-    agencies: [],
-    initialized: false,
+    initialized: false
   },
-  setAppState: () => {},
+  setAppState: () => {}
 });

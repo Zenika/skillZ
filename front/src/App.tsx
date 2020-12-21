@@ -7,8 +7,7 @@ import ContentManager from "./ContentManager/ContentManager";
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>({
-    agencies: [],
-    initialized: false,
+    initialized: false
   });
   const appStateContextValue: AppStateContext = { appState, setAppState };
 

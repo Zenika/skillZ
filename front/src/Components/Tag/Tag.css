@@ -1,0 +1,13 @@
+.tag {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 0.25rem;
+  border: 0.05rem solid rgba(105, 105, 105, 0.3);
+  border-radius: 0.25rem;
+}
+
+.tag:hover {
+    background-color: rgb(54, 54, 219);
+    color: white;
+}

@@ -6,15 +6,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 import Home from "../Home/Home";
 import Greetings from "../Greetings/Greetings";
 import Profile from "../Profile/Profile";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../Components/Navbar/Navbar";
 import Loading from "../Loading/Loading";
 import Login from "../Login/Login";
-import { fetchAgencies, fetchUser } from "../api/fetchers";
+import { fetchUser } from "../api/fetchers";
+import "./ContentManager.css";
 
 const ContentManager: React.FC = () => {
   const { appState, setAppState } = useContext(appStateContext);
@@ -22,7 +23,7 @@ const ContentManager: React.FC = () => {
     isAuthenticated,
     isLoading,
     getAccessTokenSilently,
-    user,
+    user
   } = useAuth0();
 
   useEffect(() => {
@@ -40,22 +41,7 @@ const ContentManager: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      if (!appState.token) {
-        return;
-      }
-      const [agencies, err] = await of(fetchAgencies(appState.token || ""));
-      if (err) {
-        console.error(err);
-        return;
-      }
-      setAppState({ ...appState, agencies: agencies || [] });
-    })();
-  }, [appState.token]);
-
-  useEffect(() => {
-    (async () => {
       if (!appState.token || !user || !user.email) {
-        console.log("(!appState.token || !user || !user.email)");
         return;
       }
       const [storedUser, err] = await of(
@@ -66,7 +52,6 @@ const ContentManager: React.FC = () => {
         return;
       }
       if (!storedUser || !storedUser[0] || storedUser[0].email === user.email) {
-        console.log("could'nt find user", user.email);
         setAppState({ ...appState, initialized: true });
         return;
       }
@@ -76,9 +61,9 @@ const ContentManager: React.FC = () => {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          agency: storedUser[0].agency,
+          agency: storedUser[0].agency
         },
-        initialized: true,
+        initialized: true
       });
     })();
   }, [appState.token, user]);
@@ -96,24 +81,27 @@ const ContentManager: React.FC = () => {
               if (!isAuthenticated) {
                 return <Login />;
               }
-              if (!user) {
+              if (!user || !appState.initialized) {
                 return <Loading />;
               }
               return (
                 <Switch>
-                  {(() => {
-                    if (!appState.user && appState.initialized) {
-                      return <Redirect to="/greetings" />;
-                    }
-                  })()}
                   <Route path="/greetings">
                     <Greetings />
                   </Route>
-                  <Route path="/profile">
-                    <Profile />
-                  </Route>
-                  <Route path="/">
+                  <Route exact path="/">
                     <Home />
+                  </Route>
+                  <Route path="/profile">
+                    {(() => {
+                      if (!appState.user && appState.initialized) {
+                        return <Redirect to="/greetings" />;
+                      }
+                      return <Profile />;
+                    })()}
+                  </Route>
+                  <Route>
+                    <>404 error - No match found</>
                   </Route>
                 </Switch>
               );

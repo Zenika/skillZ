@@ -13,7 +13,7 @@ export const fetchAPI = async (
   const response = await fetcher(url, {
     body: JSON.stringify(body),
     method: "POST",
-    headers: { "content-type": "application/json", ...headers },
+    headers: { "content-type": "application/json", ...headers }
   });
   if (!response.ok) {
     throw response;

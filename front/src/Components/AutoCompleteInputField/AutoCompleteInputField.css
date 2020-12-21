@@ -1,0 +1,25 @@
+.autocomplete {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border: 0.05rem solid rgba(105, 105, 105, 0.3);
+  border-radius: 0.25rem;
+}
+
+.autocomplete-results {
+  border-top: 0;
+  list-style-type: none;
+  padding: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.autocomplete-item {
+  margin: 0;
+}
+
+.autocomplete-item:hover {
+  background-color: rgb(54, 54, 219);
+  color: white;
+  border-color: black;
+}
