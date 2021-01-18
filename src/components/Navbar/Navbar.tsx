@@ -1,14 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAuth } from "use-auth0-hooks";
 import { usei18n } from "../../utils/usei18n";
-
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+import { useUser } from "@auth0/nextjs-auth0";
 
 export default function Navbar() {
   const { push, pathname, asPath, query, locale } = useRouter();
-  const { isAuthenticated, isLoading, login, logout } = useAuth();
+  const { isLoading, user } = useUser();
 
   const t = usei18n(locale);
   const changeTranslation = (locale: string) => {
@@ -22,7 +20,7 @@ export default function Navbar() {
           <div className="p-2">{t("nav.home")}</div>
         </Link>
         {!isLoading &&
-          (isAuthenticated ? (
+          (user ? (
             <Link href="/profile">
               <div className="p-2">{t("nav.profile")}</div>
             </Link>
@@ -44,18 +42,14 @@ export default function Navbar() {
         </div>
         <div className="flex flex-auto flex-row justify-end p-2">
           {!isLoading &&
-            (isAuthenticated ? (
-                <button onClick={() => logout({ returnTo: BASE_URL })}>
-                  Log out
-                </button>
+            (user ? (
+              <a href="/api/auth/logout">
+                <button>Log out</button>
+              </a>
             ) : (
-              <button
-                onClick={() =>
-                  login({ appState: { returnTo: { pathname, query } } })
-                }
-              >
-                Log in
-              </button>
+              <a href="/api/auth/login">
+                <button>Log in</button>
+              </a>
             ))}
         </div>
       </div>

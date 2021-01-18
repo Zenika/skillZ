@@ -6,17 +6,15 @@ let relayEnvironment;
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
-  const { token, ...otherVariables } = variables;
-  return fetch(process.env.GRAPHQL_API_ENDPOINT, {
+  return fetch("/api/graphql", {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token || ""}`,
+      "Content-Type": "application/json"
     }, // Add authentication and other headers here
     body: JSON.stringify({
       query: operation.text, // GraphQL text from input
-      variables: otherVariables,
+      variables,
     }),
   }).then((response) => response.json());
 }
@@ -32,7 +30,6 @@ function createEnvironment() {
 export function initEnvironment(initialRecords?) {
   // Create a network layer from the fetch function
   const environment = relayEnvironment ?? createEnvironment();
-
   // If your page has Next.js data fetching methods that use Relay, the initial records
   // will get hydrated here
   if (initialRecords) {
