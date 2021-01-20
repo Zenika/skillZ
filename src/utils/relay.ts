@@ -10,13 +10,13 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     }, // Add authentication and other headers here
     body: JSON.stringify({
       query: operation.text, // GraphQL text from input
       variables,
     }),
-  }).then((response) => response.json());
+  }).then(response => response.json());
 }
 
 function createEnvironment() {

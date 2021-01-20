@@ -1,9 +1,11 @@
 import React from "react";
+import Link from "next/link";
 import { graphql } from "react-relay";
 import { useQuery } from "relay-hooks";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import Loading from "../components/Loading";
 import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 const rootQuery = graphql`
   query profileQuery($email: String!) {
@@ -17,24 +19,31 @@ const rootQuery = graphql`
   }
 `;
 
-const Profile = (props) => {
+const Profile = () => {
+  const { user, isLoading } = useUser();
+  const { data, error, isLoading: isDataLoading } = useQuery<any>(rootQuery, {
+    email: user.email,
+  });
+
   const { locale } = useRouter();
   const t = usei18n(locale);
-  const { user, isLoading } = useUser();
-  const { data, error, retry, isLoading: isDataLoading } = useQuery<any>(
-    rootQuery,
-    {
-      email: user.email,
-    }
-  );
-  if (isLoading || isDataLoading) {
-    return <div>Loading</div>;
-  }
   if (error) {
     return <div>Something bad happened: {error.message}</div>;
   }
-  if (data) {
+  if (data && !isLoading && !isDataLoading) {
     const agency = data.UserAgency_connection?.edges[0]?.node?.agency;
+    if (!agency) {
+      return (
+        <div className="flex flex-1 flex-col justify-center p-12">
+          <p>
+            {t("profile.createAProfileFirst")}{" "}
+            <Link href="/greetings">
+              <button className="border ">{t("profile.here")}</button>
+            </Link>
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="flex flex-1 flex-col justify-center p-12">
         <img className="w-32 h-32" src={user.picture} alt={user.name} />
@@ -44,7 +53,7 @@ const Profile = (props) => {
       </div>
     );
   }
-  return <div>Loading</div>;
+  return <Loading />;
 };
 
 export default withPageAuthRequired(Profile);

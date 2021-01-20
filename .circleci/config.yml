@@ -4,7 +4,7 @@ orbs:
   cypress: cypress-io/cypress@1
 
 executors:
-  front:
+  node:
     docker:
       - image: circleci/node
   hasura:
@@ -16,41 +16,12 @@ executors:
           POSTGRES_PASSWORD: postgrespassword
       - image: hasura/graphql-engine:v1.3.2.cli-migrations
         name: hasura
-        environment: 
+        environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
-  rust:
-    docker:
-      - image: circleci/rust
   docker:
     docker:
       - image: docker:stable
-
-commands:
-  setup-rust-cache:
-    steps:
-      - run:
-          name: Install sccache
-          working_directory: api
-          command: |
-            cargo install sccache
-            echo 'export "RUSTC_WRAPPER"="sccache"' >> $BASH_ENV
-            echo 'export "SCCACHE_CACHE_SIZE"="5G"' >> $BASH_ENV
-            sccache --version
-  restore-rust-cache:
-    steps:
-      - restore_cache:
-          name: Restore sccache cache
-          working_directory: api
-          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}
-  save-rust-cache:
-    steps:
-      - save_cache:
-          name: Save sccache cache
-          working_directory: api
-          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
-          paths:
-            - "~/.cache/sccache"
 
 jobs:
   hasura-test-apply-migrations:
@@ -58,10 +29,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'install hasura cli'
+          name: "install hasura cli"
           command: sudo npm i -g hasura-cli
       - run:
-          name: 'wait for Hasura for a minute max'
+          name: "wait for Hasura for a minute max"
           command: dockerize -wait tcp://hasura:8080 -timeout 1m #sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
       - run:
           name: migrate
@@ -75,136 +46,80 @@ jobs:
           name: seeds
           working_directory: hasura
           command: hasura seeds apply --endpoint http://hasura:8080
-  front-install-dependencies:
-    executor: front
+  install-dependencies:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-dependencies-
       - run:
           name: install-dependencies
-          working_directory: front
           command: npm ci
       - save_cache:
           paths:
-            - ./front/node_modules
-          key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-  front-qc-prettier:
-    executor: front
+            - ./node_modules
+          key: v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+  qc-prettier:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-dependencies-
       - run:
-          working_directory: front
           name: qc-prettier
           command: npm run prettier:check
-  front-build:
-    executor: front
+  build:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-dependencies-
       - run:
           name: build
-          working_directory: front
           command: npm run build
-  front-unit-test:
-    executor: front
+  unit-test:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v1-packaging-dependencies-
       - run:
           name: unit-test
-          working_directory: front
           command: npm run test:unit
-  front-docker-build-and-push:
-    executor: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-      - run:
-          name: docker login
-          working_directory: front
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
-      - run:
-          name: docker build
-          working_directory: front
-          command: docker build -t zenika/zprofile-front .
-      - run:
-          name: docker push
-          working_directory: front
-          command: docker push zenika/zprofile-front
-  api-build-and-test:
-    executor: rust
-    steps:
-      - checkout
-      - setup-rust-cache
-      - restore-rust-cache
-      - run:
-          name: test
-          working_directory: api
-          command: cargo test
-      - save-rust-cache
-  api-docker-build-and-push:
-    executor: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-      - run:
-          name: docker login
-          working_directory: front
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
-      - run:
-          name: docker build
-          working_directory: api
-          command: docker build -t zenika/zprofile-api .
-      - run:
-          name: docker push
-          working_directory: api
-          command: docker push zenika/zprofile-api
-      
 
 workflows:
   qc-test-deploy:
     jobs:
       - hasura-test-apply-migrations
-      - front-install-dependencies
-      - front-qc-prettier:
+      - install-dependencies
+      - qc-prettier:
           requires:
-            - front-install-dependencies
-      - front-build:
+            - install-dependencies
+      - build:
           requires:
-            - front-install-dependencies
-      - front-unit-test:
+            - install-dependencies
+      - unit-test:
           requires:
-            - front-install-dependencies
+            - install-dependencies
       - cypress/install:
-          working_directory: front
           cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
+            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
       - cypress/run:
           name: chrome-cypress-run
           requires:
             - cypress/install
           cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-          working_directory: front
-          start: npm start
-          wait-on: 'http://localhost:1234'
+            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+          start: npm run dev
+          wait-on: "http://localhost:3000"
           executor: cypress/browsers-chrome78-ff70
           browser: chrome
           parallel: true
@@ -214,24 +129,10 @@ workflows:
           requires:
             - cypress/install
           cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-          working_directory: front
-          start: npm start
-          wait-on: 'http://localhost:1234'
+            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+          start: npm run dev
+          wait-on: "http://localhost:3000"
           executor: cypress/browsers-chrome78-ff70
           browser: firefox
           parallel: true
           parallelism: 2
-      - front-docker-build-and-push:
-          requires:
-            - firefox-cypress-run
-            - chrome-cypress-run
-            - front-unit-test
-            - front-build
-            - front-qc-prettier
-          context: docker-hub-zenika
-      - api-build-and-test
-      - api-docker-build-and-push:
-          requires:
-            - api-build-and-test
-          context: docker-hub-zenika

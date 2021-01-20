@@ -13,8 +13,9 @@ export default {
   },
   home: {},
   loading: {
-    loadingText: "Chargement",
+    loadingText: "Chargement...",
   },
+  profile: {createAProfileFirst: "Vous n'avez pas encore de profil, vous pouvez en créer un", here: "ici"},
   greetings: {
     title: "Bienvenue {{firstName}} !",
     description:

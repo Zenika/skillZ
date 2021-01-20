@@ -1,10 +1,10 @@
 import React from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { usei18n } from "../../utils/usei18n";
+import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
+import { usei18n } from "../utils/usei18n";
 
-export default function Navbar() {
+const Navbar = () => {
   const { push, pathname, asPath, query, locale } = useRouter();
   const { isLoading, user } = useUser();
 
@@ -43,16 +43,18 @@ export default function Navbar() {
         <div className="flex flex-auto flex-row justify-end p-2">
           {!isLoading &&
             (user ? (
-              <a href="/api/auth/logout">
+              <Link href="/api/auth/logout">
                 <button>Log out</button>
-              </a>
+              </Link>
             ) : (
-              <a href="/api/auth/login">
+              <Link href="/api/auth/login">
                 <button>Log in</button>
-              </a>
+              </Link>
             ))}
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Navbar;

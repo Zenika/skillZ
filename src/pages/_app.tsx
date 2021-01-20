@@ -2,10 +2,10 @@ import { ReactRelayContext } from "react-relay";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { useEnvironment } from "../utils/relay";
 import Head from "next/head";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Navbar";
 import "tailwindcss/tailwind.css";
 
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   const environment = useEnvironment(pageProps.initialRecords);
   return (
     <UserProvider>
@@ -21,4 +21,6 @@ export default function App({ Component, pageProps }) {
       </ReactRelayContext.Provider>
     </UserProvider>
   );
-}
+};
+
+export default App;
