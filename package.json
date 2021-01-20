@@ -6,7 +6,7 @@
     "dev": "npm run relay && next dev",
     "build": "npm run relay && next build",
     "start": "next start",
-    "prettier": "prettier *.json \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
+    "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
     "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' '**/hasura/**' '**/.circleci/**'  --schema ./schema.graphql",
