@@ -14,7 +14,7 @@ executors:
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
-      - image: hasura/graphql-engine:v1.3.2.cli-migrations
+      - image: hasura/graphql-engine:v2.3.2.cli-migrations
         name: hasura
         environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -52,23 +52,23 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v1-packaging-dependencies-
+            - v2-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v2-packaging-dependencies-
       - run:
           name: install-dependencies
           command: npm ci
       - save_cache:
           paths:
-            - ./node_modules
-          key: v1-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - node_modules
+          key: v2-packaging-dependencies-{{ checksum "package-lock.json" }}
   qc-prettier:
     executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v1-packaging-dependencies-
+            - v2-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v2-packaging-dependencies-
       - run:
           name: qc-prettier
           command: npm run prettier:check
@@ -78,8 +78,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v1-packaging-dependencies-
+            - v2-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v2-packaging-dependencies-
       - run:
           name: build
           command: npm run build
@@ -89,8 +89,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v1-packaging-dependencies-
+            - v2-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v2-packaging-dependencies-
       - run:
           name: unit-test
           command: npm run test:unit
@@ -111,13 +111,13 @@ workflows:
             - install-dependencies
       - cypress/install:
           cache-key: >-
-            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+            v2-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
       - cypress/run:
           name: chrome-cypress-run
           requires:
             - cypress/install
           cache-key: >-
-            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+            v2-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
           start: npm run dev
           wait-on: "http://localhost:3000"
           executor: cypress/browsers-chrome78-ff70
@@ -129,7 +129,7 @@ workflows:
           requires:
             - cypress/install
           cache-key: >-
-            v1-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+            v2-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
           start: npm run dev
           wait-on: "http://localhost:3000"
           executor: cypress/browsers-chrome78-ff70
