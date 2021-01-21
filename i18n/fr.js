@@ -3,6 +3,9 @@ export default {
     home: "Accueil",
     profile: "Profil",
     logout: "Se déconnecter",
+    login: "Se connecter",
+    darkmode: "Sombre",
+    classic: "Classique",
   },
   login: {
     title: "Bienvenue !",
@@ -15,7 +18,11 @@ export default {
   loading: {
     loadingText: "Chargement...",
   },
-  profile: {createAProfileFirst: "Vous n'avez pas encore de profil, vous pouvez en créer un", here: "ici"},
+  profile: {
+    createAProfileFirst:
+      "Vous n'avez pas encore de profil, vous pouvez en créer un",
+    here: "ici",
+  },
   greetings: {
     title: "Bienvenue {{firstName}} !",
     description:

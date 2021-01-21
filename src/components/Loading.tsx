@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
-import { usei18n } from "../utils/usei18n";
+import { useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
 
 const Loading = () => {
-  const { locale } = useRouter();
-  const t = usei18n(locale);
+  const { t } = useContext(i18nContext);
   return <div>{t("loading.loadingText")}</div>;
 };
 

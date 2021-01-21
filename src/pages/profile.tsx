@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { graphql } from "react-relay";
 import { useQuery } from "relay-hooks";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Loading from "../components/Loading";
-import { usei18n } from "../utils/usei18n";
-import { useRouter } from "next/router";
+import { i18nContext } from "../utils/i18nContext";
 
 const rootQuery = graphql`
   query profileQuery($email: String!) {
@@ -25,8 +24,7 @@ const Profile = () => {
     email: user.email,
   });
 
-  const { locale } = useRouter();
-  const t = usei18n(locale);
+  const { t } = useContext(i18nContext);
   if (error) {
     return <div>Something bad happened: {error.message}</div>;
   }

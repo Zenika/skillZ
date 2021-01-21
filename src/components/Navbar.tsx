@@ -1,17 +1,17 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import { usei18n } from "../utils/usei18n";
+import { i18nContext } from "../utils/i18nContext";
 
-const Navbar = () => {
-  const { push, pathname, asPath, query, locale } = useRouter();
+const Navbar = ({
+  darkMode,
+  setDarkMode,
+}: {
+  darkMode: boolean;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { isLoading, user } = useUser();
-
-  const t = usei18n(locale);
-  const changeTranslation = (locale: string) => {
-    push(pathname, asPath, { locale });
-  };
+  const { t, changeLocale } = useContext(i18nContext);
 
   return (
     <header className="flex flex-auto flex-row justify-center bg-red-800 dark:bg-gray-800 text-white">
@@ -33,22 +33,25 @@ const Navbar = () => {
       </div>
       <div className="flex flex-auto flex-row justify-end p-2">
         <div className="flex flex-auto flex-row justify-end">
-          <a className="p-2" onClick={() => changeTranslation("en")}>
+          <a className="p-2" onClick={() => changeLocale("en")}>
             EN
           </a>
-          <a className="p-2" onClick={() => changeTranslation("fr")}>
+          <a className="p-2" onClick={() => changeLocale("fr")}>
             FR
           </a>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            {darkMode ? t("nav.darkmode") : t("nav.classic")}
+          </button>
         </div>
         <div className="flex flex-auto flex-row justify-end p-2">
           {!isLoading &&
             (user ? (
               <Link href="/api/auth/logout">
-                <button>Log out</button>
+                <button>{t("nav.logout")}</button>
               </Link>
             ) : (
               <Link href="/api/auth/login">
-                <button>Log in</button>
+                <button>{t("nav.login")}</button>
               </Link>
             ))}
         </div>

@@ -2,7 +2,10 @@ export default {
   nav: {
     home: "Home",
     profile: "Profile",
-    logout: "Logout",
+    logout: "Log-out",
+    login: "Log-in",
+    darkmode: "Dark",
+    classic: "Classic",
   },
   login: {
     title: "Welcome !",
@@ -15,7 +18,10 @@ export default {
   loading: {
     loadingText: "Loading...",
   },
-  profile: {createAProfileFirst: "You don't have a profile yet, you can create one", here: "here"},
+  profile: {
+    createAProfileFirst: "You don't have a profile yet, you can create one",
+    here: "here",
+  },
   greetings: {
     title: "Welcome {{firstName}} !",
     description:
