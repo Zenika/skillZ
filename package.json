@@ -17,7 +17,7 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.0.0-beta.0",
+    "@auth0/auth0-react": "^1.2.0",
     "autoprefixer": "^10.2.1",
     "next": "^10.0.0",
     "object-path": "^0.11.5",
@@ -40,6 +40,7 @@
     "@types/react-relay": "^7.0.17",
     "@types/relay-runtime": "^10.1.6",
     "ava": "^3.15.0",
+    "await-of": "^3.1.0",
     "babel-plugin-relay": "^10.1.2",
     "cypress": "^6.3.0",
     "graphql": "^15.4.0",

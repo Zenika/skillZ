@@ -1,5 +1,5 @@
 import { ReactRelayContext } from "react-relay";
-import { UserProvider } from "@auth0/nextjs-auth0";
+import { Auth0Provider } from "@auth0/auth0-react";
 import { useEnvironment } from "../utils/relay";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
@@ -8,19 +8,32 @@ import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
 import { useState } from "react";
+import RelayEnvProvider from "../components/RelayEnvProvider";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!BASE_URL) {
+  throw new Error(
+    "ERROR: app couldn't start because NEXT_PUBLIC_BASE_URL env variable is not defined"
+  );
+}
 
 const App = ({ Component, pageProps }) => {
-  const environment = useEnvironment(pageProps.initialRecords);
-  const { push, pathname, asPath, query, locale } = useRouter();
+  const { push, pathname, asPath, locale } = useRouter();
   const changeLocale = (locale: string) => {
     push(pathname, asPath, { locale });
   };
   const t = usei18n(locale);
   const [darkMode, setDarkMode] = useState(false);
   return (
-    <UserProvider>
+    <Auth0Provider
+      domain="zenika.eu.auth0.com"
+      clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
+      redirectUri={BASE_URL}
+      audience="https://zenika.eu.auth0.com/api/v2/"
+      scope="read:current_user update:current_user_metadata"
+    >
       <i18nContext.Provider value={{ t, changeLocale }}>
-        <ReactRelayContext.Provider value={{ environment }}>
+        <RelayEnvProvider pageProps={pageProps}>
           <Head>
             <title>ZProfile</title>
             <link rel="icon" href="/icon.svg" />
@@ -29,9 +42,9 @@ const App = ({ Component, pageProps }) => {
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
             <Component {...pageProps} />
           </div>
-        </ReactRelayContext.Provider>
+        </RelayEnvProvider>
       </i18nContext.Provider>
-    </UserProvider>
+    </Auth0Provider>
   );
 };
 

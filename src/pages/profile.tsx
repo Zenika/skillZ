@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { graphql } from "react-relay";
 import { useQuery } from "relay-hooks";
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Loading from "../components/Loading";
 import { i18nContext } from "../utils/i18nContext";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 const rootQuery = graphql`
   query profileQuery($email: String!) {
@@ -19,13 +19,13 @@ const rootQuery = graphql`
 `;
 
 const Profile = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useAuth0();
   const { data, error, isLoading: isDataLoading } = useQuery<any>(rootQuery, {
     email: user.email,
   });
-
   const { t } = useContext(i18nContext);
   if (error) {
+    console.error(error);
     return <div>Something bad happened: {error.message}</div>;
   }
   if (data && !isLoading && !isDataLoading) {
@@ -54,4 +54,4 @@ const Profile = () => {
   return <Loading />;
 };
 
-export default withPageAuthRequired(Profile);
+export default withAuthenticationRequired(Profile);

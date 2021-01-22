@@ -1,25 +1,15 @@
 import { useMemo } from "react";
-import { Environment, Network, RecordSource, Store } from "relay-runtime";
+import {
+  Environment,
+  FetchFunction,
+  Network,
+  RecordSource,
+  Store,
+} from "relay-runtime";
 
 let relayEnvironment;
 
-// Define a function that fetches the results of an operation (query/mutation/etc)
-// and returns its results as a Promise
-function fetchQuery(operation, variables, cacheConfig, uploadables) {
-  return fetch("/api/graphql", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    }, // Add authentication and other headers here
-    body: JSON.stringify({
-      query: operation.text, // GraphQL text from input
-      variables,
-    }),
-  }).then((response) => response.json());
-}
-
-function createEnvironment() {
+function createEnvironment(fetchQuery: FetchFunction) {
   return new Environment({
     // Create a network layer from the fetch function
     network: Network.create(fetchQuery),
@@ -27,9 +17,9 @@ function createEnvironment() {
   });
 }
 
-export function initEnvironment(initialRecords?) {
+export function initEnvironment(fetchQuery: FetchFunction, initialRecords?) {
   // Create a network layer from the fetch function
-  const environment = relayEnvironment ?? createEnvironment();
+  const environment = relayEnvironment ?? createEnvironment(fetchQuery);
   // If your page has Next.js data fetching methods that use Relay, the initial records
   // will get hydrated here
   if (initialRecords) {
@@ -43,8 +33,8 @@ export function initEnvironment(initialRecords?) {
   return relayEnvironment;
 }
 
-export function useEnvironment(initialRecords) {
-  const store = useMemo(() => initEnvironment(initialRecords), [
+export function useEnvironment(fetchQuery: FetchFunction, initialRecords?) {
+  const store = useMemo(() => initEnvironment(fetchQuery, initialRecords), [
     initialRecords,
   ]);
   return store;

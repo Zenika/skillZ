@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0";
 import { i18nContext } from "../utils/i18nContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = ({
   darkMode,
@@ -10,8 +10,22 @@ const Navbar = ({
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { isLoading, user } = useUser();
+  const {
+    isLoading,
+    isAuthenticated,
+    error,
+    user,
+    loginWithRedirect,
+    logout,
+  } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
+
+  if (error) {
+    console.error(
+      `Something bad happened while authenticating user: ${error.message}`
+    );
+    return;
+  }
 
   return (
     <header className="flex flex-auto flex-row justify-center bg-red-800 dark:bg-gray-800 text-white">
@@ -44,16 +58,13 @@ const Navbar = ({
           </button>
         </div>
         <div className="flex flex-auto flex-row justify-end p-2">
-          {!isLoading &&
-            (user ? (
-              <Link href="/api/auth/logout">
-                <button>{t("nav.logout")}</button>
-              </Link>
-            ) : (
-              <Link href="/api/auth/login">
-                <button>{t("nav.login")}</button>
-              </Link>
-            ))}
+          {!isLoading && isAuthenticated ? (
+            <button onClick={() => logout()}>{t("nav.logout")}</button>
+          ) : (
+            <button onClick={() => loginWithRedirect()}>
+              {t("nav.login")}
+            </button>
+          )}
         </div>
       </div>
     </header>
