@@ -1,7 +1,8 @@
 export default {
   nav: {
-    home: "Accueil",
-    profile: "Profil",
+    "my-skills": "Compétences",
+    "zenika-skills": "Zenika",
+    "search": "Rechercher",
     logout: "Se déconnecter",
     login: "Se connecter",
     darkmode: "Sombre",

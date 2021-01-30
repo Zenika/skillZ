@@ -1,5 +1,8 @@
 export default {
   nav: {
+    "my-skills": "My skills",
+    "zenika-skills": "Zenika skills",
+    search: "Search",
     home: "Home",
     profile: "Profile",
     logout: "Log-out",

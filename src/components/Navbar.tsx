@@ -1,72 +1,89 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = ({
   darkMode,
   setDarkMode,
+  path,
 }: {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
+  path: string;
 }) => {
-  const {
-    isLoading,
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-    logout,
-  } = useAuth0();
-  const { t, changeLocale } = useContext(i18nContext);
-
+  const { isLoading, error, user } = useAuth0();
+  const { t } = useContext(i18nContext);
   if (error) {
     console.error(
       `Something bad happened while authenticating user: ${error.message}`
     );
     return;
   }
-
   return (
-    <header className="flex flex-auto flex-row justify-center bg-red-800 dark:bg-gray-800 text-white">
-      <div className="flex flex-auto flex-row justify-start p-2">
-        <Link href="/">
-          <div className="p-2">{t("nav.home")}</div>
-        </Link>
-        {!isLoading &&
-          (user ? (
-            <Link href="/profile">
-              <div className="p-2">{t("nav.profile")}</div>
-            </Link>
+    <header className="flex flex-auto flex-row justify-around bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 fixed shadow-2xl">
+      <Link href="/">
+        <div className="flex flex-initial flex-col justify-between">
+          {path === "/" ? (
+            <Image src="/icons/nav-selected.svg" width="25" height="2" />
           ) : (
-            <></>
-          ))}
-      </div>
-      <div className="flex flex-auto justify-center">
-        <h1 className="p-4">ZProfile</h1>
-      </div>
-      <div className="flex flex-auto flex-row justify-end p-2">
-        <div className="flex flex-auto flex-row justify-end">
-          <a className="p-2" onClick={() => changeLocale("en")}>
-            EN
-          </a>
-          <a className="p-2" onClick={() => changeLocale("fr")}>
-            FR
-          </a>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? t("nav.darkmode") : t("nav.classic")}
-          </button>
-        </div>
-        <div className="flex flex-auto flex-row justify-end p-2">
-          {!isLoading && isAuthenticated ? (
-            <button onClick={() => logout()}>{t("nav.logout")}</button>
-          ) : (
-            <button onClick={() => loginWithRedirect()}>
-              {t("nav.login")}
-            </button>
+            <div className="h-px" />
           )}
+          <Image
+            src={
+              path === "/" ? "/icons/skills-selected.svg" : "/icons/skills.svg"
+            }
+            width="25"
+            height="25"
+            className="p-1"
+          />
+          <div>{t("nav.my-skills")}</div>
         </div>
-      </div>
+      </Link>
+      {!isLoading &&
+        (user ? (
+          <Link href="/zenika">
+            <div className="flex flex-initial flex-col justify-between">
+              {path === "/zenika" ? (
+                <Image src="/icons/nav-selected.svg" width="25" height="2" />
+              ) : (
+                <div className="h-px" />
+              )}
+              <Image
+                src={
+                  path === "/zenika"
+                    ? "/icons/zenika-selected.svg"
+                    : "/icons/zenika.svg"
+                }
+                width="25"
+                height="25"
+                className="p-1"
+              />
+              <div>{t("nav.zenika-skills")}</div>
+            </div>
+          </Link>
+        ) : (
+          <></>
+        ))}
+      <Link href="/search">
+        <div className="flex flex-initial flex-col justify-between">
+          {path === "/search" ? (
+            <Image src="/icons/nav-selected.svg" width="25" height="2" />
+          ) : (
+            <div className="h-px" />
+          )}
+          <Image
+            src={
+              path === "/search" ? "/icons/search-selected.svg" : "/icons/search.svg"
+            }
+            width="25"
+            height="25"
+            className="p-1"
+          />
+          <div>{t("nav.search")}</div>
+        </div>
+      </Link>
     </header>
   );
 };

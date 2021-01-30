@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito/Nunito-Regular.ttf");
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 15px;
+}
+
+html,
+body {
+  min-height: 100vw !important;
+  width: 100vw !important;
+  font-family: "Nunito";
+}
+
+.gradient-yellow {
+  background: linear-gradient(276.04deg, #f4c042 4.78%, #ee2238 272.32%);
+}
+
+.gradient-violet {
+  background: linear-gradient(90deg, #a188ef 0%, #ee2238 278.75%);
+}
+
+.gradient-blue {
+  background: linear-gradient(263.8deg, #b4f3c2 -64.62%, #2697ff 100%);
+}
+
+.gradient-cyan {
+  background: linear-gradient(236.09deg, #00eb84 -37.69%, #00e3ec 100%);
+}
