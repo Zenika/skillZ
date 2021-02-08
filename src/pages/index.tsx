@@ -1,3 +1,4 @@
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import HomePanel from "../components/HomePanel";
 import Topbar from "../components/Topbar";
 
@@ -5,28 +6,28 @@ const mockData = {
   "top-left": {
     pos: ["top", "left"],
     color: "yellow",
-    label: "Languages & Frameworks",
+    name: "languagesAndFrameworks",
     data: ["Angular", "Javascript", "VueJS"],
     certifs: 1,
   },
   "top-right": {
     pos: ["top", "right"],
     color: "violet",
-    label: "Platforms",
+    name: "platforms",
     data: ["Github", "K3s"],
     certifs: 0,
   },
   "bot-left": {
     pos: ["bot", "left"],
     color: "blue",
-    label: "Tools",
+    name: "tools",
     data: ["Chrome Dev Tools"],
     certifs: 0,
   },
   "bot-right": {
     pos: ["bot", "right"],
     color: "cyan",
-    label: "Technics & Methods",
+    name: "methods",
     data: [],
     certifs: 0,
   },
@@ -46,4 +47,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuthenticationRequired(Home);

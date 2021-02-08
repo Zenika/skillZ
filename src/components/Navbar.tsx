@@ -34,7 +34,7 @@ const Navbar = ({
             height="25"
             className="p-1"
           />
-          <div>{t("nav.my-skills")}</div>
+          <div>{t("nav.mySkills")}</div>
         </div>
       </Link>
       {!isLoading &&
@@ -56,7 +56,7 @@ const Navbar = ({
                 height="25"
                 className="p-1"
               />
-              <div>{t("nav.zenika-skills")}</div>
+              <div>{t("nav.zenikaSkills")}</div>
             </div>
           </Link>
         ) : (

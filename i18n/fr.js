@@ -1,44 +1,20 @@
 export default {
   nav: {
-    "my-skills": "Compétences",
-    "zenika-skills": "Zenika",
+    "mySkills": "Compétences",
+    "zenikaSkills": "Zenika",
     "search": "Rechercher",
-    logout: "Se déconnecter",
-    login: "Se connecter",
     darkmode: "Sombre",
     classic: "Classique",
   },
-  login: {
-    title: "Bienvenue !",
-    description:
-      "Cette application rend facile le partage de vos compétences et appétence technique, mais vous devez d'abord vous connecter !",
-    button: "Se connecter",
-    alreadyLoggedIn: "Vous êtes déjà connectés, redirection ...",
+  home: {
+    addSkill: "Ajouter une compétence",
+    languagesAndFrameworks: "Langages & Frameworks",
+    platforms: "Platformes",
+    tools: "Outils",
+    methods: "Techniques & Méthodes",
   },
-  home: {},
   loading: {
     loadingText: "Chargement...",
-  },
-  profile: {
-    createAProfileFirst:
-      "Vous n'avez pas encore de profil, vous pouvez en créer un",
-    here: "ici",
-  },
-  greetings: {
-    title: "Bienvenue {{firstName}} !",
-    description:
-      "Je ne crois vous avoir déjà vu ici, pouvez vous nous en dire un peu plus à propos de vous ?",
-    agency: "De quelle agence venez vous ?",
-    topics: "Quels sujets vous intéressent ?",
-    skills: "De quelles compétences disposez vous ?",
-    technicalAppetite: "Quelles compétences souhaiteriez vous acquérir ?",
-  },
-  levels: {
-    1: "Jamais entendu parler ou pas intéressé",
-    2: "Jamais utilisé, intéressé(e) pour en apprendre plus",
-    3: "J'ai fais le 'getting started' de la documentation",
-    4: "J'ai expérimenté avec, et ai besoin d'approfondir",
-    5: "Prêt à l'utiliser en mission ou à donner une formation dessus",
   },
   agencies: {
     Paris: "Paris",

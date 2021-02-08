@@ -1,19 +1,22 @@
 import Image from "next/image";
+import { useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 
 type HomePanelProps = {
   props: {
     pos: string[];
     color: string;
-    label: string;
+    name: string;
     data: string[];
     certifs: number;
   };
 };
 
 const HomePanel = ({
-  props: { pos, color, label, data, certifs },
+  props: { pos, color, name, data, certifs },
 }: HomePanelProps) => {
+  const { t } = useContext(i18nContext);
   const [y, x] = pos;
   return (
     <div
@@ -68,7 +71,7 @@ const HomePanel = ({
         </div>
       ) : (
         <div className="flex flex-auto flex-row justify-center py-4 order-6">
-          <p>Add skill</p>
+          <p className="text-center">{t("home.addSkill")}</p>
         </div>
       )}
       <div
@@ -81,7 +84,7 @@ const HomePanel = ({
             x === "left" ? "right" : "left"
           } text-dark-${color}`}
         >
-          {label}
+          {t(`home.${name}`)}
         </div>
       </div>
       <div
