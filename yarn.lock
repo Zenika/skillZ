@@ -5841,7 +5841,12 @@
     "nullthrows" "^1.1.1"
     "relay-runtime" "10.1.2"
 
-"react@^16.11.0 || ^17", "react@^16.13.1", "react@^16.6.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@^16.9.0 || ^17", "react@>=16.8.0", "react@15.x.x || 16.x.x || 17.x.x", "react@16.13.1":
+"react-swipeable@^6.0.1":
+  "integrity" "sha512-69nonicgjT4ofeHxZSpjuz37BoIiWMEbUYkX0mdTCY2mX1U53XDzDUIOVKRg6vVBNGL+pxYjbRzmylXWORh1xQ=="
+  "resolved" "https://registry.npmjs.org/react-swipeable/-/react-swipeable-6.0.1.tgz"
+  "version" "6.0.1"
+
+"react@^16.11.0 || ^17", "react@^16.13.1", "react@^16.6.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@^16.9.0 || ^17", "react@>=16.8.0", "react@15.x.x || 16.x.x || 17.x.x", "react@16.13.1":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

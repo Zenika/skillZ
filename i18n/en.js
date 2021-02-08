@@ -13,6 +13,11 @@ export default {
     tools: "Tools",
     methods: "Technics & Methods",
   },
+  onboarding: {
+    skip: "Skip",
+    addSkillsDescription: "Add and manage your skills",
+    discoverZenikaSkillsDescription: "Discover all Zenika collabs skills"
+  },
   loading: {
     loadingText: "Loading...",
   },

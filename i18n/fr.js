@@ -1,8 +1,8 @@
 export default {
   nav: {
-    "mySkills": "Compétences",
-    "zenikaSkills": "Zenika",
-    "search": "Rechercher",
+    mySkills: "Compétences",
+    zenikaSkills: "Zenika",
+    search: "Rechercher",
     darkmode: "Sombre",
     classic: "Classique",
   },
@@ -12,6 +12,11 @@ export default {
     platforms: "Platformes",
     tools: "Outils",
     methods: "Techniques & Méthodes",
+  },
+  onboarding: {
+    skip: "Passer",
+    addSkillsDescription: "Ajoutez et gérez vos compétences",
+    discoverZenikaSkillsDescription: "Découvrez les compétences des collaborateurs Zenika"
   },
   loading: {
     loadingText: "Chargement...",

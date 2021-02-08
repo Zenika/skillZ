@@ -28,6 +28,7 @@
     "react-relay": "^10.1.2",
     "react-relay-network-modern": "^6.0.0",
     "react-relay-network-modern-ssr": "^1.4.0",
+    "react-swipeable": "^6.0.1",
     "relay-hooks": "^4.0.0-rc.1",
     "relay-runtime": "^10.1.2",
     "tailwindcss": "^2.0.2"

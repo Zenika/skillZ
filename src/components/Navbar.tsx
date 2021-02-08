@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";

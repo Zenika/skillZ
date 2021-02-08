@@ -1,6 +1,7 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import HomePanel from "../components/HomePanel";
 import Topbar from "../components/Topbar";
+import Navbar from "../components/Navbar";
 
 const mockData = {
   "top-left": {
@@ -33,7 +34,7 @@ const mockData = {
   },
 };
 
-const Home = () => {
+const Home = ({pathName}) => {
   return (
     <div>
       <Topbar />
@@ -43,6 +44,7 @@ const Home = () => {
         <HomePanel props={mockData["bot-left"]} />
         <HomePanel props={mockData["bot-right"]} />
       </div>
+      <Navbar path={pathName} />
     </div>
   );
 };
