@@ -5,12 +5,8 @@ import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = ({
-  darkMode,
-  setDarkMode,
   path,
 }: {
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
   path: string;
 }) => {
   const { isLoading, error, user } = useAuth0();

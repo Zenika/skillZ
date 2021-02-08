@@ -45,20 +45,11 @@ const App = ({ Component, pageProps }) => {
             />
           </Head>
           <div className={`${darkMode ? "dark" : ""}`}>
-            <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med">
-              <div className="flex-grow-0">
-                <Topbar />
-              </div>
-              <div className="dark:text-dark-graytext">
+            <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med dark:text-dark-graytext">
                 <Component {...pageProps} />
-              </div>
-              <div>
                 <Navbar
-                  darkMode={darkMode}
-                  setDarkMode={setDarkMode}
                   path={pathname}
                 />
-              </div>
             </div>
           </div>
         </RelayEnvProvider>
