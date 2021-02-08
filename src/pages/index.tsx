@@ -34,7 +34,7 @@ const mockData = {
   },
 };
 
-const Home = ({pathName}) => {
+const Home = ({ pathName }) => {
   return (
     <div>
       <Topbar />

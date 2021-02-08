@@ -4,11 +4,7 @@ import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Navbar = ({
-  path,
-}: {
-  path: string;
-}) => {
+const Navbar = ({ path }: { path: string }) => {
   const { isLoading, error, user } = useAuth0();
   const { t } = useContext(i18nContext);
   if (error) {
@@ -71,7 +67,9 @@ const Navbar = ({
           )}
           <Image
             src={
-              path === "/search" ? "/icons/search-selected.svg" : "/icons/search.svg"
+              path === "/search"
+                ? "/icons/search-selected.svg"
+                : "/icons/search.svg"
             }
             width="25"
             height="25"

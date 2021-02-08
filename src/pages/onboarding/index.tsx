@@ -25,18 +25,20 @@ const Onboarding = () => {
   const [cardNumber, setCardNumber] = useState(0);
   const swipeHandlers = useSwipeable({
     onSwipedRight: () => {
-      console.log("swiped right");
       if (cardNumber > 0) {
         setCardNumber(cardNumber - 1);
+      } else {
+        setCardNumber(0);
       }
     },
     onSwipedLeft: () => {
-      console.log("swiped left");
-      if (cardNumber < onboardingPages.length - 1) {
-        setCardNumber(onboardingPages.length - 1);
-      }
       if (cardNumber >= onboardingPages.length - 1) {
         push("/profile/create");
+      }
+      if (cardNumber < onboardingPages.length - 1) {
+        setCardNumber(cardNumber + 1);
+      } else {
+        setCardNumber(onboardingPages.length - 1);
       }
     },
   });

@@ -34,7 +34,8 @@ const Topbar = () => {
   return (
     <div className="flex flex-auto flex-row flex-grow-0 justify-between bg-red-800 dark:bg-gray-900 text-white p-4">
       <h1 className="text-5xl font-bold text-dark-graytext">
-        sk<span className={styles.i}>i</span>ll<span className={`font-normal ${styles.zgradient}`}>Z</span>
+        sk<span className={styles.i}>i</span>ll
+        <span className={`font-normal ${styles.zgradient}`}>Z</span>
       </h1>
       <button onClick={() => onProfileClick()}>
         <img className="w-16 h-16 rounded-full" src={user?.picture || ""} />
