@@ -36,7 +36,7 @@ const App = ({ Component, pageProps }) => {
         <RelayEnvProvider pageProps={pageProps}>
           <Head>
             <title>skillZ</title>
-            <link rel="icon" href="/icon.svg" />
+            <link rel="icon" href="/favicon.svg" />
             <link
               rel="preload"
               href="/fonts/Nunito/Nunito-Regular.ttf"
@@ -45,7 +45,7 @@ const App = ({ Component, pageProps }) => {
             />
           </Head>
           <div className={`${darkMode ? "dark" : ""}`}>
-            <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col dark:bg-dark-med">
+            <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med">
               <div className="flex-grow-0">
                 <Topbar />
               </div>

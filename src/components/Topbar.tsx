@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
+import styles from "./Topbar.module.css";
 
 const Topbar = () => {
   const {
@@ -33,7 +34,7 @@ const Topbar = () => {
   return (
     <header className="flex flex-auto flex-row justify-between bg-red-800 dark:bg-gray-900 text-white p-4">
       <h1 className="text-5xl font-bold text-dark-graytext">
-        skill<span className="font-normal">Z</span>
+        sk<span className={styles.i}>i</span>ll<span className={`font-normal ${styles.zgradient}`}>Z</span>
       </h1>
       <button onClick={() => onProfileClick()}>
         <img className="w-16 h-16 rounded-full" src={user?.picture || ""} />

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import styles from "./HomePanel.module.css";
 
 type HomePanelProps = {
   props: {
@@ -16,31 +17,42 @@ const HomePanel = ({
   const [y, x] = pos;
   return (
     <div
-      data-cy="content"
       className={`flex flex-auto flex-col dark:bg-dark-homepanel rounded-${
         y === "top" ? "t" : "b"
       }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
     >
       {data.length > 0 ? (
         <div
-          className={`flex flex-auto justify-around py-4 ${
+          className={`flex flex-auto justify-around py-4 text-4xl ${
             y === "bot" ? "order-11" : "order-1"
           }`}
         >
-          <div className={x === "right" ? "order-last" : ""}>
-            {certifs > 0 ? certifs : ""}
-          </div>
+          {certifs > 0 ? (
+            <div
+              className={`text-lg text-center text-dark-med ${styles.certifs} ${
+                x === "right" ? "order-last" : ""
+              }`}
+            >
+              {certifs}
+            </div>
+          ) : (
+            <div className={x === "right" ? "order-last" : ""}> </div>
+          )}
           <div>{data.length > 0 ? data.length : ""}</div>
         </div>
       ) : (
-        <div className={`py-4 ${y === "bot" ? "order-11" : "order-1"}`}>
+        <div
+          className={`flex flex-auto flex-row justify-center py-4 ${
+            y === "bot" ? "order-11" : "order-1"
+          }`}
+        >
           <Image src="/icons/add-skill.svg" width="100" height="100" />
         </div>
       )}
       {data.length > 0 ? (
         <div className={`flex flex-auto flex-col justify-around py-4 order-6`}>
           {[0, 1, 2].map((i) => (
-            <div className="flex flex-auto flex-row justify-between">
+            <div key={i} className="flex flex-auto flex-row justify-between">
               <div
                 className={`${x === "right" ? "order-last" : ""} text-${x} ${
                   data[i] ? `w-${20 - i * 4} gradient-${color}` : ""
@@ -55,7 +67,9 @@ const HomePanel = ({
           ))}
         </div>
       ) : (
-        <div className="order-6">Add skill</div>
+        <div className="flex flex-auto flex-row justify-center py-4 order-6">
+          <p>Add skill</p>
+        </div>
       )}
       <div
         className={`flex flex-auto justify-${
@@ -63,7 +77,7 @@ const HomePanel = ({
         } flex-row py-4 px-1 ${y === "bot" ? "order-1" : "order-12"}`}
       >
         <div
-          className={`text-xl text-${
+          className={`text-xl px-2 text-${
             x === "left" ? "right" : "left"
           } text-dark-${color}`}
         >
