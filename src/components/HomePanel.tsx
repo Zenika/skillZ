@@ -20,7 +20,7 @@ const HomePanel = ({
   const [y, x] = pos;
   return (
     <div
-      className={`flex flex-auto flex-col dark:bg-dark-homepanel rounded-${
+      className={`flex flex-auto flex-col dark:bg-dark-panel rounded-${
         y === "top" ? "t" : "b"
       }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
     >

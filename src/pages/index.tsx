@@ -1,7 +1,24 @@
-import { withAuthenticationRequired } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import HomePanel from "../components/HomePanel";
 import Topbar from "../components/Topbar";
 import Navbar from "../components/Navbar";
+import Loading from "../components/Loading";
+import { useRouter } from "next/router";
+import { gql, useQuery } from "@apollo/client";
+
+type UserData = {
+  User: {
+    email: string
+  }[]
+}
+
+const USER_QUERY = gql`
+  query queryUser($email: String!) {
+    User(where: { email: { _eq: $email } }) {
+      email
+    }
+  }
+`;
 
 const mockData = {
   "top-left": {
@@ -35,6 +52,22 @@ const mockData = {
 };
 
 const Home = ({ pathName }) => {
+  const { push } = useRouter();
+  const { user, isLoading } = useAuth0();
+
+  if (user) {
+    const { data } = useQuery<UserData>(USER_QUERY, {
+      variables: { email: user.email },
+    });
+    if (data?.User.length <= 0) {
+      push("/onboarding");
+    }
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <Topbar />

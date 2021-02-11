@@ -5,8 +5,8 @@ import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
 import React, { useState } from "react";
-import RelayEnvProvider from "../components/RelayEnvProvider";
 import "../styles/globals.css";
+import GraphQLProvider from "../components/GraphQLProvider";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!BASE_URL) {
@@ -31,7 +31,7 @@ const App = ({ Component, pageProps }) => {
       scope="read:current_user update:current_user_metadata"
     >
       <i18nContext.Provider value={{ t, changeLocale }}>
-        <RelayEnvProvider pageProps={pageProps}>
+        <GraphQLProvider>
           <Head>
             <title>skillZ</title>
             <link rel="icon" href="/favicon.svg" />
@@ -47,7 +47,7 @@ const App = ({ Component, pageProps }) => {
               <Component {...{ pathName, ...pageProps }} />
             </div>
           </div>
-        </RelayEnvProvider>
+        </GraphQLProvider>
       </i18nContext.Provider>
     </Auth0Provider>
   );

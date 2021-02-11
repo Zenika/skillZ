@@ -1,8 +1,8 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { useContext, useState } from "react";
 import Image from "next/image";
-import { i18nContext } from "../../utils/i18nContext";
-import Topbar from "../../components/Topbar";
+import { i18nContext } from "../utils/i18nContext";
+import Topbar from "../components/Topbar";
 import styles from "./onboarding.module.css";
 import Link from "next/link";
 import { useSwipeable } from "react-swipeable";
@@ -19,7 +19,7 @@ const onboardingPages = [
   },
 ];
 
-const Onboarding = () => {
+const Onboarding = ({ onboardingPages }) => {
   const { t } = useContext(i18nContext);
   const { push } = useRouter();
   const [cardNumber, setCardNumber] = useState(0);
@@ -81,5 +81,13 @@ const Onboarding = () => {
     </>
   );
 };
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      onboardingPages,
+    },
+  };
+}
 
 export default withAuthenticationRequired(Onboarding);
