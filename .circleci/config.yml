@@ -74,6 +74,9 @@ jobs:
           command: npm run prettier:check
   build:
     executor: node
+    parameters: 
+      graphql-url:
+        type: string
     steps:
       - checkout
       - restore_cache:
@@ -82,7 +85,7 @@ jobs:
             - v3-packaging-dependencies-
       - run:
           name: build
-          command: npm run build
+          command: NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
   unit-test:
     executor: node
     steps:
@@ -94,6 +97,53 @@ jobs:
       - run:
           name: unit-test
           command: npm run test:unit
+  deploy-hasura:
+    parameters:
+      hasura-deploy-dir:
+        type: string
+        default: ../hasura
+      hasura-clever-app-id:
+        type: string
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Package Hasura
+          command: |
+            mkdir --parents << parameters.hasura-deploy-dir >>
+            cp ./.hasura/hasura-clever-cloud.Dockerfile << parameters.hasura-deploy-dir >>/Dockerfile
+      - run:
+          name: Deploy Hasura
+          working_directory: << parameters.hasura-deploy-dir >>
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.hasura-clever-app-id >>
+            clever deploy --force
+  run-migrations:
+      docker:
+        - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
+      parameters:
+        hasura-admin-secret:
+          type: string
+        hasura-endpoint:
+          type: string
+      steps:
+        - checkout
+        - run:
+            name: Apply migrations
+            working_directory: hasura
+            command: hasura-cli migrate apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+        - run:
+            name: Apply metadata
+            working_directory: hasura
+            command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
 
 workflows:
   qc-test-deploy:
@@ -106,6 +156,7 @@ workflows:
       - build:
           requires:
             - install-dependencies
+          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
       - unit-test:
           requires:
             - install-dependencies
@@ -136,3 +187,22 @@ workflows:
           browser: firefox
           parallel: true
           parallelism: 2
+      - deploy-hasura:
+          name: deploy-hasura-staging
+          hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
+          requires:
+            - qc-prettier
+            - build
+            - unit-test
+            - hasura-test-apply-migrations
+          context: clever-cloud2-zenika-dev
+          # filters: &deploy-staging-filters
+          #   branches:
+          #     only: master
+      - run-migrations:
+          name: run-migrations-staging
+          hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
+          hasura-endpoint: $HASURA_ENDPOINT_STAGING
+          requires:
+            - deploy-hasura-staging
+          # filters: *deploy-staging-filters

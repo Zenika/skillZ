@@ -8,13 +8,6 @@ import React, { useState } from "react";
 import "../styles/globals.css";
 import GraphQLProvider from "../components/GraphQLProvider";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!BASE_URL) {
-  throw new Error(
-    "ERROR: app couldn't start because NEXT_PUBLIC_BASE_URL env variable is not defined"
-  );
-}
-
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
   const changeLocale = (locale: string) => {
@@ -26,7 +19,6 @@ const App = ({ Component, pageProps }) => {
     <Auth0Provider
       domain="zenika.eu.auth0.com"
       clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
-      redirectUri={BASE_URL}
       audience="https://zenika.eu.auth0.com/api/v2/"
       scope="read:current_user update:current_user_metadata"
     >
