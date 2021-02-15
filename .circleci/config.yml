@@ -163,30 +163,30 @@ workflows:
       - cypress/install:
           cache-key: >-
             v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      - cypress/run:
-          name: chrome-cypress-run
-          requires:
-            - cypress/install
-          cache-key: >-
-            v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-          start: npm run dev
-          wait-on: "http://localhost:3000"
-          executor: cypress/browsers-chrome78-ff70
-          browser: chrome
-          parallel: true
-          parallelism: 2
-      - cypress/run:
-          name: firefox-cypress-run
-          requires:
-            - cypress/install
-          cache-key: >-
-            v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-          start: npm run dev
-          wait-on: "http://localhost:3000"
-          executor: cypress/browsers-chrome78-ff70
-          browser: firefox
-          parallel: true
-          parallelism: 2
+      # - cypress/run:
+      #     name: chrome-cypress-run
+      #     requires:
+      #       - cypress/install
+      #     cache-key: >-
+      #       v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #     start: npm run dev
+      #     wait-on: "http://localhost:3000"
+      #     executor: cypress/browsers-chrome78-ff70
+      #     browser: chrome
+      #     parallel: true
+      #     parallelism: 2
+      # - cypress/run:
+      #     name: firefox-cypress-run
+      #     requires:
+      #       - cypress/install
+      #     cache-key: >-
+      #       v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #     start: npm run dev
+      #     wait-on: "http://localhost:3000"
+      #     executor: cypress/browsers-chrome78-ff70
+      #     browser: firefox
+      #     parallel: true
+      #     parallelism: 2
       - deploy-hasura:
           name: deploy-hasura-staging
           hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
