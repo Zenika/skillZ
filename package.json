@@ -2,8 +2,8 @@
   "name": "zprofile",
   "version": "0.1.0",
   "private": true,
-  "engines" : {
-    "node" : "^15"
+  "engines": {
+    "node": "^15"
   },
   "main": "index.js",
   "scripts": {
