@@ -161,7 +161,16 @@ jobs:
           name: build
           command: NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
       - run:
+          name: Package
+          command: |
+            mkdir --parents deploy
+            cp --recursive .next/* /deploy/.next
+            cp --recursive public/* /deploy/public
+            cp package.json /deploy
+            cp .env /deploy
+      - run:
           name: Deploy
+          working_directory: deploy
           command: |
             git config --global user.email "dsi@zenika.com"
             git config --global user.name "Zenika"
