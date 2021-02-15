@@ -25,7 +25,7 @@ const GraphQLProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       const [token, err] = await of(getAccessTokenSilently());
-      if(err) {
+      if (err) {
         console.error(err);
         loginWithRedirect();
       }
