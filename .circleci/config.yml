@@ -214,7 +214,6 @@ workflows:
       - build:
           name: build-staging
           requires:
-            - install-dependencies
             - qc-prettier
             - unit-test
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
