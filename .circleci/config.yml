@@ -112,7 +112,7 @@ jobs:
           name: Package Hasura
           command: |
             mkdir --parents << parameters.hasura-deploy-dir >>
-            cp ./.hasura/hasura-clever-cloud.Dockerfile << parameters.hasura-deploy-dir >>/Dockerfile
+            cp ./hasura.Dockerfile << parameters.hasura-deploy-dir >>/Dockerfile
       - run:
           name: Deploy Hasura
           working_directory: << parameters.hasura-deploy-dir >>
