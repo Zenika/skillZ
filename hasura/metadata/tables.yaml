@@ -233,18 +233,6 @@
       - userEmail
       filter: {}
       allow_aggregations: true
-  update_permissions:
-  - role: world
-    permission:
-      columns:
-      - topicId
-      - userEmail
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
   delete_permissions:
   - role: world
     permission:
