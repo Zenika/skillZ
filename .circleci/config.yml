@@ -42,10 +42,6 @@ jobs:
           name: metadata
           working_directory: hasura
           command: hasura metadata apply --endpoint http://hasura:8080
-      - run:
-          name: seeds
-          working_directory: hasura
-          command: hasura seeds apply --endpoint http://hasura:8080
   install-dependencies:
     executor: node
     steps:
