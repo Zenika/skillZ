@@ -198,7 +198,7 @@ workflows:
           hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
           requires:
             - build-staging
-            - hasura-test-apply-migrations
+            # - hasura-test-apply-migrations
           context: clever-cloud2-zenika-dev
           # filters: *deploy-staging-filters
       - run-migrations:
