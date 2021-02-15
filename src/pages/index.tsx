@@ -8,9 +8,9 @@ import { gql, useQuery } from "@apollo/client";
 
 type UserData = {
   User: {
-    email: string
-  }[]
-}
+    email: string;
+  }[];
+};
 
 const USER_QUERY = gql`
   query queryUser($email: String!) {
@@ -59,9 +59,9 @@ const Home = ({ pathName }) => {
     const { data } = useQuery<UserData>(USER_QUERY, {
       variables: { email: user.email },
     });
-    if (data?.User.length <= 0) {
-      push("/onboarding");
-    }
+    // if (data?.User.length <= 0) {
+    //   push("/onboarding");
+    // }
   }
 
   if (isLoading) {

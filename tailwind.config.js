@@ -19,7 +19,6 @@ module.exports = {
         graytext: "rgba(255, 255, 255, 0.87)",
         panel: "#292929",
         yellow: "#F4C042",
-        bgyellow: "linear-gradient(276.04deg, #F4C042 4.78%, #EE2238 272.32%)",
         violet: "#D264EC",
         cyan: "#00E3EC",
         blue: "#52B9FF",
