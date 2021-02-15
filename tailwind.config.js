@@ -6,10 +6,8 @@ module.exports = {
     locales: ["en-US", "fr-FR"],
     defaultLocale: "en-US",
   },
-  purge: {
-    content: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
-    // These options are passed through directly to PurgeCSS
-  },
+  // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
+  purge: "false",
   theme: {
     colors: {
       dark: {
@@ -34,7 +32,4 @@ module.exports = {
     },
   },
   plugins: [],
-  future: {
-    purgeLayersByDefault: true,
-  },
 };

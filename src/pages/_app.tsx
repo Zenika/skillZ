@@ -1,12 +1,11 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import Head from "next/head";
-import "tailwindcss/tailwind.css";
 import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
 import React, { useState } from "react";
-import "../styles/globals.css";
 import GraphQLProvider from "../components/GraphQLProvider";
+import "../styles/globals.css";
 
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
