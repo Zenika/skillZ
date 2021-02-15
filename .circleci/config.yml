@@ -144,6 +144,34 @@ jobs:
           name: Apply metadata
           working_directory: hasura
           command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+  deploy:
+    executor: node
+    parameters:
+      graphql-url:
+        type: string
+      clever-app-id:
+        type: string
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v3-packaging-dependencies-
+      - run:
+          name: build
+          command: NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
+      - run:
+          name: Deploy
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.clever-app-id >>
+            clever deploy --force
 
 workflows:
   qc-test-deploy:
@@ -208,3 +236,12 @@ workflows:
           requires:
             - deploy-hasura-staging
           # filters: *deploy-staging-filters
+      - deploy:
+          name: deploy-staging
+          requires:
+            - build-staging
+          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
+          # filters: &deploy-staging-filters
+          #   branches:
+          #     only: master
