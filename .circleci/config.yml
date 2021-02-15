@@ -163,11 +163,11 @@ jobs:
       - run:
           name: Package
           command: |
-            mkdir --parents deploy
-            cp --recursive .next/* /deploy/.next
-            cp --recursive public/* /deploy/public
-            cp package.json /deploy
-            cp .env /deploy
+            mkdir deploy
+            cp -r .next deploy
+            cp -r public deploy
+            cp package.json deploy
+            cp .env deploy
       - run:
           name: Deploy
           working_directory: deploy
