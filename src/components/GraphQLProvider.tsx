@@ -4,6 +4,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from "@apollo/client";
+import { of } from "await-of";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
@@ -17,13 +18,17 @@ if (!GRAPHQL_URL) {
 }
 
 const GraphQLProvider = ({ children }) => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
   const [client, setClient] = useState<ApolloClient<any> | undefined>(
     undefined
   );
   useEffect(() => {
     (async () => {
-      const token = await getAccessTokenSilently();
+      const [token, err] = await of(getAccessTokenSilently());
+      if(err) {
+        console.error(err);
+        loginWithRedirect();
+      }
       const httpLink = createHttpLink({
         uri: GRAPHQL_URL,
       });
