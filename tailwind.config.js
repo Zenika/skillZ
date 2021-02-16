@@ -7,22 +7,22 @@ module.exports = {
     defaultLocale: "en-US",
     domains: [
       {
-        domain: 'fr.staging.skillz.zenika.com',
-        defaultLocale: 'fr',
+        domain: "fr.staging.skillz.zenika.com",
+        defaultLocale: "fr",
       },
       {
-        domain: 'en.staging.skillz.zenika.com',
-        defaultLocale: 'en',
+        domain: "en.staging.skillz.zenika.com",
+        defaultLocale: "en",
       },
       {
-        domain: 'fr.skillz.zenika.com',
-        defaultLocale: 'fr',
+        domain: "fr.skillz.zenika.com",
+        defaultLocale: "fr",
       },
       {
-        domain: 'en.skillz.zenika.com',
-        defaultLocale: 'en',
+        domain: "en.skillz.zenika.com",
+        defaultLocale: "en",
       },
-    ]
+    ],
   },
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
   theme: {
