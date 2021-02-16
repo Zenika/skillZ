@@ -7,7 +7,6 @@ module.exports = {
     defaultLocale: "en-US",
   },
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
-  purge: "false",
   theme: {
     colors: {
       dark: {

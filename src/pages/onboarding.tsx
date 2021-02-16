@@ -3,10 +3,10 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import Topbar from "../components/Topbar";
-import styles from "./onboarding.module.css";
 import Link from "next/link";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
+import styles from "./onboarding.module.css";
 
 const onboardingPages = [
   {
