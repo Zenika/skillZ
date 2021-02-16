@@ -12,7 +12,7 @@ module.exports = {
       },
       {
         domain: "en.staging.skillz.zenika.com",
-        defaultLocale: "en",
+        defaultLocale: "en-US",
       },
       {
         domain: "fr.skillz.zenika.com",
@@ -20,7 +20,7 @@ module.exports = {
       },
       {
         domain: "en.skillz.zenika.com",
-        defaultLocale: "en",
+        defaultLocale: "en-US",
       },
     ],
   },
