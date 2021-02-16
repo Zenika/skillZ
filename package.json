@@ -10,11 +10,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 8080",
+    "start:local": "next start -p 3000",
     "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "ava ",
+    "test:unit": "ava",
     "test:integration": "npm run cypress:run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
