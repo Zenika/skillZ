@@ -7,6 +7,13 @@ import React, { useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import "../styles/globals.css";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
+
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
   const changeLocale = (locale: string) => {
@@ -20,6 +27,7 @@ const App = ({ Component, pageProps }) => {
       clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
       audience="https://zenika.eu.auth0.com/api/v2/"
       scope="read:current_user update:current_user_metadata"
+      redirectUri={BASE_URL}
     >
       <i18nContext.Provider value={{ t, changeLocale }}>
         <GraphQLProvider>

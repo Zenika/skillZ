@@ -18,7 +18,11 @@ if (!GRAPHQL_URL) {
 }
 
 const GraphQLProvider = ({ children }) => {
-  const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
+  const {
+    getAccessTokenSilently,
+    loginWithRedirect,
+    isAuthenticated,
+  } = useAuth0();
   const [client, setClient] = useState<ApolloClient<any> | undefined>(
     undefined
   );
