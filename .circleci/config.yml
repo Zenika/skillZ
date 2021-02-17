@@ -164,12 +164,7 @@ jobs:
           name: Package
           command: |
             mkdir deploy
-            cp -r .next deploy
-            cp -r public deploy
-            cp package.json deploy
-            cp package-lock.json deploy
-            cp .env deploy
-            tree deploy
+            cp -r . deploy
       - run:
           name: Deploy
           working_directory: deploy
