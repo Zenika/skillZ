@@ -169,6 +169,7 @@ jobs:
             cp package.json deploy
             cp package-lock.json deploy
             cp .env deploy
+            tree deploy
       - run:
           name: Deploy
           working_directory: deploy
