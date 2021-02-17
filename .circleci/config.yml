@@ -164,7 +164,7 @@ jobs:
           name: Package
           command: |
             mkdir deploy
-            cp -r . deploy
+            cp -r !(deploy) /deploy
       - run:
           name: Deploy
           working_directory: deploy
