@@ -169,7 +169,7 @@ jobs:
             cp package.json deploy
             cp package-lock.json deploy
             cp .env deploy
-            cp next.config.js
+            cp next.config.js deploy
       - run:
           name: Deploy
           working_directory: deploy
