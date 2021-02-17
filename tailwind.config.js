@@ -2,28 +2,6 @@ module.exports = {
   important: true,
   // Active dark mode on class basis
   darkMode: "class",
-  i18n: {
-    locales: ["en-US", "fr"],
-    defaultLocale: "en-US",
-    domains: [
-      {
-        domain: "fr.staging.skillz.zenika.com",
-        defaultLocale: "fr",
-      },
-      {
-        domain: "en.staging.skillz.zenika.com",
-        defaultLocale: "en-US",
-      },
-      {
-        domain: "fr.skillz.zenika.com",
-        defaultLocale: "fr",
-      },
-      {
-        domain: "en.skillz.zenika.com",
-        defaultLocale: "en-US",
-      },
-    ],
-  },
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
   theme: {
     colors: {
