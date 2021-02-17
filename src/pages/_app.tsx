@@ -2,6 +2,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Head from "next/head";
 import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
+import { useCookies } from 'react-cookie';
 import { i18nContext } from "../utils/i18nContext";
 import React, { useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
@@ -16,7 +17,11 @@ if (!BASE_URL) {
 
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
+  const [ cookie, setCookie ] = useCookies(['NEXT_LOCALE']);
   const changeLocale = (locale: string) => {
+    if(cookie.NEXT_LOCALE !== locale){
+      setCookie("NEXT_LOCALE", locale, { path: "/" });
+    }
     push(pathName, asPath, { locale });
   };
   const t = usei18n(locale);
