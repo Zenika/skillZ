@@ -164,7 +164,12 @@ jobs:
           name: Package
           command: |
             mkdir deploy
-            cp -r !(deploy) /deploy
+            cp -r .next deploy
+            cp -r public deploy
+            cp package.json deploy
+            cp package-lock.json deploy
+            cp .env deploy
+            cp next.config.js
       - run:
           name: Deploy
           working_directory: deploy
