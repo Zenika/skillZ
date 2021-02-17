@@ -48,23 +48,23 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v3-packaging-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: install-dependencies
           command: npm ci
       - save_cache:
           paths:
             - node_modules
-          key: v3-packaging-dependencies-{{ checksum "package-lock.json" }}
+          key: v4-packaging-dependencies-{{ checksum "package-lock.json" }}
   qc-prettier:
     executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v3-packaging-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: qc-prettier
           command: npm run prettier:check
@@ -79,8 +79,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v3-packaging-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: build
           command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
@@ -90,8 +90,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v3-packaging-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: unit-test
           command: npm run test:unit
@@ -155,8 +155,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v3-packaging-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: build
           command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
@@ -195,13 +195,13 @@ workflows:
             - install-dependencies
       # - cypress/install:
       #     cache-key: >-
-      #       v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
       # - cypress/run:
       #     name: chrome-cypress-run
       #     requires:
       #       - cypress/install
       #     cache-key: >-
-      #       v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
       #     start: npm run dev
       #     wait-on: "http://localhost:3000"
       #     executor: cypress/browsers-chrome78-ff70
@@ -213,7 +213,7 @@ workflows:
       #     requires:
       #       - cypress/install
       #     cache-key: >-
-      #       v3-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
       #     start: npm run dev
       #     wait-on: "http://localhost:3000"
       #     executor: cypress/browsers-chrome78-ff70
