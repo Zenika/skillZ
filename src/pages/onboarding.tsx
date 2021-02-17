@@ -19,7 +19,7 @@ const onboardingPages = [
   },
 ];
 
-const Onboarding = ({ onboardingPages }) => {
+const Onboarding = () => {
   const { t } = useContext(i18nContext);
   const { push } = useRouter();
   const [cardNumber, setCardNumber] = useState(0);
@@ -81,13 +81,5 @@ const Onboarding = ({ onboardingPages }) => {
     </>
   );
 };
-
-export async function getStaticProps(context) {
-  return {
-    props: {
-      onboardingPages,
-    },
-  };
-}
 
 export default withAuthenticationRequired(Onboarding);
