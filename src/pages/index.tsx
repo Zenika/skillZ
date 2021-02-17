@@ -52,11 +52,8 @@ const mockData = {
 };
 
 const Home = ({ pathName }) => {
-  const { push, domainLocales, defaultLocale, locale, locales } = useRouter();
+  const { push } = useRouter();
   const { user, isLoading } = useAuth0();
-  console.log(
-    JSON.stringify({ domainLocales, defaultLocale, locale, locales })
-  );
   if (user) {
     const { data } = useQuery<UserData>(USER_QUERY, {
       variables: { email: user.email },
