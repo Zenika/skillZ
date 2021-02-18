@@ -31,7 +31,6 @@ const GraphQLProvider = ({ children }) => {
       const [token, err] = await of(getAccessTokenSilently());
       if (err) {
         console.error(err);
-        loginWithRedirect();
       }
       const httpLink = createHttpLink({
         uri: GRAPHQL_URL,
