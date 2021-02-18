@@ -1,8 +1,8 @@
 {
     "name": "SkillZ",
     "short_name": "SkillZ",
-    "theme_color": "#ffffff",
-    "background_color": "#004740",
+    "theme_color": "#121212",
+    "background_color": "#121212",
     "display": "fullscreen",
     "orientation": "portrait",
     "scope": "/",

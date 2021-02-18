@@ -70,7 +70,7 @@ const Home = ({ pathName }) => {
   return (
     <div>
       <Topbar />
-      <div className="flex flex-auto flex-row mx-4 flex-wrap">
+      <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         <HomePanel props={mockData["top-left"]} />
         <HomePanel props={mockData["top-right"]} />
         <HomePanel props={mockData["bot-left"]} />

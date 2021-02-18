@@ -14,7 +14,7 @@ const Navbar = ({ path }: { path: string }) => {
     return;
   }
   return (
-    <header className="flex flex-auto flex-row justify-around bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 fixed shadow-2xl">
+    <header className="flex flex-auto flex-row justify-around bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
       <Link href="/">
         <div className="flex flex-initial flex-col justify-between">
           {path === "/" ? (
