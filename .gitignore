@@ -36,3 +36,7 @@ yarn-error.log*
 # cypress
 /cypress/screenshots
 /cypress/videos
+
+#pwa
+public/sw.js
+public/workbox-*.js
