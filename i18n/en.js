@@ -16,7 +16,7 @@ export default {
   onboarding: {
     skip: "Skip",
     addSkillsDescription: "Add and manage your skills",
-    discoverZenikaSkillsDescription: "Discover all Zenika collabs skills"
+    discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
   },
   loading: {
     loadingText: "Loading...",
@@ -32,5 +32,14 @@ export default {
     Lyon: "Lyon",
     Rennes: "Rennes",
     Lille: "Lille",
+  },
+  createProfile: {
+    title: "Let's create a profile !",
+    profileCreated: "Congratulations your profile is now created !",
+    homepage: "Back to homepage",
+    agency: "First, which agency are you working at ?",
+    topics:
+      "What topic are you interested in ? Don't worry you can change it later",
+    submit: "Submit",
   },
 };

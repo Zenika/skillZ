@@ -58,9 +58,9 @@ const Home = ({ pathName }) => {
     const { data } = useQuery<UserData>(USER_QUERY, {
       variables: { email: user.email },
     });
-    // if (data?.User.length <= 0) {
-    //   push("/onboarding");
-    // }
+    if (data?.User.length <= 0) {
+      push("/onboarding");
+    }
   }
 
   if (isLoading) {

@@ -16,7 +16,8 @@ export default {
   onboarding: {
     skip: "Passer",
     addSkillsDescription: "Ajoutez et gérez vos compétences",
-    discoverZenikaSkillsDescription: "Découvrez les compétences des collaborateurs Zenika"
+    discoverZenikaSkillsDescription:
+      "Découvrez les compétences des collaborateurs Zenika",
   },
   loading: {
     loadingText: "Chargement...",
@@ -32,5 +33,14 @@ export default {
     Lyon: "Lyon",
     Rennes: "Rennes",
     Lille: "Lille",
+  },
+  createProfile: {
+    title: "Créez votre profil !",
+    profileCreated: "Bravo, votre profil à été créé !",
+    homepage: "Retour à l'accueil",
+    agency: "Premièrement, dans quelle agence travaillez vous ?",
+    topics:
+      "Quels sujets vous intéressent ? Ne vous en faites pas vous pouvez modifier vos choix plus tard",
+    submit: "Envoyer",
   },
 };
