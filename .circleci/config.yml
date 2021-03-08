@@ -195,33 +195,33 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
-      # - cypress/install:
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      # - cypress/run:
-      #     name: chrome-cypress-run
-      #     requires:
-      #       - cypress/install
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      #     start: npm run dev
-      #     wait-on: "http://localhost:3000"
-      #     executor: cypress/browsers-chrome78-ff70
-      #     browser: chrome
-      #     parallel: true
-      #     parallelism: 2
-      # - cypress/run:
-      #     name: firefox-cypress-run
-      #     requires:
-      #       - cypress/install
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      #     start: npm run dev
-      #     wait-on: "http://localhost:3000"
-      #     executor: cypress/browsers-chrome78-ff70
-      #     browser: firefox
-      #     parallel: true
-      #     parallelism: 2
+      - cypress/install:
+          cache-key: >-
+            v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      - cypress/run:
+          name: chrome-cypress-run
+          requires:
+            - cypress/install
+          cache-key: >-
+            v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+          start: npm run dev
+          wait-on: "http://localhost:3000"
+          executor: cypress/browsers-chrome78-ff70
+          browser: chrome
+          parallel: true
+          parallelism: 2
+      - cypress/run:
+          name: firefox-cypress-run
+          requires:
+            - cypress/install
+          cache-key: >-
+            v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+          start: npm run dev
+          wait-on: "http://localhost:3000"
+          executor: cypress/browsers-chrome78-ff70
+          browser: firefox
+          parallel: true
+          parallelism: 2
       - build:
           name: build-staging
           requires:
@@ -229,24 +229,24 @@ workflows:
             - unit-test
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_STAGING_BASE_URL
-          # filters: &deploy-staging-filters
-          #   branches:
-          #     only: master
+          filters: &deploy-staging-filters
+            branches:
+              only: master
       - deploy-hasura:
           name: deploy-hasura-staging
           hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
           requires:
             - build-staging
-            # - hasura-test-apply-migrations
+            - hasura-test-apply-migrations
           context: clever-cloud2-zenika-dev
-          # filters: *deploy-staging-filters
+          filters: *deploy-staging-filters
       - run-migrations:
           name: run-migrations-staging
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
           hasura-endpoint: $HASURA_ENDPOINT_STAGING
           requires:
             - deploy-hasura-staging
-          # filters: *deploy-staging-filters
+          filters: *deploy-staging-filters
       - deploy:
           name: deploy-staging
           requires:
@@ -255,6 +255,4 @@ workflows:
           base-url: $NEXT_STAGING_BASE_URL
           clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
           context: clever-cloud2-zenika-dev
-          # filters: &deploy-staging-filters
-          #   branches:
-          #     only: master
+          filters: *deploy-staging-filters
