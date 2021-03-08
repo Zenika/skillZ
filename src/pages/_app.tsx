@@ -40,6 +40,7 @@ const App = ({ Component, pageProps }) => {
               as="font"
               crossOrigin=""
             />
+            <meta name="apple-mobile-web-app-capable" content="yes"></meta>
           </Head>
           <div className={`${darkMode ? "dark" : ""}`}>
             <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med dark:text-dark-graytext">
