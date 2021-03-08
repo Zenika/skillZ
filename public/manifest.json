@@ -1,0 +1,18 @@
+{
+    "name": "SkillZ",
+    "short_name": "SkillZ",
+    "theme_color": "#121212",
+    "background_color": "#121212",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "icons/icon-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+      }
+    ],
+    "splash_pages": null
+  }

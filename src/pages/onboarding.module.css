@@ -1,0 +1,5 @@
+.skipText {
+  background: linear-gradient(51.05deg, #ee2238 -57.1%, #bf1d67 156.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

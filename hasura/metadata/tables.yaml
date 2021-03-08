@@ -2,52 +2,28 @@
     schema: public
     name: Agency
   array_relationships:
-  - name: Users
+  - name: UserAgencies
     using:
       foreign_key_constraint_on:
-        column: agencyId
+        column: agency
         table:
           schema: public
-          name: User
-- table:
-    schema: public
-    name: Certification
-- table:
-    schema: public
-    name: Experience
-  object_relationships:
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
-  array_relationships:
-  - name: ExperienceSkills
-    using:
-      foreign_key_constraint_on:
-        column: experienceId
-        table:
-          schema: public
-          name: ExperienceSkill
-- table:
-    schema: public
-    name: ExperienceSkill
-  object_relationships:
-  - name: Experience
-    using:
-      foreign_key_constraint_on: experienceId
-  - name: Skill
-    using:
-      foreign_key_constraint_on: skillId
+          name: UserAgency
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - name
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: Skill
-  array_relationships:
-  - name: ExperienceSkills
+  object_relationships:
+  - name: Topic
     using:
-      foreign_key_constraint_on:
-        column: skillId
-        table:
-          schema: public
-          name: ExperienceSkill
+      foreign_key_constraint_on: topicId
+  array_relationships:
   - name: TechnicalAppetites
     using:
       foreign_key_constraint_on:
@@ -62,6 +38,15 @@
         table:
           schema: public
           name: UserSkill
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - name
+      - topicId
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: TechnicalAppetite
@@ -72,36 +57,36 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
-  array_relationships:
-  - name: TechnicalAppetiteSteps
-    using:
-      foreign_key_constraint_on:
-        column: technicalAppetiteId
-        table:
-          schema: public
-          name: TechnicalAppetiteStep
 - table:
     schema: public
-    name: TechnicalAppetiteStep
-  object_relationships:
-  - name: TechnicalAppetite
+    name: Topic
+  array_relationships:
+  - name: Skills
     using:
-      foreign_key_constraint_on: technicalAppetiteId
+      foreign_key_constraint_on:
+        column: topicId
+        table:
+          schema: public
+          name: Skill
+  - name: UserTopics
+    using:
+      foreign_key_constraint_on:
+        column: topicId
+        table:
+          schema: public
+          name: UserTopic
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: User
-  object_relationships:
-  - name: Agency
-    using:
-      foreign_key_constraint_on: agencyId
   array_relationships:
-  - name: Experiences
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: Experience
   - name: TechnicalAppetites
     using:
       foreign_key_constraint_on:
@@ -109,13 +94,13 @@
         table:
           schema: public
           name: TechnicalAppetite
-  - name: UserCertifications
+  - name: UserAgencies
     using:
       foreign_key_constraint_on:
         column: userEmail
         table:
           schema: public
-          name: UserCertification
+          name: UserAgency
   - name: UserSkills
     using:
       foreign_key_constraint_on:
@@ -123,13 +108,71 @@
         table:
           schema: public
           name: UserSkill
+  - name: UserTopics
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: UserTopic
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        email:
+          _eq: x-hasura-user-email
+      columns:
+      - email
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - email
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - email
+      filter:
+        email:
+          _eq: x-hasura-user-email
+      check:
+        email:
+          _eq: x-hasura-user-email
 - table:
     schema: public
-    name: UserCertification
+    name: UserAgency
   object_relationships:
+  - name: Agency
+    using:
+      foreign_key_constraint_on: agency
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - agency
+      - updatedAt
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - agency
+      - id
+      - updatedAt
+      - userEmail
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: UserSkill
@@ -140,3 +183,59 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - level
+      - skillId
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - userEmail
+      - skillId
+      - level
+      - created_at
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
+    name: UserTopic
+  object_relationships:
+  - name: Topic
+    using:
+      foreign_key_constraint_on: topicId
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - topicId
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - topicId
+      - userEmail
+      filter: {}
+      allow_aggregations: true
+  delete_permissions:
+  - role: world
+    permission:
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email

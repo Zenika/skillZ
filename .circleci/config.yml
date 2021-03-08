@@ -4,7 +4,7 @@ orbs:
   cypress: cypress-io/cypress@1
 
 executors:
-  front:
+  node:
     docker:
       - image: circleci/node
   hasura:
@@ -14,43 +14,14 @@ executors:
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
-      - image: hasura/graphql-engine:v1.3.2.cli-migrations
+      - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
         name: hasura
-        environment: 
+        environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
-  rust:
-    docker:
-      - image: circleci/rust
   docker:
     docker:
       - image: docker:stable
-
-commands:
-  setup-rust-cache:
-    steps:
-      - run:
-          name: Install sccache
-          working_directory: api
-          command: |
-            cargo install sccache
-            echo 'export "RUSTC_WRAPPER"="sccache"' >> $BASH_ENV
-            echo 'export "SCCACHE_CACHE_SIZE"="5G"' >> $BASH_ENV
-            sccache --version
-  restore-rust-cache:
-    steps:
-      - restore_cache:
-          name: Restore sccache cache
-          working_directory: api
-          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}
-  save-rust-cache:
-    steps:
-      - save_cache:
-          name: Save sccache cache
-          working_directory: api
-          key: sccache-cache-stable-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
-          paths:
-            - "~/.cache/sccache"
 
 jobs:
   hasura-test-apply-migrations:
@@ -58,11 +29,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'install hasura cli'
+          name: "install hasura cli"
           command: sudo npm i -g hasura-cli
       - run:
-          name: 'wait for Hasura for a minute max'
-          command: dockerize -wait tcp://hasura:8080 -timeout 1m #sudo npm i -g wait-on && wait-on -t 60000 http://hasura:8080
+          name: "wait for Hasura for a minute max"
+          command: dockerize -wait tcp://hasura:8080 -timeout 1m
       - run:
           name: migrate
           working_directory: hasura
@@ -71,167 +42,217 @@ jobs:
           name: metadata
           working_directory: hasura
           command: hasura metadata apply --endpoint http://hasura:8080
-      - run:
-          name: seeds
-          working_directory: hasura
-          command: hasura seeds apply --endpoint http://hasura:8080
-  front-install-dependencies:
-    executor: front
+  install-dependencies:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: install-dependencies
-          working_directory: front
           command: npm ci
       - save_cache:
           paths:
-            - ./front/node_modules
-          key: v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-  front-qc-prettier:
-    executor: front
+            - node_modules
+          key: v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+  qc-prettier:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
-          working_directory: front
           name: qc-prettier
           command: npm run prettier:check
-  front-build:
-    executor: front
+  build:
+    executor: node
+    parameters:
+      graphql-url:
+        type: string
+      base-url:
+        type: string
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: build
-          working_directory: front
-          command: npm run build
-  front-unit-test:
-    executor: front
+          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
+  unit-test:
+    executor: node
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-packaging-front-dependencies-{{ checksum "front/package-lock.json" }}
-            - v1-packaging-front-dependencies-
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
           name: unit-test
-          working_directory: front
           command: npm run test:unit
-  front-docker-build-and-push:
-    executor: docker
+  deploy-hasura:
+    parameters:
+      hasura-deploy-dir:
+        type: string
+        default: ../hasura
+      hasura-clever-app-id:
+        type: string
+    docker:
+      - image: circleci/node:lts
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
       - run:
-          name: docker login
-          working_directory: front
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+          name: Package Hasura
+          command: |
+            mkdir --parents << parameters.hasura-deploy-dir >>
+            cp ./hasura.Dockerfile << parameters.hasura-deploy-dir >>/Dockerfile
       - run:
-          name: docker build
-          working_directory: front
-          command: docker build -t zenika/zprofile-front .
-      - run:
-          name: docker push
-          working_directory: front
-          command: docker push zenika/zprofile-front
-  api-build-and-test:
-    executor: rust
+          name: Deploy Hasura
+          working_directory: << parameters.hasura-deploy-dir >>
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.hasura-clever-app-id >>
+            clever deploy --force
+  run-migrations:
+    docker:
+      - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
+    parameters:
+      hasura-admin-secret:
+        type: string
+      hasura-endpoint:
+        type: string
     steps:
       - checkout
-      - setup-rust-cache
-      - restore-rust-cache
       - run:
-          name: test
-          working_directory: api
-          command: cargo test
-      - save-rust-cache
-  api-docker-build-and-push:
-    executor: docker
+          name: Apply migrations
+          working_directory: hasura
+          command: hasura-cli migrate apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+      - run:
+          name: Apply metadata
+          working_directory: hasura
+          command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+  deploy:
+    executor: node
+    parameters:
+      graphql-url:
+        type: string
+      clever-app-id:
+        type: string
+      base-url:
+        type: string
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
       - run:
-          name: docker login
-          working_directory: front
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+          name: build
+          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
       - run:
-          name: docker build
-          working_directory: api
-          command: docker build -t zenika/zprofile-api .
+          name: Package
+          command: |
+            mkdir deploy
+            cp -r .next deploy
+            cp -r public deploy
+            cp package.json deploy
+            cp package-lock.json deploy
+            cp .env deploy
+            cp next.config.js deploy
       - run:
-          name: docker push
-          working_directory: api
-          command: docker push zenika/zprofile-api
-      
+          name: Deploy
+          working_directory: deploy
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.clever-app-id >>
+            clever deploy --force
 
 workflows:
   qc-test-deploy:
     jobs:
-      - hasura-test-apply-migrations
-      - front-install-dependencies
-      - front-qc-prettier:
+      # - hasura-test-apply-migrations
+      - install-dependencies
+      - qc-prettier:
           requires:
-            - front-install-dependencies
-      - front-build:
+            - install-dependencies
+      - unit-test:
           requires:
-            - front-install-dependencies
-      - front-unit-test:
+            - install-dependencies
+      # - cypress/install:
+      #     cache-key: >-
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      # - cypress/run:
+      #     name: chrome-cypress-run
+      #     requires:
+      #       - cypress/install
+      #     cache-key: >-
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #     start: npm run dev
+      #     wait-on: "http://localhost:3000"
+      #     executor: cypress/browsers-chrome78-ff70
+      #     browser: chrome
+      #     parallel: true
+      #     parallelism: 2
+      # - cypress/run:
+      #     name: firefox-cypress-run
+      #     requires:
+      #       - cypress/install
+      #     cache-key: >-
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #     start: npm run dev
+      #     wait-on: "http://localhost:3000"
+      #     executor: cypress/browsers-chrome78-ff70
+      #     browser: firefox
+      #     parallel: true
+      #     parallelism: 2
+      - build:
+          name: build-staging
           requires:
-            - front-install-dependencies
-      - cypress/install:
-          working_directory: front
-          cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-      - cypress/run:
-          name: chrome-cypress-run
+            - qc-prettier
+            - unit-test
+          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          base-url: $NEXT_STAGING_BASE_URL
+          filters: &deploy-staging-filters
+            branches:
+              only: master
+      - deploy-hasura:
+          name: deploy-hasura-staging
+          hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
           requires:
-            - cypress/install
-          cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-          working_directory: front
-          start: npm start
-          wait-on: 'http://localhost:1234'
-          executor: cypress/browsers-chrome78-ff70
-          browser: chrome
-          parallel: true
-          parallelism: 2
-      - cypress/run:
-          name: firefox-cypress-run
+            - build-staging
+            # - hasura-test-apply-migrations
+          context: clever-cloud2-zenika-dev
+          filters: *deploy-staging-filters
+      - run-migrations:
+          name: run-migrations-staging
+          hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
+          hasura-endpoint: $HASURA_ENDPOINT_STAGING
           requires:
-            - cypress/install
-          cache-key: >-
-            v1-packaging-front-dependencies-cypress-{{ checksum "front/package-lock.json" }}
-          working_directory: front
-          start: npm start
-          wait-on: 'http://localhost:1234'
-          executor: cypress/browsers-chrome78-ff70
-          browser: firefox
-          parallel: true
-          parallelism: 2
-      - front-docker-build-and-push:
+            - deploy-hasura-staging
+          filters: *deploy-staging-filters
+      - deploy:
+          name: deploy-staging
           requires:
-            - firefox-cypress-run
-            - chrome-cypress-run
-            - front-unit-test
-            - front-build
-            - front-qc-prettier
-          context: docker-hub-zenika
-      - api-build-and-test
-      - api-docker-build-and-push:
-          requires:
-            - api-build-and-test
-          context: docker-hub-zenika
+            - build-staging
+          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          base-url: $NEXT_STAGING_BASE_URL
+          clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
+          context: clever-cloud2-zenika-dev
+          filters: *deploy-staging-filters
