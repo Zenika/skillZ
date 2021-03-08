@@ -3,19 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useRouter } from "next/router";
 
-const SidePanel = ({ togglePanel }) => {
-  const {
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-    logout,
-  } = useAuth0();
+const SidePanel = () => {
+  const { error, user } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
-  const { push } = useRouter();
-  const [opened, setOpened] = useState(true);
 
   if (error) {
     console.error(
@@ -38,7 +29,7 @@ const SidePanel = ({ togglePanel }) => {
           <Link href="/profile">
             <div className="flex flex-row pl-4">
               <Image src="/icons/profile.svg" width="16" height="16" />
-              <p className="pl-4">Profile</p>
+              <p className="pl-4">{t("sidepanel.profile")}</p>
             </div>
           </Link>
         </li>
@@ -46,7 +37,7 @@ const SidePanel = ({ togglePanel }) => {
           <Link href="/preferences">
             <div className="flex flex-row pl-4">
               <Image src="/icons/preferences.svg" width="18" height="18" />
-              <p className="pl-4">Preferences</p>
+              <p className="pl-4">{t("sidepanel.preferences")}</p>
             </div>
           </Link>
         </li>
@@ -54,7 +45,7 @@ const SidePanel = ({ togglePanel }) => {
           <Link href="/logout">
             <div className="flex flex-row pl-4">
               <Image src="/icons/logout.svg" width="18" height="18" />
-              <p className="pl-4">Logout</p>
+              <p className="pl-4">{t("sidepanel.logout")}</p>
             </div>
           </Link>
         </li>

@@ -26,7 +26,7 @@ const PageWithNavAndPanel = ({ children, pathName }) => {
           panelOpened ? "w-3/4" : "w-0"
         } dark:bg-dark-panel duration-500`}
       >
-        <SidePanel togglePanel={togglePanel} />
+        <SidePanel />
       </div>
     </>
   );

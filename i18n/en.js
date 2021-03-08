@@ -6,6 +6,11 @@ export default {
     darkmode: "Dark",
     classic: "Classic",
   },
+  sidepanel: {
+    profile: "Profile",
+    preferences: "Preferences",
+    logout: "Logout"
+  },
   home: {
     addSkill: "Add skill",
     languagesAndFrameworks: "Languages & Frameworks",
