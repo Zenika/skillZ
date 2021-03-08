@@ -56,6 +56,7 @@ const Home = ({ pathName }) => {
   if (user) {
     const { data } = useQuery<UserData>(USER_QUERY, {
       variables: { email: user.email },
+      fetchPolicy: "network-only",
     });
     if (data?.User.length <= 0) {
       push("/onboarding");

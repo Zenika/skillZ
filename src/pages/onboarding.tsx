@@ -44,7 +44,7 @@ const Onboarding = () => {
   });
   return (
     <>
-      <Topbar />
+      <Topbar togglePanel={() => {}} />
       <div
         className="flex flex-auto flex-col justify-between p-4"
         {...swipeHandlers}

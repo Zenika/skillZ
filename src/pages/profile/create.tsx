@@ -108,7 +108,7 @@ const CreateProfile = () => {
   if (data && !isLoading && !loading) {
     return (
       <div className="flex flex-auto justify-around text-center flex-col">
-        <Topbar />
+        <Topbar togglePanel={() => {}} />
         <h1>{t("createProfile.title")}</h1>
         <h2>
           {!agency ? t("createProfile.agency") : t("createProfile.topics")}
