@@ -1,10 +1,9 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import HomePanel from "../components/HomePanel";
-import Topbar from "../components/Topbar";
-import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
+import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 
 type UserData = {
   User: {
@@ -68,16 +67,14 @@ const Home = ({ pathName }) => {
   }
 
   return (
-    <div>
-      <Topbar />
+    <PageWithNavAndPanel pathName={pathName}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         <HomePanel props={mockData["top-left"]} />
         <HomePanel props={mockData["top-right"]} />
         <HomePanel props={mockData["bot-left"]} />
         <HomePanel props={mockData["bot-right"]} />
       </div>
-      <Navbar path={pathName} />
-    </div>
+    </PageWithNavAndPanel>
   );
 };
 

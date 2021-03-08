@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import styles from "./Topbar.module.css";
 
-const Topbar = () => {
+const Topbar = ({ togglePanel }) => {
   const {
     isLoading,
     isAuthenticated,
@@ -16,12 +16,12 @@ const Topbar = () => {
   const { t, changeLocale } = useContext(i18nContext);
   const { push } = useRouter();
 
-  const onProfileClick = () => {
+  const onPictureClick = () => {
     if (!isAuthenticated) {
       loginWithRedirect();
       return;
     }
-    push("/profile");
+    togglePanel();
   };
 
   if (error) {
@@ -37,7 +37,7 @@ const Topbar = () => {
         sk<span className={styles.i}>i</span>ll
         <span className={`font-normal ${styles.zgradient}`}>Z</span>
       </h1>
-      <button onClick={() => onProfileClick()}>
+      <button onClick={() => onPictureClick()}>
         <img className="w-16 h-16 rounded-full" src={user?.picture || ""} />
       </button>
     </div>
