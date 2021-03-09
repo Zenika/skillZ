@@ -19,13 +19,13 @@ type SkillsData = {
     y: string;
     Skills: {
       name: string;
-      UserSkills :{
+      UserSkills: {
         level: number;
-      }
+      };
       TechnicalAppetites: {
         level: number;
-      }
-    }[]
+      };
+    }[];
   }[];
 };
 
@@ -39,7 +39,7 @@ const USER_QUERY = gql`
 
 const USER_SKILLS_QUERY = gql`
   query getSkillsAndTechnicalAppetites($email: String!) {
-    Category(order_by: {index: asc}) {
+    Category(order_by: { index: asc }) {
       label
       color
       x
@@ -75,20 +75,23 @@ const Home = ({ pathName }) => {
     variables: { email: user.email },
   });
 
-  const homePanelData = skillsData?.Category.map(data => ({
+  const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
     y: data.y,
     color: data.color,
     name: data.label,
-    data: data.Skills.map(skill => skill.name),
-    certifs: 0
-  }))
+    data: data.Skills.map((skill) => skill.name),
+    certifs: 0,
+  }));
 
   return (
     <PageWithNavAndPanel pathName={pathName}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         {homePanelData?.map((computedDataSkill) => (
-          <HomePanel props={computedDataSkill} />
+          <HomePanel
+            props={computedDataSkill}
+            key={`home-panel-${computedDataSkill.name}`}
+          />
         ))}
       </div>
     </PageWithNavAndPanel>
