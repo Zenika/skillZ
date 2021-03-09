@@ -11,6 +11,24 @@ type UserData = {
   }[];
 };
 
+type SkillsData = {
+  Category: {
+    label: string;
+    color: string;
+    x: string;
+    y: string;
+    Skills: {
+      name: string;
+      UserSkills :{
+        level: number;
+      }
+      TechnicalAppetites: {
+        level: number;
+      }
+    }[]
+  }[];
+};
+
 const USER_QUERY = gql`
   query queryUser($email: String!) {
     User(where: { email: { _eq: $email } }) {
@@ -19,61 +37,59 @@ const USER_QUERY = gql`
   }
 `;
 
-const mockData = {
-  "top-left": {
-    pos: ["top", "left"],
-    color: "yellow",
-    name: "languagesAndFrameworks",
-    data: ["Angular", "Javascript", "VueJS"],
-    certifs: 1,
-  },
-  "top-right": {
-    pos: ["top", "right"],
-    color: "violet",
-    name: "platforms",
-    data: ["Github", "K3s"],
-    certifs: 0,
-  },
-  "bot-left": {
-    pos: ["bot", "left"],
-    color: "blue",
-    name: "tools",
-    data: ["Chrome Dev Tools"],
-    certifs: 0,
-  },
-  "bot-right": {
-    pos: ["bot", "right"],
-    color: "cyan",
-    name: "methods",
-    data: [],
-    certifs: 0,
-  },
-};
+const USER_SKILLS_QUERY = gql`
+  query getSkillsAndTechnicalAppetites($email: String!) {
+    Category(order_by: {index: asc}) {
+      label
+      color
+      x
+      y
+      Skills(where: { UserSkills: { userEmail: { _eq: $email } } }) {
+        name
+        UserSkills {
+          level
+        }
+        TechnicalAppetites {
+          level
+        }
+      }
+    }
+  }
+`;
 
 const Home = ({ pathName }) => {
   const { push } = useRouter();
   const { user, isLoading } = useAuth0();
-  if (user) {
-    const { data } = useQuery<UserData>(USER_QUERY, {
-      variables: { email: user.email },
-      fetchPolicy: "network-only",
-    });
-    if (data?.User.length <= 0) {
-      push("/onboarding");
-    }
-  }
-
-  if (isLoading) {
+  if (!user || isLoading) {
     return <Loading />;
   }
+  const { data: userData } = useQuery<UserData>(USER_QUERY, {
+    variables: { email: user.email },
+    fetchPolicy: "network-only",
+  });
+  if (userData?.User.length <= 0) {
+    push("/onboarding");
+  }
+
+  const { data: skillsData } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
+    variables: { email: user.email },
+  });
+
+  const homePanelData = skillsData?.Category.map(data => ({
+    x: data.x,
+    y: data.y,
+    color: data.color,
+    name: data.label,
+    data: data.Skills.map(skill => skill.name),
+    certifs: 0
+  }))
 
   return (
     <PageWithNavAndPanel pathName={pathName}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-        <HomePanel props={mockData["top-left"]} />
-        <HomePanel props={mockData["top-right"]} />
-        <HomePanel props={mockData["bot-left"]} />
-        <HomePanel props={mockData["bot-right"]} />
+        {homePanelData?.map((computedDataSkill) => (
+          <HomePanel props={computedDataSkill} />
+        ))}
       </div>
     </PageWithNavAndPanel>
   );

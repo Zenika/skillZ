@@ -5,7 +5,8 @@ import styles from "./HomePanel.module.css";
 
 type HomePanelProps = {
   props: {
-    pos: string[];
+    x: string;
+    y: string;
     color: string;
     name: string;
     data: string[];
@@ -14,10 +15,9 @@ type HomePanelProps = {
 };
 
 const HomePanel = ({
-  props: { pos, color, name, data, certifs },
+  props: { x, y, color, name, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
-  const [y, x] = pos;
   return (
     <div
       className={`flex flex-auto flex-col dark:bg-dark-panel rounded-${

@@ -13,10 +13,10 @@ export default {
   },
   home: {
     addSkill: "Ajouter une compétence",
-    languagesAndFrameworks: "Langages & Frameworks",
+    "languages-and-frameworks": "Langages & Frameworks",
     platforms: "Platformes",
     tools: "Outils",
-    methods: "Techniques & Méthodes",
+    "technics-and-methods": "Techniques & Méthodes",
   },
   onboarding: {
     skip: "Passer",

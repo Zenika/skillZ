@@ -13,10 +13,10 @@ export default {
   },
   home: {
     addSkill: "Add skill",
-    languagesAndFrameworks: "Languages & Frameworks",
+    "languages-and-frameworks": "Languages & Frameworks",
     platforms: "Platforms",
     tools: "Tools",
-    methods: "Technics & Methods",
+    "technics-and-methods": "Technics & Methods",
   },
   onboarding: {
     skip: "Skip",

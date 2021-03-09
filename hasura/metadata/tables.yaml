@@ -31,8 +31,12 @@
   - role: world
     permission:
       columns:
+      - color
       - id
+      - index
       - label
+      - x
+      - "y"
       filter: {}
       allow_aggregations: true
 - table:
@@ -79,6 +83,16 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - userEmail
+      - skillId
+      - created_at
+      - level
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: Topic
