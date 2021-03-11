@@ -15,7 +15,7 @@ const AddSkill = () => {
         <Link href="/">
           <Image src="/icons/back-arrow.svg" width="16" height="16" />
         </Link>
-        <h1 className="ml-10">{t(`home.${category}`)}</h1>
+        <h1 className="ml-10 text-xl">{t(`home.${category}`)}</h1>
       </div>
       <div className="flex flex-col h-screen p-4">
         <div className="flex flex-row justify-around px-2 py-1">
