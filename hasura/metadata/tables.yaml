@@ -83,6 +83,18 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - created_at
+      - level
+      - skillId
+      - userEmail
+      backend_only: false
   select_permissions:
   - role: world
     permission:
@@ -226,6 +238,7 @@
         userEmail:
           _eq: x-hasura-user-email
       columns:
+      - created_at
       - level
       - skillId
       - userEmail

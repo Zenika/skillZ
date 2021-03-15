@@ -9,7 +9,7 @@ export default {
   sidepanel: {
     profile: "Profile",
     preferences: "Preferences",
-    logout: "Logout"
+    logout: "Logout",
   },
   home: {
     addSkill: "Add skill",
@@ -46,5 +46,19 @@ export default {
     topics:
       "What topic are you interested in ? Don't worry you can change it later",
     submit: "Submit",
+  },
+  skillLevels: {
+    1: "I just got started",
+    2: "I rarely practice",
+    3: "I practice from time to time",
+    4: "I practice daily",
+    5: "I'm the best",
+  },
+  desireLevels: {
+    1: "I have no interest in it",
+    2: "I have a slight interest in it",
+    3: "I'm starting to believe",
+    4: "I love it",
+    5: "I want to teach it",
   },
 };

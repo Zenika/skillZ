@@ -1,7 +1,19 @@
 import React from "react";
-import { Skill } from "../pages/skills/[context]/[category]/add";
 
-const AddSkillListSelector = ({ skills }: { skills: Skill[] }) => {
+export type Skill = {
+  id: string;
+  name: string;
+  level?: number;
+  desire?: number;
+};
+
+const AddSkillListSelector = ({
+  skills,
+  action,
+}: {
+  skills: Skill[];
+  action: (skill: Skill) => void;
+}) => {
   return (
     <div className="flex flex-col my-4">
       {skills && skills.length > 0 ? (
@@ -11,7 +23,10 @@ const AddSkillListSelector = ({ skills }: { skills: Skill[] }) => {
             className="flex flex-row justify-between dark:bg-dark-light p-4 my-2 rounded-lg"
           >
             <span className="text-l">{skill.name}</span>
-            <button className="rounded-full border px-2 dark:text-dark-red">
+            <button
+              onClick={() => action(skill)}
+              className="rounded-full border px-2 dark:text-dark-red"
+            >
               ADD
             </button>
           </div>
