@@ -28,7 +28,7 @@ const HomePanel = ({
       >
         {data.length > 0 ? (
           <div
-            className={`flex flex-auto justify-around py-4 text-4xl ${
+            className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
               y === "bot" ? "order-11" : "order-1"
             }`}
           >
@@ -47,16 +47,16 @@ const HomePanel = ({
           </div>
         ) : (
           <div
-            className={`flex flex-auto flex-row justify-center py-4 ${
+            className={`flex flex-auto flex-row justify-center py-4 h-1/3 ${
               y === "bot" ? "order-11" : "order-1"
             }`}
           >
-            <Image src="/icons/add-skill.svg" width="100" height="100" />
+            <Image src="/icons/add-skill.svg" width="48" height="48" />
           </div>
         )}
         {data.length > 0 ? (
           <div
-            className={`flex flex-auto flex-col justify-around py-4 order-6`}
+            className={`flex flex-auto flex-col justify-around py-4 order-6 h-1/3`}
           >
             {[0, 1, 2].map((i) => (
               <div key={i} className="flex flex-auto flex-row justify-between">
@@ -74,22 +74,22 @@ const HomePanel = ({
             ))}
           </div>
         ) : (
-          <div className="flex flex-auto flex-row justify-center py-4 order-6">
+          <div className="flex flex-auto flex-row justify-center py-4 order-6 h-1/3">
             <p className="text-center">{t("home.addSkill")}</p>
           </div>
         )}
         <div
           className={`flex flex-auto justify-${
             x === "left" ? "end" : "start"
-          } flex-row py-4 px-1 ${y === "bot" ? "order-1" : "order-12"}`}
+          } flex-row py-4 px-1 h-1/3 ${y === "bot" ? "order-1" : "order-12"}`}
         >
-          <div
-            className={`text-xl px-2 text-${
+          <span
+            className={`text-xl px-2 w-full text-${
               x === "left" ? "right" : "left"
             } text-dark-${color}`}
           >
-            {t(`home.${name}`)}
-          </div>
+              {t(`home.${name}`)}
+          </span>
         </div>
         <div
           className={`gradient-${color} ${

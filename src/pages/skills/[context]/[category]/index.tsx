@@ -1,72 +1,79 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { i18nContext } from "../../../../utils/i18nContext";
-import Link from "next/link";
 import SkillPanel from "../../../../components/SkillPanel";
+import PageWithSkillList from "../../../../components/PageWithSkillList";
+import { gql } from "graphql-tag";
+import { useQuery } from "@apollo/client";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import Loading from "../../../../components/Loading";
 
-const skills = [
-  {
-    name: "React",
-    level: 4,
-    desire: 5,
-    certif: true,
-  },
-  {
-    name: "VueJS",
-    level: 3,
-    desire: 4,
-    certif: false,
-  },
-  {
-    name: "Rust",
-    level: 2,
-    desire: 4,
-    certif: false,
-  },
-];
+type Skill = {
+  name: string;
+  UserSkills: {
+    level: number;
+  }[];
+  TechnicalAppetites: {
+    level: number;
+  }[];
+};
+
+const SKILLS_AND_APPETITE_QUERY = gql`
+  query getSkillsAndTechnicalAppetitesByCategory(
+    $email: String!
+    $category: String!
+  ) {
+    Skill(
+      where: {
+        UserSkills: { userEmail: { _eq: $email } }
+        _and: { Category: { label: { _eq: $category } } }
+      }
+    ) {
+      name
+      UserSkills(order_by: { created_at: desc }, limit: 1) {
+        level
+      }
+      TechnicalAppetites(order_by: { created_at: desc }, limit: 1) {
+        level
+      }
+    }
+  }
+`;
 
 const ListSkills = () => {
   const router = useRouter();
+  const { user, isLoading } = useAuth0();
   const { t } = useContext(i18nContext);
   const { context, category } = router.query;
 
+  const { data: skills } = useQuery<{ Skill: Skill[] }>(
+    SKILLS_AND_APPETITE_QUERY,
+    {
+      variables: { email: user.email, category },
+    }
+  );
+  if (isLoading || !skills) {
+    return <Loading />;
+  }
+  console.log(skills);
+
   return (
-    <div className="flex flex-col dark:bg-dark-med">
-      <div className="flex flex-row p-6 dark:bg-dark-dark">
-        <Link href="/">
-          <Image src="/icons/back-arrow.svg" width="16" height="16" />
-        </Link>
-        <h1 className="ml-10 text-xl">{t(`home.${category}`)}</h1>
-      </div>
-      <div className="flex flex-col h-screen p-4">
-        <div className="flex flex-row justify-around px-2 py-1">
-          <Link href={`/skills/${context}/${category}`}>
-            <button className="gradient-red flex-grow-0 rounded-full py-4 px-8">
-              MY SKILLS
-            </button>
-          </Link>
-          <Link href={`/skills/${context}/${category}/add`}>
-            <button className="dark:bg-dark-light flex-grow-0 rounded-full py-4 px-8">
-              ADD SKILL
-            </button>
-          </Link>
-        </div>
-        <div className="flex flex-col mt-6">
-          {skills.map((item) => {
-            return (
-              <SkillPanel
-                name={item.name}
-                level={item.level}
-                desire={item.desire}
-                certif={item.certif}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </div>
+    <PageWithSkillList context={context} category={category} add={false}>
+      {skills.Skill.length > 0 ? (
+        skills.Skill.map((item) => (
+          <SkillPanel
+            key={item.name}
+            name={item.name}
+            level={item.UserSkills[0]?.level}
+            desire={item.TechnicalAppetites[0]?.level}
+            certif={false}
+          />
+        ))
+      ) : (
+        <p>No skill added yet</p>
+      )}
+    </PageWithSkillList>
   );
 };
 
-export default ListSkills;
+export default withAuthenticationRequired(ListSkills);
