@@ -38,7 +38,7 @@ const USER_QUERY = gql`
 `;
 
 const USER_SKILLS_QUERY = gql`
-  query getSkillsAndTechnicalAppetites($email: String!) {
+  query getUserSkillsAndTechnicalAppetites($email: String!) {
     Category(order_by: { index: asc }) {
       label
       color

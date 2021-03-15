@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { i18nContext } from "../../../../utils/i18nContext";
 import SkillPanel from "../../../../components/SkillPanel";
@@ -55,7 +55,6 @@ const ListSkills = () => {
   if (isLoading || !skills) {
     return <Loading />;
   }
-  console.log(skills);
 
   return (
     <PageWithSkillList context={context} category={category} add={false}>

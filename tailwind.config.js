@@ -15,7 +15,11 @@ module.exports = {
         violet: "#D264EC",
         cyan: "#00E3EC",
         blue: "#52B9FF",
+        red: "#bf1d67",
       },
+    },
+    backgroundPosition: {
+      search: "right 10% bottom 50%",
     },
   },
   variants: {

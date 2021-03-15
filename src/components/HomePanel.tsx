@@ -20,7 +20,7 @@ const HomePanel = ({
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   return (
-    <Link href={`/skills/mine/${name}`}>
+    <Link href={`/skills/mine/${name}${data.length <= 0 ? "/add" : ""}`}>
       <div
         className={`flex flex-auto flex-col dark:bg-dark-panel rounded-${
           y === "top" ? "t" : "b"
@@ -88,7 +88,7 @@ const HomePanel = ({
               x === "left" ? "right" : "left"
             } text-dark-${color}`}
           >
-              {t(`home.${name}`)}
+            {t(`home.${name}`)}
           </span>
         </div>
         <div
