@@ -77,7 +77,10 @@ const AddSkill = () => {
     undefined
   );
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const [addSkill, { data }] = useMutation(ADD_SKILL_MUTATION);
+  const [
+    addSkill,
+    { error: mutationError, loading: mutationLoading, called: mutationCalled },
+  ] = useMutation(ADD_SKILL_MUTATION);
   const preAddAction = (skill: Skill) => {
     setSelectedSkill(skill);
     setModaleOpened(true);
@@ -85,6 +88,7 @@ const AddSkill = () => {
 
   const addAction = ({ id, name, level, desire }) => {
     setModaleOpened(false);
+    setSelectedSkill(undefined);
     addSkill({
       variables: {
         skillId: id,
@@ -95,9 +99,19 @@ const AddSkill = () => {
     });
   };
 
-  const { data: skillsData } = useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
-    variables: { category, search: `%${debouncedSearchValue}%` },
-  });
+  const { data: skillsData, refetch } = useQuery<SkillSearchResult>(
+    SKILL_SEARCH_QUERY,
+    {
+      variables: { category, search: `%${debouncedSearchValue}%` },
+    }
+  );
+
+  if (mutationCalled && !mutationLoading && !mutationError) {
+    refetch({ category, search: `%${debouncedSearchValue}%` })
+  }
+  if (mutationError) {
+    console.error("Error adding skill", mutationError);
+  }
 
   return (
     <PageWithSkillList

@@ -105,6 +105,18 @@
       - level
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - level
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
 - table:
     schema: public
     name: Topic
@@ -253,6 +265,16 @@
       - created_at
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - level
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check: {}
 - table:
     schema: public
     name: UserTopic

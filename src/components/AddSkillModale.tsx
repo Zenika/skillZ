@@ -12,8 +12,8 @@ type AddSkillModaleProps = {
 const AddSkillModale = ({ skill, cancel, callback }: AddSkillModaleProps) => {
   const { t } = useContext(i18nContext);
   const [navState, setNavState] = useState("knowledge");
-  const [skillLevel, setSkillLevel] = useState(skill?.level || 1);
-  const [desireLevel, setDesireLevel] = useState(skill?.desire || 1);
+  const [skillLevel, setSkillLevel] = useState(skill?.level || 0);
+  const [desireLevel, setDesireLevel] = useState(skill?.desire || 0);
 
   const onAddButtonClick = () => {
     callback({ ...skill, level: skillLevel, desire: desireLevel });
@@ -98,6 +98,7 @@ const AddSkillModale = ({ skill, cancel, callback }: AddSkillModaleProps) => {
           CANCEL
         </button>
         <button
+        disabled={skillLevel === 0 || desireLevel === 0}
           onClick={() => onAddButtonClick()}
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
         >
