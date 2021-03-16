@@ -13,10 +13,10 @@ export default {
   },
   home: {
     addSkill: "Ajouter une compétence",
-    languagesAndFrameworks: "Langages & Frameworks",
+    "languages-and-frameworks": "Langages & Frameworks",
     platforms: "Platformes",
     tools: "Outils",
-    methods: "Techniques & Méthodes",
+    "technics-and-methods": "Techniques & Méthodes",
   },
   onboarding: {
     skip: "Passer",
@@ -47,5 +47,37 @@ export default {
     topics:
       "Quels sujets vous intéressent ? Ne vous en faites pas vous pouvez modifier vos choix plus tard",
     submit: "Envoyer",
+  },
+  skillLevels: {
+    1: "Je viens de découvrir",
+    2: "Je ne pratique jamais",
+    3: "Je l'utilise rarement",
+    4: "Je l'utilise tous les jours",
+    5: "Je suis le meilleur",
+  },
+  desireLevels: {
+    1: "Je ne suis pas intéressé",
+    2: "Ça m'intéresse un peu",
+    3: "Ça m'intéresse beaucoup",
+    4: "J'adore",
+    5: "Je veux maitriser et former",
+  },
+  skills: {
+    noSkillAddedYet: "Vous n'avez pas encore ajouté de compétence",
+    editSkill: "Modifier cette compétence",
+    cancelAction: "Annuler l'action",
+    mySkills: "COMPÉTENCES",
+    addSkill: "AJOUTER",
+    add: "AJOUTER",
+    desireLevel: "Appétence",
+    skillLevel: "Compétence",
+    searchPlaceholder: "Rechercher une compétence",
+    noSkillYet: "Il n'y a pas encore de compétence dans cette catégorie",
+    modale: {
+      knowledge: "Connaissance",
+      desire: "Appétence",
+      cancel: "ANNULER",
+      addSkill: "AJOUTER"
+    },
   },
 };

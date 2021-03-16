@@ -18,8 +18,34 @@
       allow_aggregations: true
 - table:
     schema: public
+    name: Category
+  array_relationships:
+  - name: Skills
+    using:
+      foreign_key_constraint_on:
+        column: categoryId
+        table:
+          schema: public
+          name: Skill
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - color
+      - id
+      - index
+      - label
+      - x
+      - "y"
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
     name: Skill
   object_relationships:
+  - name: Category
+    using:
+      foreign_key_constraint_on: categoryId
   - name: Topic
     using:
       foreign_key_constraint_on: topicId
@@ -57,6 +83,42 @@
   - name: User
     using:
       foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - created_at
+      - level
+      - skillId
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - userEmail
+      - skillId
+      - created_at
+      - level
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - level
+      - skillId
+      - userEmail
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
 - table:
     schema: public
     name: Topic
@@ -190,6 +252,7 @@
         userEmail:
           _eq: x-hasura-user-email
       columns:
+      - created_at
       - level
       - skillId
       - userEmail
@@ -204,6 +267,18 @@
       - created_at
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - level
+      - skillId
+      - userEmail
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check: {}
 - table:
     schema: public
     name: UserTopic
@@ -233,6 +308,18 @@
       - userEmail
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - topicId
+      - userEmail
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
   delete_permissions:
   - role: world
     permission:

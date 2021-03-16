@@ -9,14 +9,14 @@ export default {
   sidepanel: {
     profile: "Profile",
     preferences: "Preferences",
-    logout: "Logout"
+    logout: "Logout",
   },
   home: {
     addSkill: "Add skill",
-    languagesAndFrameworks: "Languages & Frameworks",
+    "languages-and-frameworks": "Languages & Frameworks",
     platforms: "Platforms",
     tools: "Tools",
-    methods: "Technics & Methods",
+    "technics-and-methods": "Technics & Methods",
   },
   onboarding: {
     skip: "Skip",
@@ -46,5 +46,37 @@ export default {
     topics:
       "What topic are you interested in ? Don't worry you can change it later",
     submit: "Submit",
+  },
+  skillLevels: {
+    1: "I just got started",
+    2: "I rarely practice",
+    3: "I practice from time to time",
+    4: "I practice daily",
+    5: "I'm the best",
+  },
+  desireLevels: {
+    1: "I have no interest in it",
+    2: "I have a slight interest in it",
+    3: "I'm starting to believe",
+    4: "I love it",
+    5: "I want to teach it",
+  },
+  skills: {
+    noSkillAddedYet: "No skill added yet",
+    editSkill: "Edit this skill",
+    cancelAction: "Cancel action",
+    mySkills: "MY SKILLS",
+    addSkill: "ADD SKILL",
+    add: "ADD",
+    desireLevel: "Desire level",
+    skillLevel: "Skill level",
+    searchPlaceholder: "Search for a skill",
+    noSkillYet: "There is no skill in this category yet",
+    modale: {
+      knowledge: "Knowledge",
+      desire: "Desire",
+      cancel: "CANCEL",
+      addSkill: "ADD SKILL"
+    },
   },
 };
