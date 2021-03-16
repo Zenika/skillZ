@@ -98,7 +98,7 @@ const AddSkillModale = ({ skill, cancel, callback }: AddSkillModaleProps) => {
           CANCEL
         </button>
         <button
-        disabled={skillLevel === 0 || desireLevel === 0}
+          disabled={skillLevel === 0 || desireLevel === 0}
           onClick={() => onAddButtonClick()}
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
         >

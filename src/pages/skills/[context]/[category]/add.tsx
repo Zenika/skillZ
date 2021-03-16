@@ -107,7 +107,7 @@ const AddSkill = () => {
   );
 
   if (mutationCalled && !mutationLoading && !mutationError) {
-    refetch({ category, search: `%${debouncedSearchValue}%` })
+    refetch({ category, search: `%${debouncedSearchValue}%` });
   }
   if (mutationError) {
     console.error("Error adding skill", mutationError);
