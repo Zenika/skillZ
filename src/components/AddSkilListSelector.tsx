@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
 
 export type Skill = {
   id: string;
@@ -14,6 +15,7 @@ const AddSkillListSelector = ({
   skills: Skill[];
   action: (skill: Skill) => void;
 }) => {
+  const { t } = useContext(i18nContext);
   return (
     <div className="flex flex-col my-4">
       {skills && skills.length > 0 ? (
@@ -27,12 +29,12 @@ const AddSkillListSelector = ({
               onClick={() => action(skill)}
               className="rounded-full border px-2 dark:text-dark-red"
             >
-              ADD
+              {t("skills.add")}
             </button>
           </div>
         ))
       ) : (
-        <div>There is no skill in this category yet</div>
+        <div>{t("skills.noSkillYet")}</div>
       )}
     </div>
   );

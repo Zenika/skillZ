@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";
+import { i18nContext } from "../utils/i18nContext";
 
 const SkillPanel = ({
   skill,
@@ -10,6 +11,7 @@ const SkillPanel = ({
   skill: Skill;
   onEditClick: (skill: Skill) => void;
 }) => {
+  const { t } = useContext(i18nContext);
   const { id, name, level, desire, certif } = skill;
   return (
     <div className="flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg">
@@ -26,11 +28,13 @@ const SkillPanel = ({
         </div>
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
-            <p className="text-xs text-center my-2">Desire level</p>
+            <p className="text-xs text-center my-2">
+              {t("skills.desireLevel")}
+            </p>
             <LevelBar color="red" level={desire} />
           </div>
           <div className="flex flex-col">
-            <p className="text-xs text-center my-2">Skill level</p>
+            <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
             <LevelBar color="yellow" level={level} />
           </div>
         </div>

@@ -160,7 +160,7 @@ const ListSkills = () => {
               />
             ))
           ) : (
-            <p>No skill added yet</p>
+            <p>{t("skills.noSkillAddedYet")}</p>
           )}
         </div>
         <div
@@ -176,14 +176,14 @@ const ListSkills = () => {
                 onClick={() => openModale()}
               >
                 <Image src="/icons/preferences.svg" width="24" height="24" />
-                <span className="px-2">Edit this skill</span>
+                <span className="px-2">{t("skills.editSkill")}</span>
               </button>
               <button
                 className="flex flex-row flex-start p-1 my-2"
                 onClick={() => onEditCancel()}
               >
                 <Image src="/icons/back-arrow.svg" width="16" height="16" />
-                <span className="px-4">Cancel action</span>
+                <span className="px-4">{t("skills.cancelAction")}</span>
               </button>
             </div>
           </div>

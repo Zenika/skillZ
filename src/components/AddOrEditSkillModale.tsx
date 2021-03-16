@@ -33,7 +33,7 @@ const AddOrEditSkillModale = ({
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
             <button className="p-2" onClick={() => setNavState("knowledge")}>
-              Knowledge
+              {t("skills.modale.knowledge")}
             </button>
             <span
               className={`h-1 rounded-full ${
@@ -43,7 +43,7 @@ const AddOrEditSkillModale = ({
           </div>
           <div className="flex flex-col">
             <button className="p-2" onClick={() => setNavState("desire")}>
-              Desire
+              {t("skills.modale.desire")}
             </button>
             <span
               className={`h-1 rounded-full ${
@@ -102,14 +102,14 @@ const AddOrEditSkillModale = ({
           onClick={() => cancel()}
           className="mx-1 px-5 py-2 dark:bg-dark-graybutton rounded-full"
         >
-          CANCEL
+          {t("skills.modale.cancel")}
         </button>
         <button
           disabled={skillLevel === 0 || desireLevel === 0}
           onClick={() => onAddButtonClick()}
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
         >
-          ADD SKILL
+          {t("skills.modale.addSkill")}
         </button>
       </div>
     </div>

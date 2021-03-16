@@ -61,4 +61,22 @@ export default {
     4: "I love it",
     5: "I want to teach it",
   },
+  skills: {
+    noSkillAddedYet: "No skill added yet",
+    editSkill: "Edit this skill",
+    cancelAction: "Cancel action",
+    mySkills: "MY SKILLS",
+    addSkill: "ADD SKILL",
+    add: "ADD",
+    desireLevel: "Desire level",
+    skillLevel: "Skill level",
+    searchPlaceholder: "Search for a skill",
+    noSkillYet: "There is no skill in this category yet",
+    modale: {
+      knowledge: "Knowledge",
+      desire: "Desire",
+      cancel: "CANCEL",
+      addSkill: "ADD SKILL"
+    },
+  },
 };

@@ -45,7 +45,7 @@ const PageWithSkillList = ({
                 add ? `dark:bg-dark-light` : `gradient-red`
               } flex-grow-0 rounded-full py-4 px-8`}
             >
-              MY SKILLS
+              {t("skills.mySkills")}
             </button>
           </Link>
           <Link href={`/skills/${context}/${category}/add`}>
@@ -54,7 +54,7 @@ const PageWithSkillList = ({
                 add ? `gradient-red` : `dark:bg-dark-light`
               } flex-grow-0 rounded-full py-4 px-8`}
             >
-              ADD SKILL
+              {t("skills.addSkill")}
             </button>
           </Link>
         </div>
