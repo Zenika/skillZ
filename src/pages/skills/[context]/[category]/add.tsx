@@ -12,6 +12,11 @@ import AddSkillModale from "../../../../components/AddSkillModale";
 type Skill = {
   id: string;
   name: string;
+  UserSkills_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
 
 type SkillSearchResult = {
@@ -28,6 +33,11 @@ const SKILL_SEARCH_QUERY = gql`
     ) {
       name
       id
+      UserSkills_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `;
@@ -116,7 +126,9 @@ const AddSkill = () => {
           <SearchBar setSearch={setSearch} />
           <AddSkillListSelector
             action={preAddAction}
-            skills={skillsData?.Skill}
+            skills={skillsData?.Skill.filter(
+              (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+            )}
           />
         </div>
       </div>
