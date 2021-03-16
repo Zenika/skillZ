@@ -1,18 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
+import { Skill } from "../pages/skills/[context]/[category]";
 
 const SkillPanel = ({
-  name,
-  level,
-  desire,
-  certif,
+  skill,
+  onEditClick,
 }: {
-  name: string;
-  level: number;
-  desire: number;
-  certif: boolean;
+  skill: Skill;
+  onEditClick: (skill: Skill) => void;
 }) => {
+  const { id, name, level, desire, certif } = skill;
   return (
     <div className="flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg">
       <div className="flex flex-col w-5/6">
@@ -37,7 +35,10 @@ const SkillPanel = ({
           </div>
         </div>
       </div>
-      <div className="flex w-1/6 justify-end">
+      <div
+        className="flex w-1/6 justify-end"
+        onClick={() => onEditClick(skill)}
+      >
         <Image src="/icons/more.svg" width="24" height="24" />
       </div>
     </div>

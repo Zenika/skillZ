@@ -3,17 +3,24 @@ import React, { useContext, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
 import { Skill } from "./AddSkilListSelector";
 
-type AddSkillModaleProps = {
+type AddOrEditSkillModaleProps = {
   skill?: Skill;
   cancel: () => void;
   callback: (skill: Skill) => void;
 };
 
-const AddSkillModale = ({ skill, cancel, callback }: AddSkillModaleProps) => {
+const AddOrEditSkillModale = ({
+  skill,
+  cancel,
+  callback,
+}: AddOrEditSkillModaleProps) => {
   const { t } = useContext(i18nContext);
   const [navState, setNavState] = useState("knowledge");
   const [skillLevel, setSkillLevel] = useState(skill?.level || 0);
   const [desireLevel, setDesireLevel] = useState(skill?.desire || 0);
+  console.log("skill", skill);
+  console.log("skill", skillLevel);
+  console.log("desire", desireLevel);
 
   const onAddButtonClick = () => {
     callback({ ...skill, level: skillLevel, desire: desireLevel });
@@ -109,4 +116,4 @@ const AddSkillModale = ({ skill, cancel, callback }: AddSkillModaleProps) => {
   );
 };
 
-export default AddSkillModale;
+export default AddOrEditSkillModale;

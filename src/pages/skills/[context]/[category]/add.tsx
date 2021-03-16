@@ -7,7 +7,7 @@ import SearchBar from "../../../../components/SearchBar";
 import AddSkillListSelector from "../../../../components/AddSkilListSelector";
 import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
-import AddSkillModale from "../../../../components/AddSkillModale";
+import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 
 type Skill = {
   id: string;
@@ -51,16 +51,13 @@ const ADD_SKILL_MUTATION = gql`
   ) {
     insert_UserSkill(
       objects: { skillId: $skillId, level: $level, userEmail: $email }
-      on_conflict: { constraint: UserSkill_pkey, update_columns: created_at }
+      on_conflict: { constraint: UserSkill_pkey, update_columns: level }
     ) {
       affected_rows
     }
     insert_TechnicalAppetite(
       objects: { skillId: $skillId, level: $desire, userEmail: $email }
-      on_conflict: {
-        constraint: TechnicalAppetite_pkey
-        update_columns: created_at
-      }
+      on_conflict: { constraint: TechnicalAppetite_pkey, update_columns: level }
     ) {
       affected_rows
     }
@@ -126,7 +123,7 @@ const AddSkill = () => {
             modaleOpened ? "" : "hidden"
           }`}
         >
-          <AddSkillModale
+          <AddOrEditSkillModale
             skill={selectedSkill}
             cancel={() => setModaleOpened(false)}
             callback={addAction}

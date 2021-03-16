@@ -111,6 +111,8 @@
       columns:
       - created_at
       - level
+      - skillId
+      - userEmail
       filter:
         userEmail:
           _eq: x-hasura-user-email
@@ -271,6 +273,8 @@
       columns:
       - created_at
       - level
+      - skillId
+      - userEmail
       filter:
         userEmail:
           _eq: x-hasura-user-email
