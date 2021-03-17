@@ -63,9 +63,7 @@ const USER_SKILLS_QUERY = gql`
 const Home = ({ pathName }) => {
   const { push } = useRouter();
   const { user, isLoading } = useAuth0();
-  if (!user || isLoading) {
-    return <Loading />;
-  }
+
   const { data: userData } = useQuery<UserData>(USER_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "network-only",
@@ -98,12 +96,10 @@ const Home = ({ pathName }) => {
               key={`home-panel-${computedDataSkill.name}`}
             />
           ))
+        ) : error ? (
+          <p>{`Error: ${error.name}, Message: ${error.message}`}</p>
         ) : (
-          <p>
-            {error
-              ? `Error: ${error.name}, Message: ${error.message}`
-              : "Error: Failed to contact database"}
-          </p>
+          <Loading />
         )}
       </div>
     </PageWithNavAndPanel>
