@@ -44,7 +44,10 @@ const USER_SKILLS_QUERY = gql`
       color
       x
       y
-      Skills(where: { UserSkills: { userEmail: { _eq: $email } } }) {
+      Skills(
+        where: { UserSkills: { userEmail: { _eq: $email } } }
+        order_by: { UserSkills_aggregate: { max: { level: desc } } }
+      ) {
         name
         UserSkills {
           level
@@ -73,6 +76,7 @@ const Home = ({ pathName }) => {
 
   const { data: skillsData } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
     variables: { email: user.email },
+    fetchPolicy: "cache-and-network",
   });
 
   const homePanelData = skillsData?.Category.map((data) => ({

@@ -18,9 +18,6 @@ const AddOrEditSkillModale = ({
   const [navState, setNavState] = useState("knowledge");
   const [skillLevel, setSkillLevel] = useState(skill?.level || 0);
   const [desireLevel, setDesireLevel] = useState(skill?.desire || 0);
-  console.log("skill", skill);
-  console.log("skill", skillLevel);
-  console.log("desire", desireLevel);
 
   const onAddButtonClick = () => {
     callback({ ...skill, level: skillLevel, desire: desireLevel });

@@ -61,6 +61,10 @@ const SKILLS_AND_APPETITE_QUERY = gql`
         UserSkills: { userEmail: { _eq: $email } }
         _and: { Category: { label: { _eq: $category } } }
       }
+      order_by: {
+        UserSkills_aggregate: { min: { level: desc } }
+        TechnicalAppetites_aggregate: { max: { level: desc } }
+      }
     ) {
       id
       name
@@ -101,7 +105,6 @@ const ListSkills = () => {
   const openModale = () => {
     setModaleOpened(true);
     setEditPanelOpened(false);
-    console.log("selectedSkil", selectedSkill);
   };
 
   const editAction = ({ id, name, level, desire }) => {
@@ -121,6 +124,7 @@ const ListSkills = () => {
     SKILLS_AND_APPETITE_QUERY,
     {
       variables: { email: user.email, category },
+      fetchPolicy: "cache-and-network",
     }
   );
   if (mutationCalled && !mutationLoading && !mutationError) {
@@ -138,11 +142,13 @@ const ListSkills = () => {
       context={context}
       category={category}
       add={false}
-      faded={editPanelOpened}
+      faded={editPanelOpened || modaleOpened}
     >
       <div>
         <div
-          className={`z-10 h-screen ${editPanelOpened ? "opacity-25" : ""}`}
+          className={`z-10 h-screen ${
+            editPanelOpened || modaleOpened ? "opacity-25" : ""
+          }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
           {skills.Skill.length > 0 ? (
@@ -164,7 +170,7 @@ const ListSkills = () => {
           )}
         </div>
         <div
-          className={`absolute inset-x-0 duration-500 z-20 bottom-0 h-${
+          className={`fixed inset-x-0 duration-500 z-20 bottom-0 h-${
             editPanelOpened ? "2/6" : "0"
           } w-8/10 dark:bg-dark-light mx-2 rounded`}
         >

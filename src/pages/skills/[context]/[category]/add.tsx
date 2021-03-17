@@ -77,7 +77,11 @@ const AddSkill = () => {
   const [
     addSkill,
     { error: mutationError, loading: mutationLoading, called: mutationCalled },
-  ] = useMutation(ADD_SKILL_MUTATION);
+  ] = useMutation(ADD_SKILL_MUTATION, {
+    onCompleted: (_) => {
+      setSelectedSkill(undefined);
+    },
+  });
   const preAddAction = (skill: Skill) => {
     setSelectedSkill(skill);
     setModaleOpened(true);
@@ -85,7 +89,6 @@ const AddSkill = () => {
 
   const addAction = ({ id, name, level, desire }) => {
     setModaleOpened(false);
-    setSelectedSkill(undefined);
     addSkill({
       variables: {
         skillId: id,
@@ -100,6 +103,7 @@ const AddSkill = () => {
     SKILL_SEARCH_QUERY,
     {
       variables: { category, search: `%${debouncedSearchValue}%` },
+      fetchPolicy: "network-only",
     }
   );
 
@@ -123,11 +127,15 @@ const AddSkill = () => {
             modaleOpened ? "" : "hidden"
           }`}
         >
-          <AddOrEditSkillModale
-            skill={selectedSkill}
-            cancel={() => setModaleOpened(false)}
-            callback={addAction}
-          />
+          {selectedSkill ? (
+            <AddOrEditSkillModale
+              skill={selectedSkill}
+              cancel={() => setModaleOpened(false)}
+              callback={addAction}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div
           className={`flex flex-col p-2 z-10 ${

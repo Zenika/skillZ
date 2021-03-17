@@ -250,7 +250,7 @@ workflows:
       - deploy:
           name: deploy-staging
           requires:
-            - build-staging
+            - run-migrations-staging
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_STAGING_BASE_URL
           clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
