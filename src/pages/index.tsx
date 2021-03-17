@@ -74,7 +74,7 @@ const Home = ({ pathName }) => {
     push("/onboarding");
   }
 
-  const { data: skillsData } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
+  const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "cache-and-network",
   });
@@ -91,12 +91,20 @@ const Home = ({ pathName }) => {
   return (
     <PageWithNavAndPanel pathName={pathName}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-        {homePanelData?.map((computedDataSkill) => (
-          <HomePanel
-            props={computedDataSkill}
-            key={`home-panel-${computedDataSkill.name}`}
-          />
-        ))}
+        {homePanelData ? (
+          homePanelData.map((computedDataSkill) => (
+            <HomePanel
+              props={computedDataSkill}
+              key={`home-panel-${computedDataSkill.name}`}
+            />
+          ))
+        ) : (
+          <p>
+            {error
+              ? `Error: ${error.name}, Message: ${error.message}`
+              : "Error: Failed to contact database"}
+          </p>
+        )}
       </div>
     </PageWithNavAndPanel>
   );
