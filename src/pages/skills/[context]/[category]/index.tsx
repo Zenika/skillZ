@@ -88,10 +88,21 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const [
-    addSkill,
-    { error: mutationError, loading: mutationLoading, called: mutationCalled },
-  ] = useMutation(EDIT_SKILL_MUTATION);
+  const { data: skills, refetch } = useQuery<{ Skill: FetchedSkill[] }>(
+    SKILLS_AND_APPETITE_QUERY,
+    {
+      variables: { email: user.email, category },
+      fetchPolicy: "cache-and-network",
+    }
+  );
+  const [addSkill, { error: mutationError }] = useMutation(
+    EDIT_SKILL_MUTATION,
+    {
+      onCompleted: () => {
+        refetch({ email: user.email, category });
+      },
+    }
+  );
   const onEditClick = (skill: Skill) => {
     setSelectedSkill(skill);
     setEditPanelOpened(true);
@@ -119,17 +130,6 @@ const ListSkills = () => {
       },
     });
   };
-
-  const { data: skills, refetch } = useQuery<{ Skill: FetchedSkill[] }>(
-    SKILLS_AND_APPETITE_QUERY,
-    {
-      variables: { email: user.email, category },
-      fetchPolicy: "cache-and-network",
-    }
-  );
-  if (mutationCalled && !mutationLoading && !mutationError) {
-    refetch({ email: user.email, category });
-  }
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }

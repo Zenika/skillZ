@@ -74,12 +74,17 @@ const AddSkill = () => {
     undefined
   );
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const [
-    addSkill,
-    { error: mutationError, loading: mutationLoading, called: mutationCalled },
-  ] = useMutation(ADD_SKILL_MUTATION, {
+  const { data: skillsData, refetch } = useQuery<SkillSearchResult>(
+    SKILL_SEARCH_QUERY,
+    {
+      variables: { category, search: `%${debouncedSearchValue}%` },
+      fetchPolicy: "cache-and-network",
+    }
+  );
+  const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
       setSelectedSkill(undefined);
+      refetch({ category, search: `%${debouncedSearchValue}%` });
     },
   });
   const preAddAction = (skill: Skill) => {
@@ -99,17 +104,6 @@ const AddSkill = () => {
     });
   };
 
-  const { data: skillsData, refetch } = useQuery<SkillSearchResult>(
-    SKILL_SEARCH_QUERY,
-    {
-      variables: { category, search: `%${debouncedSearchValue}%` },
-      fetchPolicy: "network-only",
-    }
-  );
-
-  if (mutationCalled && !mutationLoading && !mutationError) {
-    refetch({ category, search: `%${debouncedSearchValue}%` });
-  }
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
