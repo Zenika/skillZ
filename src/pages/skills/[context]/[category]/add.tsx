@@ -81,7 +81,11 @@ const AddSkill = () => {
   const { data: skillsData, refetch } = useQuery<SkillSearchResult>(
     SKILL_SEARCH_QUERY,
     {
-      variables: { category, search: `%${debouncedSearchValue}%` },
+      variables: {
+        category,
+        search: `%${debouncedSearchValue}%`,
+        email: user?.email,
+      },
       fetchPolicy: "cache-and-network",
     }
   );
