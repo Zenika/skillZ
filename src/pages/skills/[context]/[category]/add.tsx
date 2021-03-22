@@ -24,7 +24,11 @@ type SkillSearchResult = {
 };
 
 const SKILL_SEARCH_QUERY = gql`
-  query getSkillsByCategory($search: String!, $category: String!) {
+  query getSkillsByCategory(
+    $search: String!
+    $category: String!
+    $email: String!
+  ) {
     Skill(
       where: {
         Category: { label: { _eq: $category } }
@@ -33,7 +37,7 @@ const SKILL_SEARCH_QUERY = gql`
     ) {
       name
       id
-      UserSkills_aggregate {
+      UserSkills_aggregate(where: { User: { email: { _eq: $email } } }) {
         aggregate {
           count
         }
