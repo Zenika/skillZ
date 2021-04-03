@@ -24,10 +24,7 @@ export default class extends Document {
           <meta name="description" content="Register your skillz !" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <meta
-            name="msapplication-config"
-            content="/browserconfig.xml"
-          />
+          <meta name="msapplication-config" content="/browserconfig.xml" />
           <meta name="msapplication-TileColor" content="#121212" />
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#1e1e1e" />
@@ -50,11 +47,7 @@ export default class extends Document {
             href="/favicon-16x16.png"
           />
           <link rel="manifest" href="/skillz.webmanifest" />
-          <link
-            rel="mask-icon"
-            href="/safari-pinned-tab.svg"
-            color="#5bbad5"
-          />
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:url" content="https://skillz.zenika.com" />
