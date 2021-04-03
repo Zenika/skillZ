@@ -1,12 +1,11 @@
 import * as React from "react";
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
 export default class extends Document {
   render() {
     return (
-      <html>
+      <Html>
         <Head>
-          <title>skillZ</title>
           <link rel="icon" href="/favicon.svg" />
           <link
             rel="preload"
@@ -78,7 +77,7 @@ export default class extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

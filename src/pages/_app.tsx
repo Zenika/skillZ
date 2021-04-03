@@ -28,10 +28,13 @@ const App = ({ Component, pageProps }) => {
       audience="https://zenika.eu.auth0.com/api/v2/"
       scope="read:current_user update:current_user_metadata"
       redirectUri={BASE_URL}
+      useRefreshTokens={true}
+      cacheLocation={"localstorage"}
     >
       <i18nContext.Provider value={{ t, changeLocale }}>
         <GraphQLProvider>
           <Head>
+            <title>skillZ</title>
             <meta
               name="viewport"
               content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"

@@ -23,6 +23,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.9",
     "@auth0/auth0-react": "^1.2.0",
+    "apollo3-cache-persist": "^0.9.1",
     "autoprefixer": "^10.2.4",
     "await-of": "^3.1.0",
     "graphql": "^15.5.0",

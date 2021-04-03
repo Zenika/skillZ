@@ -53,7 +53,7 @@
   dependencies:
     "cross-fetch" "3.0.6"
 
-"@apollo/client@^3.3.9":
+"@apollo/client@^3.2.5", "@apollo/client@^3.3.9":
   "integrity" "sha512-4koVaCKcztuNZCiKP/nyghCVon1Y0+EoIpBytTDTvn7L+QkEQpgKZiWcRGnuJjdvL8QlKiiV7zhdJOiDhIoiUw=="
   "resolved" "https://registry.npmjs.org/@apollo/client/-/client-3.3.9.tgz"
   "version" "3.3.9"
@@ -1649,6 +1649,11 @@
   dependencies:
     "normalize-path" "^3.0.0"
     "picomatch" "^2.0.4"
+
+"apollo3-cache-persist@^0.9.1":
+  "integrity" "sha512-A6/SdCJmGLMLrL+mlsIijP3G+V7NvyG6likhkmTQBibU/+69UWxVs2qb7peYGOdiPT5QsxcaujDVCEgLzqC2OA=="
+  "resolved" "https://registry.npmjs.org/apollo3-cache-persist/-/apollo3-cache-persist-0.9.1.tgz"
+  "version" "0.9.1"
 
 "aproba@^1.0.3", "aproba@^1.1.1":
   "integrity" "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="
