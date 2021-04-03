@@ -26,7 +26,7 @@ export default class extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta
             name="msapplication-config"
-            content="/public/browserconfig.xml"
+            content="/browserconfig.xml"
           />
           <meta name="msapplication-TileColor" content="#121212" />
           <meta name="msapplication-tap-highlight" content="no" />
@@ -35,27 +35,27 @@ export default class extends Document {
           <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="/public/apple-touch-icon.png"
+            href="/apple-touch-icon.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/public/favicon-32x32.png"
+            href="/favicon-32x32.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/public/favicon-16x16.png"
+            href="/favicon-16x16.png"
           />
-          <link rel="manifest" href="/public/skillz.webmanifest" />
+          <link rel="manifest" href="/skillz.webmanifest" />
           <link
             rel="mask-icon"
-            href="/public/safari-pinned-tab.svg"
+            href="/safari-pinned-tab.svg"
             color="#5bbad5"
           />
-          <link rel="shortcut icon" href="/public/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:url" content="https://skillz.zenika.com" />
           <meta name="twitter:title" content="Skillz" />
@@ -65,7 +65,7 @@ export default class extends Document {
           />
           <meta
             name="twitter:image"
-            content="https://skills.zenika.com/public/android-chrome-192x192.png"
+            content="https://skills.zenika.com/android-chrome-192x192.png"
           />
           <meta name="twitter:creator" content="@ZenikaIT" />
           <meta property="og:type" content="website" />
@@ -78,7 +78,7 @@ export default class extends Document {
           <meta property="og:url" content="https://skills.zenika.com" />
           <meta
             property="og:image"
-            content="https://skills.zenika.com/public/apple-touch-icon.png"
+            content="https://skills.zenika.com/apple-touch-icon.png"
           />
         </Head>
         <body>
