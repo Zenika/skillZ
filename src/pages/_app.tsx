@@ -32,15 +32,10 @@ const App = ({ Component, pageProps }) => {
       <i18nContext.Provider value={{ t, changeLocale }}>
         <GraphQLProvider>
           <Head>
-            <title>skillZ</title>
-            <link rel="icon" href="/favicon.svg" />
-            <link
-              rel="preload"
-              href="/fonts/Nunito/Nunito-Regular.ttf"
-              as="font"
-              crossOrigin=""
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
             />
-            <meta name="apple-mobile-web-app-capable" content="yes"></meta>
           </Head>
           <div className={`${darkMode ? "dark" : ""}`}>
             <div className="w-screen min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med dark:text-dark-graytext">
