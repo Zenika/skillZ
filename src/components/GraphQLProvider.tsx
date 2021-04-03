@@ -17,20 +17,27 @@ if (!GRAPHQL_URL) {
   );
 }
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
+
 const GraphQLProvider = ({ children }) => {
-  const {
-    getAccessTokenSilently,
-    loginWithRedirect,
-    isAuthenticated,
-  } = useAuth0();
+  const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
   const [client, setClient] = useState<ApolloClient<any> | undefined>(
     undefined
   );
   useEffect(() => {
     (async () => {
-      const [token, err] = await of(getAccessTokenSilently());
+      const [token, err] = await of(
+        getAccessTokenSilently({ redirect_uri: NEXT_PUBLIC_BASE_URL })
+      );
       if (err) {
         console.error(err);
+        await loginWithRedirect();
+        return;
       }
       const httpLink = createHttpLink({
         uri: GRAPHQL_URL,
