@@ -13,8 +13,6 @@
 
 html,
 body {
-  min-height: 100vw !important;
-  width: 100vw !important;
   font-family: "Nunito";
 }
 
