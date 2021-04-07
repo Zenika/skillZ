@@ -39,11 +39,10 @@ const Topbar = ({
     );
     return;
   }
-
   return (
     <div className="flex flex-auto flex-row flex-grow-1 justify-between bg-red-800 dark:bg-gray-900 text-white p-4">
       <Image src="/icons/logo.svg" height="35" width="105" />
-      {isDesktop && path ? (
+      {isDesktop && path !== undefined ? (
         <div className="flex flex-col justify-center">
           <div className="flex flex-row justify-around">
             <div className="w-36">
