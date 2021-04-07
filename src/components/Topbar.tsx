@@ -9,7 +9,7 @@ const Topbar = ({
   path,
   togglePanel,
 }: {
-  path: string;
+  path?: string;
   togglePanel: () => void;
 }) => {
   const {
@@ -43,7 +43,7 @@ const Topbar = ({
   return (
     <div className="flex flex-auto flex-row flex-grow-1 justify-between bg-red-800 dark:bg-gray-900 text-white p-4">
       <Image src="/icons/logo.svg" height="35" width="105" />
-      {isDesktop ? (
+      {isDesktop && path ? (
         <div className="flex flex-col justify-center">
           <div className="flex flex-row justify-around">
             <div className="w-36">
