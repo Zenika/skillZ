@@ -20,7 +20,7 @@ module.exports = {
       },
     },
     backgroundPosition: {
-      search: "right 10% bottom 50%",
+      search: "right 2rem bottom 50%",
     },
     minHeight: {
       homePanel: "300px",

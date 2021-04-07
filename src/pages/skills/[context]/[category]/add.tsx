@@ -130,11 +130,13 @@ const AddSkill = () => {
           }`}
         >
           {selectedSkill ? (
-            <AddOrEditSkillModale
-              skill={selectedSkill}
-              cancel={() => setModaleOpened(false)}
-              callback={addAction}
-            />
+            <div className="flex flex-row justify-center">
+              <AddOrEditSkillModale
+                skill={selectedSkill}
+                cancel={() => setModaleOpened(false)}
+                callback={addAction}
+              />
+            </div>
           ) : (
             <></>
           )}

@@ -34,6 +34,7 @@
     "postcss-loader": "^4.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-responsive": "^8.2.0",
     "react-swipeable": "^6.0.1",
     "tailwindcss": "^2.0.3",
     "use-debounce": "^6.0.0"
