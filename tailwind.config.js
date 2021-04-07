@@ -22,6 +22,9 @@ module.exports = {
     backgroundPosition: {
       search: "right 10% bottom 50%",
     },
+    minHeight: {
+      homePanel: "300px",
+    },
   },
   variants: {
     extend: {

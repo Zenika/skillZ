@@ -14,70 +14,73 @@ const Navbar = ({ path }: { path: string }) => {
     return;
   }
   return (
-    <header className="flex flex-auto flex-row justify-around bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
-      <Link href="/">
-        <div className="flex flex-initial flex-col justify-between">
-          {path === "/" ? (
-            <Image src="/icons/nav-selected.svg" width="25" height="2" />
-          ) : (
-            <div className="h-px" />
-          )}
-          <Image
-            src={
-              path === "/" ? "/icons/skills-selected.svg" : "/icons/skills.svg"
-            }
-            width="25"
-            height="25"
-            className="p-1"
-          />
-          <div>{t("nav.mySkills")}</div>
-        </div>
-      </Link>
-      {!isLoading &&
-        (user ? (
-          <Link href="/zenika">
-            <div className="flex flex-initial flex-col justify-between">
-              {path === "/zenika" ? (
-                <Image src="/icons/nav-selected.svg" width="25" height="2" />
-              ) : (
-                <div className="h-px" />
-              )}
-              <Image
-                src={
-                  path === "/zenika"
-                    ? "/icons/zenika-selected.svg"
-                    : "/icons/zenika.svg"
-                }
-                width="25"
-                height="25"
-                className="p-1"
-              />
-              <div>{t("nav.zenikaSkills")}</div>
-            </div>
-          </Link>
-        ) : (
-          <></>
-        ))}
-      <Link href="/search">
-        <div className="flex flex-initial flex-col justify-between">
-          {path === "/search" ? (
-            <Image src="/icons/nav-selected.svg" width="25" height="2" />
-          ) : (
-            <div className="h-px" />
-          )}
-          <Image
-            src={
-              path === "/search"
-                ? "/icons/search-selected.svg"
-                : "/icons/search.svg"
-            }
-            width="25"
-            height="25"
-            className="p-1"
-          />
-          <div>{t("nav.search")}</div>
-        </div>
-      </Link>
+    <header className="flex flex-auto flex-row justify-around h-16 bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
+      <div className="w-1/3">
+        <Link href="/">
+          <div className="flex flex-initial flex-col justify-between">
+            {path === "/" ? (
+              <Image src="/icons/nav-selected.svg" width="25" height="2" />
+            ) : (
+              <div className="h-px" />
+            )}
+            <Image
+              src={
+                path === "/"
+                  ? "/icons/skills-selected.svg"
+                  : "/icons/skills.svg"
+              }
+              width="25"
+              height="25"
+              className="p-1"
+            />
+            <span className="text-center">{t("nav.mySkills")}</span>
+          </div>
+        </Link>
+      </div>
+      <div className="w-1/3">
+        <Link href="/zenika">
+          <div className="flex flex-initial flex-col justify-between">
+            {path === "/zenika" ? (
+              <Image src="/icons/nav-selected.svg" width="25" height="2" />
+            ) : (
+              <div className="h-px" />
+            )}
+            <Image
+              src={
+                path === "/zenika"
+                  ? "/icons/zenika-selected.svg"
+                  : "/icons/zenika.svg"
+              }
+              width="25"
+              height="25"
+              className="p-1"
+            />
+            <span className="text-center">{t("nav.zenikaSkills")}</span>
+          </div>
+        </Link>
+      </div>
+      <div className="w-1/3">
+        <Link href="/search">
+          <div className="flex flex-initial flex-col justify-between">
+            {path === "/search" ? (
+              <Image src="/icons/nav-selected.svg" width="25" height="2" />
+            ) : (
+              <div className="h-px" />
+            )}
+            <Image
+              src={
+                path === "/search"
+                  ? "/icons/search-selected.svg"
+                  : "/icons/search.svg"
+              }
+              width="25"
+              height="25"
+              className="p-1"
+            />
+            <span className="text-center">{t("nav.search")}</span>
+          </div>
+        </Link>
+      </div>
     </header>
   );
 };

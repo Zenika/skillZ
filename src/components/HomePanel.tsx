@@ -22,7 +22,7 @@ const HomePanel = ({
   return (
     <Link href={`/skills/mine/${name}${data.length <= 0 ? "/add" : ""}`}>
       <div
-        className={`flex flex-auto flex-col dark:bg-dark-panel rounded-${
+        className={`flex flex-auto flex-col dark:bg-dark-panel min-h-homePanel rounded-${
           y === "top" ? "t" : "b"
         }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
       >
@@ -62,7 +62,7 @@ const HomePanel = ({
               <div key={i} className="flex flex-auto flex-row justify-between">
                 <div
                   className={`${x === "right" ? "order-last" : ""} text-${x} ${
-                    data[i] ? `w-${20 - i * 4} gradient-${color}` : ""
+                    data[i] ? `w-${12 - i * 2} gradient-${color}` : ""
                   } rounded-${
                     x === "right" ? "l" : "r"
                   }-2xl h-6 m-0.5 text-dark-med p-0.5`}
