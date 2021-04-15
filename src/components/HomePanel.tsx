@@ -31,8 +31,14 @@ const HomePanel = ({
           y === "top" ? "t" : "b"
         }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
       >
-        <div className="flex flex-auto flex-row">
-          <div className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}>
+        <div
+          className={`flex flex-auto flex-row${
+            x === "right" ? "-reverse" : ""
+          }`}
+        >
+          <div
+            className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+          >
             {data.length > 0 ? (
               <div
                 className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
@@ -102,11 +108,32 @@ const HomePanel = ({
                   x === "left" ? "right" : "left"
                 } text-dark-${color}`}
               >
-                {t(`home.${name}`)}
+                {isDesktop ? "" : t(`home.${name}`)}
               </span>
             </div>
           </div>
-          <div className={`flex flex-auto flex-col ${isDesktop ? "w-3/5 h-full" : ""}`}>{ isDesktop ? <Radar data={[]} /> : <></> }</div>
+          <div
+            className={`flex flex-auto flex-col ${
+              isDesktop ? "w-3/5 h-full" : ""
+            }`}
+          >
+            {isDesktop ? (
+              <Radar
+                x={x}
+                y={y}
+                data={[
+                  { x: 3, y: 4, names: ["1"] },
+                  { x: 3, y: 4, names: ["2"] },
+                  { x: 3, y: 4, names: ["3"] },
+                  { x: 1, y: 4, names: ["4"] },
+                  { x: 4, y: 2, names: ["5"] },
+                ]}
+                color={color}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
 
         <div

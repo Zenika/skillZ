@@ -11,6 +11,7 @@ module.exports = {
         dark: "#121212",
         graytext: "rgba(255, 255, 255, 0.87)",
         graybutton: "rgba(255, 255, 255, 0.1)",
+        radargrid: "rgba(255, 255, 255, 0.2)",
         panel: "#292929",
         yellow: "#F4C042",
         violet: "#D264EC",
