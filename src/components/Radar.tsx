@@ -91,14 +91,6 @@ const Radar = ({
               : [...unique, item],
           []
         )
-        .map((row) => {
-          console.log("============");
-          console.log("x", row.x / 5);
-          console.log(radar.current.offsetWidth);
-          console.log("y", row.y / 5);
-          console.log(radar.current.offsetHeight);
-          return row;
-        })
         .map((circle) => ({
           ...circle,
           x: radar.current.offsetWidth * (circle.x / 5),
