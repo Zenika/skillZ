@@ -12,7 +12,13 @@ type HomePanelProps = {
     y: string;
     color: string;
     name: string;
-    data: string[];
+    data: {
+      x: number;
+      y: number;
+      weight: number;
+      labels: string[];
+      name: string;
+    }[];
     certifs: number;
   };
 };
@@ -87,7 +93,7 @@ const HomePanel = ({
                     >
                       {data[i] ? i + 1 : ""}
                     </div>
-                    <div className="px-2 truncate">{data[i] ?? ""}</div>
+                    <div className="px-2 truncate">{data[i]?.name ?? ""}</div>
                   </div>
                 ))}
               </div>
@@ -118,18 +124,7 @@ const HomePanel = ({
             }`}
           >
             {isDesktop ? (
-              <Radar
-                x={x}
-                y={y}
-                data={[
-                  { x: 3, y: 4, names: ["1"] },
-                  { x: 3, y: 4, names: ["2"] },
-                  { x: 3, y: 4, names: ["3"] },
-                  { x: 1, y: 4, names: ["4"] },
-                  { x: 4, y: 2, names: ["5"] },
-                ]}
-                color={color}
-              />
+              <Radar x={x} y={y} data={data} color={color} />
             ) : (
               <></>
             )}

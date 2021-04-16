@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Radar.module.css";
 
 const oneToFive = [1, 2, 3, 4, 5];
@@ -6,23 +6,46 @@ const oneToFive = [1, 2, 3, 4, 5];
 export type RadarData = {
   x: number;
   y: number;
-  weight?: number;
-  names: string[];
+  weight: number;
+  labels: string[];
 };
 
-export type PointsCoords = {
-  x: number;
-  y: number;
+const Circle = ({ data, color }: { data: RadarData; color: string }) => {
+  return (
+    <div
+      style={{
+        bottom: `${data.y - data.weight / 2}px`,
+        left: `${data.x - data.weight / 2}px`,
+        width: `${data.weight}px`,
+        height: `${data.weight}px`,
+        paddingTop: `${
+          data.weight === 20 ? data.weight / 10 : data.weight / 5
+        }px`,
+      }}
+      className={`${styles.circle} z-${
+        Math.floor(Math.random() * 10) * 10
+      } absolute text-dark-med rounded-full text-center text-xs gradient-${color}`}
+    >
+      {data.labels.join(",")}
+    </div>
+  );
 };
 
-export type RadarDrawData = {
-  limits: {
-    start: PointsCoords;
-    end: PointsCoords;
-  };
+const RadarCell = () => {
+  return (
+    <div className="w-1/5 h-full border border-dashed border-opacity-25 border-dark-radargrid "></div>
+  );
 };
 
-const floatEq = (a: number, b: number) => a - b >= 0.5 || b - a >= 0.5;
+const RadarRow = ({ i }: { i: number }) => {
+  return (
+    <div className="flex flex-row w-full h-1/5">
+      {oneToFive.map((k) => (
+        <RadarCell key={`${i}-${k}`} />
+      ))}
+    </div>
+  );
+};
 
 const Radar = ({
   data,
@@ -35,69 +58,73 @@ const Radar = ({
   y: string;
   color: string;
 }) => {
-  const container = useRef(null);
+  const radar = useRef(null);
+  const [circles, setCircles] = useState<RadarData[]>([]);
+  useEffect(() => {
+    if (!radar.current) {
+      return;
+    }
+    setCircles(
+      data
+        .filter((row, i) => {
+          return i < 5;
+        })
+        .map((row, _, array) => {
+          return array
+            .filter(
+              (arrayRow) =>
+                Math.abs(arrayRow.x - row.x) <= arrayRow.weight / 100
+            )
+            .reduce((prev, curr) => ({
+              ...prev,
+              labels: [...prev.labels, ...curr.labels],
+              weight: prev.weight + 10,
+            }));
+        })
+        .reduce(
+          (unique, item) =>
+            unique.find(
+              (arrayRow) =>
+                Math.abs(arrayRow.x - item.x) <= arrayRow.weight / 100
+            )
+              ? unique
+              : [...unique, item],
+          []
+        )
+        .map((row) => {
+          console.log("============");
+          console.log("x", row.x / 5);
+          console.log(radar.current.offsetWidth);
+          console.log("y", row.y / 5);
+          console.log(radar.current.offsetHeight);
+          return row;
+        })
+        .map((circle) => ({
+          ...circle,
+          x: radar.current.offsetWidth * (circle.x / 5),
+          y: radar.current.offsetHeight * (circle.y / 5),
+        }))
+    );
+  }, [radar]);
   return (
     <div
       className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full`}
-      ref={container}
     >
       <div className="w-full h-4/5">
         <div
+          ref={radar}
           className={`w-11/12 h-5/6 m-3 border-b-2 border-${
             x === "left" ? "r" : "l"
           }-2 border-dark-red border-dashed`}
         >
           {oneToFive.map((i) => (
-            <div className="flex flex-row w-full h-1/5" key={`${i}`}>
-              {oneToFive.map((k) => (
-                <div
-                  key={`${i}-${k}`}
-                  className="flex flex-col w-1/5 h-full border border-dashed border-opacity-25 border-dark-radargrid "
-                >
-                  {(() => {
-                    const filteredCircles = data.filter(
-                      (row) =>
-                        6 - Math.floor(row.x) === i &&
-                        Math.floor(row.y) + 1 === k
-                    );
-                    if (filteredCircles.length <= 0) {
-                      return <></>;
-                    }
-                    const circle = filteredCircles.reduce(
-                      (previous, current) => ({
-                        ...previous,
-                        weight: (previous.weight || 8) + 1,
-                        names: [...previous.names, ...current.names],
-                      })
-                    );
-                    const xDetail =
-                      -4 + Math.floor(Number((circle.x % 1).toFixed(1)) * 9);
-                    const yDetail =
-                      -4 + Math.floor(Number((circle.x % 1).toFixed(1)) * 13);
-                    return (
-                      <div
-                        className={`
-                          flex flex-col 
-                          ${styles.circle} relative text-dark-med ${
-                          xDetail < 0 ? "-" : ""
-                        }top-${Math.abs(xDetail)} ${
-                          yDetail < 0 ? "-" : ""
-                        }left-${Math.abs(
-                          yDetail
-                        )} rounded-full text-center text-xs pt-${
-                          (circle.weight || 10) - 8
-                        } h-${circle.weight || 8} w-${
-                          circle.weight || 8
-                        } gradient-${color}`} // (-4; -4) (5, 9)
-                      >
-                        {circle.names.join(",")}
-                      </div>
-                    );
-                  })()}
-                </div>
-              ))}
-            </div>
+            <RadarRow key={i} i={i} />
           ))}
+          <div className="absolute">
+            {circles.map((circle, i) => (
+              <Circle key={i} color={color} data={circle} />
+            ))}
+          </div>
         </div>
       </div>
       <div className="w-full h-1/5">Title</div>
