@@ -5,7 +5,7 @@ import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = ({ path }: { path: string }) => {
-  const { isLoading, error, user } = useAuth0();
+  const { isLoading, error } = useAuth0();
   const { t } = useContext(i18nContext);
   if (error) {
     console.error(

@@ -92,7 +92,7 @@ const ListSkills = () => {
     SKILLS_AND_APPETITE_QUERY,
     {
       variables: { email: user.email, category },
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     }
   );
   const [addSkill, { error: mutationError }] = useMutation(

@@ -86,7 +86,7 @@ const AddSkill = () => {
         search: `%${debouncedSearchValue}%`,
         email: user?.email,
       },
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     }
   );
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {

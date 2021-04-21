@@ -4,7 +4,6 @@ import {
   createHttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { persistCache, LocalStorageWrapper } from "apollo3-cache-persist";
 import { of } from "await-of";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -56,11 +55,6 @@ const GraphQLProvider = ({ children }) => {
       });
 
       const cache = new InMemoryCache();
-
-      await persistCache({
-        cache,
-        storage: new LocalStorageWrapper(window.localStorage),
-      });
 
       const authLink = setContext((_, { headers }) => {
         return {

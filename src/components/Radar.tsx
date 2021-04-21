@@ -52,11 +52,13 @@ const Radar = ({
   x,
   y,
   color,
+  title,
 }: {
   data: RadarData[];
   x: string;
   y: string;
   color: string;
+  title: string;
 }) => {
   const radar = useRef(null);
   const [circles, setCircles] = useState<RadarData[]>([]);
@@ -73,7 +75,8 @@ const Radar = ({
           return array
             .filter(
               (arrayRow) =>
-                Math.abs(arrayRow.x - row.x) <= arrayRow.weight / 100
+                Math.abs(arrayRow.x - row.x) + Math.abs(arrayRow.y - row.y) <=
+                arrayRow.weight / 100
             )
             .reduce((prev, curr) => ({
               ...prev,
@@ -85,7 +88,8 @@ const Radar = ({
           (unique, item) =>
             unique.find(
               (arrayRow) =>
-                Math.abs(arrayRow.x - item.x) <= arrayRow.weight / 100
+                Math.abs(arrayRow.x - item.x) + Math.abs(arrayRow.y - item.y) <=
+                arrayRow.weight / 100
             )
               ? unique
               : [...unique, item],
@@ -119,7 +123,21 @@ const Radar = ({
           </div>
         </div>
       </div>
-      <div className="w-full h-1/5">Title</div>
+      <div className="w-full h-1/5">
+        <div
+          className={`flex flex-auto justify-${
+            x === "left" ? "end" : "start"
+          } flex-row py-4 px-1 h-1/3 ${y === "bot" ? "order-1" : "order-12"}`}
+        >
+          <span
+            className={`text-xl px-2 w-full text-${
+              x === "left" ? "right" : "left"
+            } text-dark-${color}`}
+          >
+            {title}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

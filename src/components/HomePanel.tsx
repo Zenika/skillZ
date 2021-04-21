@@ -77,7 +77,7 @@ const HomePanel = ({
               <div
                 className={`flex flex-auto flex-col justify-around py-4 order-6 h-1/3`}
               >
-                {[0, 1, 2].map((i) => (
+                {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4, 5, 6]).map((i) => (
                   <div
                     key={i}
                     className="flex flex-auto flex-row justify-between"
@@ -124,7 +124,13 @@ const HomePanel = ({
             }`}
           >
             {isDesktop ? (
-              <Radar x={x} y={y} data={data} color={color} />
+              <Radar
+                x={x}
+                y={y}
+                data={data}
+                color={color}
+                title={t(`home.${name}`)}
+              />
             ) : (
               <></>
             )}

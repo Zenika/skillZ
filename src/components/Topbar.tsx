@@ -59,6 +59,13 @@ const Topbar = ({
                     className="p-1"
                   />
                   <span className="text-center">{t("nav.mySkills")}</span>
+                  {path === "/" ? (
+                    <div className="flex flex-row justify-center w-full h-0.5">
+                      <div className="w-3/4 h-full gradient-red" />
+                    </div>
+                  ) : (
+                    <div className="h-px" />
+                  )}
                 </div>
               </Link>
             </div>
@@ -76,6 +83,13 @@ const Topbar = ({
                     className="p-1"
                   />
                   <span className="text-center">{t("nav.zenikaSkills")}</span>
+                  {path === "/zenika" ? (
+                    <div className="flex flex-row justify-center w-full h-0.5">
+                      <div className="w-3/4 h-full gradient-red" />
+                    </div>
+                  ) : (
+                    <div className="h-px" />
+                  )}
                 </div>
               </Link>
             </div>
@@ -93,6 +107,13 @@ const Topbar = ({
                     className="p-1"
                   />
                   <span className="text-center">{t("nav.search")}</span>
+                  {path === "/search" ? (
+                    <div className="flex flex-row justify-center w-full h-0.5">
+                      <div className="w-3/4 h-full gradient-red" />
+                    </div>
+                  ) : (
+                    <div className="h-px" />
+                  )}
                 </div>
               </Link>
             </div>
