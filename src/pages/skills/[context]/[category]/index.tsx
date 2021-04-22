@@ -64,7 +64,7 @@ const SKILLS_AND_APPETITE_QUERY = gql`
           _and: { Category: { label: { _eq: $category } } }
         }
         order_by: {
-          UserSkills_aggregate: { min: { level: desc } }
+          UserSkills_aggregate: { max: { level: desc } }
           TechnicalAppetites_aggregate: { max: { level: desc } }
         }
       ) {

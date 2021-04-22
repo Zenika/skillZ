@@ -46,7 +46,10 @@ const USER_SKILLS_QUERY = gql`
       y
       Skills(
         where: { UserSkills: { userEmail: { _eq: $email } } }
-        order_by: { UserSkills_aggregate: { max: { level: desc } } }
+        order_by: {
+          UserSkills_aggregate: { max: { level: desc } }
+          TechnicalAppetites_aggregate: { max: { level: desc } }
+        }
       ) {
         name
         UserSkills(limit: 1, order_by: { created_at: desc }) {
