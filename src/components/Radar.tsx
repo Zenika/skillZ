@@ -66,8 +66,11 @@ const Radar = ({
   const [resized, setResized] = useState(false);
   const [circles, setCircles] = useState<RadarData[]>([]);
   useEffect(() => {
-    window.addEventListener("resize", () => setResized(true));
-  }, []);
+    if (!window) {
+      return;
+    }
+      window.addEventListener("resize", () => setResized(true));
+  }, [window]);
   useEffect(() => {
     setResized(false);
     if (!radar.current) {

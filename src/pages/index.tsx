@@ -4,6 +4,7 @@ import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
+import { data } from "autoprefixer";
 
 type UserData = {
   User: {
@@ -47,8 +48,8 @@ const USER_SKILLS_QUERY = gql`
       Skills(
         where: { UserSkills: { userEmail: { _eq: $email } } }
         order_by: {
-          UserSkills_aggregate: { max: { level: desc } }
           TechnicalAppetites_aggregate: { max: { level: desc } }
+          UserSkills_aggregate: { max: { level: desc } }
         }
       ) {
         name
