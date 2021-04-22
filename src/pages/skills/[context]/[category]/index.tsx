@@ -10,7 +10,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../../../../components/Loading";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 
-type FetchedSkill = {
+export type FetchedSkill = {
   id: string;
   name: string;
   UserSkills: {
@@ -52,27 +52,30 @@ const EDIT_SKILL_MUTATION = gql`
 `;
 
 const SKILLS_AND_APPETITE_QUERY = gql`
-  query getSkillsAndTechnicalAppetitesByCategory(
+  query getSkillsAndTechnicalAppetitesByCategory1(
     $email: String!
     $category: String!
   ) {
-    Skill(
-      where: {
-        UserSkills: { userEmail: { _eq: $email } }
-        _and: { Category: { label: { _eq: $category } } }
-      }
-      order_by: {
-        UserSkills_aggregate: { min: { level: desc } }
-        TechnicalAppetites_aggregate: { max: { level: desc } }
-      }
-    ) {
-      id
-      name
-      UserSkills(order_by: { created_at: desc }, limit: 1) {
-        level
-      }
-      TechnicalAppetites(order_by: { created_at: desc }, limit: 1) {
-        level
+    Category(where: { label: { _eq: $category } }) {
+      color
+      Skills(
+        where: {
+          UserSkills: { userEmail: { _eq: $email } }
+          _and: { Category: { label: { _eq: $category } } }
+        }
+        order_by: {
+          UserSkills_aggregate: { min: { level: desc } }
+          TechnicalAppetites_aggregate: { max: { level: desc } }
+        }
+      ) {
+        id
+        name
+        UserSkills(order_by: { created_at: desc }, limit: 1) {
+          level
+        }
+        TechnicalAppetites(order_by: { created_at: desc }, limit: 1) {
+          level
+        }
       }
     }
   }
@@ -88,13 +91,12 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const { data: skills, refetch } = useQuery<{ Skill: FetchedSkill[] }>(
-    SKILLS_AND_APPETITE_QUERY,
-    {
-      variables: { email: user.email, category },
-      fetchPolicy: "network-only",
-    }
-  );
+  const { data: skills, refetch } = useQuery<{
+    Category: { color; Skills: FetchedSkill[] };
+  }>(SKILLS_AND_APPETITE_QUERY, {
+    variables: { email: user.email, category: category || "" },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(
     EDIT_SKILL_MUTATION,
     {
@@ -136,6 +138,13 @@ const ListSkills = () => {
   if (isLoading || !skills) {
     return <Loading />;
   }
+  const radarData = skills?.Category[0]?.Skills?.map((skill) => ({
+    x: skill.UserSkills[0]?.level,
+    y: skill.TechnicalAppetites[0]?.level,
+    weight: 75,
+    labels: [skill.name],
+    name: skill.name,
+  }));
 
   return (
     <PageWithSkillList
@@ -143,6 +152,8 @@ const ListSkills = () => {
       category={category}
       add={false}
       faded={editPanelOpened || modaleOpened}
+      data={radarData}
+      color={skills.Category[0]?.color}
     >
       <div>
         <div
@@ -151,8 +162,8 @@ const ListSkills = () => {
           }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
-          {skills.Skill.length > 0 ? (
-            skills.Skill.map((item) => (
+          {skills.Category[0].Skills.length > 0 ? (
+            skills.Category[0].Skills.map((item) => (
               <SkillPanel
                 key={item.name}
                 skill={{

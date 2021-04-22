@@ -52,7 +52,7 @@ const USER_SKILLS_QUERY = gql`
         UserSkills(limit: 1, order_by: { created_at: desc }) {
           level
         }
-        TechnicalAppetites {
+        TechnicalAppetites(limit: 1, order_by: { created_at: desc }) {
           level
         }
       }
@@ -74,7 +74,7 @@ const Home = ({ pathName }) => {
 
   const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
     variables: { email: user.email },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
   });
 
   const homePanelData = skillsData?.Category.map((data) => ({

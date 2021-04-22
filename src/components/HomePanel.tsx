@@ -86,7 +86,11 @@ const HomePanel = ({
                       className={`${
                         x === "right" ? "order-last" : ""
                       } text-${x} ${
-                        data[i] ? `w-${12 - i * 2} gradient-${color}` : ""
+                        data[i]
+                          ? `w-${
+                              (!isDesktop ? 12 : 15) - i * 2
+                            } gradient-${color}`
+                          : ""
                       } rounded-${
                         x === "right" ? "l" : "r"
                       }-2xl h-6 m-0.5 text-dark-med p-0.5`}

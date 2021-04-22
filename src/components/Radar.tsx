@@ -19,14 +19,16 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
         width: `${data.weight}px`,
         height: `${data.weight}px`,
         paddingTop: `${
-          data.weight === 20 ? data.weight / 10 : data.weight / 5
+          data.weight > 70
+            ? data.weight / 3
+            : data.weight > 20
+            ? data.weight / 5
+            : 2
         }px`,
       }}
-      className={`${styles.circle} z-${
-        Math.floor(Math.random() * 10) * 10
-      } absolute text-dark-med rounded-full text-center text-xs gradient-${color}`}
+      className={`${styles.circle} absolute text-dark-med overflow-clip rounded-full text-center text-xs gradient-${color}`}
     >
-      {data.labels.join(",")}
+      {data.labels.join(", ")}
     </div>
   );
 };
@@ -61,8 +63,13 @@ const Radar = ({
   title: string;
 }) => {
   const radar = useRef(null);
+  const [resized, setResized] = useState(false);
   const [circles, setCircles] = useState<RadarData[]>([]);
   useEffect(() => {
+    window.addEventListener("resize", () => setResized(true));
+  }, []);
+  useEffect(() => {
+    setResized(false);
     if (!radar.current) {
       return;
     }
@@ -81,7 +88,7 @@ const Radar = ({
             .reduce((prev, curr) => ({
               ...prev,
               labels: [...prev.labels, ...curr.labels],
-              weight: prev.weight + 10,
+              weight: prev.weight + curr.weight / 2,
             }));
         })
         .reduce(
@@ -101,7 +108,7 @@ const Radar = ({
           y: radar.current.offsetHeight * (circle.y / 5),
         }))
     );
-  }, [radar]);
+  }, [radar, resized]);
   return (
     <div
       className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full`}

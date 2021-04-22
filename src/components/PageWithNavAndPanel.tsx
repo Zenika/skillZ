@@ -18,23 +18,23 @@ const PageWithNavAndPanel = ({ children, pathName }) => {
   });
 
   return (
-    <div className="flex flex-row justify-center">
-      <div className="max-w-screen-lg w-full">
-        <div
-          className={`z-10 ${panelOpened ? "opacity-25" : ""}`}
-          onClick={() => closePanelIfOpened()}
-        >
-          <Topbar path={pathName} togglePanel={togglePanel} />
-          <>{children}</>
-          {!isDesktop ? <Navbar path={pathName} /> : <></>}
+    <div className="flex flex-row justify-center w-full">
+      <div
+        className={`z-10 w-full ${panelOpened ? "opacity-25" : ""}`}
+        onClick={() => closePanelIfOpened()}
+      >
+        <Topbar path={pathName} togglePanel={togglePanel} />
+        <div className="flex flex-row justify-center mt-6">
+          <div className="max-w-screen-lg">{children}</div>
         </div>
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen ${
-            panelOpened ? "w-3/4" : "w-0"
-          } dark:bg-dark-panel duration-500`}
-        >
-          <SidePanel />
-        </div>
+        {!isDesktop ? <Navbar path={pathName} /> : <></>}
+      </div>
+      <div
+        className={`z-20 fixed inset-y-0 right-0 h-screen ${
+          panelOpened ? "w-3/4" : "w-0"
+        } dark:bg-dark-panel duration-500`}
+      >
+        <SidePanel />
       </div>
     </div>
   );

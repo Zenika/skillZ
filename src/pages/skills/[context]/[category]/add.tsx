@@ -8,6 +8,7 @@ import AddSkillListSelector from "../../../../components/AddSkilListSelector";
 import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
+import { FetchedSkill } from ".";
 
 type Skill = {
   id: string;
@@ -22,6 +23,36 @@ type Skill = {
 type SkillSearchResult = {
   Skill: Skill[];
 };
+
+const SKILLS_AND_APPETITE_QUERY = gql`
+  query getSkillsAndTechnicalAppetitesByCategory2(
+    $email: String!
+    $category: String!
+  ) {
+    Category(where: { label: { _eq: $category } }) {
+      color
+      Skills(
+        where: {
+          UserSkills: { userEmail: { _eq: $email } }
+          _and: { Category: { label: { _eq: $category } } }
+        }
+        order_by: {
+          UserSkills_aggregate: { min: { level: desc } }
+          TechnicalAppetites_aggregate: { max: { level: desc } }
+        }
+      ) {
+        id
+        name
+        UserSkills(order_by: { created_at: desc }, limit: 1) {
+          level
+        }
+        TechnicalAppetites(order_by: { created_at: desc }, limit: 1) {
+          level
+        }
+      }
+    }
+  }
+`;
 
 const SKILL_SEARCH_QUERY = gql`
   query getSkillsByCategory(
@@ -77,22 +108,33 @@ const AddSkill = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
+  const { data, refetch } = useQuery<{
+    Category: { color; Skills: FetchedSkill[] };
+  }>(SKILLS_AND_APPETITE_QUERY, {
+    variables: { email: user.email, category: category || "" },
+    fetchPolicy: "network-only",
+  });
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const { data: skillsData, refetch } = useQuery<SkillSearchResult>(
-    SKILL_SEARCH_QUERY,
-    {
-      variables: {
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-      },
-      fetchPolicy: "network-only",
-    }
-  );
+  const {
+    data: skillsData,
+    refetch: refetchSearch,
+  } = useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
+    variables: {
+      category,
+      search: `%${debouncedSearchValue}%`,
+      email: user?.email,
+    },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
       setSelectedSkill(undefined);
-      refetch({ category, search: `%${debouncedSearchValue}%` });
+      refetchSearch({ category, search: `%${debouncedSearchValue}%` });
+      refetch({
+        category,
+        search: `%${debouncedSearchValue}%`,
+        email: user?.email,
+      });
     },
   });
   const preAddAction = (skill: Skill) => {
@@ -115,13 +157,21 @@ const AddSkill = () => {
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
-
+  const radarData = data?.Category[0]?.Skills?.map((skill) => ({
+    x: skill.UserSkills[0]?.level,
+    y: skill.TechnicalAppetites[0]?.level,
+    weight: 75,
+    labels: [skill.name],
+    name: skill.name,
+  }));
   return (
     <PageWithSkillList
       context={context}
       category={category}
       add={true}
       faded={modaleOpened}
+      data={radarData}
+      color={data?.Category[0].color}
     >
       <div>
         <div
