@@ -69,7 +69,7 @@ const Radar = ({
     if (!window) {
       return;
     }
-      window.addEventListener("resize", () => setResized(true));
+    window.addEventListener("resize", () => setResized(true));
   }, [window]);
   useEffect(() => {
     setResized(false);
