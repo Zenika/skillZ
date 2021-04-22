@@ -24,7 +24,7 @@ const AddOrEditSkillModale = ({
   };
 
   return (
-    <div className="flex flex-col my-16 mx-6 dark:bg-dark-light p-6 rounded-lg">
+    <div className="flex flex-col my-16 mx-6 dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <h1 className="px-2 my-4 text-xl text-bold">{skill?.name}</h1>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">

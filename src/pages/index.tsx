@@ -21,10 +21,10 @@ type SkillsData = {
       name: string;
       UserSkills: {
         level: number;
-      };
+      }[];
       TechnicalAppetites: {
         level: number;
-      };
+      }[];
     }[];
   }[];
 };
@@ -49,10 +49,10 @@ const USER_SKILLS_QUERY = gql`
         order_by: { UserSkills_aggregate: { max: { level: desc } } }
       ) {
         name
-        UserSkills {
+        UserSkills(limit: 1, order_by: { created_at: desc }) {
           level
         }
-        TechnicalAppetites {
+        TechnicalAppetites(limit: 1, order_by: { created_at: desc }) {
           level
         }
       }
@@ -74,7 +74,7 @@ const Home = ({ pathName }) => {
 
   const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
     variables: { email: user.email },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
   });
 
   const homePanelData = skillsData?.Category.map((data) => ({
@@ -82,10 +82,15 @@ const Home = ({ pathName }) => {
     y: data.y,
     color: data.color,
     name: data.label,
-    data: data.Skills.map((skill) => skill.name),
+    data: data.Skills.map((skill, i) => ({
+      x: skill.UserSkills[0].level,
+      y: skill.TechnicalAppetites[0].level,
+      weight: 20,
+      labels: [`${i + 1}`],
+      name: skill.name,
+    })),
     certifs: 0,
   }));
-
   return (
     <PageWithNavAndPanel pathName={pathName}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">

@@ -11,6 +11,7 @@ module.exports = {
         dark: "#121212",
         graytext: "rgba(255, 255, 255, 0.87)",
         graybutton: "rgba(255, 255, 255, 0.1)",
+        radargrid: "rgba(255, 255, 255, 0.2)",
         panel: "#292929",
         yellow: "#F4C042",
         violet: "#D264EC",
@@ -20,7 +21,16 @@ module.exports = {
       },
     },
     backgroundPosition: {
-      search: "right 10% bottom 50%",
+      search: "right 2rem bottom 50%",
+    },
+    minHeight: {
+      homePanel: "300px",
+    },
+    extend: {
+      width: {
+        13: "3.25rem",
+        15: "3.75rem",
+      },
     },
   },
   variants: {

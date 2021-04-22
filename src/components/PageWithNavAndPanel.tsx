@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import Topbar from "./Topbar";
 import Navbar from "./Navbar";
 import SidePanel from "./SidePanel";
@@ -11,15 +12,22 @@ const PageWithNavAndPanel = ({ children, pathName }) => {
       setPanelOpened(false);
     }
   };
+
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1024px)",
+  });
+
   return (
-    <>
+    <div className="flex flex-row justify-center w-full">
       <div
-        className={`z-10 ${panelOpened ? "opacity-25" : ""}`}
+        className={`z-10 w-full ${panelOpened ? "opacity-25" : ""}`}
         onClick={() => closePanelIfOpened()}
       >
-        <Topbar togglePanel={togglePanel} />
-        <>{children}</>
-        <Navbar path={pathName} />
+        <Topbar path={pathName} togglePanel={togglePanel} />
+        <div className="flex flex-row justify-center mt-6">
+          <div className="max-w-screen-lg">{children}</div>
+        </div>
+        {!isDesktop ? <Navbar path={pathName} /> : <></>}
       </div>
       <div
         className={`z-20 fixed inset-y-0 right-0 h-screen ${
@@ -28,7 +36,7 @@ const PageWithNavAndPanel = ({ children, pathName }) => {
       >
         <SidePanel />
       </div>
-    </>
+    </div>
   );
 };
 
