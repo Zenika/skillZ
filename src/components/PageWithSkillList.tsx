@@ -30,7 +30,7 @@ const PageWithSkillList = ({
     query: "(min-device-width: 1024px)",
   });
   return (
-    <div className="flex flex-row justify-center w-full">
+    <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
         {isDesktop ? (
           <div className={faded ? "opacity-25" : ""}>
