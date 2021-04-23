@@ -63,10 +63,6 @@ const SKILLS_AND_APPETITE_QUERY = gql`
           UserSkills: { userEmail: { _eq: $email } }
           _and: { Category: { label: { _eq: $category } } }
         }
-        order_by: {
-          TechnicalAppetites_aggregate: { max: { level: desc } }
-          UserSkills_aggregate: { max: { level: desc } }
-        }
       ) {
         id
         name
@@ -144,8 +140,14 @@ const ListSkills = () => {
     weight: 75,
     labels: [skill.name],
     name: skill.name,
-  }));
-
+  })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
+  const sortedSkills = skills.Category[0].Skills.map((item) => ({
+    id: item.id,
+    name: item.name,
+    level: item.UserSkills[0]?.level ?? 0,
+    desire: item.TechnicalAppetites[0]?.level ?? 0,
+    certif: false,
+  })).sort((a, b) => -(a.level + a.desire - (b.level + b.desire)));
   return (
     <PageWithSkillList
       context={context}
@@ -162,17 +164,11 @@ const ListSkills = () => {
           }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
-          {skills.Category[0].Skills.length > 0 ? (
-            skills.Category[0].Skills.map((item) => (
+          {sortedSkills.length > 0 ? (
+            sortedSkills.map((skill) => (
               <SkillPanel
-                key={item.name}
-                skill={{
-                  id: item.id,
-                  name: item.name,
-                  level: item.UserSkills[0]?.level ?? 0,
-                  desire: item.TechnicalAppetites[0]?.level ?? 0,
-                  certif: false,
-                }}
+                key={skill.name}
+                skill={skill}
                 onEditClick={onEditClick}
               />
             ))
