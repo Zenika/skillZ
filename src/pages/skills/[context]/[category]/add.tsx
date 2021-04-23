@@ -36,10 +36,6 @@ const SKILLS_AND_APPETITE_QUERY = gql`
           UserSkills: { userEmail: { _eq: $email } }
           _and: { Category: { label: { _eq: $category } } }
         }
-        order_by: {
-          TechnicalAppetites_aggregate: { max: { level: desc } }
-          UserSkills_aggregate: { max: { level: desc } }
-        }
       ) {
         id
         name
@@ -163,7 +159,7 @@ const AddSkill = () => {
     weight: 75,
     labels: [skill.name],
     name: skill.name,
-  }));
+  })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
 
   return (
     <PageWithSkillList

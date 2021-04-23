@@ -47,10 +47,6 @@ const USER_SKILLS_QUERY = gql`
       y
       Skills(
         where: { UserSkills: { userEmail: { _eq: $email } } }
-        order_by: {
-          TechnicalAppetites_aggregate: { max: { level: desc } }
-          UserSkills_aggregate: { max: { level: desc } }
-        }
       ) {
         name
         UserSkills(limit: 1, order_by: { created_at: desc }) {
@@ -90,10 +86,16 @@ const Home = ({ pathName }) => {
       x: skill.UserSkills[0].level,
       y: skill.TechnicalAppetites[0].level,
       weight: 20,
-      labels: [`${i + 1}`],
+      labels: [``],
       name: skill.name,
     })),
     certifs: 0,
+  }))
+  .map((row) => ({
+    ...row,
+    data: row.data
+      .sort((a, b) => -(a.x + a.y - (b.x + b.y)))
+      .map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
   return (
     <PageWithNavAndPanel pathName={pathName}>
