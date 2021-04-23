@@ -65,6 +65,7 @@ const Radar = ({
   const radar = useRef(null);
   const [resized, setResized] = useState(false);
   const [circles, setCircles] = useState<RadarData[]>([]);
+
   useEffect(() => {
     if (!window) {
       return;
@@ -91,7 +92,9 @@ const Radar = ({
             .reduce((prev, curr) => ({
               ...prev,
               labels: [...prev.labels, ...curr.labels],
-              weight: prev.weight + curr.weight / 3,
+              weight:
+                prev.weight +
+                (prev.weight > 40 ? curr.weight / 5 : curr.weight / 3),
             }));
         })
         .reduce(

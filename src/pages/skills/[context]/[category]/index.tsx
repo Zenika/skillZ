@@ -157,67 +157,65 @@ const ListSkills = () => {
       data={radarData}
       color={skills.Category[0]?.color}
     >
-      <div>
-        <div
-          className={`z-10 h-screen ${
-            editPanelOpened || modaleOpened ? "opacity-25" : ""
-          }`}
-          onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
-        >
-          {sortedSkills.length > 0 ? (
-            sortedSkills.map((skill) => (
-              <SkillPanel
-                key={skill.name}
-                skill={skill}
-                onEditClick={onEditClick}
-              />
-            ))
-          ) : (
-            <p>{t("skills.noSkillAddedYet")}</p>
-          )}
-        </div>
-        <div
-          className={`fixed inset-x-0 duration-500 z-20 bottom-0 h-${
-            editPanelOpened ? "2/6" : "0"
-          } w-8/10 dark:bg-dark-light mx-2 rounded`}
-        >
-          <div className={`flex flex-col py-6 px-4 justify-between`}>
-            <h1 className="text-xl text-bold">{selectedSkill?.name}</h1>
-            <div className="flex flex-col h-full mt-8 justify-around ml-2">
-              <button
-                className="flex flex-row flex-start p-1 my-2"
-                onClick={() => openModale()}
-              >
-                <Image src="/icons/preferences.svg" width="24" height="24" />
-                <span className="px-2">{t("skills.editSkill")}</span>
-              </button>
-              <button
-                className="flex flex-row flex-start p-1 my-2"
-                onClick={() => onEditCancel()}
-              >
-                <Image src="/icons/back-arrow.svg" width="16" height="16" />
-                <span className="px-4">{t("skills.cancelAction")}</span>
-              </button>
-            </div>
+      <div
+        className={`z-10 ${
+          editPanelOpened || modaleOpened ? "opacity-25" : ""
+        }`}
+        onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
+      >
+        {sortedSkills.length > 0 ? (
+          sortedSkills.map((skill) => (
+            <SkillPanel
+              key={skill.name}
+              skill={skill}
+              onEditClick={onEditClick}
+            />
+          ))
+        ) : (
+          <p>{t("skills.noSkillAddedYet")}</p>
+        )}
+      </div>
+      <div
+        className={`fixed inset-x-0 duration-500 z-20 bottom-0 h-${
+          editPanelOpened ? "2/6" : "0"
+        } w-8/10 dark:bg-dark-light mx-2 rounded`}
+      >
+        <div className={`flex flex-col py-6 px-4 justify-between`}>
+          <h1 className="text-xl text-bold">{selectedSkill?.name}</h1>
+          <div className="flex flex-col h-full mt-8 justify-around ml-2">
+            <button
+              className="flex flex-row flex-start p-1 my-2"
+              onClick={() => openModale()}
+            >
+              <Image src="/icons/preferences.svg" width="24" height="24" />
+              <span className="px-2">{t("skills.editSkill")}</span>
+            </button>
+            <button
+              className="flex flex-row flex-start p-1 my-2"
+              onClick={() => onEditCancel()}
+            >
+              <Image src="/icons/back-arrow.svg" width="16" height="16" />
+              <span className="px-4">{t("skills.cancelAction")}</span>
+            </button>
           </div>
         </div>
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            modaleOpened ? "" : "hidden"
-          }`}
-        >
-          {selectedSkill ? (
-            <div className="flex flex-row justify-center">
-              <AddOrEditSkillModale
-                skill={selectedSkill}
-                cancel={() => setModaleOpened(false)}
-                callback={editAction}
-              />
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
+      </div>
+      <div
+        className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+          modaleOpened ? "" : "hidden"
+        }`}
+      >
+        {selectedSkill ? (
+          <div className="flex flex-row justify-center">
+            <AddOrEditSkillModale
+              skill={selectedSkill}
+              cancel={() => setModaleOpened(false)}
+              callback={editAction}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </PageWithSkillList>
   );
