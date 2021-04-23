@@ -45,9 +45,7 @@ const USER_SKILLS_QUERY = gql`
       color
       x
       y
-      Skills(
-        where: { UserSkills: { userEmail: { _eq: $email } } }
-      ) {
+      Skills(where: { UserSkills: { userEmail: { _eq: $email } } }) {
         name
         UserSkills(limit: 1, order_by: { created_at: desc }) {
           level
@@ -90,8 +88,7 @@ const Home = ({ pathName }) => {
       name: skill.name,
     })),
     certifs: 0,
-  }))
-  .map((row) => ({
+  })).map((row) => ({
     ...row,
     data: row.data
       .sort((a, b) => -(a.x + a.y - (b.x + b.y)))
