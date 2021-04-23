@@ -79,7 +79,7 @@ const Radar = ({
     setCircles(
       data
         .filter((row, i) => {
-          return i < 5;
+          return title === "" ? true : i < 5;
         })
         .map((row, _, array) => {
           return array
