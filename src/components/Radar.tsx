@@ -91,7 +91,7 @@ const Radar = ({
             .reduce((prev, curr) => ({
               ...prev,
               labels: [...prev.labels, ...curr.labels],
-              weight: prev.weight + curr.weight / 2,
+              weight: prev.weight + curr.weight / 3,
             }));
         })
         .reduce(

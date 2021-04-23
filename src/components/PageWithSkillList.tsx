@@ -55,14 +55,22 @@ const PageWithSkillList = ({
                 <h1 className="ml-10 text-xl">{t(`home.${category}`)}</h1>
               </div>
             </div>
-            <div className="flex flex-row justify-center">
-              <div className="flex flex-row max-w-screen-lg w-full h-screen p-4">
+            <div className="flex flex-row justify-center mt-4 mb-20">
+              <div className="flex flex-row justify-center max-w-screen-lg w-full h-screen p-4">
                 {isDesktop && data && color ? (
-                  <Radar data={data} color={color} x="top" y="left" title="" />
+                  <div className="flex flex-col w-2/3 px-2">
+                    <Radar
+                      data={data}
+                      color={color}
+                      x="top"
+                      y="left"
+                      title=""
+                    />
+                  </div>
                 ) : (
                   <></>
                 )}
-                <div className="flex flex-col">
+                <div className="flex flex-col w-auto px-2">
                   <div
                     className={`flex flex-row justify-around px-2 py-1 ${
                       faded ? "opacity-25" : ""
@@ -72,7 +80,7 @@ const PageWithSkillList = ({
                       <button
                         className={`${
                           add ? `dark:bg-dark-light` : `gradient-red`
-                        } flex-grow-0 rounded-full py-4 px-8`}
+                        } flex-grow-0 rounded-full mx-2 py-4 px-8`}
                       >
                         {t("skills.mySkills")}
                       </button>
@@ -81,7 +89,7 @@ const PageWithSkillList = ({
                       <button
                         className={`${
                           add ? `gradient-red` : `dark:bg-dark-light`
-                        } flex-grow-0 rounded-full py-4 px-8`}
+                        } flex-grow-0 rounded-full mx-2 py-4 px-8`}
                       >
                         {t("skills.addSkill")}
                       </button>
