@@ -65,6 +65,7 @@ const PageWithSkillList = ({
                       x="top"
                       y="left"
                       title=""
+                      faded={faded}
                     />
                   </div>
                 ) : (

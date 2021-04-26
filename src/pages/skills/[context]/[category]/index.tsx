@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../../../../utils/i18nContext";
 import SkillPanel from "../../../../components/SkillPanel";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
@@ -87,6 +88,9 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1024px)",
+  });
   const { data: skills, refetch } = useQuery<{
     Category: { color; Skills: FetchedSkill[] };
   }>(SKILLS_AND_APPETITE_QUERY, {
@@ -103,7 +107,8 @@ const ListSkills = () => {
   );
   const onEditClick = (skill: Skill) => {
     setSelectedSkill(skill);
-    setEditPanelOpened(true);
+    openModale();
+    // setEditPanelOpened(true);
   };
 
   const onEditCancel = () => {
