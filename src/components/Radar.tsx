@@ -18,17 +18,14 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
         left: `${data.x - data.weight / 2}px`,
         width: `${data.weight}px`,
         height: `${data.weight}px`,
-        paddingTop: `${
-          data.weight > 70
-            ? data.weight / 3
-            : data.weight > 20
-            ? data.weight / 5
-            : 2
-        }px`,
       }}
-      className={`${styles.circle} absolute text-dark-med overflow-clip rounded-full text-center text-xs gradient-${color}`}
+      className={`${styles.circle} flex flex-col justify-center absolute rounded-full text-center text-xs gradient-${color}`}
     >
-      {data.labels.join(", ")}
+      <div className="flex flex-row justify-center">
+        <span className="text-dark-med overflow-clip p-2">
+          {data.labels.join(", ")}
+        </span>
+      </div>
     </div>
   );
 };

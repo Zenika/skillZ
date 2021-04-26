@@ -156,7 +156,7 @@ const AddSkill = () => {
   const radarData = data?.Category[0]?.Skills?.map((skill) => ({
     x: skill.UserSkills[0]?.level,
     y: skill.TechnicalAppetites[0]?.level,
-    weight: 75,
+    weight: 65,
     labels: [skill.name],
     name: skill.name,
   })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
