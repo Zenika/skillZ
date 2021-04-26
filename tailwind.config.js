@@ -9,6 +9,7 @@ module.exports = {
         light: "#292929",
         med: "#1e1e1e",
         dark: "#121212",
+        ultradark: "#000000",
         graytext: "rgba(255, 255, 255, 0.87)",
         graybutton: "rgba(255, 255, 255, 0.1)",
         radargrid: "rgba(255, 255, 255, 0.2)",

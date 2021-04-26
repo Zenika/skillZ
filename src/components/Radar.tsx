@@ -56,12 +56,14 @@ const Radar = ({
   y,
   color,
   title,
+  faded,
 }: {
   data: RadarData[];
   x: string;
   y: string;
   color: string;
   title: string;
+  faded: boolean;
 }) => {
   const radar = useRef(null);
   const [resized, setResized] = useState(false);
@@ -118,7 +120,9 @@ const Radar = ({
   }, [radar, resized]);
   return (
     <div
-      className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full`}
+      className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full ${
+        faded ? "opacity-25" : ""
+      }`}
     >
       <div className="w-full h-4/5">
         <div

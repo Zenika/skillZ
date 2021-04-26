@@ -43,7 +43,7 @@ const SkillPanel = ({
         className="flex w-1/6 justify-end"
         onClick={() => onEditClick(skill)}
       >
-        <Image src="/icons/more.svg" width="24" height="24" />
+        <Image src="/icons/preferences.svg" width="24" height="24" />
       </div>
     </div>
   );
