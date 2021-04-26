@@ -56,7 +56,7 @@ const PageWithSkillList = ({
               </div>
             </div>
             <div className="flex flex-row justify-center mt-4 mb-20">
-              <div className="flex flex-row justify-center max-w-screen-lg w-full h-screen p-4">
+              <div className="flex flex-row justify-center max-w-screen-lg w-full p-4">
                 {isDesktop && data && color ? (
                   <div className="flex flex-col h-2/3 w-2/3 px-2">
                     <Radar
@@ -95,7 +95,7 @@ const PageWithSkillList = ({
                       </button>
                     </Link>
                   </div>
-                  <div className="flex flex-col mt-6 max-w-screen-lg">
+                  <div className="flex flex-col mt-6 max-w-screen-lg min-h-screen">
                     {children}
                   </div>
                 </div>
