@@ -24,7 +24,7 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
       <div className="flex flex-row justify-center">
         <span
           className={`text-dark-med overflow-clip ${
-            data.weight > 50 ? "p-2" : ""
+            data.weight > 30 ? "p-1" : ""
           }`}
         >
           {data.labels.join(", ")}
@@ -95,7 +95,7 @@ const Radar = ({
               labels: [...prev.labels, ...curr.labels],
               weight:
                 prev.weight +
-                (prev.weight > 40 ? curr.weight / 5 : curr.weight / 3),
+                (prev.weight > 50 ? curr.weight / 5 : curr.weight / 3),
             }));
         })
         .reduce(

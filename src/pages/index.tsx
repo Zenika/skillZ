@@ -83,7 +83,7 @@ const Home = ({ pathName }) => {
     data: data.Skills.map((skill, i) => ({
       x: skill.UserSkills[0].level,
       y: skill.TechnicalAppetites[0].level,
-      weight: 20,
+      weight: 25,
       labels: [``],
       name: skill.name,
     })),
