@@ -22,7 +22,11 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
       className={`${styles.circle} flex flex-col justify-center absolute rounded-full text-center text-xs gradient-${color}`}
     >
       <div className="flex flex-row justify-center">
-        <span className="text-dark-med overflow-clip p-2">
+        <span
+          className={`text-dark-med overflow-clip ${
+            data.weight > 50 ? "p-2" : ""
+          }`}
+        >
           {data.labels.join(", ")}
         </span>
       </div>
