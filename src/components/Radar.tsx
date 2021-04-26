@@ -63,7 +63,7 @@ const Radar = ({
   y: string;
   color: string;
   title: string;
-  faded: boolean;
+  faded?: boolean;
 }) => {
   const radar = useRef(null);
   const [resized, setResized] = useState(false);
