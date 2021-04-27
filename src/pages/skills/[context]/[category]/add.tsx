@@ -9,6 +9,7 @@ import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import { FetchedSkill } from ".";
+import CommonPage from "../../../../components/CommonPage";
 
 type Skill = {
   id: string;
@@ -162,47 +163,49 @@ const AddSkill = () => {
   })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
 
   return (
-    <PageWithSkillList
-      context={context}
-      category={category}
-      add={true}
-      faded={modaleOpened}
-      data={radarData}
-      color={data?.Category[0].color}
-    >
-      <div>
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            modaleOpened ? "" : "hidden"
-          }`}
-        >
-          {selectedSkill ? (
-            <div className="flex flex-row justify-center">
-              <AddOrEditSkillModale
-                skill={selectedSkill}
-                cancel={() => setModaleOpened(false)}
-                callback={addAction}
-              />
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div
-          className={`flex flex-col p-2 z-10 ${
-            modaleOpened ? "opacity-25" : ""
-          }`}
-        >
-          <SearchBar setSearch={setSearch} />
-          <AddSkillListSelector
-            action={preAddAction}
-            skills={skillsData?.Skill.filter(
-              (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+    <CommonPage page={category} faded={modaleOpened}>
+      <PageWithSkillList
+        context={context}
+        category={category}
+        add={true}
+        faded={modaleOpened}
+        data={radarData}
+        color={data?.Category[0].color}
+      >
+        <div>
+          <div
+            className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+              modaleOpened ? "" : "hidden"
+            }`}
+          >
+            {selectedSkill ? (
+              <div className="flex flex-row justify-center">
+                <AddOrEditSkillModale
+                  skill={selectedSkill}
+                  cancel={() => setModaleOpened(false)}
+                  callback={addAction}
+                />
+              </div>
+            ) : (
+              <></>
             )}
-          />
+          </div>
+          <div
+            className={`flex flex-col p-2 z-10 ${
+              modaleOpened ? "opacity-25" : ""
+            }`}
+          >
+            <SearchBar setSearch={setSearch} />
+            <AddSkillListSelector
+              action={preAddAction}
+              skills={skillsData?.Skill.filter(
+                (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+              )}
+            />
+          </div>
         </div>
-      </div>
-    </PageWithSkillList>
+      </PageWithSkillList>
+    </CommonPage>
   );
 };
 

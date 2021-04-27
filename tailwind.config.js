@@ -22,7 +22,8 @@ module.exports = {
       },
     },
     backgroundPosition: {
-      search: "right 2rem bottom 50%",
+      right: "right 2rem bottom 50%",
+      rightDropdown: "right 2rem bottom 45%",
     },
     minHeight: {
       homePanel: "300px",

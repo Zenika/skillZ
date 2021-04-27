@@ -42,3 +42,7 @@ body {
 .gradient-red {
   background: linear-gradient(51.05deg, #ee2238 -57.1%, #bf1d67 156.72%);
 }
+
+.gradient-red-faded {
+  background: linear-gradient(79.59deg, rgba(164, 69, 178, 0.27) 0%, rgba(212, 24, 114, 0.27) 52%, rgba(255, 0, 102, 0.27) 100%)
+}
