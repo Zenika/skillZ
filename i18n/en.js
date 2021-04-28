@@ -18,6 +18,14 @@ export default {
     tools: "Tools",
     "technics-and-methods": "Technics & Methods",
   },
+  commonPageNav: {
+    addSkill: "Add skill",
+    "languages-and-frameworks": "Languages & Frameworks",
+    platforms: "Platforms",
+    tools: "Tools",
+    "technics-and-methods": "Technics & Methods",
+    profile: "Profile",
+  },
   onboarding: {
     skip: "Skip",
     addSkillsDescription: "Add and manage your skills",
@@ -76,7 +84,12 @@ export default {
       knowledge: "Knowledge",
       desire: "Desire",
       cancel: "CANCEL",
-      addSkill: "ADD SKILL"
+      addSkill: "ADD SKILL",
     },
+  },
+  profile: {
+    contact: "My prefered method of contact",
+    topics: "My prefered topics",
+    selectPlaceholder: "My agency"
   },
 };

@@ -33,7 +33,7 @@ const Onboarding = () => {
     },
     onSwipedLeft: () => {
       if (cardNumber >= onboardingPages.length - 1) {
-        push("/profile/create");
+        push("/profile");
       }
       if (cardNumber < onboardingPages.length - 1) {
         setCardNumber(cardNumber + 1);
@@ -49,7 +49,7 @@ const Onboarding = () => {
         className="flex flex-auto flex-col justify-between p-4"
         {...swipeHandlers}
       >
-        <Link href="/profile/create">
+        <Link href="/profile">
           <p className={`text-right p-4 text-base ${styles.skipText}`}>
             {t("onboarding.skip")}
           </p>

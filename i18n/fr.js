@@ -18,6 +18,14 @@ export default {
     tools: "Outils",
     "technics-and-methods": "Techniques & Méthodes",
   },
+  commonPageNav: {
+    addSkill: "Ajouter une compétence",
+    "languages-and-frameworks": "Langages & Frameworks",
+    platforms: "Platformes",
+    tools: "Outils",
+    "technics-and-methods": "Techniques & Méthodes",
+    profile: "Profil"
+  },
   onboarding: {
     skip: "Passer",
     addSkillsDescription: "Ajoutez et gérez vos compétences",
@@ -79,5 +87,10 @@ export default {
       cancel: "ANNULER",
       addSkill: "AJOUTER"
     },
+  },
+  profile: {
+    contact: "Ma méthode de contact préférée",
+    topics: "Mes sujets préférés",
+    selectPlaceholder: "Mon agence"
   },
 };
