@@ -3,19 +3,21 @@ import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {
   choices: string[];
-  selectedChoice: string;
+  selectedChoice?: string;
+  placeholder: string;
   onChange: (choice: string) => void;
 };
 
 const CustomSelect = ({
   choices,
   selectedChoice,
+  placeholder,
   onChange,
 }: CustomSelectProps) => {
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState("");
   useEffect(() => {
-    setSelected(selectedChoice);
+    setSelected(selectedChoice || placeholder);
   }, [selectedChoice]);
   const onItemClick = (value: string) => {
     setSelected(value);

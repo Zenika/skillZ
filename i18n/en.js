@@ -24,7 +24,7 @@ export default {
     platforms: "Platforms",
     tools: "Tools",
     "technics-and-methods": "Technics & Methods",
-    profile: "Profile"
+    profile: "Profile",
   },
   onboarding: {
     skip: "Skip",
@@ -84,7 +84,12 @@ export default {
       knowledge: "Knowledge",
       desire: "Desire",
       cancel: "CANCEL",
-      addSkill: "ADD SKILL"
+      addSkill: "ADD SKILL",
     },
+  },
+  profile: {
+    contact: "My prefered method of contact",
+    topics: "My prefered topics",
+    selectPlaceholder: "My agency"
   },
 };

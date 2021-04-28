@@ -235,6 +235,19 @@
       - userEmail
       filter: {}
       allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - agency
+      - updatedAt
+      - userEmail
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserSkill

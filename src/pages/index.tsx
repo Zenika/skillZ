@@ -67,7 +67,7 @@ const Home = ({ pathName }) => {
     fetchPolicy: "network-only",
   });
   if (userData?.User.length <= 0) {
-    push("/onboarding");
+    push("/profile");
   }
 
   const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {

@@ -88,4 +88,9 @@ export default {
       addSkill: "AJOUTER"
     },
   },
+  profile: {
+    contact: "Ma méthode de contact préférée",
+    topics: "Mes sujets préférés",
+    selectPlaceholder: "Mon agence"
+  },
 };
