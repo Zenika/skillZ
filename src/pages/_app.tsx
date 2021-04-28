@@ -3,7 +3,7 @@ import Head from "next/head";
 import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
-import React, { useState } from "react";
+import { useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import "../styles/globals.css";
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";

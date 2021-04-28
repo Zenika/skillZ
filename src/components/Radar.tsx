@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Radar.module.css";
 
 const oneToFive = [1, 2, 3, 4, 5];

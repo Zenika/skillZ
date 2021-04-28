@@ -1,5 +1,5 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import Topbar from "../components/Topbar";

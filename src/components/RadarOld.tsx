@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import styles from "./Radar.module.css";
 
 const oneToFive = [1, 2, 3, 4, 5];

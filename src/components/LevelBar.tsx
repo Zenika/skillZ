@@ -1,5 +1,3 @@
-import React from "react";
-
 const LevelBar = ({ color, level }) => {
   return (
     <div className="flex flex-row justify-around">

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";

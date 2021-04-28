@@ -7,7 +7,7 @@ import {
 import { of } from "await-of";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;

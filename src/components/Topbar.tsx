@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
 import { gql } from "graphql-tag";

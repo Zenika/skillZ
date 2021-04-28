@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { i18nContext } from "../utils/i18nContext";
 
 export type Skill = {

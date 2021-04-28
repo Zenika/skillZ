@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 import Link from "next/link";

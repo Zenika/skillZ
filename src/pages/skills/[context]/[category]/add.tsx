@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useDebounce } from "use-debounce";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
