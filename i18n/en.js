@@ -79,7 +79,10 @@ export default {
     desireLevel: "Desire level",
     skillLevel: "Skill level",
     searchPlaceholder: "Search for a skill",
-    noSkillYet: "There is no skill in this category yet",
+    noMatchingSkills: "There is no skill matching your search",
+    addNewSkill: "Or add %skill% as a new skill",
+    addButton: "Add %skill%",
+    didYouMean: "Did you mean:",
     modale: {
       knowledge: "Knowledge",
       desire: "Desire",

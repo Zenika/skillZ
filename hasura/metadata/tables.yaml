@@ -64,10 +64,20 @@
         table:
           schema: public
           name: UserSkill
+  insert_permissions:
+  - role: world
+    permission:
+      check: {}
+      columns:
+      - categoryId
+      - id
+      - name
+      - topicId
   select_permissions:
   - role: world
     permission:
       columns:
+      - categoryId
       - id
       - name
       - topicId

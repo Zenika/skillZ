@@ -80,7 +80,10 @@ export default {
     desireLevel: "Appétence",
     skillLevel: "Compétence",
     searchPlaceholder: "Rechercher une compétence",
-    noSkillYet: "Il n'y a pas encore de compétence dans cette catégorie",
+    noMatchingSkills: "Il n'y a pas de compétences correspondants à votre recherche",
+    didYouMean: "Vouliez-vous dire:",
+    addNewSkill: "Ou ajoutez %skill% comme une nouvelle compétence",
+    addButton: "Ajouter %skill%",
     modale: {
       knowledge: "Connaissance",
       desire: "Appétence",
