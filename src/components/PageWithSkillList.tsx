@@ -1,9 +1,7 @@
 import { useContext } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
-import Topbar from "./Topbar";
 import Radar, { RadarData } from "./Radar";
 
 type PageWithSkillListProps = {
@@ -46,31 +44,35 @@ const PageWithSkillList = ({
         ) : (
           <></>
         )}
-        <div className="flex flex-col w-auto px-2">
-          <div
-            className={`flex flex-row justify-around px-2 py-1 ${
-              faded ? "opacity-25" : ""
-            }`}
-          >
-            <Link href={`/skills/${context}/${category}`}>
-              <button
-                className={`${
-                  add ? `dark:bg-dark-light` : `gradient-red`
-                } flex-grow-0 rounded-full mx-2 py-4 px-8`}
-              >
-                {t("skills.mySkills")}
-              </button>
-            </Link>
-            <Link href={`/skills/${context}/${category}/add`}>
-              <button
-                className={`${
-                  add ? `gradient-red` : `dark:bg-dark-light`
-                } flex-grow-0 rounded-full mx-2 py-4 px-8`}
-              >
-                {t("skills.addSkill")}
-              </button>
-            </Link>
-          </div>
+        <div className={`flex flex-col ${isDesktop ? "w-1/3" : "w-auto"} px-2`}>
+          {context !== "zenika" ? (
+            <div
+              className={`flex flex-row justify-around px-2 py-1 ${
+                faded ? "opacity-25" : ""
+              }`}
+            >
+              <Link href={`/skills/${context}/${category}`}>
+                <button
+                  className={`${
+                    add ? `dark:bg-dark-light` : `gradient-red`
+                  } flex-grow-0 rounded-full mx-2 py-4 px-8`}
+                >
+                  {t("skills.mySkills")}
+                </button>
+              </Link>
+              <Link href={`/skills/${context}/${category}/add`}>
+                <button
+                  className={`${
+                    add ? `gradient-red` : `dark:bg-dark-light`
+                  } flex-grow-0 rounded-full mx-2 py-4 px-8`}
+                >
+                  {t("skills.addSkill")}
+                </button>
+              </Link>
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="flex flex-col mt-6 max-w-screen-lg min-h-screen">
             {children}
           </div>

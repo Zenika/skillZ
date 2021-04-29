@@ -21,19 +21,15 @@ type UserAgencyResult = {
 
 const Topbar = ({
   path,
+  context,
   togglePanel,
 }: {
   path?: string;
+  context: string | string[];
   togglePanel: () => void;
 }) => {
-  const {
-    isLoading,
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-  } = useAuth0();
-  const { t, changeLocale } = useContext(i18nContext);
+  const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
+  const { t } = useContext(i18nContext);
   const [openMenu, setOpenMenu] = useState(false);
   const onPictureClick = () => {
     if (!isAuthenticated) {
@@ -61,6 +57,7 @@ const Topbar = ({
     );
     return;
   }
+
   return (
     <div className="flex flex-row justify-center h-24 bg-red-800 dark:bg-dark-dark">
       <div
@@ -80,7 +77,7 @@ const Topbar = ({
                     <div className="flex flex-initial flex-col justify-between">
                       <Image
                         src={
-                          path === "/"
+                          context === "mine" || path === "/"
                             ? "/icons/skills-selected.svg"
                             : "/icons/skills.svg"
                         }
@@ -89,7 +86,7 @@ const Topbar = ({
                         className="p-1"
                       />
                       <span className="text-center">{t("nav.mySkills")}</span>
-                      {path === "/" ? (
+                      {context === "mine" || path === "/" ? (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>
@@ -104,7 +101,7 @@ const Topbar = ({
                     <div className="flex flex-initial flex-col justify-between">
                       <Image
                         src={
-                          path === "/zenika"
+                          context === "zenika" || path === "/zenika"
                             ? "/icons/zenika-selected.svg"
                             : "/icons/zenika.svg"
                         }
@@ -115,7 +112,7 @@ const Topbar = ({
                       <span className="text-center">
                         {t("nav.zenikaSkills")}
                       </span>
-                      {path === "/zenika" ? (
+                      {context === "zenika" || path === "/zenika" ? (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>

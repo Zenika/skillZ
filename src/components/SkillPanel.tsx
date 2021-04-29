@@ -6,16 +6,20 @@ import { i18nContext } from "../utils/i18nContext";
 
 const SkillPanel = ({
   skill,
+  context,
   onEditClick,
 }: {
   skill: Skill;
+  context: string;
   onEditClick: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
   const { id, name, level, desire, certif } = skill;
   return (
     <div className="flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg">
-      <div className="flex flex-col w-5/6">
+      <div
+        className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
+      >
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{name}</h2>
           <div className="pr-14">
@@ -39,12 +43,16 @@ const SkillPanel = ({
           </div>
         </div>
       </div>
-      <div
-        className="flex w-1/6 justify-end"
-        onClick={() => onEditClick(skill)}
-      >
-        <Image src="/icons/preferences.svg" width="24" height="24" />
-      </div>
+      {context !== "zenika" ? (
+        <div
+          className="flex w-1/6 justify-end"
+          onClick={() => onEditClick(skill)}
+        >
+          <Image src="/icons/preferences.svg" width="24" height="24" />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

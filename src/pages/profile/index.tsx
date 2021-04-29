@@ -4,6 +4,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -78,6 +79,8 @@ type GetUserAgencyAndAllAgenciesResult = {
 
 const Profile = () => {
   const { user } = useAuth0();
+  const { query } = useRouter();
+  const { context } = query;
   const { t } = useContext(i18nContext);
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_AGENCY_AND_AGENCIES_QUERY,
@@ -130,7 +133,7 @@ const Profile = () => {
   };
 
   return (
-    <CommonPage page={"profile"} faded={false}>
+    <CommonPage page={"profile"} faded={false} context={context}>
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
           <div className="flex flex-row justify-start my-2">

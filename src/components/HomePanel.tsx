@@ -10,6 +10,7 @@ type HomePanelProps = {
   props: {
     x: string;
     y: string;
+    context: string;
     color: string;
     name: string;
     data: {
@@ -24,14 +25,14 @@ type HomePanelProps = {
 };
 
 const HomePanel = ({
-  props: { x, y, color, name, data, certifs },
+  props: { x, y, context, color, name, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1024px)",
   });
   return (
-    <Link href={`/skills/mine/${name}${data.length <= 0 ? "/add" : ""}`}>
+    <Link href={`/skills/${context}/${name}${data.length <= 0 ? "/add" : ""}`}>
       <div
         className={`flex flex-auto flex-col dark:bg-dark-panel min-h-homePanel rounded-${
           y === "top" ? "t" : "b"

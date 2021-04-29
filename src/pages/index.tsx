@@ -47,10 +47,18 @@ const USER_SKILLS_QUERY = gql`
       y
       Skills(where: { UserSkills: { userEmail: { _eq: $email } } }) {
         name
-        UserSkills(limit: 1, order_by: { created_at: desc }) {
+        UserSkills(
+          limit: 1
+          order_by: { created_at: desc }
+          where: { userEmail: { _eq: $email } }
+        ) {
           level
         }
-        TechnicalAppetites(limit: 1, order_by: { created_at: desc }) {
+        TechnicalAppetites(
+          limit: 1
+          order_by: { created_at: desc }
+          where: { userEmail: { _eq: $email } }
+        ) {
           level
         }
       }
@@ -59,7 +67,8 @@ const USER_SKILLS_QUERY = gql`
 `;
 
 const Home = ({ pathName }) => {
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+  const { context } = query;
   const { user, isLoading } = useAuth0();
 
   const { data: userData } = useQuery<UserData>(USER_QUERY, {
@@ -80,6 +89,7 @@ const Home = ({ pathName }) => {
     y: data.y,
     color: data.color,
     name: data.label,
+    context: "mine",
     data: data.Skills.map((skill, i) => ({
       x: skill.UserSkills[0].level,
       y: skill.TechnicalAppetites[0].level,
@@ -95,7 +105,7 @@ const Home = ({ pathName }) => {
       .map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
   return (
-    <PageWithNavAndPanel pathName={pathName}>
+    <PageWithNavAndPanel pathName={pathName} context={context}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         {homePanelData ? (
           homePanelData.map((computedDataSkill) => (

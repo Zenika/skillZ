@@ -4,7 +4,7 @@ import Topbar from "./Topbar";
 import Navbar from "./Navbar";
 import SidePanel from "./SidePanel";
 
-const PageWithNavAndPanel = ({ children, pathName }) => {
+const PageWithNavAndPanel = ({ children, pathName, context }) => {
   const [panelOpened, setPanelOpened] = useState(false);
   const togglePanel = () => setPanelOpened(!panelOpened);
   const closePanelIfOpened = () => {
@@ -23,7 +23,7 @@ const PageWithNavAndPanel = ({ children, pathName }) => {
         className={`z-10 w-full ${panelOpened ? "opacity-25" : ""}`}
         onClick={() => closePanelIfOpened()}
       >
-        <Topbar path={pathName} togglePanel={togglePanel} />
+        <Topbar path={pathName} context={context} togglePanel={togglePanel} />
         <div className="flex flex-row justify-center mt-6">
           <div className="max-w-screen-lg">{children}</div>
         </div>

@@ -129,6 +129,9 @@ const AddSkill = () => {
   const router = useRouter();
   const { user } = useAuth0();
   const { context, category } = router.query;
+  if (context === "zenika") {
+    router.push(`/skills/${context}/${category}`);
+  }
   const [search, setSearch] = useState("");
   const [modaleOpened, setModaleOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
@@ -194,7 +197,7 @@ const AddSkill = () => {
   const categoryId = data?.Category[0]?.id;
 
   return (
-    <CommonPage page={category} faded={modaleOpened}>
+    <CommonPage page={category} faded={modaleOpened} context={context}>
       <PageWithSkillList
         context={context}
         category={category}

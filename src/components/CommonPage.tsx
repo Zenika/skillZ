@@ -9,20 +9,21 @@ type CommonPageProps = {
   children: any;
   page: string | string[];
   faded: boolean;
+  context: string | string[];
 };
 
-const CommonPage = ({ children, page, faded }: CommonPageProps) => {
+const CommonPage = ({ children, page, faded, context }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1024px)",
   });
-
+  const backUrl = `${context === "zenika" ? "/zenika" : "/"}`;
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
         {isDesktop ? (
           <div className={faded ? "opacity-25" : ""}>
-            <Topbar path={""} togglePanel={() => {}} />
+            <Topbar path={""} togglePanel={() => {}} context={context} />
           </div>
         ) : (
           <></>
@@ -35,7 +36,7 @@ const CommonPage = ({ children, page, faded }: CommonPageProps) => {
                   faded ? "opacity-25" : ""
                 }`}
               >
-                <Link href="/">
+                <Link href={backUrl}>
                   <div className="p-1">
                     <Image src="/icons/back-arrow.svg" width="16" height="16" />
                   </div>
