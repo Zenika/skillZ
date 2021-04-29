@@ -8,7 +8,6 @@ export default {
   },
   sidepanel: {
     profile: "Profil",
-    preferences: "Préférences",
     logout: "Se déconnecter"
   },
   home: {
