@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
@@ -11,6 +11,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../../../../components/Loading";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import CommonPage from "../../../../components/CommonPage";
+import { RadarData } from "../../../../components/Radar";
 
 export type FetchedSkill = {
   id: string;
@@ -89,20 +90,49 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
-  });
-  const { data: skills, refetch } = useQuery<{
+
+  const [skills, setSkills] = useState<{
+    Category: { color; Skills: FetchedSkill[] };
+  }>();
+  const [radarData, setRadarData] = useState<RadarData[]>();
+  const [sortedSkills, setSortedSkills] = useState<Skill[]>();
+  const { data: skillsData, refetch } = useQuery<{
     Category: { color; Skills: FetchedSkill[] };
   }>(SKILLS_AND_APPETITE_QUERY, {
     variables: { email: user.email, category: category || "" },
     fetchPolicy: "network-only",
   });
+  useEffect(() => {
+    if (!skillsData) {
+      return;
+    }
+    setSkills(skillsData);
+    setRadarData(
+      skillsData.Category[0].Skills.map((skill) => ({
+        x: skill.UserSkills[0].level,
+        y: skill.TechnicalAppetites[0].level,
+        weight: 65,
+        labels: [skill.name],
+        name: skill.name,
+      })).sort((a, b) => -(a.x + a.y - (b.x + b.y)))
+    );
+    setSortedSkills(
+      skillsData.Category[0].Skills.map((item) => ({
+        id: item.id,
+        name: item.name,
+        level: item.UserSkills[0].level ?? 0,
+        desire: item.TechnicalAppetites[0].level ?? 0,
+        certif: false,
+      })).sort((a, b) => -(a.level + a.desire - (b.level + b.desire)))
+    );
+  }, [skillsData]);
+
   const [addSkill, { error: mutationError }] = useMutation(
     EDIT_SKILL_MUTATION,
     {
-      onCompleted: () => {
-        refetch({ email: user.email, category });
+      onCompleted: async () => {
+        const { data } = await refetch({ email: user.email, category });
+        setSkills(data);
       },
     }
   );
@@ -140,20 +170,6 @@ const ListSkills = () => {
   if (isLoading || !skills) {
     return <Loading />;
   }
-  const radarData = skills?.Category[0]?.Skills?.map((skill) => ({
-    x: skill.UserSkills[0]?.level,
-    y: skill.TechnicalAppetites[0]?.level,
-    weight: 65,
-    labels: [skill.name],
-    name: skill.name,
-  })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
-  const sortedSkills = skills.Category[0].Skills.map((item) => ({
-    id: item.id,
-    name: item.name,
-    level: item.UserSkills[0]?.level ?? 0,
-    desire: item.TechnicalAppetites[0]?.level ?? 0,
-    certif: false,
-  })).sort((a, b) => -(a.level + a.desire - (b.level + b.desire)));
   return (
     <CommonPage page={category} faded={modaleOpened}>
       <PageWithSkillList
@@ -162,7 +178,7 @@ const ListSkills = () => {
         add={false}
         faded={editPanelOpened || modaleOpened}
         data={radarData}
-        color={skills.Category[0]?.color}
+        color={skills?.Category[0]?.color}
       >
         <div
           className={`z-10 ${
@@ -170,8 +186,8 @@ const ListSkills = () => {
           }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
-          {sortedSkills.length > 0 ? (
-            sortedSkills.map((skill) => (
+          {sortedSkills?.length > 0 ? (
+            sortedSkills?.map((skill) => (
               <SkillPanel
                 key={skill.name}
                 skill={skill}

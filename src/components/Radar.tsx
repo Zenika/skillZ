@@ -117,7 +117,7 @@ const Radar = ({
           y: radar.current.offsetHeight * (circle.y / 5),
         }))
     );
-  }, [radar, resized]);
+  }, [radar, data, resized]);
   return (
     <div
       className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full ${
