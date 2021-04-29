@@ -23,6 +23,7 @@ type Skill = {
 
 type SkillSearchResult = {
   Skill: Skill[];
+  didYouMeanSearch: Skill[];
 };
 
 const SKILLS_AND_APPETITE_QUERY = gql`
@@ -32,6 +33,7 @@ const SKILLS_AND_APPETITE_QUERY = gql`
   ) {
     Category(where: { label: { _eq: $category } }) {
       color
+      id
       Skills(
         where: {
           UserSkills: { userEmail: { _eq: $email } }
@@ -56,11 +58,26 @@ const SKILL_SEARCH_QUERY = gql`
     $search: String!
     $category: String!
     $email: String!
+    $didYouMeanSearch: String!
   ) {
     Skill(
       where: {
         Category: { label: { _eq: $category } }
         name: { _ilike: $search }
+      }
+    ) {
+      name
+      id
+      UserSkills_aggregate(where: { User: { email: { _eq: $email } } }) {
+        aggregate {
+          count
+        }
+      }
+    }
+    didYouMeanSearch: Skill(
+      where: {
+        Category: { label: { _eq: $category } }
+        name: { _similar: $didYouMeanSearch }
       }
     ) {
       name
@@ -96,6 +113,18 @@ const ADD_SKILL_MUTATION = gql`
   }
 `;
 
+const computeDidYouMeanSearchString = (search: string) => {
+  const searches: string[] = [];
+  for (let i = 0; i < Math.floor(search.length / 2); ++i) {
+    const subString = search.substring(i * 2, i * 2 + 2);
+    searches.push(`${subString[0].toLowerCase()}${subString[1].toLowerCase()}`);
+    searches.push(`${subString[0].toUpperCase()}${subString[1].toLowerCase()}`);
+    searches.push(`${subString[0].toLowerCase()}${subString[1].toUpperCase()}`);
+    searches.push(`${subString[0].toUpperCase()}${subString[1].toUpperCase()}`);
+  }
+  return `%(${searches.join("|")})%`;
+};
+
 const AddSkill = () => {
   const router = useRouter();
   const { user } = useAuth0();
@@ -106,7 +135,7 @@ const AddSkill = () => {
     undefined
   );
   const { data, refetch } = useQuery<{
-    Category: { color; Skills: FetchedSkill[] };
+    Category: { color: string; id: string; Skills: FetchedSkill[] };
   }>(SKILLS_AND_APPETITE_QUERY, {
     variables: { email: user.email, category: category || "" },
     fetchPolicy: "network-only",
@@ -120,6 +149,7 @@ const AddSkill = () => {
       category,
       search: `%${debouncedSearchValue}%`,
       email: user?.email,
+      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
     },
     fetchPolicy: "network-only",
   });
@@ -161,6 +191,7 @@ const AddSkill = () => {
     labels: [skill.name],
     name: skill.name,
   })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
+  const categoryId = data?.Category[0]?.id;
 
   return (
     <CommonPage page={category} faded={modaleOpened}>
@@ -199,6 +230,11 @@ const AddSkill = () => {
             <AddSkillListSelector
               action={preAddAction}
               skills={skillsData?.Skill.filter(
+                (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+              )}
+              categoryId={categoryId}
+              search={debouncedSearchValue}
+              didYouMeanSkills={skillsData?.didYouMeanSearch.filter(
                 (skill) => skill.UserSkills_aggregate.aggregate.count === 0
               )}
             />
