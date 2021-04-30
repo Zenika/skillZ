@@ -123,12 +123,9 @@ const HomePanel = ({
               </span>
             </div>
           </div>
-          <div
-            className={`flex flex-auto flex-col ${
-              isDesktop ? "w-3/5 h-full" : ""
-            }`}
-          >
-            {isDesktop ? (
+
+          {isDesktop ? (
+            <div className={`flex flex-auto flex-col w-3/5 h-full`}>
               <Radar
                 x={x}
                 y={y}
@@ -136,10 +133,10 @@ const HomePanel = ({
                 color={color}
                 title={t(`home.${name}`)}
               />
-            ) : (
-              <></>
-            )}
-          </div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
 
         <div
