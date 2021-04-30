@@ -79,7 +79,7 @@ export default {
     skillLevel: "Skill level",
     searchPlaceholder: "Search for a skill",
     noMatchingSkills: "There is no skill matching your search",
-    addNewSkill: "Or add %skill% as a new skill",
+    addNewSkill: "Add %skill% as a new skill",
     addButton: "Add %skill%",
     didYouMean: "Did you mean:",
     modale: {
