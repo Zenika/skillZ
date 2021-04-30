@@ -1,15 +1,23 @@
-const LevelBar = ({ color, level }) => {
+const LevelBar = ({
+  color,
+  level,
+  name,
+}: {
+  color: string;
+  level: number;
+  name?: string;
+}) => {
+  console.log(`${name}: ${level}`);
   return (
     <div className="flex flex-row justify-around">
-      {[1, 2, 3, 4, 5].map((i) => {
+      {[0, 1, 2, 3, 4].map((i) => {
         if (level >= i + 1) {
           return (
             <div
               className={`gradient-${color} w-4 h-2 ml-1 rounded opacity-100`}
             />
           );
-        } else if (level > i && level <= i + 0.25) {
-          console.log("level", level);
+        } else if (level > i && level <= i + 0.5) {
           return (
             <>
               <div
@@ -20,8 +28,7 @@ const LevelBar = ({ color, level }) => {
               />
             </>
           );
-        } else if (level > i && level <= i + 0.5) {
-          console.log("level", level);
+        } else if (level > i && level <= i + 0.75) {
           return (
             <>
               <div
@@ -32,8 +39,7 @@ const LevelBar = ({ color, level }) => {
               />
             </>
           );
-        } else if (level > i && level <= i + 0.75) {
-          console.log("level", level);
+        } else if (level > i && level <= i + 0.99) {
           return (
             <>
               <div
