@@ -10,14 +10,29 @@ type CommonPageProps = {
   page: string | string[];
   faded: boolean;
   context: string | string[];
+  category?: string | string[];
+  skill?: string;
 };
 
-const CommonPage = ({ children, page, faded, context }: CommonPageProps) => {
+const CommonPage = ({
+  children,
+  page,
+  faded,
+  category,
+  skill,
+  context,
+}: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1024px)",
   });
-  const backUrl = `${context === "zenika" ? "/zenika" : "/"}`;
+  const backUrl = `${
+    context === "zenika"
+      ? skill && category
+        ? `/skills/zenika/${category}`
+        : "/zenika"
+      : "/"
+  }`;
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
@@ -41,7 +56,9 @@ const CommonPage = ({ children, page, faded, context }: CommonPageProps) => {
                     <Image src="/icons/back-arrow.svg" width="16" height="16" />
                   </div>
                 </Link>
-                <h1 className="ml-10 text-xl">{t(`commonPageNav.${page}`)}</h1>
+                <h1 className="ml-10 text-xl">
+                  {t(`commonPageNav.${page}`) || page}
+                </h1>
               </div>
             </div>
             {children}

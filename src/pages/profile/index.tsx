@@ -28,10 +28,14 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
 `;
 
 const INSERT_USER_MUTATION = gql`
-  mutation insertUserMutation($email: String!) {
+  mutation insertUserMutation(
+    $email: String!
+    $name: String!
+    $picture: String!
+  ) {
     insert_User(
-      objects: { email: $email }
-      on_conflict: { constraint: User_pkey, update_columns: email }
+      objects: { email: $email, name: $name, picture: $picture }
+      on_conflict: { constraint: User_pkey, update_columns: [name, picture] }
     ) {
       affected_rows
     }
@@ -89,9 +93,16 @@ const Profile = () => {
     }
   );
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
-  if (data && !data?.User[0]?.email && user?.email) {
-    insertUser({ variables: { email: user?.email } });
+  if (user) {
+    insertUser({
+      variables: {
+        email: user?.email,
+        name: user?.name,
+        picture: user?.picture,
+      },
+    });
   }
+
   const userAgency = error || !data ? undefined : data.UserAgency[0]?.agency;
   const agencies =
     error || !data ? [] : data.Agency.map((agency) => agency.name);

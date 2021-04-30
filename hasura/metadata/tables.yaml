@@ -195,12 +195,16 @@
           _eq: x-hasura-user-email
       columns:
       - email
+      - name
+      - picture
       backend_only: false
   select_permissions:
   - role: world
     permission:
       columns:
       - email
+      - name
+      - picture
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -208,6 +212,8 @@
     permission:
       columns:
       - email
+      - name
+      - picture
       filter:
         email:
           _eq: x-hasura-user-email
