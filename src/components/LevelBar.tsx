@@ -1,10 +1,4 @@
-const LevelBar = ({
-  color,
-  level,
-}: {
-  color: string;
-  level: number;
-}) => {
+const LevelBar = ({ color, level }: { color: string; level: number }) => {
   return (
     <div className="flex flex-row justify-around">
       {[0, 1, 2, 3, 4].map((i) => {
