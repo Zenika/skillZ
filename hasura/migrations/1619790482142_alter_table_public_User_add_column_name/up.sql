@@ -1,1 +1,1 @@
-ALTER TABLE "public"."User" ADD COLUMN "name";
+ALTER TABLE "public"."User" ADD COLUMN "name" text NULL;
