@@ -40,14 +40,20 @@ const ZENIKA_SKILLS_QUERY = gql`
       y
       Skills(where: { UserSkills: { created_at: { _is_null: false } } }) {
         name
-        UserSkills_aggregate(order_by: { created_at: desc }) {
+        UserSkills_aggregate(
+          order_by: { userEmail: asc, created_at: desc }
+          distinct_on: userEmail
+        ) {
           aggregate {
             avg {
               level
             }
           }
         }
-        TechnicalAppetites_aggregate(order_by: { created_at: desc }) {
+        TechnicalAppetites_aggregate(
+          order_by: { userEmail: asc, created_at: desc }
+          distinct_on: userEmail
+        ) {
           aggregate {
             avg {
               level

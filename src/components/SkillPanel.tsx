@@ -7,10 +7,12 @@ import { i18nContext } from "../utils/i18nContext";
 const SkillPanel = ({
   skill,
   context,
+  count,
   onEditClick,
 }: {
   skill: Skill;
   context: string;
+  count?: number;
   onEditClick: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
@@ -23,6 +25,13 @@ const SkillPanel = ({
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{name}</h2>
           <div className="pr-14">
+            {count ? (
+              <div className="flex flex-row justify-center rounded-full px-8 py-1 bg-dark-med">
+                <span>{count}</span>
+              </div>
+            ) : (
+              <></>
+            )}
             {certif ? (
               <Image src="/icons/certifs.svg" height="30" width="30" />
             ) : (

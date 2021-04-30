@@ -28,6 +28,7 @@ export type Skill = {
   id: string;
   name: string;
   level: number;
+  count?: number;
   desire: number;
   certif: boolean;
 };
@@ -97,18 +98,26 @@ const ZENIKA_SKILLS_QUERY = gql`
       y
       Skills(where: { UserSkills: { created_at: { _is_null: false } } }) {
         name
-        UserSkills_aggregate(order_by: { created_at: desc }) {
+        UserSkills_aggregate(
+          order_by: { userEmail: asc, created_at: desc }
+          distinct_on: userEmail
+        ) {
           aggregate {
             avg {
               level
             }
+            count
           }
         }
-        TechnicalAppetites_aggregate(order_by: { created_at: desc }) {
+        TechnicalAppetites_aggregate(
+          order_by: { userEmail: asc, created_at: desc }
+          distinct_on: userEmail
+        ) {
           aggregate {
             avg {
               level
             }
+            count
           }
         }
       }
@@ -163,6 +172,10 @@ const ListSkills = () => {
       skillsData.Category[0].Skills.map((skill) => ({
         id: skill.id,
         name: skill.name,
+        count:
+          context === "zenika"
+            ? skill.UserSkills_aggregate.aggregate.count
+            : undefined,
         level:
           context === "zenika"
             ? skill.UserSkills_aggregate.aggregate.avg.level
@@ -240,6 +253,7 @@ const ListSkills = () => {
               <SkillPanel
                 key={skill.name}
                 skill={skill}
+                count={skill.count}
                 context={
                   typeof context === "string" ? context : context.join("")
                 }
