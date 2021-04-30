@@ -32,7 +32,7 @@ const UserSkillPanel = ({
       <div
         className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
       >
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-left">
           <img
             className="w-16 h-16 mx-4 rounded-full"
             src={skill.user.picture || ""}
