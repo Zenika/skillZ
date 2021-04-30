@@ -44,7 +44,7 @@ const PageWithSkillList = ({
         ) : (
           <></>
         )}
-        <div className={`flex flex-col ${isDesktop ? "w-1/3" : "w-auto"} px-2`}>
+        <div className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}>
           {context !== "zenika" ? (
             <div
               className={`flex flex-row justify-around px-2 py-1 ${
