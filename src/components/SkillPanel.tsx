@@ -54,11 +54,11 @@ const SkillPanel = ({
             <p className="text-xs text-center my-2">
               {t("skills.desireLevel")}
             </p>
-            <LevelBar color="red" name={name} level={desire} />
+            <LevelBar color="red" level={desire} />
           </div>
           <div className="flex flex-col">
             <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
-            <LevelBar color="yellow" name={name} level={level} />
+            <LevelBar color="yellow" level={level} />
           </div>
         </div>
       </div>

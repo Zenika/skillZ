@@ -1,13 +1,10 @@
 const LevelBar = ({
   color,
   level,
-  name,
 }: {
   color: string;
   level: number;
-  name?: string;
 }) => {
-  console.log(`${name}: ${level}`);
   return (
     <div className="flex flex-row justify-around">
       {[0, 1, 2, 3, 4].map((i) => {
