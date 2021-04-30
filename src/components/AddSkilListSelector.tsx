@@ -35,10 +35,11 @@ const AddSkillListSelector = ({
     INSERT_SKILL_MUTATION
   );
   const addSkillButtonClick = () => {
-    if (categoryId) {
-      insertSkill({ variables: { name: search, categoryId } });
-      document.location.reload();
-    } else console.error("categoryId is undefined", categoryId);
+    if (!categoryId || !search || search === "") {
+      return;
+    }
+    insertSkill({ variables: { name: search, categoryId } });
+    document.location.reload();
   };
 
   return (
@@ -97,17 +98,21 @@ const AddSkillListSelector = ({
               </button>
             </div>
           ))}
-          <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-dark-dark my-2">
-            <span className="p-2 text-center">
-              {t("skills.addNewSkill").replace("%skill%", search)}
-            </span>
-            <button
-              className="rounded-full gradient-red text-white py-2"
-              onClick={() => addSkillButtonClick()}
-            >
-              {t("skills.addButton").replace("%skill%", search)}
-            </button>
-          </div>
+          {search.length > 0 ? (
+            <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-dark-dark my-2">
+              <span className="p-2 text-center">
+                {t("skills.addNewSkill").replace("%skill%", search)}
+              </span>
+              <button
+                className="rounded-full gradient-red text-white py-2"
+                onClick={() => addSkillButtonClick()}
+              >
+                {t("skills.addButton").replace("%skill%", search)}
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </div>
