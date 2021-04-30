@@ -21,7 +21,6 @@ const SidePanel = () => {
         <img className="w-16 h-16 rounded-full" src={user?.picture || ""} />
         <div className="flex flex-col pl-4">
           <h1 className="font-bold text-xl">{user.name}</h1>
-          <p>Zenika {}</p>
         </div>
       </div>
       <ul className="flex flex-col justify-around h-full pl-4">
