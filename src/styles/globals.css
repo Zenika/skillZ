@@ -19,6 +19,10 @@ body {
   background-color: #1e1e1e;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -44,5 +48,10 @@ body {
 }
 
 .gradient-red-faded {
-  background: linear-gradient(79.59deg, rgba(164, 69, 178, 0.27) 0%, rgba(212, 24, 114, 0.27) 52%, rgba(255, 0, 102, 0.27) 100%)
+  background: linear-gradient(
+    79.59deg,
+    rgba(164, 69, 178, 0.27) 0%,
+    rgba(212, 24, 114, 0.27) 52%,
+    rgba(255, 0, 102, 0.27) 100%
+  );
 }

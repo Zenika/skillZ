@@ -55,7 +55,7 @@ const PageWithSkillList = ({
                 <button
                   className={`${
                     add ? `dark:bg-dark-light` : `gradient-red`
-                  } flex-grow-0 rounded-full mx-2 py-4 px-6`}
+                  } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
                 >
                   {t("skills.mySkills")}
                 </button>
@@ -64,7 +64,7 @@ const PageWithSkillList = ({
                 <button
                   className={`${
                     add ? `gradient-red` : `dark:bg-dark-light`
-                  } flex-grow-0 rounded-full mx-2 py-4 px-6`}
+                  } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
                 >
                   {t("skills.addSkill")}
                 </button>

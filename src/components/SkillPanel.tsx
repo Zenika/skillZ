@@ -22,7 +22,9 @@ const SkillPanel = ({
   const { id, name, level, desire, certif } = skill;
   return (
     <div
-      className="flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg"
+      className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 cursor-pointer rounded-lg ${
+        context === "zenika" ? "cursor-pointer" : ""
+      }`}
       onClick={() =>
         context === "zenika"
           ? push(`/skills/${context}/${category}/${skill.name}`)
@@ -63,7 +65,7 @@ const SkillPanel = ({
         </div>
       </div>
       <div
-        className="flex w-1/6 justify-end"
+        className="flex w-1/6 justify-end cursor-pointer"
         onClick={() => (context === "zenika" ? () => {} : onEditClick(skill))}
       >
         {context === "zenika" ? (

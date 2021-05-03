@@ -74,7 +74,7 @@ const Topbar = ({
               <div className="flex flex-row justify-around">
                 <div className="w-36">
                   <Link href="/">
-                    <div className="flex flex-initial flex-col justify-between">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
                           context === "mine" || path === "/"
@@ -98,7 +98,7 @@ const Topbar = ({
                 </div>
                 <div className="w-36">
                   <Link href="/zenika">
-                    <div className="flex flex-initial flex-col justify-between">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
                           context === "zenika" || path === "/zenika"
@@ -124,7 +124,7 @@ const Topbar = ({
                 </div>
                 <div className="w-36">
                   <Link href="/search">
-                    <div className="flex flex-initial flex-col justify-between">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
                           path === "/search"
@@ -186,7 +186,7 @@ const Topbar = ({
                 <ul className="flex flex-col justify-around h-full pl-2">
                   <li className="p-2">
                     <Link href="/profile">
-                      <div className="flex flex-row pl-4">
+                      <div className="flex flex-row pl-4 cursor-pointer">
                         <Image
                           src="/icons/profile.svg"
                           width="16"
@@ -198,7 +198,7 @@ const Topbar = ({
                   </li>
                   <li className="p-2">
                     <Link href="/logout">
-                      <div className="flex flex-row pl-4">
+                      <div className="flex flex-row pl-4 cursor-pointer">
                         <Image src="/icons/logout.svg" width="18" height="18" />
                         <p className="pl-4">{t("sidepanel.logout")}</p>
                       </div>

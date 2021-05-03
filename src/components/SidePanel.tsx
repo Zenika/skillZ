@@ -26,7 +26,7 @@ const SidePanel = () => {
       <ul className="flex flex-col justify-around h-full pl-4">
         <li>
           <Link href="/profile">
-            <div className="flex flex-row pl-4">
+            <div className="flex flex-row pl-4 cursor-pointer">
               <Image src="/icons/profile.svg" width="16" height="16" />
               <p className="pl-4">{t("sidepanel.profile")}</p>
             </div>
@@ -34,7 +34,7 @@ const SidePanel = () => {
         </li>
         <li>
           <Link href="/logout">
-            <div className="flex flex-row pl-4">
+            <div className="flex flex-row pl-4 cursor-pointer">
               <Image src="/icons/logout.svg" width="18" height="18" />
               <p className="pl-4">{t("sidepanel.logout")}</p>
             </div>

@@ -243,7 +243,7 @@ const ListSkills = () => {
         color={skills?.Category[0]?.color}
       >
         <div
-          className={`z-10 ${
+          className={`z-10 cursor-pointer ${
             editPanelOpened || modaleOpened ? "opacity-25" : ""
           }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}

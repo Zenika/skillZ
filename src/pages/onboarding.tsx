@@ -50,7 +50,9 @@ const Onboarding = () => {
         {...swipeHandlers}
       >
         <Link href="/profile">
-          <p className={`text-right p-4 text-base ${styles.skipText}`}>
+          <p
+            className={`text-right p-4 text-base cursor-pointer ${styles.skipText}`}
+          >
             {t("onboarding.skip")}
           </p>
         </Link>

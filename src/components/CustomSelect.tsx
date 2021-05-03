@@ -39,7 +39,7 @@ const CustomSelect = ({
         style={{ width: size.width, height: size.height }}
       >
         <div
-          className={`dark:bg-dark-light w-full rounded${
+          className={`dark:bg-dark-light w-full cursor-pointer rounded${
             opened ? "-t-lg" : "-lg"
           } p-4 appearance-none bg-rightDropdown ${styles.select}`}
           onClick={() => setOpened(!opened)}
@@ -56,7 +56,7 @@ const CustomSelect = ({
               {choices.map((choice) => (
                 <span
                   key={choice}
-                  className="hover:bg-dark-med py-2 px-4"
+                  className="hover:bg-dark-med py-2 px-4 cursor-pointer"
                   onClick={() => onItemClick(choice)}
                 >
                   {choice}

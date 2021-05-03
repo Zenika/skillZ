@@ -20,7 +20,9 @@ const PageWithNavAndPanel = ({ children, pathName, context }) => {
   return (
     <div className="flex flex-row justify-center w-full">
       <div
-        className={`z-10 w-full ${panelOpened ? "opacity-25" : ""}`}
+        className={`z-10 w-full cursor-pointer ${
+          panelOpened ? "opacity-25" : ""
+        }`}
         onClick={() => closePanelIfOpened()}
       >
         <Topbar path={pathName} context={context} togglePanel={togglePanel} />

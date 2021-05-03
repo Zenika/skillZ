@@ -52,7 +52,7 @@ const CommonPage = ({
                 }`}
               >
                 <Link href={backUrl}>
-                  <div className="p-1">
+                  <div className="p-1 cursor-pointer">
                     <Image src="/icons/back-arrow.svg" width="16" height="16" />
                   </div>
                 </Link>

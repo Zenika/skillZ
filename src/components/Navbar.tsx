@@ -17,7 +17,7 @@ const Navbar = ({ path }: { path: string }) => {
     <header className="flex flex-auto flex-row justify-around h-16 bg-red-800 dark:bg-dark-dark dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
       <div className="w-1/3">
         <Link href="/">
-          <div className="flex flex-initial flex-col justify-between">
+          <div className="flex flex-initial flex-col justify-between cursor-pointer">
             {path === "/" ? (
               <Image src="/icons/nav-selected.svg" width="25" height="2" />
             ) : (
@@ -39,7 +39,7 @@ const Navbar = ({ path }: { path: string }) => {
       </div>
       <div className="w-1/3">
         <Link href="/zenika">
-          <div className="flex flex-initial flex-col justify-between">
+          <div className="flex flex-initial flex-col justify-between cursor-pointer">
             {path === "/zenika" ? (
               <Image src="/icons/nav-selected.svg" width="25" height="2" />
             ) : (
@@ -61,7 +61,7 @@ const Navbar = ({ path }: { path: string }) => {
       </div>
       <div className="w-1/3">
         <Link href="/search">
-          <div className="flex flex-initial flex-col justify-between">
+          <div className="flex flex-initial flex-col justify-between cursor-pointer">
             {path === "/search" ? (
               <Image src="/icons/nav-selected.svg" width="25" height="2" />
             ) : (

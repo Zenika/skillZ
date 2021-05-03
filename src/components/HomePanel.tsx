@@ -34,7 +34,7 @@ const HomePanel = ({
   return (
     <Link href={`/skills/${context}/${name}${data.length <= 0 ? "/add" : ""}`}>
       <div
-        className={`flex flex-auto flex-col dark:bg-dark-panel min-h-homePanel rounded-${
+        className={`flex flex-auto cursor-pointer flex-col dark:bg-dark-panel min-h-homePanel rounded-${
           y === "top" ? "t" : "b"
         }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
       >
