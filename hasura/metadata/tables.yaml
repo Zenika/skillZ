@@ -61,6 +61,30 @@
         table:
           schema: public
           name: UserSkill
+  insert_permissions:
+  - role: world
+    permission:
+      check: {}
+      columns:
+      - categoryId
+      - name
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - name
+      - categoryId
+      - id
+      filter: {}
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - categoryId
+      - name
+      filter: {}
+      check: {}
 - table:
     schema: public
     name: TechnicalAppetite
