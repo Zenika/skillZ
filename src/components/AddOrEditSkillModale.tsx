@@ -58,7 +58,10 @@ const AddOrEditSkillModale = ({
             {[1, 2, 3, 4, 5].map((index) => (
               <button
                 key={`skill-${index}`}
-                onClick={() => setSkillLevel(index)}
+                onClick={() => {
+                  setSkillLevel(index);
+                  setNavState("desire");
+                }}
                 className="flex flex-row justify-left py-1 my-2"
               >
                 <Image
