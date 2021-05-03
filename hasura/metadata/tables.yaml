@@ -46,9 +46,6 @@
   - name: Category
     using:
       foreign_key_constraint_on: categoryId
-  - name: Topic
-    using:
-      foreign_key_constraint_on: topicId
   array_relationships:
   - name: TechnicalAppetites
     using:
@@ -64,25 +61,6 @@
         table:
           schema: public
           name: UserSkill
-  insert_permissions:
-  - role: world
-    permission:
-      check: {}
-      columns:
-      - categoryId
-      - id
-      - name
-      - topicId
-  select_permissions:
-  - role: world
-    permission:
-      columns:
-      - categoryId
-      - id
-      - name
-      - topicId
-      filter: {}
-      allow_aggregations: true
 - table:
     schema: public
     name: TechnicalAppetite
@@ -133,13 +111,6 @@
     schema: public
     name: Topic
   array_relationships:
-  - name: Skills
-    using:
-      foreign_key_constraint_on:
-        column: topicId
-        table:
-          schema: public
-          name: Skill
   - name: UserTopics
     using:
       foreign_key_constraint_on:
