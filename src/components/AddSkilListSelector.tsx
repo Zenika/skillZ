@@ -12,7 +12,10 @@ export type Skill = {
 const INSERT_SKILL_MUTATION = gql`
   mutation insertSkillMutation($name: String!, $categoryId: uuid!) {
     insert_Skill(objects: { name: $name, categoryId: $categoryId }) {
-      affected_rows
+      returning {
+        id
+        name
+      }
     }
   }
 `;
@@ -31,15 +34,21 @@ const AddSkillListSelector = ({
   action: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
-  const [insertSkill, { error: mutationError }] = useMutation(
-    INSERT_SKILL_MUTATION
-  );
+  const [insertSkill, { error: mutationError }] = useMutation<{
+    insert_Skill: { returning: Skill[] };
+  }>(INSERT_SKILL_MUTATION, {
+    onCompleted: (response) => {
+      if (!response?.insert_Skill?.returning) {
+        return;
+      }
+      action(response?.insert_Skill?.returning[0]);
+    },
+  });
   const addSkillButtonClick = () => {
     if (!categoryId || !search || search === "") {
       return;
     }
     insertSkill({ variables: { name: search, categoryId } });
-    document.location.reload();
   };
 
   return (
