@@ -349,3 +349,9 @@
       check:
         userEmail:
           _eq: x-hasura-user-email
+  delete_permissions:
+  - role: world
+    permission:
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
