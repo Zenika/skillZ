@@ -8,23 +8,16 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
-    image: hasura/graphql-engine:v1.3.2
+    image: hasura/graphql-engine:v1.3.3
     ports:
     - "8080:8080"
     depends_on:
     - "postgres"
     restart: always
-    volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
-      - ./hasura/seeds:/hasura-seeds
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: key
-      
+      HASURA_GRAPHQL_JWT_SECRET: '${SKILLZ_GRAPHQL_JWT_SECRET?SKILLZ_GRAPHQL_JWT_SECRET}'
 volumes:
   db_data:
-  hasura-migrations:
-  hasura-metadata:
-  hasura-seeds:

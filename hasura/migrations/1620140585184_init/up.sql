@@ -1,3 +1,70 @@
+CREATE TABLE "public"."User"("email" text NOT NULL, "name" text NOT NULL, "picture" text NOT NULL, PRIMARY KEY ("email") );
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."Skill"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL UNIQUE, "categoryId" uuid NOT NULL, PRIMARY KEY ("id") );
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."Topic"("id" uuid NOT NULL DEFAULT gen_random_uuid(),  "name" text NOT NULL UNIQUE, PRIMARY KEY ("id") );
+
+CREATE TABLE "public"."UserSkill"("userEmail" text NOT NULL, "skillId" UUID NOT NULL, "level" integer NOT NULL DEFAULT 1, "created_at" date NOT NULL DEFAULT now(), PRIMARY KEY ("userEmail","skillId","created_at") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("skillId") REFERENCES "public"."Skill"("id") ON UPDATE restrict ON DELETE restrict);
+
+alter table "public"."UserSkill" add constraint "UserSkill_level_between_1_and_5" check (level >= 1 AND level <= 5);
+
+CREATE TABLE "public"."TechnicalAppetite"("userEmail" text NOT NULL, "skillId" uuid NOT NULL, "created_at" date NOT NULL DEFAULT now(), "level" integer NOT NULL DEFAULT 1, PRIMARY KEY ("userEmail","skillId","created_at") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("skillId") REFERENCES "public"."Skill"("id") ON UPDATE restrict ON DELETE restrict, CONSTRAINT "TechnicalAppetite_level_between_1_and_5" CHECK (level >= 1 AND level <= 5));
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."Agency"("name" text NOT NULL, PRIMARY KEY ("name") );
+
+CREATE TABLE "public"."UserAgency"("userEmail" Text NOT NULL, "agency" text NOT NULL, "created_at" date NOT NULL DEFAULT now(), PRIMARY KEY ("userEmail", "created_at") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("agency") REFERENCES "public"."Agency"("name") ON UPDATE restrict ON DELETE restrict);
+
+CREATE TABLE "public"."UserTopic"("userEmail" text NOT NULL, "topicId" uuid NOT NULL, "created_at" date NOT NULL DEFAULT now(), PRIMARY KEY ("userEmail","topicId","created_at") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("topicId") REFERENCES "public"."Topic"("id") ON UPDATE restrict ON DELETE restrict);
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."Category"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "label" text NOT NULL, "x" text NOT NULL, "y" text NOT NULL, "color" text NOT NULL, "index" integer NOT NULL UNIQUE, PRIMARY KEY ("id") );
+
+alter table "public"."Skill"
+           add constraint "Skill_categoryId_fkey"
+           foreign key ("categoryId")
+           references "public"."Category"
+           ("id") on update restrict on delete restrict;
+
+
+
+INSERT INTO public."Agency" VALUES 
+('Paris'),
+('Nantes'),
+('Singapore'),
+('Bordeaux'),
+('Brest'),
+('Montreal'),
+('Grenoble'),
+('Lyon'),
+('Rennes'),
+('Lille');
+
+INSERT INTO public."Category" VALUES
+('89780de3-4a4c-40c2-bcdf-b5d15a48437a', 'languages-and-frameworks', 'left', 'top', 'yellow', 1),
+('06420261-3e78-4a91-bc6a-1a52cad5d6a1', 'platforms', 'right', 'top', 'violet', 2),
+('c3341edb-3c1f-4e3d-bf89-8e795eb13690', 'tools', 'left' ,'bot', 'blue', 3),
+('89f5e9a5-5ce6-416c-bed9-dd736546aa7f', 'technics-and-methods', 'right', 'bot', 'cyan', 4);
+
+INSERT INTO public."Topic" VALUES
+('71c8f42c-7182-444d-8133-3a3a52ae7912', 'Frontend'),
+('16198ae7-40bb-4fcd-ae5d-ce371902dce2', 'Backend'),
+('5a83e55d-22f2-428a-a5e2-effade6b6be5', 'Agilité'),
+('b53a5cdb-6269-4965-ae5b-f42c9611664f', 'Maker'),
+('817e3dae-01da-446a-920b-a3a5a9f57bea', 'Réseau'),
+('7e8e6f07-7844-4c1f-aa91-1dda49555ee3', 'Web'),
+('eb4edee0-9351-4fce-b04f-acbee63634b0', 'Security'),
+('c42d872f-227e-49ce-8a97-2af8aa021fbd', 'Microservices'),
+('6be68073-0f12-42bc-9835-07f8e81ea4a3', 'Network'),
+('2117fd9e-bda8-4b0a-b1f1-6ea68bca3443', 'Ops'),
+('7ee06efb-f337-4541-b160-10e35cd5b574', 'DevOps'),
+('5451823f-965c-40e7-85db-05ff8c7a370d', 'IA'),
+('fa4af642-a890-4966-9224-2c607807ef68', 'Data'),
+('c80dbcaa-b6d5-42fb-b375-0bb3146fcbbe', 'Mobile');
+
+
 INSERT INTO public."Skill" VALUES
 (DEFAULT, '.NET', '89780de3-4a4c-40c2-bcdf-b5d15a48437a'),
 (DEFAULT, '.NET Core', '89780de3-4a4c-40c2-bcdf-b5d15a48437a'),

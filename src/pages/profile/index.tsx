@@ -47,8 +47,8 @@ const UPSERT_AGENCY_MUTATION = gql`
     insert_UserAgency_one(
       object: { userEmail: $email, agency: $agency }
       on_conflict: {
-        constraint: UserAgency_userEmail_key
-        update_columns: [agency, updatedAt]
+        constraint: UserAgency_pkey
+        update_columns: [agency, created_at]
       }
     ) {
       agency
