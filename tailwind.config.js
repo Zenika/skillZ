@@ -32,6 +32,10 @@ module.exports = {
       width: {
         13: "3.25rem",
         15: "3.75rem",
+        radar: "600px",
+      },
+      height: {
+        radar: "600px",
       },
     },
   },

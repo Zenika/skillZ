@@ -127,7 +127,9 @@ const Radar = ({
       <div className="w-full h-4/5">
         <div
           ref={radar}
-          className={`w-11/12 h-5/6 m-3 border-b-2 border-${
+          className={`${
+            title === "" ? "w-radar h-radar" : "w-11/12 h-5/6"
+          } m-3 max-w-radar max-h-radar border-b-2 border-${
             x === "left" ? "r" : "l"
           }-2 border-dark-red border-dashed`}
         >
