@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -103,11 +104,19 @@ const Profile = () => {
     });
   }
 
-  const userAgency = error || !data ? undefined : data.UserAgency[0]?.agency;
+  const userAgency =
+    error || data?.UserAgency.length <= 0
+      ? undefined
+      : data?.UserAgency[0]?.agency;
   const agencies =
-    error || !data ? [] : data.Agency.map((agency) => agency.name);
-  const topics = error || !data ? [] : data.Topic;
-
+    error || data?.Agency.length <= 0
+      ? []
+      : data?.Agency.map((agency) => agency.name);
+  const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
+  const onboarding =
+    data?.Topic.length <= 0 ||
+    data?.Agency.length <= 0 ||
+    data?.UserAgency.length <= 0;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
@@ -120,7 +129,7 @@ const Profile = () => {
     name: string;
     UserTopics: { created_at: string }[];
   }) => {
-    const topic = topics.find(
+    const topic = topics?.find(
       (value) =>
         selectedTopic.UserTopics.length > 0 && value.id === selectedTopic.id
     );
@@ -147,6 +156,15 @@ const Profile = () => {
     <CommonPage page={"profile"} faded={false} context={context}>
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
+          {onboarding ? (
+            <div className="flex flex-col justify-center rounded-lg bg-dark-dark my-2 p-2">
+              <div className="flex flex-row justify-center">
+                <div className="p-2">{t("profile.onboarding")}</div>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="flex flex-row justify-start my-2">
             <img
               className="w-16 h-16 mx-4 rounded-full"
@@ -157,13 +175,14 @@ const Profile = () => {
             </div>
           </div>
           <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
+            <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
               selectedChoice={userAgency}
               placeholder={t("profile.selectPlaceholder")}
               onChange={(value: string) => updateAgency(value)}
             />
-            <div className="p-2">{t("profile.contact")}</div>
+            {/* <div className="p-2">{t("profile.contact")}</div>
             <div className="flex flex-row justify-center p-2 w-full">
               <div className="flex flex-row justify-around">
                 <button className={`rounded-full m-2 gradient-red-faded`}>
@@ -173,12 +192,12 @@ const Profile = () => {
                   <span className="px-2 py-1 text-white">Slack</span>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col rounded-lg bg-dark-dark my-2 p-2">
             <span>{t("profile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
-              {topics.map((topic) => (
+              {topics?.map((topic) => (
                 <button
                   key={topic.name}
                   className={`rounded-full m-2 ${
@@ -191,6 +210,15 @@ const Profile = () => {
                   <span className="px-2 py-1 text-white">{topic.name}</span>
                 </button>
               ))}
+            </div>
+          </div>
+          <div className="flex flex-col justify-center my-2 p-2">
+            <div className="flex flex-row justify-center">
+              <Link href={"/"}>
+                <span className="p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
+                  {t("profile.confirm")}
+                </span>
+              </Link>
             </div>
           </div>
         </div>

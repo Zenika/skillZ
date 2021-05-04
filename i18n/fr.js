@@ -8,7 +8,7 @@ export default {
   },
   sidepanel: {
     profile: "Profil",
-    logout: "Se déconnecter"
+    logout: "Se déconnecter",
   },
   home: {
     addSkill: "Ajouter une compétence",
@@ -23,7 +23,7 @@ export default {
     platforms: "Platformes",
     tools: "Outils",
     "technics-and-methods": "Techniques & Méthodes",
-    profile: "Profil"
+    profile: "Profil",
   },
   onboarding: {
     skip: "Passer",
@@ -79,7 +79,8 @@ export default {
     desireLevel: "Appétence",
     skillLevel: "Compétence",
     searchPlaceholder: "Rechercher une compétence",
-    noMatchingSkills: "Il n'y a pas de compétences correspondants à votre recherche",
+    noMatchingSkills:
+      "Il n'y a pas de compétences correspondants à votre recherche",
     didYouMean: "Vouliez-vous dire:",
     addNewSkill: "Ajoutez %skill% comme une nouvelle compétence",
     addButton: "Ajouter %skill%",
@@ -87,12 +88,16 @@ export default {
       knowledge: "Connaissance",
       desire: "Appétence",
       cancel: "ANNULER",
-      addSkill: "AJOUTER"
+      addSkill: "AJOUTER",
     },
   },
   profile: {
+    onboarding:
+      "Bienvenue sur SkillZ ! Nous vous recommandons de renseigner votre agence et vos sujets préférés pour que votre profil soit complet",
+    agency: "Mon agence",
     contact: "Ma méthode de contact préférée",
     topics: "Mes sujets préférés",
-    selectPlaceholder: "Mon agence"
+    selectPlaceholder: "Mon agence",
+    confirm: "CONFIRMER LE PROFIL"
   },
 };

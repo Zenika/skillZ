@@ -90,8 +90,12 @@ export default {
     },
   },
   profile: {
+    onboarding:
+      "Welcome to SkillZ ! We recommend you set your agency and prefered topics so your profile is complete",
+    agency: "My agency",
     contact: "My prefered method of contact",
     topics: "My prefered topics",
-    selectPlaceholder: "My agency"
+    selectPlaceholder: "My agency",
+    confirm: "CONFIRM PROFILE"
   },
 };
