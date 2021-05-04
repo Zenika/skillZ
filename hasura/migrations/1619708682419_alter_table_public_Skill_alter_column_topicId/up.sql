@@ -1,1 +1,0 @@
-ALTER TABLE "public"."Skill" ALTER COLUMN "topicId" DROP NOT NULL;
