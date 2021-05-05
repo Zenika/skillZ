@@ -129,6 +129,9 @@ const ListSkills = () => {
   const router = useRouter();
   const { user, isLoading } = useAuth0();
   const { t } = useContext(i18nContext);
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1280px)",
+  });
   const { context, category } = router.query;
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
@@ -243,7 +246,9 @@ const ListSkills = () => {
         color={skills?.Category[0]?.color}
       >
         <div
-          className={`z-10 cursor-pointer ${
+          className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} h-screen ${
+            isDesktop ? "h-radar" : "h-screen"
+          } overflow-y-scroll ${
             editPanelOpened || modaleOpened ? "opacity-25" : ""
           }`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}

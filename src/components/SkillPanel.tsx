@@ -22,7 +22,7 @@ const SkillPanel = ({
   const { id, name, level, desire, certif } = skill;
   return (
     <div
-      className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 cursor-pointer rounded-lg ${
+      className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
         context === "zenika" ? "cursor-pointer" : ""
       }`}
       onClick={() =>

@@ -29,14 +29,16 @@ const HomePanel = ({
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
+    query: "(min-device-width: 1280px)",
   });
   return (
     <Link href={`/skills/${context}/${name}${data.length <= 0 ? "/add" : ""}`}>
       <div
-        className={`flex flex-auto cursor-pointer flex-col dark:bg-dark-panel min-h-homePanel rounded-${
-          y === "top" ? "t" : "b"
-        }${x === "left" ? "l" : "r"}-2xl m-1 w-2/5`}
+        className={`flex flex-auto cursor-pointer flex-col dark:bg-dark-panel min-h-homePanel${
+          !isDesktop ? "-mobile" : ""
+        } rounded-${y === "top" ? "t" : "b"}${
+          x === "left" ? "l" : "r"
+        }-2xl m-1 w-2/5`}
       >
         <div
           className={`flex flex-auto flex-row${

@@ -15,7 +15,7 @@ const PageWithNavAndPanel = ({ children, pathName, context }) => {
   };
 
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
+    query: "(min-device-width: 1280px)",
   });
 
   return (
@@ -28,7 +28,7 @@ const PageWithNavAndPanel = ({ children, pathName, context }) => {
       >
         <Topbar path={pathName} context={context} togglePanel={togglePanel} />
         <div className="flex flex-row justify-center mt-6">
-          <div className="max-w-screen-lg">{children}</div>
+          <div className="max-w-screen-xl">{children}</div>
         </div>
         {!isDesktop ? <Navbar path={pathName} /> : <></>}
       </div>

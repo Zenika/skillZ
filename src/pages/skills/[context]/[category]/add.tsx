@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { useDebounce } from "use-debounce";
+import { useMediaQuery } from "react-responsive";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
 import SearchBar from "../../../../components/SearchBar";
@@ -131,6 +132,9 @@ const AddSkill = () => {
   const router = useRouter();
   const { user } = useAuth0();
   const { t } = useContext(i18nContext);
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1280px)",
+  });
   const { context, category } = router.query;
   if (context === "zenika") {
     router.push(`/skills/${context}/${category}`);
@@ -233,9 +237,9 @@ const AddSkill = () => {
             )}
           </div>
           <div
-            className={`flex flex-col p-2 z-10 ${
-              modaleOpened ? "opacity-25" : ""
-            }`}
+            className={`flex flex-col ${
+              isDesktop ? "h-radar" : "h-screen"
+            } overflow-y-scroll p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
           >
             <SearchBar setSearch={setSearch} />
             <AddSkillListSelector

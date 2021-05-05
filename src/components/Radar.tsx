@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Radar.module.css";
 
-const oneToFive = [1, 2, 3, 4, 5];
+const oneToSix = [1, 2, 3, 4, 5, 6];
 
 export type RadarData = {
   x: number;
@@ -36,14 +36,14 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
 
 const RadarCell = () => {
   return (
-    <div className="w-1/5 h-full border border-dashed border-opacity-25 border-dark-radargrid "></div>
+    <div className="w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid "></div>
   );
 };
 
 const RadarRow = ({ i }: { i: number }) => {
   return (
-    <div className="flex flex-row w-full h-1/5">
-      {oneToFive.map((k) => (
+    <div className="flex flex-row w-full h-1/6">
+      {oneToSix.map((k) => (
         <RadarCell key={`${i}-${k}`} />
       ))}
     </div>
@@ -83,7 +83,7 @@ const Radar = ({
     setCircles(
       data
         .filter((row, i) => {
-          return title === "" ? true : i < 5;
+          return title === "" ? i < 15 : i < 5;
         })
         .map((row, _, array) => {
           return array
@@ -113,8 +113,8 @@ const Radar = ({
         )
         .map((circle) => ({
           ...circle,
-          x: radar.current.offsetWidth * (circle.x / 5),
-          y: radar.current.offsetHeight * (circle.y / 5),
+          x: radar.current.offsetWidth * (circle.x / 6),
+          y: radar.current.offsetHeight * (circle.y / 6),
         }))
     );
   }, [radar, data, resized]);
@@ -133,7 +133,7 @@ const Radar = ({
             x === "left" ? "r" : "l"
           }-2 border-dark-red border-dashed`}
         >
-          {oneToFive.map((i) => (
+          {oneToSix.map((i) => (
             <RadarRow key={i} i={i} />
           ))}
           <div className="absolute">

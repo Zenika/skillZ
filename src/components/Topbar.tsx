@@ -48,7 +48,7 @@ const Topbar = ({
   );
 
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
+    query: "(min-device-width: 1280px)",
   });
 
   if (error) {
@@ -61,7 +61,7 @@ const Topbar = ({
   return (
     <div className="flex flex-row justify-center h-24 bg-red-800 dark:bg-dark-dark">
       <div
-        className={`flex flex-auto flex-row flex-grow-1 justify-between text-white max-w-screen-lg ${
+        className={`flex flex-auto flex-row flex-grow-1 justify-between text-white max-w-screen-xl ${
           !isDesktop ? "p-4" : ""
         }`}
       >

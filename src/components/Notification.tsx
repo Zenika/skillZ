@@ -13,7 +13,7 @@ const Notification = () => {
     undefined
   );
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
+    query: "(min-device-width: 1280px)",
   });
   window.addEventListener("notification", (e: any) => {
     setOptions(e.detail);
@@ -28,7 +28,7 @@ const Notification = () => {
           ? "right-10 top-24 h-20"
           : `bottom-${
               options?.bottomMargin ? "20" : "2"
-            } w-11/12 max-w-screen-lg`
+            } w-11/12 max-w-screen-xl`
       } flex flex-col cursor-pointer justify-center p-2 rounded-lg gradient-${
         options?.color
       } ${

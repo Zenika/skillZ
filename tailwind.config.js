@@ -26,16 +26,22 @@ module.exports = {
       rightDropdown: "right 2rem bottom 45%",
     },
     minHeight: {
-      homePanel: "300px",
+      homePanel: "400px",
+      homePanelMobile: "300px",
     },
     extend: {
       width: {
         13: "3.25rem",
         15: "3.75rem",
-        radar: "600px",
+        radar: "800px",
       },
       height: {
-        radar: "600px",
+        radar: "800px",
+        "1/6": "16.66%",
+        "1/12": "8.333333%",
+      },
+      margin: {
+        radar: "8.333333%",
       },
     },
   },

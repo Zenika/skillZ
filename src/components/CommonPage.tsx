@@ -25,7 +25,7 @@ const CommonPage = ({
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1024px)",
+    query: "(min-device-width: 1280px)",
   });
   const backUrl = `${
     context === "zenika"
@@ -48,7 +48,7 @@ const CommonPage = ({
           <div className="flex flex-col justify-center dark:bg-dark-med w-full">
             <div className="flex flex-row justify-center w-full my-1 dark:bg-dark-dark">
               <div
-                className={`flex flex-row max-w-screen-lg w-full p-6 ${
+                className={`flex flex-row max-w-screen-xl w-full p-6 ${
                   faded ? "opacity-25" : ""
                 }`}
               >
