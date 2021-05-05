@@ -247,7 +247,7 @@ const ListSkills = () => {
       >
         <div
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
-            isDesktop ? "h-radar overflow-y-scroll" : ""
+            isDesktop ? "h-radar overflow-y-auto" : ""
           } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
