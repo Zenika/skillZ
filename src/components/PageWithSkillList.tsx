@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
 import Radar, { RadarData } from "./Radar";
-import Notification from "./Notification";
 
 type PageWithSkillListProps = {
   children: any;
@@ -79,7 +78,6 @@ const PageWithSkillList = ({
           </div>
         </div>
       </div>
-      <Notification />
     </div>
   );
 };

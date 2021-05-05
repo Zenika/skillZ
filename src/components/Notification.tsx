@@ -29,13 +29,14 @@ const Notification = () => {
           : `bottom-${
               options?.bottomMargin ? "20" : "2"
             } w-11/12 max-w-screen-lg`
-      } flex flex-col justify-center p-2 rounded-lg gradient-${
+      } flex flex-col cursor-pointer justify-center p-2 rounded-lg gradient-${
         options?.color
       } ${
         options
           ? `${isDesktop ? "w-2/12 maw-w-screen-sm" : "h-24"}`
           : `${isDesktop ? "w-0" : "h-0"}`
       } duration-500`}
+      onClick={() => setOptions(undefined)}
     >
       <div className="flex flex-row justify-center">
         <span className="text-white">{options?.text}</span>
