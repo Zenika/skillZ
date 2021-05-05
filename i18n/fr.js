@@ -90,6 +90,7 @@ export default {
       cancel: "ANNULER",
       addSkill: "AJOUTER",
     },
+    addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
   },
   profile: {
     onboarding:

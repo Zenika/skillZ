@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
 import Topbar from "./Topbar";
+import Notification from "./Notification";
 
 type CommonPageProps = {
   children: any;
@@ -65,6 +66,7 @@ const CommonPage = ({
           </div>
         </div>
       </div>
+      <Notification />
     </div>
   );
 };

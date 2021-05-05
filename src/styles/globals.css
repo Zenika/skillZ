@@ -47,6 +47,10 @@ body {
   background: linear-gradient(51.05deg, #ee2238 -57.1%, #bf1d67 156.72%);
 }
 
+.gradient-green {
+  background-color: #3bb78f;
+  background-image: linear-gradient(315deg, #3bb78f 0%, #0bab64 74%);}
+
 .gradient-red-faded {
   background: linear-gradient(
     79.59deg,

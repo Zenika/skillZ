@@ -4,7 +4,6 @@ import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
-import { data } from "autoprefixer";
 
 type UserData = {
   User: {

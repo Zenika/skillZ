@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import Topbar from "./Topbar";
 import Navbar from "./Navbar";
 import SidePanel from "./SidePanel";
+import Notification from "./Notification";
 
 const PageWithNavAndPanel = ({ children, pathName, context }) => {
   const [panelOpened, setPanelOpened] = useState(false);
@@ -38,6 +39,7 @@ const PageWithNavAndPanel = ({ children, pathName, context }) => {
       >
         <SidePanel />
       </div>
+      <Notification />
     </div>
   );
 };

@@ -88,6 +88,7 @@ export default {
       cancel: "CANCEL",
       addSkill: "ADD SKILL",
     },
+    addSkillSuccess: "Skill %skill% was added successfully",
   },
   profile: {
     onboarding:
@@ -96,6 +97,6 @@ export default {
     contact: "My prefered method of contact",
     topics: "My prefered topics",
     selectPlaceholder: "My agency",
-    confirm: "CONFIRM PROFILE"
+    confirm: "CONFIRM PROFILE",
   },
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { useDebounce } from "use-debounce";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -10,6 +10,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import { FetchedSkill } from ".";
 import CommonPage from "../../../../components/CommonPage";
+import { useNotification } from "../../../../utils/useNotification";
+import { i18nContext } from "../../../../utils/i18nContext";
 
 type Skill = {
   id: string;
@@ -128,6 +130,7 @@ const computeDidYouMeanSearchString = (search: string) => {
 const AddSkill = () => {
   const router = useRouter();
   const { user } = useAuth0();
+  const { t } = useContext(i18nContext);
   const { context, category } = router.query;
   if (context === "zenika") {
     router.push(`/skills/${context}/${category}`);
@@ -158,6 +161,11 @@ const AddSkill = () => {
   });
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
+      useNotification(
+        t("skills.addSkillSuccess").replace("%skill%", selectedSkill?.name),
+        "green",
+        5000
+      );
       setSelectedSkill(undefined);
       refetchSearch({ category, search: `%${debouncedSearchValue}%` });
       refetch({
