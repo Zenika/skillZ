@@ -55,7 +55,7 @@ const GET_USERSKILLS_AND_APPETITES_DETAILS = gql`
           User {
             name
             picture
-            UserAgencies(limit: 1, order_by: { updatedAt: desc }) {
+            UserAgencies(limit: 1, order_by: { created_at: desc }) {
               agency
             }
           }
@@ -68,7 +68,7 @@ const GET_USERSKILLS_AND_APPETITES_DETAILS = gql`
           User {
             name
             picture
-            UserAgencies(limit: 1, order_by: { updatedAt: desc }) {
+            UserAgencies(limit: 1, order_by: { created_at: desc }) {
               agency
             }
           }
