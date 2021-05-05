@@ -91,6 +91,7 @@ export default {
       addSkill: "AJOUTER",
     },
     addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
+    updateSkillSuccess: "La compétence %skill% à été modifiée avec succès",
   },
   profile: {
     onboarding:

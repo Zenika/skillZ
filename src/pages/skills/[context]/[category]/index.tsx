@@ -12,6 +12,7 @@ import Loading from "../../../../components/Loading";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
+import { useNotification } from "../../../../utils/useNotification";
 
 export type FetchedSkill = {
   id: string;
@@ -198,6 +199,16 @@ const ListSkills = () => {
       onCompleted: async () => {
         const { data } = await refetch({ email: user.email, category });
         setSkills(data);
+        useNotification(
+          t("skills.updateSkillSuccess").replace(
+            "%skill%",
+            selectedSkill?.name
+          ),
+          "green",
+          5000
+        );
+        setModaleOpened(false);
+        setSelectedSkill(undefined);
       },
     }
   );
@@ -218,8 +229,6 @@ const ListSkills = () => {
   };
 
   const editAction = ({ id, name, level, desire }) => {
-    setModaleOpened(false);
-    setSelectedSkill(undefined);
     addSkill({
       variables: {
         skillId: id,

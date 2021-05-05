@@ -89,6 +89,7 @@ export default {
       addSkill: "ADD SKILL",
     },
     addSkillSuccess: "Skill %skill% was added successfully",
+    updateSkillSuccess: "Skill %skill% was updated successfully",
   },
   profile: {
     onboarding:
