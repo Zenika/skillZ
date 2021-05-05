@@ -239,7 +239,7 @@ const AddSkill = () => {
           <div
             className={`flex flex-col ${
               isDesktop ? "h-radar" : "h-screen"
-            } overflow-y-scroll p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
+            } p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
           >
             <SearchBar setSearch={setSearch} />
             <AddSkillListSelector

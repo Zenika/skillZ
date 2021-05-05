@@ -52,7 +52,7 @@ const AddSkillListSelector = ({
   };
 
   return (
-    <div className="flex flex-col my-4">
+    <div className="flex flex-col my-4 overflow-y-scroll">
       {skills && skills.length > 0 ? (
         <div>
           {skills?.map((skill) => (
