@@ -237,9 +237,9 @@ const AddSkill = () => {
             )}
           </div>
           <div
-            className={`flex flex-col ${
-              isDesktop ? "h-radar" : "h-screen"
-            } p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
+            className={`flex flex-col ${isDesktop ? "h-radar" : ""} p-2 z-10 ${
+              modaleOpened ? "opacity-25" : ""
+            }`}
           >
             <SearchBar setSearch={setSearch} />
             <AddSkillListSelector

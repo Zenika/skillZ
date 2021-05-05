@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
 
 export type Skill = {
@@ -34,6 +35,9 @@ const AddSkillListSelector = ({
   action: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1280px)",
+  });
   const [insertSkill, { error: mutationError }] = useMutation<{
     insert_Skill: { returning: Skill[] };
   }>(INSERT_SKILL_MUTATION, {
@@ -52,7 +56,9 @@ const AddSkillListSelector = ({
   };
 
   return (
-    <div className="flex flex-col my-4 overflow-y-scroll">
+    <div
+      className={`flex flex-col my-4 ${isDesktop ? "overflow-y-scroll" : ""}`}
+    >
       {skills && skills.length > 0 ? (
         <div>
           {skills?.map((skill) => (

@@ -246,11 +246,9 @@ const ListSkills = () => {
         color={skills?.Category[0]?.color}
       >
         <div
-          className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} h-screen ${
-            isDesktop ? "h-radar" : "h-screen"
-          } overflow-y-scroll ${
-            editPanelOpened || modaleOpened ? "opacity-25" : ""
-          }`}
+          className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
+            isDesktop ? "h-radar overflow-y-scroll" : ""
+          } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
           {sortedSkills?.length > 0 ? (
