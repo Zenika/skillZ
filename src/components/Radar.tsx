@@ -34,17 +34,30 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
   );
 };
 
-const RadarCell = () => {
+const RadarCell = ({
+  first,
+  isFullSize,
+}: {
+  first: boolean;
+  isFullSize: boolean;
+}) => {
   return (
-    <div className="w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid "></div>
+    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid ">
+      {first && isFullSize ? <span className="rotated">Appetite</span> : <></>}
+      {first && isFullSize ? <span className="ml-2">Desire</span> : <></>}
+    </div>
   );
 };
 
-const RadarRow = ({ i }: { i: number }) => {
+const RadarRow = ({ i, isFullSize }: { i: number; isFullSize: boolean }) => {
   return (
     <div className="flex flex-row w-full h-1/6">
       {oneToSix.map((k) => (
-        <RadarCell key={`${i}-${k}`} />
+        <RadarCell
+          key={`${i}-${k}`}
+          first={k === 1 && i === 6}
+          isFullSize={isFullSize}
+        />
       ))}
     </div>
   );
@@ -68,7 +81,7 @@ const Radar = ({
   const radar = useRef(null);
   const [resized, setResized] = useState(false);
   const [circles, setCircles] = useState<RadarData[]>([]);
-
+  const isFullSize = title === "";
   useEffect(() => {
     if (!window) {
       return;
@@ -134,7 +147,7 @@ const Radar = ({
           }-2 border-dark-red border-dashed`}
         >
           {oneToSix.map((i) => (
-            <RadarRow key={i} i={i} />
+            <RadarRow key={i} i={i} isFullSize={isFullSize} />
           ))}
           <div className="absolute">
             {circles.map((circle, i) => (
