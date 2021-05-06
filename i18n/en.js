@@ -12,6 +12,7 @@ export default {
   },
   home: {
     addSkill: "Add skill",
+    noSkill: "No skill here",
     "languages-and-frameworks": "Languages & Frameworks",
     platforms: "Platforms",
     tools: "Tools",
@@ -69,7 +70,7 @@ export default {
     5: "I want to use it everyday",
   },
   skills: {
-    noSkillAddedYet: "No skill added yet",
+    nothingHere: "There is nothing here, try adding a skill",
     editSkill: "Edit this skill",
     cancelAction: "Cancel action",
     mySkills: "MY SKILLS",

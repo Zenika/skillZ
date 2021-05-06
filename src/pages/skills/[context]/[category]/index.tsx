@@ -13,6 +13,8 @@ import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
+import { FilterData } from "../../../../utils/types";
+import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 
 export type FetchedSkill = {
   id: string;
@@ -90,14 +92,27 @@ const SKILLS_AND_APPETITE_QUERY = gql`
   }
 `;
 
-const ZENIKA_SKILLS_QUERY = gql`
-  query getSkillsAndTechnicalAppetites($category: String!) {
+const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
+  query getSkillsAndTechnicalAppetites($category: String!, ${
+    agency ? "$agency: String!" : ""
+  }) {
     Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
       label
       color
       x
       y
-      Skills(where: { UserSkills: { created_at: { _is_null: false } } }) {
+      Skills(
+        where: {
+          UserSkills: {
+            created_at: { _is_null: false }
+            ${
+              agency
+                ? "User: { UserAgencies: { Agency: { name: { _eq: $agency } } } }"
+                : ""
+            }
+          }
+        }
+      ) {
         name
         UserSkills_aggregate(
           order_by: { userEmail: asc, created_at: desc }
@@ -123,6 +138,9 @@ const ZENIKA_SKILLS_QUERY = gql`
         }
       }
     }
+    Agency {
+      name
+    }
   }
 `;
 
@@ -133,24 +151,51 @@ const ListSkills = () => {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-  const { context, category } = router.query;
+  const { context, category, agency } = router.query;
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-
+  const [filterByAgency, setFilterByAgency] = useState<
+    FilterData<string> | undefined
+  >(undefined);
   const [skills, setSkills] = useState<{
     Category: { color; Skills: FetchedSkill[] };
   }>();
   const [radarData, setRadarData] = useState<RadarData[]>();
   const [sortedSkills, setSortedSkills] = useState<Skill[]>();
   const { data: skillsData, refetch } = useQuery(
-    context === "zenika" ? ZENIKA_SKILLS_QUERY : SKILLS_AND_APPETITE_QUERY,
+    context === "zenika"
+      ? computeZenikaSkillsQuery({
+          agency: filterByAgency?.selected
+            ? filterByAgency?.selected === "World"
+              ? undefined
+              : filterByAgency?.selected
+            : undefined,
+        })
+      : SKILLS_AND_APPETITE_QUERY,
     {
-      variables: { email: user.email, category: category || "" },
+      variables: {
+        email: user.email,
+        category: category || "",
+        agency: filterByAgency?.selected,
+      },
       fetchPolicy: "network-only",
     }
+  );
+  useEffect(
+    () =>
+      setFilterByAgency(
+        agency
+          ? {
+              name: "Agency",
+              values: skillsData?.Agency.map((agency) => agency.name) || [],
+              selected: typeof agency === "string" ? agency : agency.join("-"),
+            }
+          : undefined
+      ),
+    [agency, skillsData]
   );
   useEffect(() => {
     if (!skillsData) {
@@ -158,7 +203,7 @@ const ListSkills = () => {
     }
     setSkills(skillsData);
     setRadarData(
-      skillsData.Category[0].Skills.map((skill) => ({
+      skillsData.Category[0]?.Skills.map((skill) => ({
         x:
           context === "zenika"
             ? skill.UserSkills_aggregate.aggregate.avg.level
@@ -173,7 +218,7 @@ const ListSkills = () => {
       })).sort((a, b) => -(a.x + a.y - (b.x + b.y)))
     );
     setSortedSkills(
-      skillsData.Category[0].Skills.map((skill) => ({
+      skillsData.Category[0]?.Skills.map((skill) => ({
         id: skill.id,
         name: skill.name,
         count:
@@ -191,6 +236,12 @@ const ListSkills = () => {
         certif: false,
       })).sort((a, b) => -(a.level + a.desire - (b.level + b.desire)))
     );
+    if (!filterByAgency && skillsData?.Agency) {
+      setFilterByAgency({
+        values: skillsData.Agency.map((agency) => agency.name),
+        name: "Agency",
+      });
+    }
   }, [skillsData]);
 
   const [addSkill, { error: mutationError }] = useMutation(
@@ -250,6 +301,24 @@ const ListSkills = () => {
         context={context}
         category={category}
         add={false}
+        filters={
+          filterByAgency
+            ? [
+                {
+                  name: filterByAgency.name,
+                  values: ["World", ...filterByAgency.values],
+                  selected: filterByAgency.selected,
+                  callback: (value) =>
+                    router.push(
+                      useComputeFilterUrl(
+                        `${window.location}`,
+                        value ? [{ name: "agency", value: `${value}` }] : []
+                      )
+                    ),
+                },
+              ]
+            : undefined
+        }
         faded={editPanelOpened || modaleOpened}
         data={radarData}
         color={skills?.Category[0]?.color}
@@ -273,7 +342,7 @@ const ListSkills = () => {
               />
             ))
           ) : (
-            <p>{t("skills.noSkillAddedYet")}</p>
+            <p>{t("skills.nothingHere")}</p>
           )}
         </div>
         <div

@@ -10,3 +10,5 @@ export type FetchResult<T> = {
   error?: Error;
   isLoading: Boolean;
 };
+
+export type FilterData<T> = { name: string; values: T[]; selected?: T };

@@ -12,6 +12,7 @@ export default {
   },
   home: {
     addSkill: "Ajouter une compétence",
+    noSkill: "Aucune compétence",
     "languages-and-frameworks": "Langages & Frameworks",
     platforms: "Platformes",
     tools: "Outils",
@@ -70,7 +71,7 @@ export default {
     5: "Je veux en faire tous les jours",
   },
   skills: {
-    noSkillAddedYet: "Vous n'avez pas encore ajouté de compétence",
+    nothingHere: "Il n'y a rien ici, essayez d'ajouter une compétence",
     editSkill: "Modifier cette compétence",
     cancelAction: "Annuler l'action",
     mySkills: "COMPÉTENCES",
