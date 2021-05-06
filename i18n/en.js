@@ -12,6 +12,7 @@ export default {
   },
   home: {
     addSkill: "Add skill",
+    noSkill: "No skill here",
     "languages-and-frameworks": "Languages & Frameworks",
     platforms: "Platforms",
     tools: "Tools",

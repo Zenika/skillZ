@@ -4,8 +4,19 @@ import Topbar from "./Topbar";
 import Navbar from "./Navbar";
 import SidePanel from "./SidePanel";
 import Notification from "./Notification";
+import FilterByPanel, { Filter } from "./FilterByPanel";
 
-const PageWithNavAndPanel = ({ children, pathName, context }) => {
+const PageWithNavAndPanel = ({
+  children,
+  pathName,
+  context,
+  filters,
+}: {
+  children: any;
+  pathName: string;
+  context: string | string[];
+  filters?: Filter[];
+}) => {
   const [panelOpened, setPanelOpened] = useState(false);
   const togglePanel = () => setPanelOpened(!panelOpened);
   const closePanelIfOpened = () => {
@@ -28,7 +39,18 @@ const PageWithNavAndPanel = ({ children, pathName, context }) => {
       >
         <Topbar path={pathName} context={context} togglePanel={togglePanel} />
         <div className="flex flex-row justify-center mt-6">
-          <div className="max-w-screen-xl">{children}</div>
+          <div className="flex flex-col w-full max-w-screen-xl">
+            <div className="mx-4">
+              {filters ? (
+                <div className="mx-4">
+                  <FilterByPanel filters={filters} />
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="max-w-screen-xl">{children}</div>
+          </div>
         </div>
         {!isDesktop ? <Navbar path={pathName} /> : <></>}
       </div>

@@ -12,6 +12,7 @@ export default {
   },
   home: {
     addSkill: "Ajouter une compétence",
+    noSkill: "Aucune compétence",
     "languages-and-frameworks": "Langages & Frameworks",
     platforms: "Platformes",
     tools: "Outils",

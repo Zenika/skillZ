@@ -4,6 +4,10 @@ import Loading from "../components/Loading";
 import { gql, useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { useRouter } from "next/router";
+import FilterByPanel, { Filter } from "../components/FilterByPanel";
+import { useEffect, useState } from "react";
+import { FilterData } from "../utils/types";
+import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
 
 type SkillsData = {
   Category: {
@@ -29,16 +33,30 @@ type SkillsData = {
       };
     }[];
   }[];
+  Agency: {
+    name: string;
+  }[];
 };
 
-const ZENIKA_SKILLS_QUERY = gql`
-  query getSkillsAndTechnicalAppetites {
+const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
+  query getSkillsAndTechnicalAppetites${agency ? "($agency: String!)" : ""} {
     Category(order_by: { index: asc }) {
       label
       color
       x
       y
-      Skills(where: { UserSkills: { created_at: { _is_null: false } } }) {
+      Skills(
+        where: {
+          UserSkills: {
+            created_at: { _is_null: false }
+            ${
+              agency
+                ? "User: { UserAgencies: { Agency: { name: { _eq: $agency } } } }"
+                : ""
+            }
+          }
+        }
+      ) {
         name
         UserSkills_aggregate(
           order_by: { userEmail: asc, created_at: desc }
@@ -48,6 +66,7 @@ const ZENIKA_SKILLS_QUERY = gql`
             avg {
               level
             }
+            count
           }
         }
         TechnicalAppetites_aggregate(
@@ -58,25 +77,51 @@ const ZENIKA_SKILLS_QUERY = gql`
             avg {
               level
             }
+            count
           }
         }
       }
+    }
+    Agency {
+      name
     }
   }
 `;
 
 const Zenika = ({ pathName }) => {
   const { user, isLoading } = useAuth0();
-  const { query } = useRouter();
-  const { context } = query;
+  const { query, push } = useRouter();
+  const { context, agency } = query;
+
+  const [filterByAgency, setFilterByAgency] = useState<
+    FilterData<string> | undefined
+  >(undefined);
 
   const { data: skillsData, error } = useQuery<SkillsData>(
-    ZENIKA_SKILLS_QUERY,
+    computeZenikaSkillsQuery({
+      agency: filterByAgency?.selected
+        ? filterByAgency?.selected === "World"
+          ? undefined
+          : filterByAgency?.selected
+        : undefined,
+    }),
     {
-      variables: { email: user.email },
+      variables: { email: user.email, agency: filterByAgency?.selected },
       fetchPolicy: "network-only",
     }
   );
+  useEffect(() => {
+    console.log("useEffect, agency ?", agency);
+    setFilterByAgency({
+      name: "Agency",
+      values: skillsData?.Agency.map((agency) => agency.name) || [],
+      selected: agency
+        ? typeof agency === "string"
+          ? agency
+          : agency.join("-")
+        : undefined,
+    });
+  }, [agency, skillsData]);
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
@@ -98,8 +143,30 @@ const Zenika = ({ pathName }) => {
       .sort((a, b) => -(a.x + a.y - (b.x + b.y)))
       .map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
+  console.log("filterByAgency", filterByAgency);
   return (
-    <PageWithNavAndPanel pathName={pathName} context={context}>
+    <PageWithNavAndPanel
+      pathName={pathName}
+      context={context}
+      filters={
+        filterByAgency
+          ? [
+              {
+                name: filterByAgency.name,
+                values: ["World", ...filterByAgency.values],
+                selected: filterByAgency.selected,
+                callback: (value) =>
+                  push(
+                    useComputeFilterUrl(
+                      `${window.location}`,
+                      value ? [{ name: "agency", value: `${value}` }] : []
+                    )
+                  ),
+              },
+            ]
+          : undefined
+      }
+    >
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         {homePanelData ? (
           homePanelData.map((computedDataSkill) => (

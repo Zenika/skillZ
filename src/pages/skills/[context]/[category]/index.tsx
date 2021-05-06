@@ -14,6 +14,7 @@ import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
+import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 
 export type FetchedSkill = {
   id: string;
@@ -142,21 +143,6 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
     }
   }
 `;
-
-const computeFilterUrl = (
-  baseUrl: string,
-  params: { name: string; value: string }[]
-) => {
-  const url = new URL(baseUrl);
-  if (params.length > 0) {
-    params.forEach(({ name, value }) => url.searchParams.set(name, value));
-  } else {
-    url.searchParams.forEach((_, k) => {
-      url.searchParams.delete(k);
-    });
-  }
-  return url;
-};
 
 const ListSkills = () => {
   const router = useRouter();
@@ -324,7 +310,7 @@ const ListSkills = () => {
                   selected: filterByAgency.selected,
                   callback: (value) =>
                     router.push(
-                      computeFilterUrl(
+                      useComputeFilterUrl(
                         `${window.location}`,
                         value ? [{ name: "agency", value: `${value}` }] : []
                       )

@@ -36,9 +36,7 @@ const PageWithSkillList = ({
         <div className="flex flex-col w-full">
           {filters ? (
             <div className="mx-4">
-              <FilterByPanel
-                filters={filters}
-              />
+              <FilterByPanel filters={filters} />
             </div>
           ) : (
             <></>

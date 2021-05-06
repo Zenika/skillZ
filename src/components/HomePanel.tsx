@@ -73,7 +73,11 @@ const HomePanel = ({
                   y === "bot" ? "order-11" : "order-1"
                 }`}
               >
-                <Image src="/icons/add-skill.svg" width="48" height="48" />
+                {context === "zenika" ? (
+                  <div style={{ width: 48, height: 48 }}></div>
+                ) : (
+                  <Image src="/icons/add-skill.svg" width="48" height="48" />
+                )}
               </div>
             )}
             {data.length > 0 ? (
@@ -105,8 +109,12 @@ const HomePanel = ({
                 ))}
               </div>
             ) : (
-              <div className="flex flex-auto flex-row justify-center py-4 order-6 h-1/3">
-                <p className="text-center">{t("home.addSkill")}</p>
+              <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
+                <p className="text-center">
+                  {context === "zenika"
+                    ? t("home.noSkill")
+                    : t("home.addSkill")}
+                </p>
               </div>
             )}
             <div
