@@ -168,7 +168,6 @@ jobs:
             cp -r public deploy
             cp package.json deploy
             cp package-lock.json deploy
-            cp .env deploy
             cp next.config.js deploy
       - run:
           name: Deploy
