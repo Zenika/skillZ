@@ -298,7 +298,7 @@ workflows:
           name: deploy
           requires:
             - run-migrations
-          graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_UR
+          graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_PROD_BASE_URL
           clever-app-id: $CLEVER_APP_ID_PROD
           context: clever-cloud2-zenika-dev
