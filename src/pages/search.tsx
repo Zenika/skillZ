@@ -7,7 +7,7 @@ const Search = ({ pathName }) => {
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
       <div className="flex flex-auto flex-row mx-4 text-center">
-        Search page
+        Work in progress
       </div>
     </PageWithNavAndPanel>
   );
