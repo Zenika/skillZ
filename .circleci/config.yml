@@ -267,7 +267,7 @@ workflows:
       - qc-prettier:
           requires:
             - install-dependencies
-          filters: *deploy-filters          
+          filters: *deploy-filters
       - unit-test:
           requires:
             - install-dependencies
