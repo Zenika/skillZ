@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
 import styles from "./Radar.module.css";
 
 const oneToSix = [1, 2, 3, 4, 5, 6];
@@ -41,10 +42,12 @@ const RadarCell = ({
   first: boolean;
   isFullSize: boolean;
 }) => {
+
+  const { t } = useContext(i18nContext);
   return (
     <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid ">
-      {first && isFullSize ? <span className="rotated">Appetite</span> : <></>}
-      {first && isFullSize ? <span className="ml-2">Desire</span> : <></>}
+      {first && isFullSize ? <span className="rotated">{t("radar.desire")}</span> : <></>}
+      {first && isFullSize ? <span className="ml-2">{t("radar.level")}</span> : <></>}
     </div>
   );
 };
@@ -176,3 +179,4 @@ const Radar = ({
 };
 
 export default Radar;
+

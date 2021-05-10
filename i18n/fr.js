@@ -103,4 +103,8 @@ export default {
     selectPlaceholder: "Mon agence",
     confirm: "CONFIRMER LE PROFIL"
   },
+  radar: {
+    desire: "Désir",
+    level: "Niveau"
+  }
 };
