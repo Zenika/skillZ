@@ -26,7 +26,7 @@ const App = ({ Component, pageProps }) => {
       domain="zenika.eu.auth0.com"
       clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
       audience="https://zenika.eu.auth0.com/api/v2/"
-      scope="read:current_user update:current_user_metadata"
+      scope="read:current_user"
       redirectUri={BASE_URL}
       useRefreshTokens={true}
       cacheLocation={"localstorage"}
