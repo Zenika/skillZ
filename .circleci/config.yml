@@ -258,15 +258,16 @@ workflows:
 
   qc-test-deploy:
     jobs:
-      - install-dependencies
-      - qc-prettier:
-          requires:
-            - install-dependencies
+      - install-dependencies:
           filters: &deploy-filters
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - qc-prettier:
+          requires:
+            - install-dependencies
+          filters: *deploy-filters          
       - unit-test:
           requires:
             - install-dependencies
