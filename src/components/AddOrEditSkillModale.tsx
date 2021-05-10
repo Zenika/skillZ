@@ -71,7 +71,9 @@ const AddOrEditSkillModale = ({
                   height="32"
                   width="32"
                 />
-                <span className="pl-2 pt-1">{ `${index} : ${t(`skillLevels.${index}`)}` }</span>
+                <span className="pl-2 pt-1">{`${index} : ${t(
+                  `skillLevels.${index}`
+                )}`}</span>
               </button>
             ))}
           </div>
@@ -91,7 +93,9 @@ const AddOrEditSkillModale = ({
                   height="32"
                   width="32"
                 />
-                <span className="pl-2 pt-1">{ `${index} : ${t(`desireLevels.${index}`)}` }</span>
+                <span className="pl-2 pt-1">{`${index} : ${t(
+                  `desireLevels.${index}`
+                )}`}</span>
               </button>
             ))}
           </div>
