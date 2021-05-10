@@ -42,12 +42,19 @@ const RadarCell = ({
   first: boolean;
   isFullSize: boolean;
 }) => {
-
   const { t } = useContext(i18nContext);
   return (
     <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid ">
-      {first && isFullSize ? <span className="rotated">{t("radar.desire")}</span> : <></>}
-      {first && isFullSize ? <span className="ml-2">{t("radar.level")}</span> : <></>}
+      {first && isFullSize ? (
+        <span className="rotated">{t("radar.desire")}</span>
+      ) : (
+        <></>
+      )}
+      {first && isFullSize ? (
+        <span className="ml-2">{t("radar.level")}</span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
@@ -179,4 +186,3 @@ const Radar = ({
 };
 
 export default Radar;
-
