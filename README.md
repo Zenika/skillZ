@@ -1,5 +1,5 @@
 # SkillZ
-A progressive web app to store your skills and desires
+A progressive web app to store your proficiency and desire to learn different skills.
 
 ## Quick start
 
