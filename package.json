@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "^10"
+    "node": ">=12"
   },
   "main": "index.js",
   "scripts": {
