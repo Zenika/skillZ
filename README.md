@@ -15,11 +15,7 @@ Check that engine is running by going to `http://localhost:8080`
 
 ### Run the hasura migrations
 
-Go to the hasura folder `cd hasura`
-Then:
- - You can use the npm package by doing `npx hasura-cli migrate apply` and `npx hasura-cli metadata apply`
- - You can also install it globaly `npm install --global hasura-cli`
- - Or install the binaries https://hasura.io/docs/latest/graphql/core/hasura-cli/index.html 
+Run `npm hasura migrate apply` and `npm hasura metadata apply` to apply migrations and metadatas
 
 ### Create an env file
 
