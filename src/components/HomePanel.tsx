@@ -5,6 +5,14 @@ import Link from "next/link";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
+import { useRouter } from "next/router";
+
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
 
 type HomePanelProps = {
   props: {
@@ -28,11 +36,24 @@ const HomePanel = ({
   props: { x, y, context, color, name, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
+  const router = useRouter();
+  const { agency } = router.query;
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
+  const link = new URL(
+    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${name}${
+      data.length <= 0 ? "/add" : ""
+    }`
+  );
+  if (agency) {
+    link.searchParams.append(
+      "agency",
+      typeof agency === "string" ? agency : agency.join("")
+    );
+  }
   return (
-    <Link href={`/skills/${context}/${name}${data.length <= 0 ? "/add" : ""}`}>
+    <Link href={link.toString()}>
       <div
         className={`flex flex-auto cursor-pointer flex-col dark:bg-dark-panel min-h-homePanel${
           !isDesktop ? "-mobile" : ""

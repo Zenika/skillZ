@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
 import Topbar from "./Topbar";
 import Notification from "./Notification";
+import { useRouter } from "next/router";
 
 type CommonPageProps = {
   children: any;
@@ -15,6 +16,13 @@ type CommonPageProps = {
   skill?: string;
 };
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
+
 const CommonPage = ({
   children,
   page,
@@ -24,16 +32,27 @@ const CommonPage = ({
   context,
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
+  const router = useRouter();
+  const { agency } = router.query;
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-  const backUrl = `${
-    context === "zenika"
-      ? skill && category
-        ? `/skills/zenika/${category}`
-        : "/zenika"
-      : "/"
-  }`;
+
+  const backUrl = new URL(
+    `${NEXT_PUBLIC_BASE_URL}${
+      context === "zenika"
+        ? skill && category
+          ? `/skills/zenika/${category}`
+          : "/zenika"
+        : "/"
+    }`
+  );
+  if (agency) {
+    backUrl.searchParams.append(
+      "agency",
+      typeof agency === "string" ? agency : agency.join("")
+    );
+  }
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
@@ -52,7 +71,7 @@ const CommonPage = ({
                   faded ? "opacity-25" : ""
                 }`}
               >
-                <Link href={backUrl}>
+                <Link href={backUrl.toString()}>
                   <div className="p-1 cursor-pointer">
                     <Image src="/icons/back-arrow.svg" width="16" height="16" />
                   </div>
