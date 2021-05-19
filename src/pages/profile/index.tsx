@@ -11,9 +11,9 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
     User(where: { email: { _eq: $email } }) {
       email
-    }
-    UserAgency(where: { userEmail: { _eq: $email } }) {
-      agency
+      UserLatestAgency {
+        agency
+      }
     }
     Agency {
       name
@@ -76,8 +76,7 @@ const DELETE_USER_TOPIC_MUTATION = gql`
 `;
 
 type GetUserAgencyAndAllAgenciesResult = {
-  User: { email: string }[];
-  UserAgency: { agency: string }[];
+  User: { email: string; UserLatestAgency: { agency: string } }[];
   Agency: { name: string }[];
   Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
 };
@@ -105,9 +104,9 @@ const Profile = () => {
   }
 
   const userAgency =
-    error || data?.UserAgency.length <= 0
+    error || !data?.User[0]?.UserLatestAgency?.agency
       ? undefined
-      : data?.UserAgency[0]?.agency;
+      : data?.User[0]?.UserLatestAgency?.agency;
   const agencies =
     error || data?.Agency.length <= 0
       ? []
@@ -116,7 +115,7 @@ const Profile = () => {
   const onboarding =
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
-    data?.UserAgency.length <= 0;
+    !data?.User[0]?.UserLatestAgency?.agency;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });

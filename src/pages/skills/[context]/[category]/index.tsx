@@ -107,7 +107,7 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
             created_at: { _is_null: false }
             ${
               agency
-                ? "User: { UserAgencies: { Agency: { name: { _eq: $agency } } } }"
+                ? "User: { UserLatestAgency: { agency: { _eq: $agency } } }"
                 : ""
             }
           }
@@ -117,6 +117,11 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
         UserSkills_aggregate(
           order_by: { userEmail: asc, created_at: desc }
           distinct_on: userEmail
+          ${
+            agency
+              ? "where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+              : ""
+          }
         ) {
           aggregate {
             avg {
@@ -128,6 +133,11 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
         TechnicalAppetites_aggregate(
           order_by: { userEmail: asc, created_at: desc }
           distinct_on: userEmail
+          ${
+            agency
+              ? "where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+              : ""
+          }
         ) {
           aggregate {
             avg {
