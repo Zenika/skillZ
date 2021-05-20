@@ -5,6 +5,13 @@ import { Skill } from "../pages/skills/[context]/[category]";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
+
 const SkillPanel = ({
   skill,
   context,
@@ -18,18 +25,26 @@ const SkillPanel = ({
 }) => {
   const { t } = useContext(i18nContext);
   const { push, query } = useRouter();
-  const { category } = query;
+  const { category, agency } = query;
+  const computedAgency =
+    agency && agency !== "World"
+      ? typeof agency === "string"
+        ? agency
+        : agency.join("")
+      : undefined;
+  const link = new URL(
+    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${category}/${skill.name}`
+  );
+  if (computedAgency) {
+    link.searchParams.append("agency", computedAgency);
+  }
   const { id, name, level, desire, certif } = skill;
   return (
     <div
       className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
         context === "zenika" ? "cursor-pointer" : ""
       }`}
-      onClick={() =>
-        context === "zenika"
-          ? push(`/skills/${context}/${category}/${skill.name}`)
-          : () => {}
-      }
+      onClick={() => (context === "zenika" ? push(link) : () => {})}
     >
       <div
         className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}

@@ -156,6 +156,15 @@
 - table:
     schema: public
     name: User
+  object_relationships:
+  - name: UserLatestAgency
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: UserLatestAgency
+        column_mapping:
+          email: userEmail
   array_relationships:
   - name: TechnicalAppetites
     using:
@@ -260,6 +269,16 @@
       check:
         userEmail:
           _eq: x-hasura-user-email
+- table:
+    schema: public
+    name: UserLatestAgency
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - userEmail
+      - agency
+      filter: {}
 - table:
     schema: public
     name: UserSkill

@@ -111,7 +111,6 @@ const Zenika = ({ pathName }) => {
     }
   );
   useEffect(() => {
-    console.log("useEffect, agency ?", agency);
     setFilterByAgency({
       name: "Agency",
       values: skillsData?.Agency.map((agency) => agency.name) || [],
@@ -143,7 +142,6 @@ const Zenika = ({ pathName }) => {
       .sort((a, b) => -(a.x + a.y - (b.x + b.y)))
       .map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
-  console.log("filterByAgency", filterByAgency);
   return (
     <PageWithNavAndPanel
       pathName={pathName}

@@ -28,34 +28,48 @@ type UserSkillsAndAppetiteDetails = {
         User: {
           name: string;
           picture: string;
-          UserAgencies: {
+          UserLatestAgency: {
             agency: string;
-          }[];
+          };
         };
       }[];
     }[];
   }[];
 };
 
-const GET_USERSKILLS_AND_APPETITES_DETAILS = gql`
+const computeUsersSkillsAndTechnicalAppetitesDetail = ({
+  agency,
+}: {
+  agency?: string;
+}) => gql`
   query getUserSkillsAndTechnicalAppetitesDetail(
     $category: String!
     $skill: String!
+    ${agency ? "$agency: String!" : ""}
   ) {
     Category(where: { label: { _eq: $category } }) {
       color
-      Skills(where: { name: { _eq: $skill } }) {
+      Skills(where: { name: { _eq: $skill } ${
+        agency
+          ? ", UserSkills: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+          : ""
+      } }) {
         id
         name
         TechnicalAppetites(
           order_by: { userEmail: asc, created_at: desc }
           distinct_on: userEmail
+          ${
+            agency
+              ? ", where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+              : ""
+          }
         ) {
           level
           User {
             name
             picture
-            UserAgencies(limit: 1, order_by: { created_at: desc }) {
+            UserLatestAgency {
               agency
             }
           }
@@ -63,12 +77,17 @@ const GET_USERSKILLS_AND_APPETITES_DETAILS = gql`
         UserSkills(
           order_by: { userEmail: asc, created_at: desc }
           distinct_on: userEmail
+          ${
+            agency
+              ? ", where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+              : ""
+          }
         ) {
           level
           User {
             name
             picture
-            UserAgencies(limit: 1, order_by: { created_at: desc }) {
+            UserLatestAgency {
               agency
             }
           }
@@ -81,11 +100,18 @@ const GET_USERSKILLS_AND_APPETITES_DETAILS = gql`
 const SkillPage = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
-  const { context, category, skill } = router.query;
+  const { context, category, skill, agency } = router.query;
+  const computedAgency = agency
+    ? typeof agency === "string"
+      ? agency
+      : agency.join("")
+    : undefined;
   const { data } = useQuery<UserSkillsAndAppetiteDetails>(
-    GET_USERSKILLS_AND_APPETITES_DETAILS,
+    computeUsersSkillsAndTechnicalAppetitesDetail({
+      agency: computedAgency,
+    }),
     {
-      variables: { category, skill },
+      variables: { category, skill, agency },
     }
   );
   const computedSkill = skill
@@ -110,7 +136,7 @@ const SkillPage = () => {
     user: {
       name: userSkill.User.name,
       picture: userSkill.User.picture,
-      agency: userSkill.User.UserAgencies[0]?.agency,
+      agency: userSkill.User.UserLatestAgency.agency,
     },
   }));
   return (

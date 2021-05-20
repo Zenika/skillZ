@@ -68,6 +68,7 @@ const SKILL_SEARCH_QUERY = gql`
         Category: { label: { _eq: $category } }
         name: { _ilike: $search }
       }
+      order_by: { name: asc }
     ) {
       name
       id

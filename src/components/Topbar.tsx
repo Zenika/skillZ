@@ -9,14 +9,14 @@ import Link from "next/link";
 
 const GET_USER_AGENCY_QUERY = gql`
   query getUserAgency($email: String!) {
-    UserAgency(where: { userEmail: { _eq: $email } }) {
+    UserLatestAgency(where: { userEmail: { _eq: $email } }) {
       agency
     }
   }
 `;
 
-type UserAgencyResult = {
-  UserAgency: { agency: string }[];
+type UserLatestAgencyResult = {
+  UserLatestAgency: { agency: string }[];
 };
 
 const Topbar = ({
@@ -39,7 +39,7 @@ const Topbar = ({
     togglePanel();
   };
 
-  const { data: userAgencyResult } = useQuery<UserAgencyResult>(
+  const { data: userAgencyResult } = useQuery<UserLatestAgencyResult>(
     GET_USER_AGENCY_QUERY,
     {
       variables: { email: user.email },
@@ -170,7 +170,9 @@ const Topbar = ({
                   <span className="font-bold">{user?.name}</span>
                   <span>
                     Zenika{" "}
-                    {t(`agencies.${userAgencyResult?.UserAgency[0]?.agency}`)}
+                    {t(
+                      `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
+                    )}
                   </span>
                 </div>
                 <img
