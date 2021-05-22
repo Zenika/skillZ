@@ -6,6 +6,7 @@ import CustomSelect from "../../components/CustomSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -164,9 +165,11 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-row justify-start my-2">
-            <img
-              className="w-16 h-16 mx-4 rounded-full"
+          <div className="flex flex-row justify-start my-2 mx-4">
+            <Image
+              className="w-16 h-16 rounded-full"
+              height="64"
+              width="64"
               src={user?.picture || ""}
             />
             <div className="flex flex-col mx-4 justify-center">

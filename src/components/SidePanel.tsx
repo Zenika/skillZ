@@ -18,7 +18,12 @@ const SidePanel = () => {
   return (
     <div className="flex flex-col justify-between h-1/3 p-6">
       <div className="flex flex-row">
-        <img className="w-16 h-16 rounded-full" src={user?.picture || ""} />
+        <Image
+          className="rounded-full"
+          src={user?.picture || ""}
+          width="64"
+          height="64"
+        />
         <div className="flex flex-col pl-4">
           <h1 className="font-bold text-xl">{user.name}</h1>
         </div>

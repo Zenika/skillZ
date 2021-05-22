@@ -65,8 +65,10 @@ const Topbar = ({
           !isDesktop ? "p-4" : ""
         }`}
       >
-        <div className="flex justify-start w-1/3">
-          <Image src="/icons/logo.svg" height="35" width="105" />
+        <div className="flex cursor-pointer justify-start w-1/3">
+          <Link href="/">
+            <Image src="/icons/logo.svg" height="35" width="105" />
+          </Link>
         </div>
         <div className="flex justify-center w-1/3">
           {isDesktop && path !== undefined ? (
@@ -155,8 +157,10 @@ const Topbar = ({
         <div className="flex justify-end w-1/3">
           {!isDesktop ? (
             <button onClick={() => onPictureClick()}>
-              <img
-                className="w-16 h-16 rounded-full"
+              <Image
+                className="rounded-full"
+                height="64"
+                width="64"
                 src={user?.picture || ""}
               />
             </button>
@@ -175,8 +179,10 @@ const Topbar = ({
                     )}
                   </span>
                 </div>
-                <img
-                  className="w-16 h-16 rounded-full"
+                <Image
+                  className="rounded-full"
+                  height="64"
+                  width="64"
                   src={user?.picture || ""}
                 />
               </button>

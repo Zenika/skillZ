@@ -21,6 +21,7 @@ type HomePanelProps = {
     context: string;
     color: string;
     name: string;
+    count: number;
     data: {
       x: number;
       y: number;
@@ -33,7 +34,7 @@ type HomePanelProps = {
 };
 
 const HomePanel = ({
-  props: { x, y, context, color, name, data, certifs },
+  props: { x, y, context, color, name, count, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
@@ -86,7 +87,7 @@ const HomePanel = ({
                 ) : (
                   <div className={x === "right" ? "order-last" : ""}> </div>
                 )}
-                <div>{data.length > 0 ? data.length : ""}</div>
+                <div>{count}</div>
               </div>
             ) : (
               <div
@@ -125,7 +126,9 @@ const HomePanel = ({
                     >
                       {data[i] ? i + 1 : ""}
                     </div>
-                    <div className="px-2 truncate">{data[i]?.name ?? ""}</div>
+                    <span className="px-2 overflow-clip overflow-hidden">
+                      {data[i]?.name ?? ""}
+                    </span>
                   </div>
                 ))}
               </div>

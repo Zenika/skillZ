@@ -15,23 +15,16 @@ type SkillsData = {
     color: string;
     x: string;
     y: string;
-    Skills: {
+    AverageCurrentSkillsAndDesires: {
       name: string;
-      UserSkills_aggregate: {
-        aggregate: {
-          avg: {
-            level: number;
-          };
-        };
-      };
-      TechnicalAppetites_aggregate: {
-        aggregate: {
-          avg: {
-            level: number;
-          };
-        };
-      };
+      averageLevel: number;
+      averageDesire: number;
     }[];
+    AverageCurrentSkillsAndDesires_aggregate: {
+      aggregate: {
+        count;
+      };
+    };
   }[];
   Agency: {
     name: string;
@@ -40,45 +33,27 @@ type SkillsData = {
 
 const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
   query getSkillsAndTechnicalAppetites${agency ? "($agency: String!)" : ""} {
-    Category(order_by: { index: asc }) {
+    Category(order_by: {index: asc}) {
       label
       color
       x
       y
-      Skills(
-        where: {
-          UserSkills: {
-            created_at: { _is_null: false }
-            ${
-              agency
-                ? "User: { UserAgencies: { Agency: { name: { _eq: $agency } } } }"
-                : ""
-            }
-          }
-        }
-      ) {
+      AverageCurrentSkillsAndDesires: ${
+        agency ? "Agencies" : "Zenikas"
+      }AverageCurrentSkillsAndDesires(order_by: {averageLevel: desc, averageDesire: desc}, limit: 5 ${
+  agency ? `, where: {agency: {_eq: $agency}}` : ""
+}) {
         name
-        UserSkills_aggregate(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
-        ) {
-          aggregate {
-            avg {
-              level
-            }
-            count
-          }
-        }
-        TechnicalAppetites_aggregate(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
-        ) {
-          aggregate {
-            avg {
-              level
-            }
-            count
-          }
+        averageLevel
+        averageDesire
+      }
+      AverageCurrentSkillsAndDesires_aggregate: ${
+        agency ? "Agencies" : "Zenikas"
+      }AverageCurrentSkillsAndDesires_aggregate ${
+  agency ? `(where: {agency: {_eq: $agency}})` : ""
+} {
+        aggregate {
+          count(columns: skillId, distinct: true)
         }
       }
     }
@@ -127,10 +102,11 @@ const Zenika = ({ pathName }) => {
     y: data.y,
     color: data.color,
     name: data.label,
+    count: data.AverageCurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "zenika",
-    data: data.Skills.map((skill, i) => ({
-      x: skill.UserSkills_aggregate.aggregate.avg.level,
-      y: skill.TechnicalAppetites_aggregate.aggregate.avg.level,
+    data: data.AverageCurrentSkillsAndDesires.map((skill, i) => ({
+      x: skill.averageLevel,
+      y: skill.averageDesire,
       weight: 25,
       labels: [``],
       name: skill.name,
@@ -138,9 +114,7 @@ const Zenika = ({ pathName }) => {
     certifs: 0,
   })).map((row) => ({
     ...row,
-    data: row.data
-      .sort((a, b) => -(a.x + a.y - (b.x + b.y)))
-      .map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
+    data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
   return (
     <PageWithNavAndPanel

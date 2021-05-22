@@ -1,7 +1,31 @@
 - table:
     schema: public
+    name: AgenciesAverageCurrentSkillsAndDesires
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - skillId
+      - categoryId
+      - agency
+      - name
+      - averageLevel
+      - averageDesire
+      - userCount
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
     name: Agency
   array_relationships:
+  - name: AgenciesAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: AgenciesAverageCurrentSkillsAndDesires
+        column_mapping:
+          name: agency
   - name: UserAgencies
     using:
       foreign_key_constraint_on:
@@ -20,6 +44,22 @@
     schema: public
     name: Category
   array_relationships:
+  - name: AgenciesAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: AgenciesAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
+  - name: CurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: UsersCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
   - name: Skills
     using:
       foreign_key_constraint_on:
@@ -27,6 +67,14 @@
         table:
           schema: public
           name: Skill
+  - name: ZenikasAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ZenikasAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
   select_permissions:
   - role: world
     permission:
@@ -47,6 +95,22 @@
     using:
       foreign_key_constraint_on: categoryId
   array_relationships:
+  - name: AgenciesAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: AgenciesAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: skillId
+  - name: CurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: UsersCurrentSkillsAndDesires
+        column_mapping:
+          id: skillId
   - name: TechnicalAppetites
     using:
       foreign_key_constraint_on:
@@ -61,6 +125,14 @@
         table:
           schema: public
           name: UserSkill
+  - name: ZenikasAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ZenikasAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: skillId
   insert_permissions:
   - role: world
     permission:
@@ -166,6 +238,14 @@
         column_mapping:
           email: userEmail
   array_relationships:
+  - name: CurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: UsersCurrentSkillsAndDesires
+        column_mapping:
+          email: userEmail
   - name: TechnicalAppetites
     using:
       foreign_key_constraint_on:
@@ -374,3 +454,33 @@
       filter:
         userEmail:
           _eq: x-hasura-user-email
+- table:
+    schema: public
+    name: UsersCurrentSkillsAndDesires
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - skillId
+      - categoryId
+      - userEmail
+      - name
+      - level
+      - desire
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
+    name: ZenikasAverageCurrentSkillsAndDesires
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - skillId
+      - categoryId
+      - name
+      - averageLevel
+      - averageDesire
+      - userCount
+      filter: {}
+      allow_aggregations: true

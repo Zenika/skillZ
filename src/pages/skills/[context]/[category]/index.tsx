@@ -16,15 +16,23 @@ import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 
+type FetchResult = {
+  Category: FetchedCategory[];
+  Agency: {
+    name: string;
+  }[];
+};
+
+export type FetchedCategory = {
+  color: string;
+  CurrentSkillsAndDesires: FetchedSkill[];
+};
 export type FetchedSkill = {
   id: string;
   name: string;
-  UserSkills: {
-    level: number;
-  }[];
-  TechnicalAppetites: {
-    level: number;
-  }[];
+  level: number;
+  desire: number;
+  userCount: number;
 };
 
 export type Skill = {
@@ -65,29 +73,18 @@ const SKILLS_AND_APPETITE_QUERY = gql`
   ) {
     Category(where: { label: { _eq: $category } }) {
       color
-      Skills(
-        where: {
-          UserSkills: { userEmail: { _eq: $email } }
-          _and: { Category: { label: { _eq: $category } } }
-        }
+      CurrentSkillsAndDesires(
+        order_by: { level: desc, desire: desc }
+        where: { userEmail: { _eq: $email } }
       ) {
-        id
+        id: skillId
         name
-        UserSkills(
-          order_by: { created_at: desc }
-          limit: 1
-          where: { userEmail: { _eq: $email } }
-        ) {
-          level
-        }
-        TechnicalAppetites(
-          order_by: { created_at: desc }
-          limit: 1
-          where: { userEmail: { _eq: $email } }
-        ) {
-          level
-        }
+        desire
+        level
       }
+    }
+    Agency {
+      name
     }
   }
 `;
@@ -97,55 +94,17 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
     agency ? "$agency: String!" : ""
   }) {
     Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
-      label
       color
-      x
-      y
-      Skills(
-        where: {
-          UserSkills: {
-            created_at: { _is_null: false }
-            ${
-              agency
-                ? "User: { UserLatestAgency: { agency: { _eq: $agency } } }"
-                : ""
-            }
-          }
-        }
-      ) {
-        name
-        UserSkills_aggregate(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
-          ${
-            agency
-              ? "where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
-              : ""
-          }
-        ) {
-          aggregate {
-            avg {
-              level
-            }
-            count
-          }
-        }
-        TechnicalAppetites_aggregate(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
-          ${
-            agency
-              ? "where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
-              : ""
-          }
-        ) {
-          aggregate {
-            avg {
-              level
-            }
-            count
-          }
-        }
+      CurrentSkillsAndDesires: ${
+        agency ? "Agencies" : "Zenikas"
+      }AverageCurrentSkillsAndDesires(order_by: {averageLevel: desc, averageDesire: desc} ${
+  agency ? `, where: {agency: {_eq: $agency}}` : ""
+}) {
+      id: skillId
+      name
+      level: averageLevel
+      desire: averageDesire
+      userCount
       }
     }
     Agency {
@@ -170,12 +129,10 @@ const ListSkills = () => {
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-  const [skills, setSkills] = useState<{
-    Category: { color; Skills: FetchedSkill[] };
-  }>();
+  const [skills, setSkills] = useState<FetchedCategory>();
   const [radarData, setRadarData] = useState<RadarData[]>();
   const [sortedSkills, setSortedSkills] = useState<Skill[]>();
-  const { data: skillsData, refetch } = useQuery(
+  const { data: skillsData, refetch } = useQuery<FetchResult>(
     context === "zenika"
       ? computeZenikaSkillsQuery({
           agency: filterByAgency?.selected
@@ -211,42 +168,27 @@ const ListSkills = () => {
     if (!skillsData) {
       return;
     }
-    setSkills(skillsData);
+    setSkills(skillsData.Category[0]);
     setRadarData(
-      skillsData.Category[0]?.Skills.map((skill) => ({
-        x:
-          context === "zenika"
-            ? skill.UserSkills_aggregate.aggregate.avg.level
-            : skill.UserSkills[0].level,
-        y:
-          context === "zenika"
-            ? skill.TechnicalAppetites_aggregate.aggregate.avg.level
-            : skill.TechnicalAppetites[0].level,
+      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
+        x: skill.level,
+        y: skill.desire,
         weight: 65,
         labels: [skill.name],
         name: skill.name,
-      })).sort((a, b) => -(a.x + a.y - (b.x + b.y)))
+      }))
     );
     setSortedSkills(
-      skillsData.Category[0]?.Skills.map((skill) => ({
+      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
         id: skill.id,
         name: skill.name,
-        count:
-          context === "zenika"
-            ? skill.UserSkills_aggregate.aggregate.count
-            : undefined,
-        level:
-          context === "zenika"
-            ? skill.UserSkills_aggregate.aggregate.avg.level
-            : skill.UserSkills[0].level ?? 0,
-        desire:
-          context === "zenika"
-            ? skill.TechnicalAppetites_aggregate.aggregate.avg.level
-            : skill.TechnicalAppetites[0].level ?? 0,
+        count: skill.userCount,
+        level: skill.level,
+        desire: skill.desire,
         certif: false,
-      })).sort((a, b) => -(a.level + a.desire - (b.level + b.desire)))
+      }))
     );
-    if (!filterByAgency && skillsData?.Agency) {
+    if (!filterByAgency && context !== "mine" && skillsData?.Agency) {
       setFilterByAgency({
         values: skillsData.Agency.map((agency) => agency.name),
         name: "Agency",
@@ -259,7 +201,7 @@ const ListSkills = () => {
     {
       onCompleted: async () => {
         const { data } = await refetch({ email: user.email, category });
-        setSkills(data);
+        setSkills(data.Category[0]);
         useNotification(
           t("skills.updateSkillSuccess").replace(
             "%skill%",
@@ -331,7 +273,7 @@ const ListSkills = () => {
         }
         faded={editPanelOpened || modaleOpened}
         data={radarData}
-        color={skills?.Category[0]?.color}
+        color={skills.color}
       >
         <div
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
