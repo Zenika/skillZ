@@ -16,7 +16,7 @@ import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 
-type FetchResult = {
+export type FetchResult = {
   Category: FetchedCategory[];
   Agency: {
     name: string;

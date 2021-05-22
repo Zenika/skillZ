@@ -9,7 +9,7 @@ import AddSkillListSelector from "../../../../components/AddSkilListSelector";
 import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
-import { FetchedSkill } from ".";
+import { FetchResult } from ".";
 import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
@@ -30,28 +30,25 @@ type SkillSearchResult = {
 };
 
 const SKILLS_AND_APPETITE_QUERY = gql`
-  query getSkillsAndTechnicalAppetitesByCategory2(
+  query getSkillsAndTechnicalAppetitesByCategory(
     $email: String!
     $category: String!
   ) {
     Category(where: { label: { _eq: $category } }) {
       color
       id
-      Skills(
-        where: {
-          UserSkills: { userEmail: { _eq: $email } }
-          _and: { Category: { label: { _eq: $category } } }
-        }
+      CurrentSkillsAndDesires(
+        order_by: { level: desc, desire: desc }
+        where: { userEmail: { _eq: $email } }
       ) {
-        id
+        id: skillId
         name
-        UserSkills(order_by: { created_at: desc }, limit: 1) {
-          level
-        }
-        TechnicalAppetites(order_by: { created_at: desc }, limit: 1) {
-          level
-        }
+        desire
+        level
       }
+    }
+    Agency {
+      name
     }
   }
 `;
@@ -145,9 +142,7 @@ const AddSkill = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const { data, refetch } = useQuery<{
-    Category: { color: string; id: string; Skills: FetchedSkill[] };
-  }>(SKILLS_AND_APPETITE_QUERY, {
+  const { data, refetch } = useQuery<FetchResult>(SKILLS_AND_APPETITE_QUERY, {
     variables: { email: user.email, category: category || "" },
     fetchPolicy: "network-only",
   });
@@ -200,14 +195,16 @@ const AddSkill = () => {
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
-  const radarData = data?.Category[0]?.Skills?.map((skill) => ({
-    x: skill.UserSkills[0]?.level,
-    y: skill.TechnicalAppetites[0]?.level,
-    weight: 65,
-    labels: [skill.name],
-    name: skill.name,
-  })).sort((a, b) => -(a.x + a.y - (b.x + b.y)));
-  const categoryId = data?.Category[0]?.id;
+  const radarData = data?.Category[0]?.CurrentSkillsAndDesires?.map(
+    (skill) => ({
+      x: skill.level,
+      y: skill.desire,
+      weight: 65,
+      labels: [skill.name],
+      name: skill.name,
+    })
+  );
+  const categoryId = data?.Category[0]?.["id"];
 
   return (
     <CommonPage page={category} faded={modaleOpened} context={context}>
