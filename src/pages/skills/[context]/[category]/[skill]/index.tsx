@@ -136,7 +136,7 @@ const SkillPage = () => {
     user: {
       name: userSkill.User.name,
       picture: userSkill.User.picture,
-      agency: userSkill.User.UserLatestAgency.agency,
+      agency: userSkill.User.UserLatestAgency?.agency,
     },
   }));
   return (
