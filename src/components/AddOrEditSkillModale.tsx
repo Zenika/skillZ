@@ -62,7 +62,7 @@ const AddOrEditSkillModale = ({
                   setSkillLevel(index);
                   setNavState("desire");
                 }}
-                className="flex flex-row justify-left py-1 my-2"
+                className="flex flex-row text-left py-1 my-2"
               >
                 <Image
                   src={`/icons/${
@@ -84,7 +84,7 @@ const AddOrEditSkillModale = ({
               <button
                 key={`desire-${index}`}
                 onClick={() => setDesireLevel(index)}
-                className="flex flex-row justify-left py-1 my-2"
+                className="flex flex-row text-left py-1 my-2"
               >
                 <Image
                   src={`/icons/${
