@@ -61,14 +61,14 @@ export default {
     2: "J'ai joué avec, j'ai testé",
     3: "J'ai bossé avec sur des projets significatifs",
     4: "J'ai bossé avec, je maîtrise bien, j'ai creusé le fonctionnement",
-    5: "Je l'ai utilisé dans dans de différents contextes, je connais parfaitement",
+    5: "Je l'ai utilisé dans de différents contextes, je connais parfaitement",
   },
   desireLevels: {
     1: "Je ne veux plus l'utiliser et/ou je ne veux pas apprendre",
     2: "Je préfère éviter, ou seulement pour dépanner",
     3: "Je n'adore pas mais ca ne me dérange pas",
     4: "J'aime beaucoup",
-    5: "Je veux utliser tous les jours",
+    5: "Je veux l'utliser tous les jours",
   },
   skills: {
     nothingHere: "Il n'y a rien ici, essayez d'ajouter une compétence",
