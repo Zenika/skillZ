@@ -293,6 +293,7 @@
       - name
       - picture
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: world
     permission:
@@ -359,6 +360,7 @@
       - userEmail
       - agency
       filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: UserSkill
