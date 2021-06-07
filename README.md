@@ -23,7 +23,7 @@ Create an file named `.env.local`, then add these variables
 
 ```
 # Your local (or distant) hasura endpoint url
-NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/relay
+NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
