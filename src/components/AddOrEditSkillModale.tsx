@@ -16,18 +16,23 @@ const AddOrEditSkillModale = ({
 }: AddOrEditSkillModaleProps) => {
   const { t } = useContext(i18nContext);
   const [navState, setNavState] = useState("knowledge");
-  const [autoValidation, setautoValidation] = useState(false);
   const [skillLevel, setSkillLevel] = useState(skill?.level || 0);
   const [desireLevel, setDesireLevel] = useState(skill?.desire || 0);
 
   const onAddButtonClick = () => {
     callback({ ...skill, level: skillLevel, desire: desireLevel });
   };
-  useEffect(() => {
-    if (autoValidation)
-      onAddButtonClick();
-  }, [!autoValidation]);
 
+  useEffect(() => {
+    if (
+      skillLevel === 0 ||
+      desireLevel === skill?.desire ||
+      desireLevel === 0
+    ) {
+      return;
+    }
+    onAddButtonClick();
+  }, [desireLevel]);
   return (
     <div className="flex flex-col my-16 mx-6 dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <h1 className="px-2 my-4 text-xl text-bold">{skill?.name}</h1>
