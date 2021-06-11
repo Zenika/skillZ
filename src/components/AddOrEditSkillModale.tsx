@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
 import { Skill } from "./AddSkilListSelector";
 
@@ -23,6 +23,16 @@ const AddOrEditSkillModale = ({
     callback({ ...skill, level: skillLevel, desire: desireLevel });
   };
 
+  useEffect(() => {
+    if (
+      skillLevel === 0 ||
+      desireLevel === skill?.desire ||
+      desireLevel === 0
+    ) {
+      return;
+    }
+    onAddButtonClick();
+  }, [desireLevel]);
   return (
     <div className="flex flex-col my-16 mx-6 dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <h1 className="px-2 my-4 text-xl text-bold">{skill?.name}</h1>
