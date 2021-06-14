@@ -30,3 +30,10 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ### Launch the app
 
 Then install dependencies using `npm install`, run the dev server using `npm run dev`
+
+### Generate seeds
+
+If you want to generate random seed data, you can use the hasura console to export the Skill table to JSON
+Then move it to `hasura/seeds/Skill.json` 
+You can now run `npm run seeds:generate`
+And `npm run seeds:apply` to apply the random data to the database
