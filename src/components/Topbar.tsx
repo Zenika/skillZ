@@ -99,11 +99,11 @@ const Topbar = ({
                   </Link>
                 </div>
                 <div className="w-36">
-                  <Link href="/zenika">
+                  <Link href="/zenika/World">
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          context === "zenika" || path === "/zenika"
+                          context === "zenika" || path.includes("/zenika")
                             ? "/icons/zenika-selected.svg"
                             : "/icons/zenika.svg"
                         }
@@ -114,7 +114,7 @@ const Topbar = ({
                       <span className="text-center">
                         {t("nav.zenikaSkills")}
                       </span>
-                      {context === "zenika" || path === "/zenika" ? (
+                      {context === "zenika" || path.includes("/zenika") ? (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>
