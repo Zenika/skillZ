@@ -118,6 +118,13 @@
         table:
           schema: public
           name: TechnicalAppetite
+  - name: UserSkillDesires
+    using:
+      foreign_key_constraint_on:
+        column: skillId
+        table:
+          schema: public
+          name: UserSkillDesire
   - name: UserSkills
     using:
       foreign_key_constraint_on:
@@ -260,6 +267,13 @@
         table:
           schema: public
           name: UserAgency
+  - name: UserSkillDesires
+    using:
+      foreign_key_constraint_on:
+        column: userEmail
+        table:
+          schema: public
+          name: UserSkillDesire
   - name: UserSkills
     using:
       foreign_key_constraint_on:
@@ -410,6 +424,53 @@
 - table:
     schema: public
     name: UserSkillDesire
+  object_relationships:
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skillId
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns:
+      - created_at
+      - desireLevel
+      - skillId
+      - skillLevel
+      - userEmail
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - userEmail
+      - skillId
+      - skillLevel
+      - desireLevel
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - created_at
+      - desireLevel
+      - skillId
+      - skillLevel
+      - userEmail
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserTopic
