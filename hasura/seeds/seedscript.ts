@@ -1,7 +1,8 @@
 import { writeFile } from "fs/promises";
 import { datatype, date, image, name, random } from "faker";
-// @ts-ignore
-const jsonSql = require("json-sql")();
+import newJsonSql from "json-sql";
+
+const jsonSql = newJsonSql();
 jsonSql.configure({
   dialect: "postgresql",
   wrappedIdentifiers: true,
@@ -44,7 +45,7 @@ const config = {
 
 const users: User[] = [];
 const userSkills: UserSkill[] = [];
-const userTechnicalAppetites: UserSkill[] = [];
+const userDesires: UserSkill[] = [];
 const userAgencies: UserAgency[] = [];
 
 const generateUniqueDate = (
@@ -87,21 +88,25 @@ const generateUserAgency = (userEmail: string): UserAgency => {
   };
 };
 
-const generateUserSkillOrDesire = (
-  skillOrDesire: "skill" | "desire",
+const generateUserSkillAndDesire = (
   userEmail: string
-): UserSkill => {
+): { userSkill: UserSkill; userDesire: UserSkill } => {
   const skillId =
     skills[datatype.number({ min: 0, max: skills.length - 1 })].id;
+  const created_at = generateUniqueDate(userSkills, userEmail, skillId);
   return {
-    userEmail,
-    skillId,
-    level: datatype.number({ min: 1, max: 5 }),
-    created_at: generateUniqueDate(
-      skillOrDesire === "skill" ? userSkills : userTechnicalAppetites,
+    userSkill: {
       userEmail,
-      skillId
-    ),
+      skillId,
+      level: datatype.number({ min: 1, max: 5 }),
+      created_at,
+    },
+    userDesire: {
+      userEmail,
+      skillId,
+      level: datatype.number({ min: 1, max: 5 }),
+      created_at,
+    },
   };
 };
 
@@ -110,10 +115,9 @@ for (let i = 0; i < config.nbUser; ++i) {
   users.push(user);
   userAgencies.push(generateUserAgency(user.email));
   for (let k = 0; k < config.nbSkillEntriesPerUser; ++k) {
-    userSkills.push(generateUserSkillOrDesire("skill", user.email));
-    userTechnicalAppetites.push(
-      generateUserSkillOrDesire("desire", user.email)
-    );
+    const generatedSkillAndDesire = generateUserSkillAndDesire(user.email);
+    userSkills.push(generatedSkillAndDesire.userSkill);
+    userDesires.push(generatedSkillAndDesire.userDesire);
   }
 }
 
@@ -138,7 +142,7 @@ const userSkillsInsertQuery = jsonSql.build({
 const userTechnicalAppetitesInsertQuery = jsonSql.build({
   type: "insert",
   table: "TechnicalAppetite",
-  values: userTechnicalAppetites,
+  values: userDesires,
 });
 
 const result = `${userInsertQuery.query}
