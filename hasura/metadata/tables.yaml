@@ -9,8 +9,8 @@
       - categoryId
       - agency
       - name
-      - averageLevel
-      - averageDesire
+      - averageSkillLevel
+      - averageDesireLevel
       - userCount
       filter: {}
       allow_aggregations: true
@@ -18,14 +18,6 @@
     schema: public
     name: Agency
   array_relationships:
-  - name: AgenciesAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: AgenciesAverageCurrentSkillsAndDesires
-        column_mapping:
-          name: agency
   - name: UserAgencies
     using:
       foreign_key_constraint_on:
@@ -44,22 +36,6 @@
     schema: public
     name: Category
   array_relationships:
-  - name: AgenciesAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: AgenciesAverageCurrentSkillsAndDesires
-        column_mapping:
-          id: categoryId
-  - name: CurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UsersCurrentSkillsAndDesires
-        column_mapping:
-          id: categoryId
   - name: Skills
     using:
       foreign_key_constraint_on:
@@ -67,14 +43,6 @@
         table:
           schema: public
           name: Skill
-  - name: ZenikasAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: ZenikasAverageCurrentSkillsAndDesires
-        column_mapping:
-          id: categoryId
   select_permissions:
   - role: world
     permission:
@@ -95,29 +63,6 @@
     using:
       foreign_key_constraint_on: categoryId
   array_relationships:
-  - name: AgenciesAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: AgenciesAverageCurrentSkillsAndDesires
-        column_mapping:
-          id: skillId
-  - name: CurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UsersCurrentSkillsAndDesires
-        column_mapping:
-          id: skillId
-  - name: TechnicalAppetites
-    using:
-      foreign_key_constraint_on:
-        column: skillId
-        table:
-          schema: public
-          name: TechnicalAppetite
   - name: UserSkillDesires
     using:
       foreign_key_constraint_on:
@@ -125,21 +70,6 @@
         table:
           schema: public
           name: UserSkillDesire
-  - name: UserSkills
-    using:
-      foreign_key_constraint_on:
-        column: skillId
-        table:
-          schema: public
-          name: UserSkill
-  - name: ZenikasAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: ZenikasAverageCurrentSkillsAndDesires
-        column_mapping:
-          id: skillId
   insert_permissions:
   - role: world
     permission:
@@ -167,52 +97,6 @@
       - name
       filter: {}
       check: {}
-- table:
-    schema: public
-    name: TechnicalAppetite
-  object_relationships:
-  - name: Skill
-    using:
-      foreign_key_constraint_on: skillId
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
-  insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns:
-      - userEmail
-      - skillId
-      - created_at
-      - level
-      backend_only: false
-  select_permissions:
-  - role: world
-    permission:
-      columns:
-      - created_at
-      - level
-      - userEmail
-      - skillId
-      filter: {}
-      allow_aggregations: true
-  update_permissions:
-  - role: world
-    permission:
-      columns:
-      - userEmail
-      - skillId
-      - created_at
-      - level
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
 - table:
     schema: public
     name: Topic
@@ -245,21 +129,6 @@
         column_mapping:
           email: userEmail
   array_relationships:
-  - name: CurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UsersCurrentSkillsAndDesires
-        column_mapping:
-          email: userEmail
-  - name: TechnicalAppetites
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: TechnicalAppetite
   - name: UserAgencies
     using:
       foreign_key_constraint_on:
@@ -274,13 +143,6 @@
         table:
           schema: public
           name: UserSkillDesire
-  - name: UserSkills
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserSkill
   - name: UserTopics
     using:
       foreign_key_constraint_on:
@@ -375,52 +237,6 @@
       - agency
       filter: {}
       allow_aggregations: true
-- table:
-    schema: public
-    name: UserSkill
-  object_relationships:
-  - name: Skill
-    using:
-      foreign_key_constraint_on: skillId
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
-  insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns:
-      - userEmail
-      - skillId
-      - level
-      - created_at
-      backend_only: false
-  select_permissions:
-  - role: world
-    permission:
-      columns:
-      - created_at
-      - level
-      - userEmail
-      - skillId
-      filter: {}
-      allow_aggregations: true
-  update_permissions:
-  - role: world
-    permission:
-      columns:
-      - userEmail
-      - skillId
-      - level
-      - created_at
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserSkillDesire
@@ -531,8 +347,9 @@
       - categoryId
       - userEmail
       - name
-      - level
-      - desire
+      - skillLevel
+      - desireLevel
+      - created_at
       filter: {}
       allow_aggregations: true
 - table:
@@ -545,8 +362,8 @@
       - skillId
       - categoryId
       - name
-      - averageLevel
-      - averageDesire
+      - averageSkillLevel
+      - averageDesireLevel
       - userCount
       filter: {}
       allow_aggregations: true
