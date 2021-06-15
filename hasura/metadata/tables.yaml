@@ -409,6 +409,9 @@
           _eq: x-hasura-user-email
 - table:
     schema: public
+    name: UserSkillDesire
+- table:
+    schema: public
     name: UserTopic
   object_relationships:
   - name: Topic
