@@ -6,8 +6,8 @@ import { i18nContext } from "../utils/i18nContext";
 export type Skill = {
   id: string;
   name: string;
-  level?: number;
-  desire?: number;
+  skillLevel?: number;
+  desireLevel?: number;
 };
 
 const INSERT_SKILL_MUTATION = gql`

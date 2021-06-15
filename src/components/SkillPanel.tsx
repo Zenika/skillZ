@@ -38,7 +38,7 @@ const SkillPanel = ({
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }
-  const { id, name, level, desire, certif } = skill;
+  const { id, name, skillLevel, desireLevel, certif } = skill;
   return (
     <div
       className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
@@ -71,11 +71,11 @@ const SkillPanel = ({
             <p className="text-xs text-center my-2">
               {t("skills.desireLevel")}
             </p>
-            <LevelBar color="red" level={desire} />
+            <LevelBar color="red" level={desireLevel} />
           </div>
           <div className="flex flex-col">
             <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
-            <LevelBar color="yellow" level={level} />
+            <LevelBar color="yellow" level={skillLevel} />
           </div>
         </div>
       </div>

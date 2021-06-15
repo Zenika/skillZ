@@ -30,17 +30,17 @@ export type FetchedCategory = {
 export type FetchedSkill = {
   id: string;
   name: string;
-  level: number;
-  desire: number;
+  skillLevel: number;
+  desireLevel: number;
   userCount: number;
 };
 
 export type Skill = {
   id: string;
   name: string;
-  level: number;
+  skillLevel: number;
   count?: number;
-  desire: number;
+  desireLevel: number;
   certif: boolean;
 };
 
@@ -48,18 +48,20 @@ const EDIT_SKILL_MUTATION = gql`
   mutation addUserSkill(
     $email: String!
     $skillId: uuid!
-    $level: Int!
-    $desire: Int!
+    $skillLevel: Int!
+    $desireLevel: Int!
   ) {
-    insert_UserSkill(
-      objects: { skillId: $skillId, level: $level, userEmail: $email }
-      on_conflict: { constraint: UserSkill_pkey, update_columns: level }
-    ) {
-      affected_rows
-    }
-    insert_TechnicalAppetite(
-      objects: { skillId: $skillId, level: $desire, userEmail: $email }
-      on_conflict: { constraint: TechnicalAppetite_pkey, update_columns: level }
+    insert_UserSkillDesire(
+      objects: {
+        skillId: $skillId
+        skillLevel: $skillLevel
+        desireLevel: $desireLevel
+        userEmail: $email
+      }
+      on_conflict: {
+        constraint: UserSkillDesire_userEmail_skillId_created_at_key
+        update_columns: [skillLevel, desireLevel]
+      }
     ) {
       affected_rows
     }
@@ -74,13 +76,13 @@ const SKILLS_AND_APPETITE_QUERY = gql`
     Category(where: { label: { _eq: $category } }) {
       color
       CurrentSkillsAndDesires(
-        order_by: { level: desc, desire: desc }
+        order_by: { skillLevel: desc, desireLevel: desc }
         where: { userEmail: { _eq: $email } }
       ) {
         id: skillId
         name
-        desire
-        level
+        desireLevel
+        skillLevel
       }
     }
     Agency {
@@ -97,13 +99,13 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
       color
       CurrentSkillsAndDesires: ${
         agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires(order_by: {averageLevel: desc, averageDesire: desc} ${
+      }AverageCurrentSkillsAndDesires(order_by: {averageSkillLevel: desc, averageDesireLevel: desc} ${
   agency ? `, where: {agency: {_eq: $agency}}` : ""
 }) {
       id: skillId
       name
-      level: averageLevel
-      desire: averageDesire
+      skillLevel: averageSkillLevel
+      desireLevel: averageDesireLevel
       userCount
       }
     }
@@ -171,8 +173,8 @@ const ListSkills = () => {
     setSkills(skillsData.Category[0]);
     setRadarData(
       skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
-        x: skill.level,
-        y: skill.desire,
+        x: skill.skillLevel,
+        y: skill.desireLevel,
         weight: 65,
         labels: [skill.name],
         name: skill.name,
@@ -183,8 +185,8 @@ const ListSkills = () => {
         id: skill.id,
         name: skill.name,
         count: skill.userCount,
-        level: skill.level,
-        desire: skill.desire,
+        skillLevel: skill.skillLevel,
+        desireLevel: skill.desireLevel,
         certif: false,
       }))
     );
@@ -231,13 +233,13 @@ const ListSkills = () => {
     setEditPanelOpened(false);
   };
 
-  const editAction = ({ id, name, level, desire }) => {
+  const editAction = ({ id, name, skillLevel, desireLevel }) => {
     addSkill({
       variables: {
         skillId: id,
         email: user?.email,
-        level,
-        desire,
+        skillLevel,
+        desireLevel,
       },
     });
   };

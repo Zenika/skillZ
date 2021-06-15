@@ -13,18 +13,9 @@ type UserSkillsAndAppetiteDetails = {
     Skills: {
       id: string;
       name: string;
-      TechnicalAppetites: {
-        level: number;
-        User: {
-          name: string;
-          picture: string;
-          UserAgencies: {
-            agency: string;
-          }[];
-        };
-      }[];
-      UserSkills: {
-        level: number;
+      UserSkillDesires: {
+        skillLevel: number;
+        desireLevel: number;
         User: {
           name: string;
           picture: string;
@@ -51,12 +42,12 @@ const computeUsersSkillsAndTechnicalAppetitesDetail = ({
       color
       Skills(where: { name: { _eq: $skill } ${
         agency
-          ? ", UserSkills: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
+          ? ", UserSkillDesires: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
           : ""
       } }) {
         id
         name
-        TechnicalAppetites(
+        UserSkillDesires(
           order_by: { userEmail: asc, created_at: desc }
           distinct_on: userEmail
           ${
@@ -65,25 +56,8 @@ const computeUsersSkillsAndTechnicalAppetitesDetail = ({
               : ""
           }
         ) {
-          level
-          User {
-            name
-            picture
-            UserLatestAgency {
-              agency
-            }
-          }
-        }
-        UserSkills(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
-          ${
-            agency
-              ? ", where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
-              : ""
-          }
-        ) {
-          level
+          skillLevel
+          desireLevel
           User {
             name
             picture
@@ -125,20 +99,20 @@ const SkillPage = () => {
       : context.join("")
     : "";
   const fetchedSkill = data?.Category[0]?.Skills[0];
-  const computedData = fetchedSkill?.UserSkills.map((userSkill) => ({
-    id: fetchedSkill.id,
-    name: fetchedSkill.name,
-    level: userSkill.level,
-    desire: fetchedSkill.TechnicalAppetites.find(
-      (item) => item.User.name === userSkill.User.name
-    ).level,
-    certif: false,
-    user: {
-      name: userSkill.User.name,
-      picture: userSkill.User.picture,
-      agency: userSkill.User.UserLatestAgency?.agency,
-    },
-  }));
+  const computedData = fetchedSkill?.UserSkillDesires.map(
+    (userSkillDesire) => ({
+      id: fetchedSkill.id,
+      name: fetchedSkill.name,
+      level: userSkillDesire.skillLevel,
+      desire: userSkillDesire.desireLevel,
+      certif: false,
+      user: {
+        name: userSkillDesire.User.name,
+        picture: userSkillDesire.User.picture,
+        agency: userSkillDesire.User.UserLatestAgency?.agency,
+      },
+    })
+  );
   return (
     <CommonPage
       page={skill}

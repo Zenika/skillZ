@@ -36,6 +36,22 @@
     schema: public
     name: Category
   array_relationships:
+  - name: AgenciesAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: AgenciesAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
+  - name: CurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: UsersCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
   - name: Skills
     using:
       foreign_key_constraint_on:
@@ -43,6 +59,14 @@
         table:
           schema: public
           name: Skill
+  - name: ZenikasAverageCurrentSkillsAndDesires
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ZenikasAverageCurrentSkillsAndDesires
+        column_mapping:
+          id: categoryId
   select_permissions:
   - role: world
     permission:
