@@ -17,7 +17,7 @@ import { i18nContext } from "../../../../utils/i18nContext";
 type Skill = {
   id: string;
   name: string;
-  UserSkills_aggregate: {
+  UserSkillDesires_aggregate: {
     aggregate: {
       count: number;
     };
@@ -38,13 +38,13 @@ const SKILLS_AND_APPETITE_QUERY = gql`
       color
       id
       CurrentSkillsAndDesires(
-        order_by: { level: desc, desire: desc }
+        order_by: { skillLevel: desc, desireLevel: desc }
         where: { userEmail: { _eq: $email } }
       ) {
         id: skillId
         name
-        desire
-        level
+        desireLevel
+        skillLevel
       }
     }
     Agency {
@@ -69,7 +69,7 @@ const SKILL_SEARCH_QUERY = gql`
     ) {
       name
       id
-      UserSkills_aggregate(where: { User: { email: { _eq: $email } } }) {
+      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
         aggregate {
           count
         }
@@ -83,7 +83,7 @@ const SKILL_SEARCH_QUERY = gql`
     ) {
       name
       id
-      UserSkills_aggregate(where: { User: { email: { _eq: $email } } }) {
+      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
         aggregate {
           count
         }
@@ -96,18 +96,20 @@ const ADD_SKILL_MUTATION = gql`
   mutation addUserSkill(
     $email: String!
     $skillId: uuid!
-    $level: Int!
-    $desire: Int!
+    $skillLevel: Int!
+    $desireLevel: Int!
   ) {
-    insert_UserSkill(
-      objects: { skillId: $skillId, level: $level, userEmail: $email }
-      on_conflict: { constraint: UserSkill_pkey, update_columns: level }
-    ) {
-      affected_rows
-    }
-    insert_TechnicalAppetite(
-      objects: { skillId: $skillId, level: $desire, userEmail: $email }
-      on_conflict: { constraint: TechnicalAppetite_pkey, update_columns: level }
+    insert_UserSkillDesire(
+      objects: {
+        skillId: $skillId
+        skillLevel: $skillLevel
+        desireLevel: $desireLevel
+        userEmail: $email
+      }
+      on_conflict: {
+        constraint: UserSkillDesire_userEmail_skillId_created_at_key
+        update_columns: [skillLevel, desireLevel]
+      }
     ) {
       affected_rows
     }
@@ -180,14 +182,14 @@ const AddSkill = () => {
     setModaleOpened(true);
   };
 
-  const addAction = ({ id, name, level, desire }) => {
+  const addAction = ({ id, name, skillLevel, desireLevel }) => {
     setModaleOpened(false);
     addSkill({
       variables: {
         skillId: id,
         email: user?.email,
-        level,
-        desire,
+        skillLevel,
+        desireLevel,
       },
     });
   };
@@ -197,8 +199,8 @@ const AddSkill = () => {
   }
   const radarData = data?.Category[0]?.CurrentSkillsAndDesires?.map(
     (skill) => ({
-      x: skill.level,
-      y: skill.desire,
+      x: skill.skillLevel,
+      y: skill.desireLevel,
       weight: 65,
       labels: [skill.name],
       name: skill.name,
@@ -243,12 +245,14 @@ const AddSkill = () => {
             <AddSkillListSelector
               action={preAddAction}
               skills={skillsData?.Skill.filter(
-                (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+                (skill) =>
+                  skill.UserSkillDesires_aggregate.aggregate.count === 0
               )}
               categoryId={categoryId}
               search={debouncedSearchValue}
               didYouMeanSkills={skillsData?.didYouMeanSearch.filter(
-                (skill) => skill.UserSkills_aggregate.aggregate.count === 0
+                (skill) =>
+                  skill.UserSkillDesires_aggregate.aggregate.count === 0
               )}
             />
           </div>

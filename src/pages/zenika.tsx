@@ -17,8 +17,8 @@ type SkillsData = {
     y: string;
     AverageCurrentSkillsAndDesires: {
       name: string;
-      averageLevel: number;
-      averageDesire: number;
+      averageSkillLevel: number;
+      averageDesireLevel: number;
     }[];
     AverageCurrentSkillsAndDesires_aggregate: {
       aggregate: {
@@ -40,12 +40,12 @@ const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
       y
       AverageCurrentSkillsAndDesires: ${
         agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires(order_by: {averageLevel: desc, averageDesire: desc}, limit: 5 ${
+      }AverageCurrentSkillsAndDesires(order_by: {averageSkillLevel: desc, averageDesireLevel: desc}, limit: 5 ${
   agency ? `, where: {agency: {_eq: $agency}}` : ""
 }) {
         name
-        averageLevel
-        averageDesire
+        averageSkillLevel
+        averageDesireLevel
       }
       AverageCurrentSkillsAndDesires_aggregate: ${
         agency ? "Agencies" : "Zenikas"
@@ -105,8 +105,8 @@ const Zenika = ({ pathName }) => {
     count: data.AverageCurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "zenika",
     data: data.AverageCurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.averageLevel,
-      y: skill.averageDesire,
+      x: skill.averageSkillLevel,
+      y: skill.averageDesireLevel,
       weight: 25,
       labels: [``],
       name: skill.name,

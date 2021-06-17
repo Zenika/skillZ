@@ -19,8 +19,8 @@ type SkillsData = {
     y: string;
     CurrentSkillsAndDesires: {
       name: string;
-      level: number;
-      desire: number;
+      skillLevel: number;
+      desireLevel: number;
     }[];
     CurrentSkillsAndDesires_aggregate: {
       aggregate: {
@@ -47,12 +47,13 @@ const USER_SKILLS_QUERY = gql`
       y
       CurrentSkillsAndDesires(
         limit: 5
-        order_by: { level: desc, desire: desc }
+        order_by: { skillLevel: desc, desireLevel: desc }
         where: { userEmail: { _eq: $email } }
       ) {
         name
-        desire
-        level
+
+        skillLevel
+        desireLevel
       }
       CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
         aggregate {
@@ -89,8 +90,8 @@ const Home = ({ pathName }) => {
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "mine",
     data: data.CurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.level,
-      y: skill.desire,
+      x: skill.skillLevel,
+      y: skill.desireLevel,
       weight: 25,
       labels: [``],
       name: skill.name,

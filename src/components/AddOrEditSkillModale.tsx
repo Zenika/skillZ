@@ -16,17 +16,17 @@ const AddOrEditSkillModale = ({
 }: AddOrEditSkillModaleProps) => {
   const { t } = useContext(i18nContext);
   const [navState, setNavState] = useState("knowledge");
-  const [skillLevel, setSkillLevel] = useState(skill?.level || 0);
-  const [desireLevel, setDesireLevel] = useState(skill?.desire || 0);
+  const [skillLevel, setSkillLevel] = useState(skill?.skillLevel || 0);
+  const [desireLevel, setDesireLevel] = useState(skill?.desireLevel || 0);
 
   const onAddButtonClick = () => {
-    callback({ ...skill, level: skillLevel, desire: desireLevel });
+    callback({ ...skill, skillLevel, desireLevel });
   };
 
   useEffect(() => {
     if (
       skillLevel === 0 ||
-      desireLevel === skill?.desire ||
+      desireLevel === skill?.desireLevel ||
       desireLevel === 0
     ) {
       return;
