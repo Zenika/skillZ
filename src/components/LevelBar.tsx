@@ -8,7 +8,7 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
               className={`gradient-${color} w-4 h-2 ml-1 rounded opacity-100`}
             />
           );
-        } else if (level > i && level <= i + 0.5) {
+        } else if (level > i && level <= i + 0.33) {
           return (
             <>
               <div
@@ -19,7 +19,7 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
               />
             </>
           );
-        } else if (level > i && level <= i + 0.75) {
+        } else if (level > i && level <= i + 0.66) {
           return (
             <>
               <div
