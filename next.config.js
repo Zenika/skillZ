@@ -3,7 +3,7 @@ const runtimeCaching = require("next-pwa/cache");
 
 module.exports = withPWA({
   images: {
-    domains: ["lh3.googleusercontent.com"],
+    domains: ["lh3.googleusercontent.com", "cdn.fakercloud.com"],
   },
   pwa: {
     dest: "public",
