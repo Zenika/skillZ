@@ -29,10 +29,11 @@ type UserAgency = {
   created_at: string;
 };
 
-type UserSkill = {
+type UserSkillDesire = {
   userEmail: string;
   skillId: string;
-  level: number;
+  skillLevel: number;
+  desireLevel: number;
   created_at: string;
 };
 
@@ -44,12 +45,11 @@ const config = {
 };
 
 const users: User[] = [];
-const userSkills: UserSkill[] = [];
-const userDesires: UserSkill[] = [];
+const userSkillDesires: UserSkillDesire[] = [];
 const userAgencies: UserAgency[] = [];
 
 const generateUniqueDate = (
-  source: UserSkill[],
+  source: UserSkillDesire[],
   userEmail: string,
   skillid: string
 ) => {
@@ -90,23 +90,16 @@ const generateUserAgency = (userEmail: string): UserAgency => {
 
 const generateUserSkillAndDesire = (
   userEmail: string
-): { userSkill: UserSkill; userDesire: UserSkill } => {
+): UserSkillDesire => {
   const skillId =
     skills[datatype.number({ min: 0, max: skills.length - 1 })].id;
-  const created_at = generateUniqueDate(userSkills, userEmail, skillId);
+  const created_at = generateUniqueDate(userSkillDesires, userEmail, skillId);
   return {
-    userSkill: {
       userEmail,
       skillId,
-      level: datatype.number({ min: 1, max: 5 }),
+      skillLevel: datatype.number({ min: 1, max: 5 }),
+      desireLevel: datatype.number({ min: 1, max: 5 }),
       created_at,
-    },
-    userDesire: {
-      userEmail,
-      skillId,
-      level: datatype.number({ min: 1, max: 5 }),
-      created_at,
-    },
   };
 };
 
@@ -116,8 +109,7 @@ for (let i = 0; i < config.nbUser; ++i) {
   userAgencies.push(generateUserAgency(user.email));
   for (let k = 0; k < config.nbSkillEntriesPerUser; ++k) {
     const generatedSkillAndDesire = generateUserSkillAndDesire(user.email);
-    userSkills.push(generatedSkillAndDesire.userSkill);
-    userDesires.push(generatedSkillAndDesire.userDesire);
+    userSkillDesires.push(generatedSkillAndDesire);
   }
 }
 
@@ -135,20 +127,13 @@ const userAgenciesInsertQuery = jsonSql.build({
 
 const userSkillsInsertQuery = jsonSql.build({
   type: "insert",
-  table: "UserSkill",
-  values: userSkills,
-});
-
-const userTechnicalAppetitesInsertQuery = jsonSql.build({
-  type: "insert",
-  table: "TechnicalAppetite",
-  values: userDesires,
+  table: "UserSkillDesire",
+  values: userSkillDesires,
 });
 
 const result = `${userInsertQuery.query}
 ${userAgenciesInsertQuery.query}
-${userSkillsInsertQuery.query}
-${userTechnicalAppetitesInsertQuery.query}`;
+${userSkillsInsertQuery.query}`;
 
 (async () => {
   await writeFile("./hasura/seeds/seeds.sql", result);
