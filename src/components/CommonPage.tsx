@@ -43,16 +43,11 @@ const CommonPage = ({
       context === "zenika"
         ? skill && category
           ? `/skills/zenika/${category}`
-          : "/zenika"
+          : `/zenika/${agency || "World"}`
         : "/"
     }`
   );
-  if (agency) {
-    backUrl.searchParams.append(
-      "agency",
-      typeof agency === "string" ? agency : agency.join("")
-    );
-  }
+
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
