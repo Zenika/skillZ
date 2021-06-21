@@ -68,7 +68,9 @@ const PageWithSkillList = ({
                   <Link href={`/skills/${context}/${category}`}>
                     <button
                       className={`${
-                        add ? `dark:bg-dark-light` : `gradient-red`
+                        add
+                          ? `bg-light-light dark:bg-dark-light`
+                          : `gradient-red`
                       } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
                     >
                       {t("skills.mySkills")}
@@ -77,7 +79,9 @@ const PageWithSkillList = ({
                   <Link href={`/skills/${context}/${category}/add`}>
                     <button
                       className={`${
-                        add ? `gradient-red` : `dark:bg-dark-light`
+                        add
+                          ? `gradient-red`
+                          : `bg-light-light dark:bg-dark-light`
                       } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
                     >
                       {t("skills.addSkill")}

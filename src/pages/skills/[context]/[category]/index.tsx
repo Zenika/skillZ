@@ -15,6 +15,7 @@ import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
+import { DarkModeContext } from "../../../../utils/darkModeContext";
 
 export type FetchResult = {
   Category: FetchedCategory[];
@@ -119,6 +120,7 @@ const ListSkills = () => {
   const router = useRouter();
   const { user, isLoading } = useAuth0();
   const { t } = useContext(i18nContext);
+  const { darkMode } = useContext(DarkModeContext);
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -302,7 +304,7 @@ const ListSkills = () => {
         <div
           className={`fixed inset-x-0 duration-500 z-20 bottom-0 h-${
             editPanelOpened ? "2/6" : "0"
-          } w-8/10 dark:bg-dark-light mx-2 rounded`}
+          } w-8/10 bg-light-light dark:bg-dark-light mx-2 rounded`}
         >
           <div className={`flex flex-col py-6 px-4 justify-between`}>
             <h1 className="text-xl text-bold">{selectedSkill?.name}</h1>
@@ -311,14 +313,22 @@ const ListSkills = () => {
                 className="flex flex-row flex-start p-1 my-2"
                 onClick={() => openModale()}
               >
-                <Image src="/icons/preferences.svg" width="24" height="24" />
+                <Image
+                  src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
+                  width="24"
+                  height="24"
+                />
                 <span className="px-2">{t("skills.editSkill")}</span>
               </button>
               <button
                 className="flex flex-row flex-start p-1 my-2"
                 onClick={() => onEditCancel()}
               >
-                <Image src="/icons/back-arrow.svg" width="16" height="16" />
+                <Image
+                  src={`/icons/${darkMode ? "dark" : "light"}/back-arrow.svg`}
+                  width="16"
+                  height="16"
+                />
                 <span className="px-4">{t("skills.cancelAction")}</span>
               </button>
             </div>

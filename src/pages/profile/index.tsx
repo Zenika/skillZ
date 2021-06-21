@@ -157,7 +157,7 @@ const Profile = () => {
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
           {onboarding ? (
-            <div className="flex flex-col justify-center rounded-lg bg-dark-dark my-2 p-2">
+            <div className="flex flex-col justify-center rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
               <div className="flex flex-row justify-center">
                 <div className="p-2">{t("profile.onboarding")}</div>
               </div>
@@ -176,7 +176,7 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
+          <div className="flex flex-col justify-around rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
@@ -196,7 +196,7 @@ const Profile = () => {
               </div>
             </div> */}
           </div>
-          <div className="flex flex-col rounded-lg bg-dark-dark my-2 p-2">
+          <div className="flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
             <span>{t("profile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
               {topics?.map((topic) => (

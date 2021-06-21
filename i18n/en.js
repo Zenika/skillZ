@@ -8,6 +8,8 @@ export default {
   },
   sidepanel: {
     profile: "Profile",
+    preferedLanguage: "Prefered language",
+    darkMode: "Dark mode",
     logout: "Logout",
   },
   home: {

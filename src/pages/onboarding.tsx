@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
 import styles from "./onboarding.module.css";
+import { DarkModeContext } from "../utils/darkModeContext";
 
 const onboardingPages = [
   {
@@ -21,6 +22,7 @@ const onboardingPages = [
 
 const Onboarding = () => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useContext(DarkModeContext);
   const { push } = useRouter();
   const [cardNumber, setCardNumber] = useState(0);
   const swipeHandlers = useSwipeable({
@@ -70,7 +72,7 @@ const Onboarding = () => {
           {onboardingPages.map((_, i) => (
             <div key={i} className="p-1">
               <Image
-                src={`/icons/onboarding-dot${
+                src={`/icons/${darkMode ? "dark" : "light"}/onboarding-dot${
                   i === cardNumber ? "-full" : ""
                 }.svg`}
                 width="15"

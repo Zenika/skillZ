@@ -16,7 +16,6 @@ body {
   font-family: "Nunito";
   width: 100%;
   min-height: 100vh;
-  background-color: #1e1e1e;
 }
 
 .pointer {
@@ -49,7 +48,8 @@ body {
 
 .gradient-green {
   background-color: #3bb78f;
-  background-image: linear-gradient(315deg, #3bb78f 0%, #0bab64 74%);}
+  background-image: linear-gradient(315deg, #3bb78f 0%, #0bab64 74%);
+}
 
 .gradient-red-faded {
   background: linear-gradient(

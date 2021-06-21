@@ -6,6 +6,7 @@ import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
 import { useRouter } from "next/router";
+import { DarkModeContext } from "../utils/darkModeContext";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -37,6 +38,7 @@ const HomePanel = ({
   props: { x, y, context, color, name, count, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useContext(DarkModeContext);
   const router = useRouter();
   const { agency } = router.query;
   const isDesktop = useMediaQuery({
@@ -56,7 +58,7 @@ const HomePanel = ({
   return (
     <Link href={link.toString()}>
       <div
-        className={`flex flex-auto cursor-pointer flex-col dark:bg-dark-panel min-h-homePanel${
+        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel min-h-homePanel${
           !isDesktop ? "-mobile" : ""
         } rounded-${y === "top" ? "t" : "b"}${
           x === "left" ? "l" : "r"
@@ -78,7 +80,7 @@ const HomePanel = ({
               >
                 {certifs > 0 ? (
                   <div
-                    className={`text-lg text-center text-dark-med ${
+                    className={`text-lg text-center text-light-graytext dark:text-dark-graytext ${
                       styles.certifs
                     } ${x === "right" ? "order-last" : ""}`}
                   >
@@ -98,7 +100,11 @@ const HomePanel = ({
                 {context === "zenika" ? (
                   <div style={{ width: 48, height: 48 }}></div>
                 ) : (
-                  <Image src="/icons/add-skill.svg" width="48" height="48" />
+                  <Image
+                    src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
+                    width="48"
+                    height="48"
+                  />
                 )}
               </div>
             )}
@@ -122,7 +128,7 @@ const HomePanel = ({
                           : ""
                       } rounded-${
                         x === "right" ? "l" : "r"
-                      }-2xl h-6 m-0.5 text-dark-med p-0.5`}
+                      }-2xl h-6 m-0.5 text-light-greytext dark:text-dark-med p-0.5`}
                     >
                       {data[i] ? i + 1 : ""}
                     </div>
@@ -151,7 +157,7 @@ const HomePanel = ({
               <span
                 className={`text-xl px-2 w-full text-${
                   x === "left" ? "right" : "left"
-                } text-dark-${color}`}
+                } text-light-${color} dark:text-dark-${color}`}
               >
                 {isDesktop ? "" : t(`home.${name}`)}
               </span>
