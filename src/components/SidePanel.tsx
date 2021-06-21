@@ -60,7 +60,11 @@ const SidePanel = () => {
         <li>
           <Link href="/logout">
             <div className="flex flex-row pl-4 cursor-pointer">
-              <Image src={`/icons/${darkMode ? "dark" : "light"}/logout.svg`} width="18" height="18" />
+              <Image
+                src={`/icons/${darkMode ? "dark" : "light"}/logout.svg`}
+                width="18"
+                height="18"
+              />
               <p className="pl-4">{t("sidepanel.logout")}</p>
             </div>
           </Link>
