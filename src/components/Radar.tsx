@@ -104,23 +104,25 @@ const Radar = ({
       return;
     }
     setCircles(
-      data
-        .filter((row, i) => {
-          return title === "" ? i < 15 : i < 5;
-        })
+      (title !== ""
+        ? data.filter((row, i) => {
+            return i < 5;
+          })
+        : data
+      )
         .map((row, _, array) => {
           return array
             .filter(
               (arrayRow) =>
                 Math.abs(arrayRow.x - row.x) + Math.abs(arrayRow.y - row.y) <=
-                arrayRow.weight / 100
+                arrayRow.weight / 200
             )
             .reduce((prev, curr) => ({
               ...prev,
               labels: [...prev.labels, ...curr.labels],
               weight:
                 prev.weight +
-                (prev.weight > 50 ? curr.weight / 5 : curr.weight / 3),
+                (prev.weight > 50 ? curr.weight / 10 : curr.weight / 3),
             }));
         })
         .reduce(
