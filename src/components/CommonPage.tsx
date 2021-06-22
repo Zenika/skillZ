@@ -6,7 +6,7 @@ import { i18nContext } from "../utils/i18nContext";
 import Topbar from "./Topbar";
 import Notification from "./Notification";
 import { useRouter } from "next/router";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 type CommonPageProps = {
   children: any;
@@ -33,7 +33,7 @@ const CommonPage = ({
   context,
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const router = useRouter();
   const { agency } = router.query;
   const isDesktop = useMediaQuery({

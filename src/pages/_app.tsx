@@ -6,7 +6,7 @@ import { i18nContext } from "../utils/i18nContext";
 import { useEffect, useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import "../styles/globals.css";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { DarkModeProvider } from "../utils/darkMode";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!BASE_URL) {
@@ -24,7 +24,7 @@ const App = ({ Component, pageProps }) => {
     ? window.localStorage.getItem("locale")
     : locale;
 
-  const storedDarkMode = Boolean(storedDarkModeString === "true");
+  const storedDarkMode = storedDarkModeString === "true";
   const [darkMode, setDarkMode] = useState(storedDarkMode);
   const changeDarkMode = (darkMode: boolean) => {
     setDarkMode(darkMode);
@@ -66,7 +66,7 @@ const App = ({ Component, pageProps }) => {
       useRefreshTokens={true}
       cacheLocation={"localstorage"}
     >
-      <DarkModeContext.Provider value={{ darkMode, changeDarkMode }}>
+      <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>
           <GraphQLProvider>
             <Head>
@@ -83,7 +83,7 @@ const App = ({ Component, pageProps }) => {
             </div>
           </GraphQLProvider>
         </i18nContext.Provider>
-      </DarkModeContext.Provider>
+      </DarkModeProvider>
     </Auth0Provider>
   );
 };

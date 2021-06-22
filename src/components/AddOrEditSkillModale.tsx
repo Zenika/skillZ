@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { Skill } from "./AddSkilListSelector";
 
@@ -16,7 +16,7 @@ const AddOrEditSkillModale = ({
   callback,
 }: AddOrEditSkillModaleProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
   const [skillLevel, setSkillLevel] = useState(skill?.skillLevel || 0);
   const [desireLevel, setDesireLevel] = useState(skill?.desireLevel || 0);

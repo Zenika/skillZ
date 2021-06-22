@@ -6,7 +6,7 @@ import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
 import { useRouter } from "next/router";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -38,7 +38,7 @@ const HomePanel = ({
   props: { x, y, context, color, name, count, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const router = useRouter();
   const { agency } = router.query;
   const isDesktop = useMediaQuery({

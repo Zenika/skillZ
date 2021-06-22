@@ -4,7 +4,7 @@ import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -25,7 +25,7 @@ const SkillPanel = ({
   onEditClick: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
   const { category, agency } = query;
   const computedAgency =

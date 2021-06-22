@@ -3,12 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 const Navbar = ({ path }: { path: string }) => {
   const { isLoading, error } = useAuth0();
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   if (error) {
     console.error(
       `Something bad happened while authenticating user: ${error.message}`

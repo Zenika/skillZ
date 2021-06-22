@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
 
 const GET_USER_AGENCY_QUERY = gql`
@@ -35,7 +35,7 @@ const Topbar = ({
   const { locale } = useRouter();
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
-  const { darkMode, changeDarkMode } = useContext(DarkModeContext);
+  const { darkMode, changeDarkMode } = useDarkMode();
   const [openMenu, setOpenMenu] = useState(false);
   const onPictureClick = () => {
     if (!isAuthenticated) {

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {
@@ -16,7 +16,7 @@ const CustomSelect = ({
   onChange,
 }: CustomSelectProps) => {
   const [opened, setOpened] = useState(false);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const [selected, setSelected] = useState("");
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
 import styles from "./onboarding.module.css";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 const onboardingPages = [
   {
@@ -22,7 +22,7 @@ const onboardingPages = [
 
 const Onboarding = () => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const { push } = useRouter();
   const [cardNumber, setCardNumber] = useState(0);
   const swipeHandlers = useSwipeable({

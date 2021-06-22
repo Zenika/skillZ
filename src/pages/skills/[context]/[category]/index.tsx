@@ -15,7 +15,7 @@ import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
-import { DarkModeContext } from "../../../../utils/darkModeContext";
+import { useDarkMode } from "../../../../utils/darkMode";
 
 export type FetchResult = {
   Category: FetchedCategory[];
@@ -120,7 +120,7 @@ const ListSkills = () => {
   const router = useRouter();
   const { user, isLoading } = useAuth0();
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });

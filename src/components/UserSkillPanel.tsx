@@ -3,7 +3,7 @@ import Image from "next/image";
 import LevelBar from "./LevelBar";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 
 type User = { name: string; picture: string; agency: string };
 type Skill = {
@@ -22,7 +22,7 @@ const UserSkillPanel = ({
   context: string;
 }) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useDarkMode();
   const { query } = useRouter();
   const { category } = query;
   const { id, name, level, desire, certif } = skill;

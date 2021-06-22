@@ -5,14 +5,14 @@ import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
-import { DarkModeContext } from "../utils/darkModeContext";
+import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
 
 const SidePanel = () => {
   const { locale } = useRouter();
   const { error, user } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
-  const { darkMode, changeDarkMode } = useContext(DarkModeContext);
+  const { darkMode, changeDarkMode } = useDarkMode();
 
   if (error) {
     console.error(
