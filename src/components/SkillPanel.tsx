@@ -4,6 +4,7 @@ import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
+import { useDarkMode } from "../utils/darkMode";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -24,6 +25,7 @@ const SkillPanel = ({
   onEditClick: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
   const { category, agency } = query;
   const computedAgency =
@@ -41,7 +43,7 @@ const SkillPanel = ({
   const { id, name, skillLevel, desireLevel, certif } = skill;
   return (
     <div
-      className={`flex flex-row dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
+      className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
         context === "zenika" ? "cursor-pointer" : ""
       }`}
       onClick={() => (context === "zenika" ? push(link) : () => {})}
@@ -52,12 +54,16 @@ const SkillPanel = ({
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{name}</h2>
           {count || certif ? (
-            <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-dark-med">
+            <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
               <div className="flex flex-col justify-center">
                 <span>{count}</span>
               </div>
               {certif ? (
-                <Image src="/icons/certifs.svg" height="30" width="30" />
+                <Image
+                  src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
+                  height="30"
+                  width="30"
+                />
               ) : (
                 <></>
               )}
@@ -84,9 +90,17 @@ const SkillPanel = ({
         onClick={() => (context === "zenika" ? () => {} : onEditClick(skill))}
       >
         {context === "zenika" ? (
-          <Image src="/icons/chevron.svg" width="8" height="12" />
+          <Image
+            src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
+            width="8"
+            height="12"
+          />
         ) : (
-          <Image src="/icons/preferences.svg" width="24" height="24" />
+          <Image
+            src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
+            width="24"
+            height="24"
+          />
         )}
       </div>
     </div>

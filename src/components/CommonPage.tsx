@@ -6,6 +6,7 @@ import { i18nContext } from "../utils/i18nContext";
 import Topbar from "./Topbar";
 import Notification from "./Notification";
 import { useRouter } from "next/router";
+import { useDarkMode } from "../utils/darkMode";
 
 type CommonPageProps = {
   children: any;
@@ -32,6 +33,7 @@ const CommonPage = ({
   context,
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   const router = useRouter();
   const { agency } = router.query;
   const isDesktop = useMediaQuery({
@@ -64,8 +66,8 @@ const CommonPage = ({
           <></>
         )}
         <div className="flex flex-row justify-center">
-          <div className="flex flex-col justify-center dark:bg-dark-med w-full">
-            <div className="flex flex-row justify-center w-full my-1 dark:bg-dark-dark">
+          <div className="flex flex-col justify-center bg-light-med dark:bg-dark-med w-full">
+            <div className="flex flex-row justify-center w-full my-1 bg-light-light dark:bg-dark-dark">
               <div
                 className={`flex flex-row max-w-screen-xl w-full p-6 ${
                   faded ? "opacity-25" : ""
@@ -73,7 +75,13 @@ const CommonPage = ({
               >
                 <Link href={backUrl.toString()}>
                   <div className="p-1 cursor-pointer">
-                    <Image src="/icons/back-arrow.svg" width="16" height="16" />
+                    <Image
+                      src={`/icons/${
+                        darkMode ? "dark" : "light"
+                      }/back-arrow.svg`}
+                      width="16"
+                      height="16"
+                    />
                   </div>
                 </Link>
                 <h1 className="ml-10 text-xl">

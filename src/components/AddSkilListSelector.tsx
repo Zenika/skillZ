@@ -62,19 +62,19 @@ const AddSkillListSelector = ({
           {skills?.map((skill) => (
             <div
               key={skill.id}
-              className="flex flex-row justify-between dark:bg-dark-light p-4 my-2 rounded-lg"
+              className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
             >
               <span className="text-l">{skill.name}</span>
               <button
                 onClick={() => action(skill)}
-                className="rounded-full border px-2 dark:text-dark-red"
+                className="rounded-full border px-2 text-light-red dark:text-dark-red"
               >
                 {t("skills.add")}
               </button>
             </div>
           ))}
           {search.length > 0 ? (
-            <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-dark-dark my-2">
+            <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
               <span className="p-2 text-center">
                 {t("skills.addNewSkill").replace("%skill%", search)}
               </span>
@@ -102,12 +102,12 @@ const AddSkillListSelector = ({
               {didYouMeanSkills?.map((skill) => (
                 <div
                   key={skill.id}
-                  className="flex flex-row justify-between dark:bg-dark-light p-4 my-2 rounded-lg"
+                  className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
                 >
                   <span className="text-l">{skill.name}</span>
                   <button
                     onClick={() => action(skill)}
-                    className="rounded-full border px-2 dark:text-dark-red"
+                    className="rounded-full border px-2 text-light-red dark:text-dark-red"
                   >
                     {t("skills.add")}
                   </button>
@@ -118,7 +118,7 @@ const AddSkillListSelector = ({
             <></>
           )}
           {search.length > 0 ? (
-            <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-dark-dark my-2">
+            <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark bg-dark-dark my-2">
               <span className="p-2 text-center">
                 {t("skills.addNewSkill").replace("%skill%", search)}
               </span>

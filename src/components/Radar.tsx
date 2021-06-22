@@ -24,7 +24,7 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
     >
       <div className="flex flex-row justify-center">
         <span
-          className={`text-dark-med overflow-clip ${
+          className={`text-light-greytext dark:text-dark-med overflow-clip ${
             data.weight > 30 ? "p-1" : ""
           }`}
         >
@@ -44,7 +44,7 @@ const RadarCell = ({
 }) => {
   const { t } = useContext(i18nContext);
   return (
-    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-dark-radargrid ">
+    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid ">
       {first && isFullSize ? (
         <span className="rotated">{t("radar.desire")}</span>
       ) : (
@@ -177,7 +177,7 @@ const Radar = ({
           <span
             className={`text-xl px-2 w-full text-${
               x === "left" ? "right" : "left"
-            } text-dark-${color}`}
+            } text-light-${color} dark:text-dark-${color}`}
           >
             {title}
           </span>

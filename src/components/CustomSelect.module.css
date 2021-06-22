@@ -1,3 +1,7 @@
-.select {
-  background: url(/icons/drop-down.svg) no-repeat scroll;
+.selectDark {
+  background: url(/icons/dark/drop-down.svg) no-repeat scroll;
+}
+
+.selectLight {
+  background: url(/icons/light/drop-down.svg) no-repeat scroll;
 }

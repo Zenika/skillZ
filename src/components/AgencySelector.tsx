@@ -23,7 +23,7 @@ const AgencySelector = ({ setAgency }) => {
     <>
       {agencies?.map((agency) => (
         <button
-          className="dark:bg-dark-panel flex-grow-0 rounded-full py-3 px-6 mx-6"
+          className="bg-light-panel dark:bg-dark-panel flex-grow-0 rounded-full py-3 px-6 mx-6"
           key={agency}
           onClick={() => setAgency(agency)}
         >

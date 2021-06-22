@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
+import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { Skill } from "./AddSkilListSelector";
 
@@ -15,6 +16,7 @@ const AddOrEditSkillModale = ({
   callback,
 }: AddOrEditSkillModaleProps) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
   const [skillLevel, setSkillLevel] = useState(skill?.skillLevel || 0);
   const [desireLevel, setDesireLevel] = useState(skill?.desireLevel || 0);
@@ -34,7 +36,7 @@ const AddOrEditSkillModale = ({
     onAddButtonClick();
   }, [desireLevel]);
   return (
-    <div className="flex flex-col my-16 mx-6 dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
+    <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <h1 className="px-2 my-4 text-xl text-bold">{skill?.name}</h1>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
@@ -75,7 +77,7 @@ const AddOrEditSkillModale = ({
                 className="flex flex-row text-left py-1 my-2"
               >
                 <Image
-                  src={`/icons/${
+                  src={`/icons/${darkMode ? "dark" : "light"}/${
                     skillLevel === index ? "full" : "empty"
                   }-select.svg`}
                   height="32"
@@ -97,7 +99,7 @@ const AddOrEditSkillModale = ({
                 className="flex flex-row text-left py-1 my-2"
               >
                 <Image
-                  src={`/icons/${
+                  src={`/icons/${darkMode ? "dark" : "light"}/${
                     desireLevel === index ? "full" : "empty"
                   }-select.svg`}
                   height="32"
@@ -114,7 +116,7 @@ const AddOrEditSkillModale = ({
       <div className="flex flex-row justify-between">
         <button
           onClick={() => cancel()}
-          className="mx-1 px-5 py-2 dark:bg-dark-graybutton rounded-full"
+          className="mx-1 px-5 py-2 bg-light-graybutton dark:bg-dark-graybutton rounded-full"
         >
           {t("skills.modale.cancel")}
         </button>

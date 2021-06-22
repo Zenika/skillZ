@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useDarkMode } from "../utils/darkMode";
 import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {
@@ -15,6 +16,7 @@ const CustomSelect = ({
   onChange,
 }: CustomSelectProps) => {
   const [opened, setOpened] = useState(false);
+  const { darkMode } = useDarkMode();
   const [selected, setSelected] = useState("");
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
@@ -39,9 +41,11 @@ const CustomSelect = ({
         style={{ width: size.width, height: size.height }}
       >
         <div
-          className={`dark:bg-dark-light w-full cursor-pointer rounded${
+          className={`bg-light-light dark:bg-dark-light w-full cursor-pointer rounded${
             opened ? "-t-lg" : "-lg"
-          } p-4 appearance-none bg-rightDropdown ${styles.select}`}
+          } p-4 appearance-none bg-rightDropdown ${
+            darkMode ? styles.selectDark : styles.selectLight
+          }`}
           onClick={() => setOpened(!opened)}
         >
           {selected}
@@ -52,11 +56,11 @@ const CustomSelect = ({
           } duration-500`}
         >
           {opened ? (
-            <div className="flex rounded-b-lg w-full flex-col bg-dark-light">
+            <div className="flex rounded-b-lg w-full flex-col bg-light-light dark:bg-dark-light">
               {choices.map((choice) => (
                 <span
                   key={choice}
-                  className="hover:bg-dark-med py-2 px-4 cursor-pointer"
+                  className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
                   onClick={() => onItemClick(choice)}
                 >
                   {choice}

@@ -57,7 +57,7 @@ const PageWithNavAndPanel = ({
       <div
         className={`z-20 fixed inset-y-0 right-0 h-screen ${
           panelOpened ? "w-3/4" : "w-0"
-        } dark:bg-dark-panel duration-500`}
+        } bg-light-panel dark:bg-dark-panel duration-500`}
       >
         <SidePanel />
       </div>

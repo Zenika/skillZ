@@ -50,7 +50,7 @@ const TopicSelector = ({ email, topics, setTopics }) => {
             className={`flex-grow-0 rounded-full py-3 px-6 mx-6 my-2 ${
               topics.filter((t) => t.Topic.id === topic.id).length > 0
                 ? "gradient-red"
-                : "dark:bg-dark-panel"
+                : "bg-light-panel dark:bg-dark-panel"
             }`}
             key={topic.id}
             onClick={() => addTopic(topic)}

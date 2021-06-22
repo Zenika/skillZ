@@ -3,9 +3,10 @@ import Head from "next/head";
 import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import "../styles/globals.css";
+import { DarkModeProvider } from "../utils/darkMode";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!BASE_URL) {
@@ -16,11 +17,45 @@ if (!BASE_URL) {
 
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
+  const storedDarkModeString = process.browser
+    ? window.localStorage.getItem("darkMode")
+    : true;
+  const storedLocaleString = process.browser
+    ? window.localStorage.getItem("locale")
+    : locale;
+
+  const storedDarkMode = storedDarkModeString === "true";
+  const [darkMode, setDarkMode] = useState(storedDarkMode);
+  const changeDarkMode = (darkMode: boolean) => {
+    setDarkMode(darkMode);
+    if (process.browser) {
+      window.localStorage.setItem("darkMode", `${darkMode}`);
+    }
+  };
   const changeLocale = (locale: string) => {
     push(pathName, asPath, { locale });
+    if (process.browser) {
+      window.localStorage.setItem("locale", locale);
+    }
   };
   const t = usei18n(locale);
-  const [darkMode, setDarkMode] = useState(true);
+  useEffect(() => {
+    if (!storedDarkModeString || storedDarkModeString === "null") {
+      changeDarkMode(false);
+    }
+  });
+  useEffect(() => {
+    if (!storedLocaleString || storedLocaleString === "null") {
+      changeLocale(locale);
+    } else if (locale !== storedLocaleString) {
+      changeLocale(storedLocaleString);
+    }
+  }, [storedLocaleString]);
+  useEffect(() => {
+    document
+      .querySelector("body")
+      .classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
+  });
   return (
     <Auth0Provider
       domain="zenika.eu.auth0.com"
@@ -31,22 +66,24 @@ const App = ({ Component, pageProps }) => {
       useRefreshTokens={true}
       cacheLocation={"localstorage"}
     >
-      <i18nContext.Provider value={{ t, changeLocale }}>
-        <GraphQLProvider>
-          <Head>
-            <title>skillZ</title>
-            <meta
-              name="viewport"
-              content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-            />
-          </Head>
-          <div className={`${darkMode ? "dark" : ""}`}>
-            <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base dark:bg-dark-med dark:text-dark-graytext">
-              <Component {...{ pathName, ...pageProps }} />
+      <DarkModeProvider value={{ darkMode, changeDarkMode }}>
+        <i18nContext.Provider value={{ t, changeLocale }}>
+          <GraphQLProvider>
+            <Head>
+              <title>skillZ</title>
+              <meta
+                name="viewport"
+                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+              />
+            </Head>
+            <div className={`${darkMode ? "dark" : ""}`}>
+              <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
+                <Component {...{ pathName, ...pageProps }} />
+              </div>
             </div>
-          </div>
-        </GraphQLProvider>
-      </i18nContext.Provider>
+          </GraphQLProvider>
+        </i18nContext.Provider>
+      </DarkModeProvider>
     </Auth0Provider>
   );
 };
