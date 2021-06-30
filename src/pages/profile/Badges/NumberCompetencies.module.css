@@ -1,4 +1,4 @@
-.statisticsContent {
+.numberCompetenciesContent {
     display: flex;
     padding: 7px;
     border: 2px solid rgb(163, 158, 158);
@@ -6,17 +6,17 @@
     border-radius: 10px;
     max-width: 50%;
     position: static;
-    margin-right: 1rem;
+    margin-left: 1rem;
     padding-left: 15px;
 }
 
-.statisticsContentText {
+.numberCompetenciesContentText {
     display: flex;
     flex-direction: column;
     padding-left: 15px;
 }
 
-.statisticsContentText > span {
+.numberCompetenciesContentText > span {
     font-size: 1.3rem;
     font-weight: 600;
 }
@@ -28,11 +28,11 @@ apply a filter on the image
     filter: grayscale(80%);
 }*/
 
-.statisticsContentText > p {
+.numberCompetenciesContentText > p {
     color: #9c9c9c;
 }
 
-/*.statisticsContent > div {
+/*.numberCompetenciesContent > div {
     display: flex;
     padding : 3px;
     flex-direction: column;

@@ -1,9 +1,38 @@
 .Statistics {
-
+    display: flex;
+    flex-grow: 1;
 }
 
 /* tt les enfants h2 de statistics */
-.Statistics h2 {
+/*.Statistics h2 {
     margin: 30px 5px 30px 7px;
     font-size: 1.5rem;
+}*/
+
+.StatisticsRanking {
+    display: flex;
+    padding: 7px;
+    flex-grow: 1;
+    border-radius: 10px;
+    background-color: #121212;
+    position: static;
+    margin-top: 1rem;
+    padding-left: 15px;
+}
+
+.StatisticsTitle {
+    margin: 30px 5px 30px 7px;
+    font-size: 1.5rem;
+}
+.StasticsRankingInter {
+    flex-direction: column-reverse;
+    padding: 2rem;
+}
+
+.StasticsRankingInterText {
+    padding: .5rem;
+}
+
+.StasticsSubObjectives {
+    white-space:nowrap;
 }

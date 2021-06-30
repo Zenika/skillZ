@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import BadgeSection from "./BadgeSection";
+import { BadgeSection } from "./BadgeSection";
 
-const BadgeProfileCreation = () => {
+export const BadgeProfileCreation = () => {
   return (
-    <div className="p-2">
+    <div>
       <BadgeSection></BadgeSection>
     </div>
   );
 };
-
-export default BadgeProfileCreation;

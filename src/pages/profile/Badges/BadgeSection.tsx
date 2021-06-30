@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Image from "next/image";
 
-const BadgeSection = () => {
+export const BadgeSection = () => {
   return (
     <div className="flex ">
       <Image
@@ -9,10 +9,7 @@ const BadgeSection = () => {
         src="/img/badges/medaille.svg"
         width="45"
         height="45"
-        color="gray"
       />
     </div>
   );
 };
-
-export default BadgeSection;
