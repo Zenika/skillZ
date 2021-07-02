@@ -3,12 +3,12 @@ import Image from "next/image";
 
 export const BadgeSection = () => {
   return (
-    <div className="flex ">
+    <div>
       <Image
         className="object-fill h-48 w-full object-center"
         src="/img/badges/medaille.svg"
-        width="45"
-        height="45"
+        width="35"
+        height="35"
       />
     </div>
   );
