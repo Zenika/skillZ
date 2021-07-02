@@ -1,26 +1,27 @@
-.statisticsContent {
+.StatisticsHighlightsContent {
     display: flex;
-    padding: 7px;
+    padding: 7px 7px 7px 15px;
     border: 2px solid rgb(163, 158, 158);
     flex-grow: 1;
     border-radius: 10px;
     max-width: 50%;
     position: static;
-    margin-right: 1rem;
-    padding-left: 15px;
 }
 
-.statisticsContentText {
+.StatisticsHighlightsContent:not(:first-of-type) {
+    margin-left: 1rem;
+}
+
+.StatisticsHighlightsContentText {
     display: flex;
     flex-direction: column;
     padding-left: 15px;
 }
 
-.statisticsContentText > span {
+.StatisticsHighlightsContentText > span {
     font-size: 1.3rem;
     font-weight: 600;
 }
-
 
 /*
 apply a filter on the image
@@ -28,11 +29,11 @@ apply a filter on the image
     filter: grayscale(80%);
 }*/
 
-.statisticsContentText > p {
+.StatisticsHighlightsContentText > p {
     color: #9c9c9c;
 }
 
-/*.statisticsContent > div {
+/*.StatisticsHighlightsContent > div {
     display: flex;
     padding : 3px;
     flex-direction: column;

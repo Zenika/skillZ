@@ -16,8 +16,8 @@
     background-color: #121212;
     position: static;
     margin-top: 1rem;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     flex-direction: column;
 }
 

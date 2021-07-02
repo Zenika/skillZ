@@ -7,7 +7,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { Statistics } from "./Badges/Statistics";
+import { Statistics } from "./statistics";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
