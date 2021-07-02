@@ -5,47 +5,47 @@ import styles from "./BadgesSubojectives.module.css";
 export const BadgeProfileCreation = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesFirst}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
 
-export const BadgeRecurrency =() => {
+export const BadgeRecurrency = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
 
-export const BadgeSkillsEntered =() => {
+export const BadgeSkillsEntered = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
 
-export const BadgeAnecdotesAdded =() => {
+export const BadgeAnecdotesAdded = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
 
-export const BadgeEvents =() => {
+export const BadgeEvents = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
 
-export const BadgeTalks =() => {
+export const BadgeTalks = () => {
   return (
     <div className={styles.BadgeProfileSubObjectivesEnd}>
-      <BadgeSection/>
+      <BadgeSection />
     </div>
   );
 };
