@@ -19,5 +19,6 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: key
       HASURA_GRAPHQL_JWT_SECRET: '${SKILLZ_GRAPHQL_JWT_SECRET?SKILLZ_GRAPHQL_JWT_SECRET}'
+      HASURA_ACHIEVEMENTS_ENDPOINT: http://host.docker.internal:3000/api/achievement
 volumes:
   db_data:
