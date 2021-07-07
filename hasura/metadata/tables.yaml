@@ -1,8 +1,5 @@
 - table:
     schema: public
-    name: Achievement
-- table:
-    schema: public
     name: AgenciesAverageCurrentSkillsAndDesires
   select_permissions:
   - role: world
@@ -156,13 +153,6 @@
         column_mapping:
           email: userEmail
   array_relationships:
-  - name: UserAchievements
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserAchievements
   - name: UserAgencies
     using:
       foreign_key_constraint_on:
@@ -216,40 +206,6 @@
           _eq: x-hasura-user-email
       check:
         email:
-          _eq: x-hasura-user-email
-- table:
-    schema: public
-    name: UserAchievements
-  object_relationships:
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
-  insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns: []
-      backend_only: false
-  select_permissions:
-  - role: world
-    permission:
-      columns:
-      - achievementLabel
-      - created_at
-      - userEmail
-      filter: {}
-      allow_aggregations: true
-  update_permissions:
-  - role: world
-    permission:
-      columns: []
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
           _eq: x-hasura-user-email
 - table:
     schema: public
@@ -355,17 +311,6 @@
       check:
         userEmail:
           _eq: x-hasura-user-email
-  event_triggers:
-  - name: onSkillInsertedAchievement
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 30
-      timeout_sec: 180
-    webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
 - table:
     schema: public
     name: UserTopic
