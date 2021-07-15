@@ -22,7 +22,7 @@ const SkillPanel = ({
   skill: Skill;
   context: string;
   count?: number;
-  onEditClick: (skill: Skill) => void;
+  onEditClick?: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -85,24 +85,28 @@ const SkillPanel = ({
           </div>
         </div>
       </div>
-      <div
-        className="flex w-1/6 justify-end cursor-pointer"
-        onClick={() => (context === "zenika" ? () => {} : onEditClick(skill))}
-      >
-        {context === "zenika" ? (
-          <Image
-            src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
-            width="8"
-            height="12"
-          />
-        ) : (
-          <Image
-            src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
-            width="24"
-            height="24"
-          />
-        )}
-      </div>
+      {onEditClick ? (
+        <div
+          className="flex w-1/6 justify-end cursor-pointer"
+          onClick={() => (context === "zenika" ? () => {} : onEditClick(skill))}
+        >
+          {context === "zenika" ? (
+            <Image
+              src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
+              width="8"
+              height="12"
+            />
+          ) : (
+            <Image
+              src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
+              width="24"
+              height="24"
+            />
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

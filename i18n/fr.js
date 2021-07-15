@@ -108,5 +108,12 @@ export default {
   radar: {
     desire: "Désir",
     level: "Niveau"
+  },
+  search: {
+    placeholder: "Rechercher une compétence",
+    skills: "Compétences",
+    profiles: "Profils",
+    noSkill: "Aucune compétence trouvée",
+    noProfile: "Aucun profil trouvé"
   }
 };

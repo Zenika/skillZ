@@ -106,5 +106,12 @@ export default {
   radar: {
     desire: "Desire",
     level: "Level"
+  },
+  search: {
+    placeholder: "Search for a skill",
+    skills: "Skills",
+    profiles: "Profiles",
+    noSkill: "No skill found",
+    noProfile: "No profile found"
   }
 };
