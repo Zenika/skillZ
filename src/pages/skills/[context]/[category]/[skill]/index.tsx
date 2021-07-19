@@ -13,7 +13,7 @@ type UserSkillsAndAppetiteDetails = {
     Skills: {
       id: string;
       name: string;
-      UserSkillDesires: {
+      UsersCurrentSkillsAndDesires: {
         skillLevel: number;
         desireLevel: number;
         User: {
@@ -47,9 +47,8 @@ const computeUsersSkillsAndTechnicalAppetitesDetail = ({
       } }) {
         id
         name
-        UserSkillDesires(
-          order_by: { userEmail: asc, created_at: desc }
-          distinct_on: userEmail
+        UsersCurrentSkillsAndDesires(
+          order_by: { skillLevel: desc, desireLevel: desc }
           ${
             agency
               ? ", where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
@@ -99,7 +98,7 @@ const SkillPage = () => {
       : context.join("")
     : "";
   const fetchedSkill = data?.Category[0]?.Skills[0];
-  const computedData = fetchedSkill?.UserSkillDesires.map(
+  const computedData = fetchedSkill?.UsersCurrentSkillsAndDesires.map(
     (userSkillDesire) => ({
       id: fetchedSkill.id,
       name: fetchedSkill.name,

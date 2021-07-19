@@ -47,7 +47,7 @@ const Search = ({ pathName }) => {
   const profiles = data?.profiles;
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-16">
         <div
           className={`flex ${isDesktop ? "w-2/3" : "w-full"}  flex-col mx-4 `}
         >
