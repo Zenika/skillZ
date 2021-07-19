@@ -1,10 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import router, { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
-import UserSkillPanel from "../components/UserSkillPanel";
+import UserPanel from "../components/UserPanel";
 import { i18nContext } from "../utils/i18nContext";
 
 const SEARCH_QUERY = gql`
@@ -14,24 +15,28 @@ const SEARCH_QUERY = gql`
       order_by: { name: asc }
     ) {
       name
-      averageSkillLevel
-      averageDesireLevel
+      skillLevel: averageSkillLevel
+      desireLevel: averageDesireLevel
     }
-    profiles: UsersCurrentSkillsAndDesires(
-      where: { name: { _ilike: $search } }
-    ) {
-      userEmail
-      skillLevel
-      desireLevel
+    profiles: User(where: { name: { _ilike: $search } }) {
+      email
       name
+      picture
+      UserLatestAgency {
+        agency
+      }
     }
   }
 `;
 
 const Search = ({ pathName }) => {
   const { query } = useRouter();
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1280px)",
+  });
   const { t } = useContext(i18nContext);
   const [search, setSearch] = useState("");
+
   const { data, error } = useQuery(SEARCH_QUERY, {
     variables: { search: `%${search}%` },
   });
@@ -42,45 +47,49 @@ const Search = ({ pathName }) => {
   const profiles = data?.profiles;
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
-      <div className="flex flex-auto flex-col mx-4">
-        <SearchBar
-          setSearch={setSearch}
-          placeholder={t("search.placeholder")}
-        />
-        {search && search !== "" ? (
-          <>
-            <div className="flex flex-col border-b-2 my-2 py-2">
-              <h1 className="text-xl">{t("search.skills")}</h1>
-              {skills?.length > 0 ? (
-                skills.map((skill) => <SkillPanel skill={skill} context={""} />)
-              ) : (
-                <span className="text-sm">{t("search.noSkill")}</span>
-              )}
-            </div>
-            <div className="flex flex-col border-b-2 my-2">
-              <h1 className="text-xl">{t("search.profiles")}</h1>
-              {profiles?.length > 0 ? (
-                profiles.map((profile) => (
-                  <UserSkillPanel
-                    context=""
-                    skill={
-                      {
+      <div className="flex justify-center">
+        <div
+          className={`flex ${isDesktop ? "w-2/3" : "w-full"}  flex-col mx-4 `}
+        >
+          <SearchBar
+            initialValue={search}
+            setSearch={setSearch}
+            placeholder={t("search.placeholder")}
+          />
+          {search && search !== "" ? (
+            <>
+              <div className="flex flex-col my-2 py-2">
+                <h1 className="text-xl">{t("search.skills")}</h1>
+                {skills?.length > 0 ? (
+                  skills.map((skill) => (
+                    <SkillPanel skill={skill} context={""} />
+                  ))
+                ) : (
+                  <span className="text-sm">{t("search.noSkill")}</span>
+                )}
+              </div>
+              <div className="flex flex-col my-2">
+                <h1 className="text-xl">{t("search.profiles")}</h1>
+                {profiles?.length > 0 ? (
+                  profiles.map((profile) => (
+                    <UserPanel
+                      context=""
+                      user={{
                         name: profile.name,
-                        id: profile.skillId,
-                        level: profile.level,
-                        desire: profile.desire,
-                      } as any
-                    }
-                  />
-                ))
-              ) : (
-                <span className="text-sm">{t("search.noProfile")}</span>
-              )}
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
+                        agency: profile.UserLatestAgency?.agency,
+                        picture: profile.picture,
+                      }}
+                    />
+                  ))
+                ) : (
+                  <span className="text-sm">{t("search.noProfile")}</span>
+                )}
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </PageWithNavAndPanel>
   );
