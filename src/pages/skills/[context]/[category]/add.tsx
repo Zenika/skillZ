@@ -149,16 +149,18 @@ const AddSkill = () => {
     fetchPolicy: "network-only",
   });
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const { data: skillsData, refetch: refetchSearch } =
-    useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
-      variables: {
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-      },
-      fetchPolicy: "network-only",
-    });
+  const {
+    data: skillsData,
+    refetch: refetchSearch,
+  } = useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
+    variables: {
+      category,
+      search: `%${debouncedSearchValue}%`,
+      email: user?.email,
+      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+    },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
       useNotification(
