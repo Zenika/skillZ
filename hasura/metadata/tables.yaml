@@ -166,13 +166,6 @@
         column_mapping:
           email: userEmail
   array_relationships:
-  - name: UserAchievements
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserAchievements
   - name: UserAgencies
     using:
       foreign_key_constraint_on:
@@ -226,40 +219,6 @@
           _eq: x-hasura-user-email
       check:
         email:
-          _eq: x-hasura-user-email
-- table:
-    schema: public
-    name: UserAchievements
-  object_relationships:
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
-  insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns: []
-      backend_only: false
-  select_permissions:
-  - role: world
-    permission:
-      columns:
-      - label
-      - created_at
-      - userEmail
-      filter: {}
-      allow_aggregations: true
-  update_permissions:
-  - role: world
-    permission:
-      columns: []
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
           _eq: x-hasura-user-email
 - table:
     schema: public
