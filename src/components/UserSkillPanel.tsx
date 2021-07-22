@@ -72,9 +72,13 @@ const UserSkillPanel = ({
           </div>
         </div>
       </div>
-      {/* <div className="flex w-1/6 justify-end">
-        <Image src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`} width="8" height="12" />
-      </div> */}
+      <div className="flex w-1/6 justify-end">
+        <Image
+          src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
+          width="8"
+          height="12"
+        />
+      </div>
     </div>
   );
 };
