@@ -126,5 +126,18 @@ export default {
     platin: "Platin",
     diamond: "Diamond",
     numberCompetencies: "Number of competences"
+  },
+  subojectives: {
+    typeSubObjectivesCategoryCompletionLanguageAndFrameworks: "Category Langages et Frameworks",
+    typeSubObjectivesCategoryCompletionTools: "Category Outils",
+    typeSubObjectivesCategoryCompletionPlateform: "Category Plateformes",
+    typeSubObjectivesCategoryCompletionTechnicsAndMethod: "Category Techniques et méthodes",
+    typeSubObjectivesCategoryCompletion: "Category completion",
+    explicationSubObjectivesCategoryCompletion1: "Add ",
+    explicationSubObjectivesCategoryCompletion2: " skills",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: " in the Languages and Frameworks grid",
+    explicationSubObjectivesCategoryCompletionTools: " in the Tools grid",
+    explicationSubObjectivesCategoryCompletionPlateform: " in the Platform grid",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: " in the Technics and methods grid",
   }
 };

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { ProgressBar } from "./progressBar";
-import { BadgeSubojectives } from "./badges";
+import { BadgeSubojectivesCategoryCompletion, BadgeSubojectives } from "./badges";
 import { StatisticsHighlights } from "./StatisticsHighlights";
 import styles from "./Statistics.module.css";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achieveme
 
 
 const GET_DATA_FOR_ACHIEVEMENTS = gql`
-query getDataForAchievments{
+query getDataForAchievements{
   UserAchievements {
     additionalInfo
     created_at
@@ -38,9 +38,7 @@ export const Statistics = () => {
   const { t } = useContext(i18nContext);
   const { user, isLoading } = useAuth0();
   let errorMsg = "Error: ";
-  const {data, error, loading} = useQuery<AchievementsResult>(GET_DATA_FOR_ACHIEVEMENTS, {
-    fetchPolicy: "network-only",
-  });
+  const {data, error, loading} = useQuery<AchievementsResult>(GET_DATA_FOR_ACHIEVEMENTS);
 
   if(loading){
     return 'Loading...';
@@ -48,7 +46,7 @@ export const Statistics = () => {
   if(error){
     return errorMsg.concat(error.name, ", Message: ", error.message);
   }
- console.log(data[0].step);
+ console.log(data.UserAchievements[0].step);
   console.log("*************")
   //useEffect
   return (
@@ -81,8 +79,7 @@ export const Statistics = () => {
       <div></div>
       <div className={styles.line}></div>
       <div className={styles.StasticsSubObjectives}>
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
-
+        <BadgeSubojectivesCategoryCompletion datas={data} src="/img/badges/medaille.svg" />
         <BadgeSubojectives src="/img/badges/medaille.svg" />
         <BadgeSubojectives src="/img/badges/medaille.svg" />
         <BadgeSubojectives src="/img/badges/medaille.svg" />

@@ -128,5 +128,18 @@ export default {
     platin: "Platine",
     diamond: "Diamant",
     numberCompetencies: "Compétences ajoutées"
+  },
+  subojectives: {
+    subObjectivesCategoryCompletionLanguageAndFrameworks: "Catégorie Langages et Frameworks",
+    subObjectivesCategoryCompletionTools: "Catégorie Outils",
+    subObjectivesCategoryCompletionPlateform: "Catégorie Plateformes",
+    subObjectivesCategoryCompletionTechnicsAndMethod: "Catégorie Techniques et méthodes",
+    explicationSubObjectivesCategoryCompletion1: "Ajoute ",
+    explicationSubObjectivesCategoryCompletion2: " compétences",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: " dans la grille Langages et Frameworks",
+    explicationSubObjectivesCategoryCompletionTools: " dans la grille Outil",
+    explicationSubObjectivesCategoryCompletionPlateform: " dans la grille Plateformes",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: " dans la grille Techniques et méthodes",
+  
   }
 };

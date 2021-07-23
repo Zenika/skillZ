@@ -239,8 +239,12 @@
   - role: world
     permission:
       columns:
-      - label
+      - additionalInfo
       - created_at
+      - id
+      - label
+      - points
+      - step
       - userEmail
       filter: {}
       allow_aggregations: true
