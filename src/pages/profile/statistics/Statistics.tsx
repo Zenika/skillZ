@@ -11,23 +11,44 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achievements/categoryCompletionAchievement";
 
 
+const GET_DATA_FOR_ACHIEVEMENTS = gql`
+query getDataForAchievments{
+  UserAchievements {
+    additionalInfo
+    created_at
+    label
+    points
+    step
+    userEmail
+  }
+}`;
+type AchievementsResult = {
+  UserAchievements: {
+    created_at: string;
+    points: number;
+    label: string;
+    userEmail: string;
+    step: string;
+    additionalInfo: string;
+  }[];
+};
 
-/*const USER_NUMBER_SKILLS_QUERY = gql`
-  query getUserSkillsAndTechnicalAppetites($email: String!) {
-      CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
-        aggregate {
-          count
-        }
-      }
-    }
-`;*/
 
 export const Statistics = () => {
   const { t } = useContext(i18nContext);
-  const { user, isLoading } = useAuth0();/* 
-  const {data, error, loading} = useQuery(GetSkillCountForCategoryFromSkillQuery, { 
-    variables: {skillId:"platforms", userEmail: user.email}}); 
-  console.log(data);*/
+  const { user, isLoading } = useAuth0();
+  let errorMsg = "Error: ";
+  const {data, error, loading} = useQuery<AchievementsResult>(GET_DATA_FOR_ACHIEVEMENTS, {
+    fetchPolicy: "network-only",
+  });
+
+  if(loading){
+    return 'Loading...';
+  }
+  if(error){
+    return errorMsg.concat(error.name, ", Message: ", error.message);
+  }
+ console.log(data[0].step);
   console.log("*************")
   //useEffect
   return (
@@ -61,6 +82,7 @@ export const Statistics = () => {
       <div className={styles.line}></div>
       <div className={styles.StasticsSubObjectives}>
         <BadgeSubojectives src="/img/badges/medaille.svg" />
+
         <BadgeSubojectives src="/img/badges/medaille.svg" />
         <BadgeSubojectives src="/img/badges/medaille.svg" />
         <BadgeSubojectives src="/img/badges/medaille.svg" />
