@@ -134,12 +134,10 @@ export default {
     subObjectivesCategoryCompletionTools: "Catégorie Outils",
     subObjectivesCategoryCompletionPlateform: "Catégorie Plateformes",
     subObjectivesCategoryCompletionTechnicsAndMethod: "Catégorie Techniques et méthodes",
-    explicationSubObjectivesCategoryCompletion1: "Ajoute ",
-    explicationSubObjectivesCategoryCompletion2: " compétences",
-    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: " dans la grille Langages et Frameworks",
-    explicationSubObjectivesCategoryCompletionTools: " dans la grille Outil",
-    explicationSubObjectivesCategoryCompletionPlateform: " dans la grille Plateformes",
-    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: " dans la grille Techniques et méthodes",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: "Ajoute des compétences dans la grille Langages et Frameworks",
+    explicationSubObjectivesCategoryCompletionTools: "Ajoute des compétences dans la grille Outil",
+    explicationSubObjectivesCategoryCompletionPlateform: "Ajoute des compétences dans la grille Plateformes",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: "Ajoute des compétences dans la grille Techniques et méthodes",
   
   }
 };

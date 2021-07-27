@@ -128,16 +128,13 @@ export default {
     numberCompetencies: "Number of competences"
   },
   subojectives: {
-    typeSubObjectivesCategoryCompletionLanguageAndFrameworks: "Category Langages et Frameworks",
-    typeSubObjectivesCategoryCompletionTools: "Category Outils",
-    typeSubObjectivesCategoryCompletionPlateform: "Category Plateformes",
-    typeSubObjectivesCategoryCompletionTechnicsAndMethod: "Category Techniques et méthodes",
-    typeSubObjectivesCategoryCompletion: "Category completion",
-    explicationSubObjectivesCategoryCompletion1: "Add ",
-    explicationSubObjectivesCategoryCompletion2: " skills",
-    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: " in the Languages and Frameworks grid",
-    explicationSubObjectivesCategoryCompletionTools: " in the Tools grid",
-    explicationSubObjectivesCategoryCompletionPlateform: " in the Platform grid",
-    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: " in the Technics and methods grid",
+    subObjectivesCategoryCompletionLanguageAndFrameworks: "Category Langages and Frameworks",
+    subObjectivesCategoryCompletionTools: "Category Tools",
+    subObjectivesCategoryCompletionPlateform: "Category Plateforms",
+    subObjectivesCategoryCompletionTechnicsAndMethod: "Category Technics et methods",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: "Add skills in the Languages and Frameworks grid",
+    explicationSubObjectivesCategoryCompletionTools: "Add skills in the Tools grid",
+    explicationSubObjectivesCategoryCompletionPlateform: "Add skills in the Platform grid",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: "Add skills in the Technics and methods grid",
   }
 };

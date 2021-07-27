@@ -22,6 +22,7 @@ query getDataForAchievements{
     userEmail
   }
 }`;
+
 type AchievementsResult = {
   UserAchievements: {
     created_at: string;
@@ -32,7 +33,6 @@ type AchievementsResult = {
     additionalInfo: string;
   }[];
 };
-
 
 export const Statistics = () => {
   const { t } = useContext(i18nContext);
@@ -46,9 +46,6 @@ export const Statistics = () => {
   if(error){
     return errorMsg.concat(error.name, ", Message: ", error.message);
   }
- console.log(data.UserAchievements[0].step);
-  console.log("*************")
-  //useEffect
   return (
     <div className={styles.StatisticsRanking}>
       <h2 className={styles.StatisticsTitle}>{t("statistics.titleSection")}</h2>
@@ -79,11 +76,10 @@ export const Statistics = () => {
       <div></div>
       <div className={styles.line}></div>
       <div className={styles.StasticsSubObjectives}>
-        <BadgeSubojectivesCategoryCompletion datas={data} src="/img/badges/medaille.svg" />
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
+        <BadgeSubojectivesCategoryCompletion themeToCompare="languages-and-frameworks" indexSkillCount="0" datas={data} src="/img/badges/medaille.svg" titleSubobjective={t("subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks")} descriptionSubobjective={t("subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks")}/>
+        <BadgeSubojectivesCategoryCompletion themeToCompare="platforms" indexSkillCount="1" datas={data} src="/img/badges/medaille.svg" titleSubobjective={t("subojectives.subObjectivesCategoryCompletionPlateform")} descriptionSubobjective={t("subojectives.explicationSubObjectivesCategoryCompletionPlateform")}/>
+        <BadgeSubojectivesCategoryCompletion themeToCompare="tools" indexSkillCount="2" datas={data} src="/img/badges/medaille.svg" titleSubobjective={t("subojectives.subObjectivesCategoryCompletionTools")} descriptionSubobjective={t("subojectives.explicationSubObjectivesCategoryCompletionTools")}/>
+        <BadgeSubojectivesCategoryCompletion themeToCompare="technics-and-methods" indexSkillCount="3" datas={data} src="/img/badges/medaille.svg" titleSubobjective={t("subojectives.subObjectivesCategoryCompletionTechnicsAndMethod")} descriptionSubobjective={t("subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod")}/>
         <BadgeSubojectives src="/img/badges/medaille.svg" />
       </div>
     </div>

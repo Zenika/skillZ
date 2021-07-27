@@ -25,7 +25,7 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertCategoryComp
 `;
 
 const achievementsMetadata = {
-  steps: [5, 10, 15, 20, 25],
+  steps: [5, 10, 15, 20, 25, 30, 35],
   categories: [
     "languages-and-frameworks",
     "platforms",
