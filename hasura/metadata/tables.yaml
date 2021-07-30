@@ -222,6 +222,44 @@
           _eq: x-hasura-user-email
 - table:
     schema: public
+    name: UserAchievements
+  object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: userEmail
+  insert_permissions:
+  - role: world
+    permission:
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+      columns: []
+      backend_only: false
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - additionalInfo
+      - created_at
+      - id
+      - label
+      - points
+      - step
+      - userEmail
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: world
+    permission:
+      columns: []
+      filter:
+        userEmail:
+          _eq: x-hasura-user-email
+      check:
+        userEmail:
+          _eq: x-hasura-user-email
+- table:
+    schema: public
     name: UserAgency
   object_relationships:
   - name: Agency
@@ -324,6 +362,17 @@
       check:
         userEmail:
           _eq: x-hasura-user-email
+  event_triggers:
+  - name: categoryCompletionAchievement
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 5
+      interval_sec: 30
+      timeout_sec: 60
+    webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
 - table:
     schema: public
     name: UserTopic

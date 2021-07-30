@@ -1,0 +1,19 @@
+.BadgeProfileSubObjectivesMiddle {
+    padding: 1rem 2rem;
+    background-color: #292929;
+    margin: 1rem -1rem 0;
+}
+
+.BadgeProfileSubObjectivesMiddle > span {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-left: 1rem;
+}
+
+.BadgeProfileSubObjectivesMiddle > p {
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    display: inline-block;
+    white-space: nowrap;
+    flex-direction: column;
+}

@@ -45,3 +45,6 @@ public/workbox-*.js.map
 
 # we use npm
 yarn.lock
+
+# delete this line if using Linux
+docker-compose.yml
