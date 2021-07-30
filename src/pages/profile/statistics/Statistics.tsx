@@ -56,7 +56,7 @@ export const Statistics = () => {
   }
   return (
     <div className={styles.StatisticsRanking}>
-      <h2 className={styles.StatisticsTitle}>{t("statistics.titleSection")}</h2>
+      {/* <h2 className={styles.StatisticsTitle}>{t("statistics.titleSection")}</h2>
       <div className={styles.Statistics}>
         <StatisticsHighlights
           src="/img/badges/flame.svg"
@@ -82,7 +82,7 @@ export const Statistics = () => {
       </div>
       <ProgressBar percentage={30} />
       <div></div>
-      <div className={styles.line}></div>
+      <div className={styles.line}></div> */}
       <div className={styles.StasticsSubObjectives}>
         <BadgeSubojectivesCategoryCompletion
           themeToCompare="languages-and-frameworks"

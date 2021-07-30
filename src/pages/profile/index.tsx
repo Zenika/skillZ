@@ -177,7 +177,6 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          {/* séparer les parties en function */}
           <Statistics />
           <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
