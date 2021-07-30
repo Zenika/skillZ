@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./BadgeSubojectives.module.css";
 import Image from "next/image";
 import { useState,useContext } from "react";
@@ -6,6 +6,7 @@ import { ProgressBar } from "../progressBar";
 import { i18nContext } from "../../../../utils/i18nContext";
 import { number } from "prop-types";
 import { gql, useQuery } from "@apollo/client";
+
 
 const GET_COUNT_SKILLS_DATA = gql `
 query getDataForAchievments {
@@ -29,34 +30,62 @@ type SkillsDataResult = {
   }[];
 };
 
-export const BadgeSubojectivesCategoryCompletion = ({ themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }) => {
-  let pointsGlobal = 0; //to fix in bdd. always be at 20, but should be updated if sum of * step > 20
-  let step = [];
+type BadgeSubojectivesCategoryCompletionProps = {
+  props: {
+    themeToCompare: string;
+    indexSkillCount: number; 
+    src: string;
+    datas: {
+      UserAchievements: {
+        additionalInfo: string;
+        step: number;
+        label: string;
+      }[];
+    };
+    titleSubobjective: string;
+    descriptionSubobjective: string;
+  };
+};
+
+//export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
+export const BadgeSubojectivesCategoryCompletion = ({themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }) => {
+  const [step, setStep] = useState([]);
+  const [ skillsNumber, setSkillsNumber ] = useState(0);
   const { t } = useContext(i18nContext);
   let errorMsg = "Error: ";
-  const {data: countSkills, error, loading} = useQuery<SkillsDataResult>(GET_COUNT_SKILLS_DATA);
+  const {data: countSkills, error, loading} = useQuery<SkillsDataResult>(GET_COUNT_SKILLS_DATA, {
+    fetchPolicy: "cache-and-network",
+  });
 
+  useEffect(() => {
+    if (countSkills) {
+      setSkillsNumber(countSkills.Category[indexSkillCount].CurrentSkillsAndDesires_aggregate.aggregate.count);
+    }
+ }, [countSkills]);
+  useEffect(() => {
+    getStepsByCategory()
+ }, [countSkills]);
+  const getStepsByCategory = () => {
+
+    for (let i = 0; i < (datas.UserAchievements.length); i++) {
+      if (datas.UserAchievements[i].label.localeCompare("categoryCompletion") == 0) {
+        if (datas.UserAchievements[i].additionalInfo.localeCompare(themeToCompare) == 0) {
+          setStep(step => [...step, datas.UserAchievements[i].step])
+        }
+        //step.push(datas.UserAchievements[i].step);
+        }
+  }
+  return ;
+  }
   if(loading){
     return 'Loading...';
   }
   if(error){
     return errorMsg.concat(error.name, ", Message: ", error.message);
   }
+  const max = Math.max(...step) + 5;
+  const percentageBar = (skillsNumber/max) * 100;
 
-  const createNewMapOfDatas = () => {
-
-    for (let i = 0; i < (datas.UserAchievements.length); i++) {
-      if (datas.UserAchievements[i].label.localeCompare("categoryCompletion") == 0) {
-        if (datas.UserAchievements[i].points > pointsGlobal)
-          pointsGlobal = datas.UserAchievements[i].points;
-        if (datas.UserAchievements[i].additionalInfo.localeCompare(themeToCompare) == 0)
-          step.push(datas.UserAchievements[i].step);
-    }
-  }
-  return ;
-  }
-  createNewMapOfDatas();
-  const max = Math.max(...step);
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
       <Image
@@ -67,8 +96,8 @@ export const BadgeSubojectivesCategoryCompletion = ({ themeToCompare, indexSkill
       />
       <span>{titleSubobjective}</span>
       <p>{descriptionSubobjective}</p>
-      <ProgressBar percentage={30} />
-      <p>{countSkills.Category[indexSkillCount].CurrentSkillsAndDesires_aggregate.aggregate.count}/{max}</p>
+      <ProgressBar percentage={percentageBar} />
+      <p>{skillsNumber}/{max}</p>
     </div>
   );
 };
