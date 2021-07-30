@@ -40,7 +40,6 @@ type AchievementsResult = {
 export const Statistics = () => {
   const { t } = useContext(i18nContext);
   const { user, isLoading } = useAuth0();
-  let errorMsg = "Error: ";
   const { data, error, loading } = useQuery<AchievementsResult>(
     GET_DATA_FOR_ACHIEVEMENTS,
     {
@@ -51,8 +50,9 @@ export const Statistics = () => {
   if (loading) {
     return "Loading...";
   }
+
   if (error) {
-    return errorMsg.concat(error.name, ", Message: ", error.message);
+    return `Error: ${error.name}, Message: ${error.message}`;
   }
   return (
     <div className={styles.StatisticsRanking}>
