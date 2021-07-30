@@ -112,6 +112,18 @@ export default {
     skills: "Skills",
     profiles: "Profiles",
     noSkill: "No skill found",
-    noProfile: "No profile found"
+    noProfile: "No profile found",
+  },
+  statistics: {
+    titleSection: "My statistics", 
+    dayStreak: "Day Streak",
+    sentenceRankIncodming1: "Still ",
+    sentenceRankIncodming2: "xp to be promoted",
+    league: "League",
+    bronze: "Bronze",
+    silver: "Silver",
+    gold: "Gold",
+    platin: "Platin",
+    diamond: "Diamond",
   }
 };

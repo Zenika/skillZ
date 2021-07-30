@@ -1,0 +1,31 @@
+.statisticsContent {
+    display: flex;
+    padding: 7px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    max-width: 50%;
+}
+
+.statisticsContentText {
+    display: flex;
+    flex-direction: column;
+}
+
+.statisticsContentText > span {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.imageFilter {
+    filter: grayscale(80%);
+}
+
+.statisticsContentText > p {
+    color: #9c9c9c;
+}
+
+/*.statisticsContent > div {
+    display: flex;
+    padding : 3px;
+    flex-direction: column;
+}*/
