@@ -2,10 +2,10 @@ import React from "react";
 import styles from "./BadgesSubojectives.module.css";
 import Image from "next/image";
 
-export const BadgeSubojectives= ({src}) => {
+export const BadgeSubojectives = ({ src }) => {
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
-        <Image
+      <Image
         className="object-fill h-48 w-full object-center"
         src={src}
         width="35"

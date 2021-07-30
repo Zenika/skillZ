@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./StatisticsHighlights.module.css";
 
-export const StatisticsHighlights = ({src, number, libelle}) => {
+export const StatisticsHighlights = ({ src, number, libelle }) => {
   return (
     <section className={styles.StatisticsHighlightsContent}>
       <Image

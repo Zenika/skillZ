@@ -1,3 +1,1 @@
-export {
-    BadgeSubojectives
-  } from "./BadgesSubojectives";
+export { BadgeSubojectives } from "./BadgesSubojectives";
