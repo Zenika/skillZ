@@ -6,11 +6,9 @@ import { StatisticsHighlights } from "./StatisticsHighlights";
 import styles from "./Statistics.module.css";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
-import { AchievementRequestData } from "../../api/achievement"
+import { AchievementRequestData } from "../../api/achievement";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achievements/categoryCompletionAchievement";
-
-
 
 /*const USER_NUMBER_SKILLS_QUERY = gql`
   query getUserSkillsAndTechnicalAppetites($email: String!) {
@@ -24,11 +22,11 @@ import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achieveme
 
 export const Statistics = () => {
   const { t } = useContext(i18nContext);
-  const { user, isLoading } = useAuth0();/* 
+  const { user, isLoading } = useAuth0(); /* 
   const {data, error, loading} = useQuery(GetSkillCountForCategoryFromSkillQuery, { 
     variables: {skillId:"platforms", userEmail: user.email}}); 
   console.log(data);*/
-  console.log("*************")
+  console.log("*************");
   //useEffect
   return (
     <div className={styles.StatisticsRanking}>
