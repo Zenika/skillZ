@@ -7,6 +7,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import BadgeSection from "./BadgeSection";
+import ProgressBar from "./ProgressBar";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -165,18 +167,22 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-row justify-start my-2 mx-4">
-            <Image
+          <div className="flex flex-row justify-start">
+            <BadgeSection></BadgeSection>
+            {/*<Image
               className="w-16 h-16 rounded-full"
               height="64"
               width="64"
               src={user?.picture || ""}
-            />
+            />*/}
             <div className="flex flex-col mx-4 justify-center">
               <span>{user?.name}</span>
             </div>
           </div>
-          <div className="flex flex-col justify-around rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
+          <div className="flex">
+            <ProgressBar></ProgressBar>
+          </div>
+          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
