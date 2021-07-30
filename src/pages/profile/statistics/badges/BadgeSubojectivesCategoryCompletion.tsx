@@ -61,12 +61,13 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [max, setMax] = useState(0);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   let errorMsg = "Error: ";
-  const { data: countSkills, error, loading } = useQuery<SkillsDataResult>(
-    GET_COUNT_SKILLS_DATA,
-    {
-      fetchPolicy: "cache-and-network",
-    }
-  );
+  const {
+    data: countSkills,
+    error,
+    loading,
+  } = useQuery<SkillsDataResult>(GET_COUNT_SKILLS_DATA, {
+    fetchPolicy: "cache-and-network",
+  });
 
   useEffect(() => {
     if (countSkills) {
