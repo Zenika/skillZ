@@ -1,23 +1,22 @@
 import React, { useEffect } from "react";
 import styles from "./BadgeSubojectives.module.css";
 import Image from "next/image";
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { ProgressBar } from "../progressBar";
 import { i18nContext } from "../../../../utils/i18nContext";
 import { number } from "prop-types";
 import { gql, useQuery } from "@apollo/client";
 
-
-const GET_COUNT_SKILLS_DATA = gql `
-query getDataForAchievments {
-  Category {
-    CurrentSkillsAndDesires_aggregate {
-      aggregate {
-        count
+const GET_COUNT_SKILLS_DATA = gql`
+  query getDataForAchievments {
+    Category {
+      CurrentSkillsAndDesires_aggregate {
+        aggregate {
+          count
+        }
       }
     }
   }
-}
 `;
 
 type SkillsDataResult = {
@@ -33,7 +32,7 @@ type SkillsDataResult = {
 type BadgeSubojectivesCategoryCompletionProps = {
   props: {
     themeToCompare: string;
-    indexSkillCount: number; 
+    indexSkillCount: number;
     src: string;
     datas: {
       UserAchievements: {
@@ -48,43 +47,66 @@ type BadgeSubojectivesCategoryCompletionProps = {
 };
 
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
-export const BadgeSubojectivesCategoryCompletion = ({themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }) => {
+export const BadgeSubojectivesCategoryCompletion = ({
+  themeToCompare,
+  indexSkillCount,
+  datas,
+  src,
+  titleSubobjective,
+  descriptionSubobjective,
+}) => {
   const [step, setStep] = useState([]);
-  const [ skillsNumber, setSkillsNumber ] = useState(0);
+  const [skillsNumber, setSkillsNumber] = useState(0);
   const { t } = useContext(i18nContext);
+  const [max, setMax] = useState(0);
+  const [percentageBarValue, setpercentageBarValue] = useState(0);
   let errorMsg = "Error: ";
-  const {data: countSkills, error, loading} = useQuery<SkillsDataResult>(GET_COUNT_SKILLS_DATA, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { data: countSkills, error, loading } = useQuery<SkillsDataResult>(
+    GET_COUNT_SKILLS_DATA,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
   useEffect(() => {
     if (countSkills) {
-      setSkillsNumber(countSkills.Category[indexSkillCount].CurrentSkillsAndDesires_aggregate.aggregate.count);
+      setSkillsNumber(
+        countSkills.Category[indexSkillCount].CurrentSkillsAndDesires_aggregate
+          .aggregate.count
+      );
     }
- }, [countSkills]);
+  }, [countSkills]);
   useEffect(() => {
-    getStepsByCategory()
- }, [countSkills]);
-  const getStepsByCategory = () => {
+    getStepsByCategory();
+  }, [countSkills]);
 
-    for (let i = 0; i < (datas.UserAchievements.length); i++) {
-      if (datas.UserAchievements[i].label.localeCompare("categoryCompletion") == 0) {
-        if (datas.UserAchievements[i].additionalInfo.localeCompare(themeToCompare) == 0) {
-          setStep(step => [...step, datas.UserAchievements[i].step])
+  useEffect(() => {
+    setMax(Math.max(...step) + 5);
+    setpercentageBarValue((skillsNumber / max) * 100);
+  }, [step, skillsNumber]);
+  const getStepsByCategory = () => {
+    for (let i = 0; i < datas.UserAchievements.length; i++) {
+      if (
+        datas.UserAchievements[i].label.localeCompare("categoryCompletion") == 0
+      ) {
+        if (
+          datas.UserAchievements[i].additionalInfo.localeCompare(
+            themeToCompare
+          ) == 0
+        ) {
+          setStep((step) => [...step, datas.UserAchievements[i].step]);
         }
         //step.push(datas.UserAchievements[i].step);
-        }
+      }
+    }
+    return;
+  };
+  if (loading) {
+    return "Loading...";
   }
-  return ;
-  }
-  if(loading){
-    return 'Loading...';
-  }
-  if(error){
+  if (error) {
     return errorMsg.concat(error.name, ", Message: ", error.message);
   }
-  const max = Math.max(...step) + 5;
-  const percentageBar = (skillsNumber/max) * 100;
 
   return (
     <div className={styles.BadgeProfileSubObjectivesMiddle}>
@@ -96,8 +118,10 @@ export const BadgeSubojectivesCategoryCompletion = ({themeToCompare, indexSkillC
       />
       <span>{titleSubobjective}</span>
       <p>{descriptionSubobjective}</p>
-      <ProgressBar percentage={percentageBar} />
-      <p>{skillsNumber}/{max}</p>
+      <ProgressBar percentage={percentageBarValue} />
+      <p>
+        {skillsNumber}/{max}
+      </p>
     </div>
   );
 };
