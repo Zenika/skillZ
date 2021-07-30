@@ -3,7 +3,7 @@ import { AchievementRequestData } from "../../pages/api/achievement";
 import { fetcher } from "../fetcher";
 import { Achievement } from "./types";
 
-const GetSkillCountForCategoryFromSkillQuery = `
+export const GetSkillCountForCategoryFromSkillQuery = `
 query getSkillCountForCategoryFromSkill($skillId: uuid!, $userEmail: String!) {
   Skill_by_pk(id: $skillId) {
     Category {
@@ -33,7 +33,7 @@ const achievementsMetadata = {
     "technics-and-methods",
   ],
 };
-const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.categories
+export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.categories
   .map((category) =>
     achievementsMetadata.steps.map((step) => ({
       label: "categoryCompletion",

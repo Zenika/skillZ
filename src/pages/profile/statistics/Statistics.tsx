@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { ProgressBar } from "./progressBar";
 import { BadgeSubojectives } from "./badges";
@@ -6,6 +6,11 @@ import { StatisticsHighlights } from "./StatisticsHighlights";
 import styles from "./Statistics.module.css";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
+import { AchievementRequestData } from "../../api/achievement"
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achievements/categoryCompletionAchievement";
+
+
 
 /*const USER_NUMBER_SKILLS_QUERY = gql`
   query getUserSkillsAndTechnicalAppetites($email: String!) {
@@ -19,6 +24,12 @@ import { gql, useQuery } from "@apollo/client";
 
 export const Statistics = () => {
   const { t } = useContext(i18nContext);
+  const { user, isLoading } = useAuth0();/* 
+  const {data, error, loading} = useQuery(GetSkillCountForCategoryFromSkillQuery, { 
+    variables: {skillId:"platforms", userEmail: user.email}}); 
+  console.log(data);*/
+  console.log("*************")
+  //useEffect
   return (
     <div className={styles.StatisticsRanking}>
       <h2 className={styles.StatisticsTitle}>{t("statistics.titleSection")}</h2>
@@ -46,6 +57,7 @@ export const Statistics = () => {
         <p>{t("statistics.sentenceRankIncodming2")}</p>
       </div>
       <ProgressBar percentage={30} />
+      <div></div>
       <div className={styles.line}></div>
       <div className={styles.StasticsSubObjectives}>
         <BadgeSubojectives src="/img/badges/medaille.svg" />
