@@ -15,7 +15,7 @@ Check that engine is running by going to `http://localhost:8080`
 
 ### Run the hasura migrations
 
-Run `npm run hasura migrate apply` and `npm run hasura metadata apply` to apply migrations and metadatas
+Run `npm hasura migrate apply` and `npm hasura metadata apply` to apply migrations and metadatas
 
 ### Create an env file
 

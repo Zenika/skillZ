@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";
@@ -7,7 +7,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { Statistics } from "./statistics";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -166,7 +165,7 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-row justify-start">
+          <div className="flex flex-row justify-start my-2 mx-4">
             <Image
               className="w-16 h-16 rounded-full"
               height="64"
@@ -177,8 +176,7 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          <Statistics />
-          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
+          <div className="flex flex-col justify-around rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
