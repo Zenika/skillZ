@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
+import { i18nContext } from "../../utils/i18nContext";
 import { ProgressBar } from "./progressBar";
 import {
   BadgeSubojectivesCategoryCompletion,
@@ -9,9 +9,8 @@ import { StatisticsHighlights } from "./StatisticsHighlights";
 import styles from "./Statistics.module.css";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
-import { AchievementRequestData } from "../../api/achievement";
+import { AchievementRequestData } from "../../pages/api/achievement";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import { GetSkillCountForCategoryFromSkillQuery } from "../../../utils/achievements/categoryCompletionAchievement";
 
 const GET_DATA_FOR_ACHIEVEMENTS = gql`
   query getDataForAchievements {

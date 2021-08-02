@@ -3,7 +3,7 @@ import styles from "./BadgeSubojectives.module.css";
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { ProgressBar } from "../progressBar";
-import { i18nContext } from "../../../../utils/i18nContext";
+import { i18nContext } from "../../../utils/i18nContext";
 import { number } from "prop-types";
 import { gql, useQuery } from "@apollo/client";
 
