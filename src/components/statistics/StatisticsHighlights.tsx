@@ -4,7 +4,7 @@ import styles from "./StatisticsHighlights.module.css";
 
 export const StatisticsHighlights = ({ src, number, libelle }) => {
   return (
-    <section className={styles.StatisticsHighlightsContent}>
+    <section className="flex pl-3">
       <Image
         className={styles.imageFilter}
         src={src}

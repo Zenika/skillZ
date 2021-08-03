@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { i18nContext } from "../../utils/i18nContext";
-import { ProgressBar } from "./progressBar";
 import {
   BadgeSubojectivesCategoryCompletion,
   BadgeSubojectives,
 } from "./badges";
-import { StatisticsHighlights } from "./StatisticsHighlights";
-import styles from "./Statistics.module.css";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
-import { AchievementRequestData } from "../../pages/api/achievement";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 const GET_DATA_FOR_ACHIEVEMENTS = gql`
@@ -54,9 +50,9 @@ export const Statistics = () => {
     return `Error: ${error.name}, Message: ${error.message}`;
   }
   return (
-    <div className={styles.StatisticsRanking}>
-      {/* <h2 className={styles.StatisticsTitle}>{t("statistics.titleSection")}</h2>
-      <div className={styles.Statistics}>
+    <div className="bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded">
+      <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
+      {/*<div className={styles.Statistics}>
         <StatisticsHighlights
           src="/img/badges/flame.svg"
           number="4"
@@ -81,8 +77,7 @@ export const Statistics = () => {
       </div>
       <ProgressBar percentage={30} />
       <div></div>
-      <div className={styles.line}></div> */}
-      <div className={styles.StasticsSubObjectives}>
+      <div className={styles.line}></div>*/}
         <BadgeSubojectivesCategoryCompletion
           themeToCompare="languages-and-frameworks"
           indexSkillCount="0"
@@ -133,6 +128,5 @@ export const Statistics = () => {
         />
         <BadgeSubojectives src="/img/badges/medaille.svg" />
       </div>
-    </div>
   );
 };

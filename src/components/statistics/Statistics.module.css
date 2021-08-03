@@ -9,18 +9,6 @@
     font-size: 1.5rem;
 }*/
 
-.StatisticsRanking {
-    padding-bottom: 1rem;
-    flex-grow: 1;
-    border-radius: 10px;
-    background-color: #121212;
-    position: static;
-    margin-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    flex-direction: column;
-}
-
 .StatisticsTitle {
     margin: 20px 0px 20px 0px;
     font-size: 1.5rem;

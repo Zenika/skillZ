@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import styles from "./BadgeSubojectives.module.css";
 import Image from "next/image";
 import { useState, useContext } from "react";
-import { ProgressBar } from "../progressBar";
+import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
 import { number } from "prop-types";
 import { gql, useQuery } from "@apollo/client";
@@ -110,19 +109,25 @@ export const BadgeSubojectivesCategoryCompletion = ({
   }
 
   return (
-    <div className={styles.BadgeProfileSubObjectivesMiddle}>
+    <div className="bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0">
+      <div className="flex flex-row items-stretch ">
       <Image
-        className="object-fill h-48 w-full object-center"
+        className="object-fill h-48 w-full object-center pb-5"
         src={src}
         width="45"
         height="45"
       />
-      <span>{titleSubobjective}</span>
-      <p>{descriptionSubobjective}</p>
+      <div className="p-2 pl-4 text-l">
+      <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
+      <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+      </div>
+      </div>
+      <div className="flex flex-row">
       <ProgressBar percentage={percentageBarValue} />
-      <p>
+      <p className="pl-4">
         {skillsNumber}/{max}
       </p>
+      </div>
     </div>
   );
 };
