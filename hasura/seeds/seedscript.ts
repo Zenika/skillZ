@@ -88,18 +88,16 @@ const generateUserAgency = (userEmail: string): UserAgency => {
   };
 };
 
-const generateUserSkillAndDesire = (
-  userEmail: string
-): UserSkillDesire => {
+const generateUserSkillAndDesire = (userEmail: string): UserSkillDesire => {
   const skillId =
     skills[datatype.number({ min: 0, max: skills.length - 1 })].id;
   const created_at = generateUniqueDate(userSkillDesires, userEmail, skillId);
   return {
-      userEmail,
-      skillId,
-      skillLevel: datatype.number({ min: 1, max: 5 }),
-      desireLevel: datatype.number({ min: 1, max: 5 }),
-      created_at,
+    userEmail,
+    skillId,
+    skillLevel: datatype.number({ min: 1, max: 5 }),
+    desireLevel: datatype.number({ min: 1, max: 5 }),
+    created_at,
   };
 };
 

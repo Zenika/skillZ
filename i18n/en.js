@@ -105,7 +105,7 @@ export default {
   },
   radar: {
     desire: "Desire",
-    level: "Level"
+    level: "Level",
   },
   search: {
     placeholder: "Search for a skill",
@@ -115,7 +115,7 @@ export default {
     noProfile: "No profile found",
   },
   statistics: {
-    titleSection: "My statistics", 
+    titleSection: "My statistics",
     dayStreak: "Day Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
@@ -125,16 +125,22 @@ export default {
     gold: "Gold",
     platin: "Platin",
     diamond: "Diamond",
-    numberCompetencies: "Number of competences"
+    numberCompetencies: "Number of competences",
   },
   subojectives: {
-    subObjectivesCategoryCompletionLanguageAndFrameworks: "Category Langages and Frameworks",
+    subObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Category Langages and Frameworks",
     subObjectivesCategoryCompletionTools: "Category Tools",
     subObjectivesCategoryCompletionPlateform: "Category Plateforms",
-    subObjectivesCategoryCompletionTechnicsAndMethod: "Category Technics et methods",
-    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: "Add skills in the Languages and Frameworks grid",
-    explicationSubObjectivesCategoryCompletionTools: "Add skills in the Tools grid",
-    explicationSubObjectivesCategoryCompletionPlateform: "Add skills in the Platform grid",
-    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: "Add skills in the Technics and methods grid",
-  }
+    subObjectivesCategoryCompletionTechnicsAndMethod:
+      "Category Technics et methods",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Add skills in the Languages and Frameworks grid",
+    explicationSubObjectivesCategoryCompletionTools:
+      "Add skills in the Tools grid",
+    explicationSubObjectivesCategoryCompletionPlateform:
+      "Add skills in the Platform grid",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
+      "Add skills in the Technics and methods grid",
+  },
 };

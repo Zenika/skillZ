@@ -100,32 +100,31 @@ export const BadgeSubojectivesCategoryCompletion = ({
     }
     return;
   };
-  if (loading)
-    return (<div>Loading...</div>);
+  if (loading) return <div>Loading...</div>;
   if (error) {
     console.error(errorMsg.concat(error.name, ", Message: ", error.message));
-    return (<div>Error...</div>);
+    return <div>Error...</div>;
   }
 
   return (
     <div className="bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0">
       <div className="flex flex-row items-stretch ">
-      <Image
-        className="object-fill h-48 w-full object-center pb-5"
-        src={src}
-        width="45"
-        height="45"
-      />
-      <div className="p-2 pl-4 text-l">
-      <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
-      <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
-      </div>
+        <Image
+          className="object-fill h-48 w-full object-center pb-5"
+          src={src}
+          width="45"
+          height="45"
+        />
+        <div className="p-2 pl-4 text-l">
+          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
+          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+        </div>
       </div>
       <div className="flex flex-row">
-      <ProgressBar percentage={percentageBarValue} />
-      <p className="pl-4">
-        {skillsNumber}/{max}
-      </p>
+        <ProgressBar percentage={percentageBarValue} />
+        <p className="pl-4">
+          {skillsNumber}/{max}
+        </p>
       </div>
     </div>
   );

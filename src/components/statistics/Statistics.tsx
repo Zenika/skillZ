@@ -42,64 +42,63 @@ export const Statistics = () => {
     }
   );
 
-  if (loading)
-    return (<div>Loading...</div>);
+  if (loading) return <div>Loading...</div>;
   if (error || !data) {
     console.error(`Error: ${error.name}, Message: ${error.message}`);
-    return (<div>Error...</div>);
+    return <div>Error...</div>;
   }
   return (
     <div className="bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded">
       <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
-        <BadgeSubojectivesCategoryCompletion
-          themeToCompare="languages-and-frameworks"
-          indexSkillCount="0"
-          datas={data}
-          src="/img/badges/medaille.svg"
-          titleSubobjective={t(
-            "subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks"
-          )}
-          descriptionSubobjective={t(
-            "subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks"
-          )}
-        />
-        <BadgeSubojectivesCategoryCompletion
-          themeToCompare="platforms"
-          indexSkillCount="1"
-          datas={data}
-          src="/img/badges/medaille.svg"
-          titleSubobjective={t(
-            "subojectives.subObjectivesCategoryCompletionPlateform"
-          )}
-          descriptionSubobjective={t(
-            "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
-          )}
-        />
-        <BadgeSubojectivesCategoryCompletion
-          themeToCompare="tools"
-          indexSkillCount="2"
-          datas={data}
-          src="/img/badges/medaille.svg"
-          titleSubobjective={t(
-            "subojectives.subObjectivesCategoryCompletionTools"
-          )}
-          descriptionSubobjective={t(
-            "subojectives.explicationSubObjectivesCategoryCompletionTools"
-          )}
-        />
-        <BadgeSubojectivesCategoryCompletion
-          themeToCompare="technics-and-methods"
-          indexSkillCount="3"
-          datas={data}
-          src="/img/badges/medaille.svg"
-          titleSubobjective={t(
-            "subojectives.subObjectivesCategoryCompletionTechnicsAndMethod"
-          )}
-          descriptionSubobjective={t(
-            "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
-          )}
-        />
-        <BadgeSubojectives src="/img/badges/medaille.svg" />
-      </div>
+      <BadgeSubojectivesCategoryCompletion
+        themeToCompare="languages-and-frameworks"
+        indexSkillCount="0"
+        datas={data}
+        src="/img/badges/medaille.svg"
+        titleSubobjective={t(
+          "subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks"
+        )}
+        descriptionSubobjective={t(
+          "subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks"
+        )}
+      />
+      <BadgeSubojectivesCategoryCompletion
+        themeToCompare="platforms"
+        indexSkillCount="1"
+        datas={data}
+        src="/img/badges/medaille.svg"
+        titleSubobjective={t(
+          "subojectives.subObjectivesCategoryCompletionPlateform"
+        )}
+        descriptionSubobjective={t(
+          "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
+        )}
+      />
+      <BadgeSubojectivesCategoryCompletion
+        themeToCompare="tools"
+        indexSkillCount="2"
+        datas={data}
+        src="/img/badges/medaille.svg"
+        titleSubobjective={t(
+          "subojectives.subObjectivesCategoryCompletionTools"
+        )}
+        descriptionSubobjective={t(
+          "subojectives.explicationSubObjectivesCategoryCompletionTools"
+        )}
+      />
+      <BadgeSubojectivesCategoryCompletion
+        themeToCompare="technics-and-methods"
+        indexSkillCount="3"
+        datas={data}
+        src="/img/badges/medaille.svg"
+        titleSubobjective={t(
+          "subojectives.subObjectivesCategoryCompletionTechnicsAndMethod"
+        )}
+        descriptionSubobjective={t(
+          "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
+        )}
+      />
+      <BadgeSubojectives src="/img/badges/medaille.svg" />
+    </div>
   );
 };

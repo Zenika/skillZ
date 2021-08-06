@@ -103,11 +103,11 @@ export default {
     contact: "Ma méthode de contact préférée",
     topics: "Mes sujets préférés",
     selectPlaceholder: "Mon agence",
-    confirm: "CONFIRMER LE PROFIL"
+    confirm: "CONFIRMER LE PROFIL",
   },
   radar: {
     desire: "Désir",
-    level: "Niveau"
+    level: "Niveau",
   },
   search: {
     placeholder: "Rechercher une compétence",
@@ -127,17 +127,22 @@ export default {
     gold: "Or",
     platin: "Platine",
     diamond: "Diamant",
-    numberCompetencies: "Compétences ajoutées"
+    numberCompetencies: "Compétences ajoutées",
   },
   subojectives: {
-    subObjectivesCategoryCompletionLanguageAndFrameworks: "Catégorie Langages et Frameworks",
+    subObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Catégorie Langages et Frameworks",
     subObjectivesCategoryCompletionTools: "Catégorie Outils",
     subObjectivesCategoryCompletionPlateform: "Catégorie Plateformes",
-    subObjectivesCategoryCompletionTechnicsAndMethod: "Catégorie Techniques et méthodes",
-    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks: "Ajoute des compétences dans la grille Langages et Frameworks",
-    explicationSubObjectivesCategoryCompletionTools: "Ajoute des compétences dans la grille Outil",
-    explicationSubObjectivesCategoryCompletionPlateform: "Ajoute des compétences dans la grille Plateformes",
-    explicationSubObjectivesCategoryCompletionTechnicsAndMethod: "Ajoute des compétences dans la grille Techniques et méthodes",
-  
-  }
+    subObjectivesCategoryCompletionTechnicsAndMethod:
+      "Catégorie Techniques et méthodes",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Ajoute des compétences dans la grille Langages et Frameworks",
+    explicationSubObjectivesCategoryCompletionTools:
+      "Ajoute des compétences dans la grille Outil",
+    explicationSubObjectivesCategoryCompletionPlateform:
+      "Ajoute des compétences dans la grille Plateformes",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
+      "Ajoute des compétences dans la grille Techniques et méthodes",
+  },
 };
