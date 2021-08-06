@@ -42,42 +42,15 @@ export const Statistics = () => {
     }
   );
 
-  if (loading) {
-    return "Loading...";
-  }
-
-  if (error) {
-    return `Error: ${error.name}, Message: ${error.message}`;
+  if (loading)
+    return (<div>Loading...</div>);
+  if (error || !data) {
+    console.error(`Error: ${error.name}, Message: ${error.message}`);
+    return (<div>Error...</div>);
   }
   return (
     <div className="bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded">
       <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
-      {/*<div className={styles.Statistics}>
-        <StatisticsHighlights
-          src="/img/badges/flame.svg"
-          number="4"
-          libelle={t("statistics.dayStreak")}
-        />
-        <StatisticsHighlights
-          src="/img/badges/skills.svg"
-          number="4"
-          libelle={t("statistics.dayStreak")}
-        />
-      </div>
-      <div className={styles.line}></div>
-      <div className={styles.StasticsRankingInterText}>
-        <Image
-          className="object-fill h-48 w-full object-center"
-          src="/img/badges/medaille.svg"
-          width="35"
-          height="35"
-        />
-        <p>{t("statistics.sentenceRankIncodming1")}</p>
-        <p>{t("statistics.sentenceRankIncodming2")}</p>
-      </div>
-      <ProgressBar percentage={30} />
-      <div></div>
-      <div className={styles.line}></div>*/}
         <BadgeSubojectivesCategoryCompletion
           themeToCompare="languages-and-frameworks"
           indexSkillCount="0"
