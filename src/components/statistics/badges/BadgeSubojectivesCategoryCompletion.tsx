@@ -3,78 +3,24 @@ import Image from "next/image";
 import { useState, useContext } from "react";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
-import { number } from "prop-types";
-import { gql, useQuery } from "@apollo/client";
-
-const GET_COUNT_SKILLS_DATA = gql`
-  query getDataForAchievments {
-    Category {
-      CurrentSkillsAndDesires_aggregate {
-        aggregate {
-          count
-        }
-      }
-    }
-  }
-`;
-
-type SkillsDataResult = {
-  Category: {
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-  }[];
-};
-
-type BadgeSubojectivesCategoryCompletionProps = {
-  props: {
-    themeToCompare: string;
-    indexSkillCount: number;
-    src: string;
-    datas: {
-      UserAchievements: {
-        additionalInfo: string;
-        step: number;
-        label: string;
-      }[];
-    };
-    titleSubobjective: string;
-    descriptionSubobjective: string;
-  };
-};
 
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
 export const BadgeSubojectivesCategoryCompletion = ({
   themeToCompare,
-  indexSkillCount,
   datas,
   src,
   titleSubobjective,
   descriptionSubobjective,
+  countSkills,
 }) => {
   const [step, setStep] = useState([]);
   const [skillsNumber, setSkillsNumber] = useState(0);
   const { t } = useContext(i18nContext);
   const [max, setMax] = useState(0);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
-  let errorMsg = "Error: ";
-  const {
-    data: countSkills,
-    error,
-    loading,
-  } = useQuery<SkillsDataResult>(GET_COUNT_SKILLS_DATA, {
-    fetchPolicy: "cache-and-network",
-  });
 
   useEffect(() => {
-    if (countSkills) {
-      setSkillsNumber(
-        countSkills.Category[indexSkillCount].CurrentSkillsAndDesires_aggregate
-          .aggregate.count
-      );
-    }
+    setSkillsNumber(countSkills);
   }, [countSkills]);
   useEffect(() => {
     getStepsByCategory();
@@ -83,28 +29,16 @@ export const BadgeSubojectivesCategoryCompletion = ({
   useEffect(() => {
     setMax(Math.max(...step) + 5);
     setpercentageBarValue((skillsNumber / max) * 100);
-  }, [step, skillsNumber]);
+  }, [max, skillsNumber]);
   const getStepsByCategory = () => {
-    for (let i = 0; i < datas.UserAchievements.length; i++) {
-      if (
-        datas.UserAchievements[i].label.localeCompare("categoryCompletion") == 0
-      ) {
-        if (
-          datas.UserAchievements[i].additionalInfo.localeCompare(
-            themeToCompare
-          ) == 0
-        ) {
-          setStep((step) => [...step, datas.UserAchievements[i].step]);
-        }
-      }
-    }
+    setStep((step) =>
+      [...step, ...datas.filter((d) =>
+            d.label === "categoryCompletion" &&
+            d.additionalInfo === themeToCompare
+      ).map(s => s.step)]
+    );
     return;
   };
-  if (loading) return <div>Loading...</div>;
-  if (error) {
-    console.error(errorMsg.concat(error.name, ", Message: ", error.message));
-    return <div>Error...</div>;
-  }
 
   return (
     <div className="bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0">

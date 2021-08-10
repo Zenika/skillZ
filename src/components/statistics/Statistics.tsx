@@ -4,56 +4,19 @@ import {
   BadgeSubojectivesCategoryCompletion,
   BadgeSubojectives,
 } from "./badges";
-import Image from "next/image";
-import { gql, useQuery } from "@apollo/client";
-import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
-const GET_DATA_FOR_ACHIEVEMENTS = gql`
-  query getDataForAchievements {
-    UserAchievements {
-      additionalInfo
-      created_at
-      label
-      points
-      step
-      userEmail
-    }
-  }
-`;
-
-type AchievementsResult = {
-  UserAchievements: {
-    created_at: string;
-    points: number;
-    label: string;
-    userEmail: string;
-    step: string;
-    additionalInfo: string;
-  }[];
-};
-
-export const Statistics = () => {
+export const Statistics = ({ userAchievements, countSkills }) => {
   const { t } = useContext(i18nContext);
-  const { user, isLoading } = useAuth0();
-  const { data, error, loading } = useQuery<AchievementsResult>(
-    GET_DATA_FOR_ACHIEVEMENTS,
-    {
-      fetchPolicy: "cache-and-network",
-    }
-  );
 
-  if (loading) return <div>Loading...</div>;
-  if (error || !data) {
-    console.error(`Error: ${error.name}, Message: ${error.message}`);
-    return <div>Error...</div>;
-  }
+  const filterFunction = (themeToCompare) => 
+    countSkills.find((c) => c.label ===  themeToCompare).CurrentSkillsAndDesires_aggregate.aggregate.count
+
   return (
     <div className="bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded">
       <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="languages-and-frameworks"
-        indexSkillCount="0"
-        datas={data}
+        datas={userAchievements}
         src="/img/badges/medaille.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks"
@@ -61,11 +24,11 @@ export const Statistics = () => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks"
         )}
+        countSkills={filterFunction("languages-and-frameworks")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="platforms"
-        indexSkillCount="1"
-        datas={data}
+        datas={userAchievements}
         src="/img/badges/medaille.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionPlateform"
@@ -73,11 +36,14 @@ export const Statistics = () => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
         )}
+        countSkills={
+          countSkills.find((c) => c.label === "platforms")
+            .CurrentSkillsAndDesires_aggregate.aggregate.count
+        }
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="tools"
-        indexSkillCount="2"
-        datas={data}
+        datas={userAchievements}
         src="/img/badges/medaille.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionTools"
@@ -85,11 +51,14 @@ export const Statistics = () => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTools"
         )}
+        countSkills={
+          countSkills.find((c) => c.label === "tools")
+            .CurrentSkillsAndDesires_aggregate.aggregate.count
+        }
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="technics-and-methods"
-        indexSkillCount="3"
-        datas={data}
+        datas={userAchievements}
         src="/img/badges/medaille.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionTechnicsAndMethod"
@@ -97,8 +66,11 @@ export const Statistics = () => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
         )}
+        countSkills={
+          countSkills.find((c) => c.label === "technics-and-methods")
+            .CurrentSkillsAndDesires_aggregate.aggregate.count
+        }
       />
-      <BadgeSubojectives src="/img/badges/medaille.svg" />
     </div>
   );
 };

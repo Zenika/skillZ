@@ -27,6 +27,22 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
         created_at
       }
     }
+    UserAchievements(where: { userEmail: { _eq: $email } }) {
+      additionalInfo
+      created_at
+      label
+      points
+      step
+      userEmail
+    }
+    Category {
+      label
+      CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
+        aggregate {
+          count
+        }
+      }
+    }
   }
 `;
 
@@ -81,6 +97,22 @@ type GetUserAgencyAndAllAgenciesResult = {
   User: { email: string; UserLatestAgency: { agency: string } }[];
   Agency: { name: string }[];
   Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
+  UserAchievements: {
+    created_at: string;
+    points: number;
+    label: string;
+    userEmail: string;
+    step: string;
+    additionalInfo: string;
+  }[];
+  Category: {
+    label: string;
+    CurrentSkillsAndDesires_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+  }[];
 };
 
 const Profile = () => {
@@ -118,6 +150,9 @@ const Profile = () => {
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
     !data?.User[0]?.UserLatestAgency?.agency;
+  const userAchievements =
+    data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
+  const countSkills = data?.Category.length <= 0 ? undefined : data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
@@ -177,7 +212,14 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          <Statistics />
+          {countSkills && userAchievements ? (
+            <Statistics
+              userAchievements={userAchievements}
+              countSkills={countSkills}
+            />
+          ) : (
+            <></>
+          )}
           <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect

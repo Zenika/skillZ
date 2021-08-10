@@ -23,9 +23,19 @@ Run `npm run hasura migrate apply` and `npm run hasura metadata apply` to apply 
 Create an file named `.env.local`, then add these variables
 
 ```
-# Your local (or distant) hasura endpoint url
+# If you're using Linux, your local (or distant) hasura endpoint url should looks like this :
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+HASURA_ADMIN_SECRET=key
+HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
+```
+
+```
+# If you're using Windows, your local (or distant) hasura endpoint url should looks like this :
+NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+HASURA_ADMIN_SECRET=key
+HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 ```
 
 ### Launch the app

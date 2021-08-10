@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.8"
 services:
   postgres:
     image: postgres:12
@@ -14,13 +14,12 @@ services:
     depends_on:
       - "postgres"
     restart: always
+    env_file:
+      - ./.env.local
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: key
       HASURA_GRAPHQL_JWT_SECRET: "${SKILLZ_GRAPHQL_JWT_SECRET?SKILLZ_GRAPHQL_JWT_SECRET}"
-      #Uncomment this line if youre using Linux
-      #HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
-      HASURA_ACHIEVEMENTS_ENDPOINT: http://host.docker.internal:3000/api/achievement
 volumes:
   db_data:
