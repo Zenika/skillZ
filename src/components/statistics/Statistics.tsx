@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import {
-  BadgeSubojectivesCategoryCompletion,
-  BadgeSubojectives,
+  BadgeSubojectivesCategoryCompletion
 } from "./badges";
 
 export const Statistics = ({ userAchievements, countSkills }) => {
@@ -36,10 +35,7 @@ export const Statistics = ({ userAchievements, countSkills }) => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
         )}
-        countSkills={
-          countSkills.find((c) => c.label === "platforms")
-            .CurrentSkillsAndDesires_aggregate.aggregate.count
-        }
+        countSkills={filterFunction("platforms")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="tools"
@@ -51,10 +47,7 @@ export const Statistics = ({ userAchievements, countSkills }) => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTools"
         )}
-        countSkills={
-          countSkills.find((c) => c.label === "tools")
-            .CurrentSkillsAndDesires_aggregate.aggregate.count
-        }
+        countSkills={filterFunction("tools")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="technics-and-methods"
@@ -66,10 +59,7 @@ export const Statistics = ({ userAchievements, countSkills }) => {
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
         )}
-        countSkills={
-          countSkills.find((c) => c.label === "technics-and-methods")
-            .CurrentSkillsAndDesires_aggregate.aggregate.count
-        }
+        countSkills={filterFunction("technics-and-methods")}
       />
     </div>
   );
