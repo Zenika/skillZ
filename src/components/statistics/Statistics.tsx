@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
-import { BadgeSubojectivesCategoryCompletion, BadgeSubojectivesProfileCompletion } from "./badges";
+import {
+  BadgeSubojectivesCategoryCompletion,
+  BadgeSubojectivesProfileCompletion,
+} from "./badges";
 import { StatisticsHighlights } from "./StatisticsHighlights";
 
 export const Statistics = ({ userAchievements, countSkills }) => {
@@ -14,22 +17,22 @@ export const Statistics = ({ userAchievements, countSkills }) => {
     <div className="bg-dark-dark pb-4 pl-4 pr-4 m-4 flex-col rounded grid grid-cols-1 divide-y divide-dark-light">
       <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
       <div className="flex p-6 inline-block flew-wrap content-evenly ">
-      <div>
-        <StatisticsHighlights
-          src="/img/badges/flame.svg"
-          number="4"
-          libelle={t("statistics.dayStreak")}
-        />
-      </div>
-      <div className="">
         <div>
-        <StatisticsHighlights
-          src="/img/badges/skills.svg"
-          number="4"
-          libelle={t("statistics.numberCompetencies")}
-        />
+          <StatisticsHighlights
+            src="/img/badges/flame.svg"
+            number="4"
+            libelle={t("statistics.dayStreak")}
+          />
         </div>
-      </div>
+        <div className="">
+          <div>
+            <StatisticsHighlights
+              src="/img/badges/skills.svg"
+              number="4"
+              libelle={t("statistics.numberCompetencies")}
+            />
+          </div>
+        </div>
       </div>
       <div>
         <BadgeSubojectivesCategoryCompletion
