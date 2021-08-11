@@ -31,12 +31,16 @@ export const BadgeSubojectivesCategoryCompletion = ({
     setpercentageBarValue((skillsNumber / max) * 100);
   }, [max, skillsNumber]);
   const getStepsByCategory = () => {
-    setStep((step) =>
-      [...step, ...datas.filter((d) =>
+    setStep((step) => [
+      ...step,
+      ...datas
+        .filter(
+          (d) =>
             d.label === "categoryCompletion" &&
             d.additionalInfo === themeToCompare
-      ).map(s => s.step)]
-    );
+        )
+        .map((s) => s.step),
+    ]);
     return;
   };
 

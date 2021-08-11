@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
-import {
-  BadgeSubojectivesCategoryCompletion
-} from "./badges";
+import { BadgeSubojectivesCategoryCompletion } from "./badges";
 
 export const Statistics = ({ userAchievements, countSkills }) => {
   const { t } = useContext(i18nContext);
 
-  const filterFunction = (themeToCompare) => 
-    countSkills.find((c) => c.label ===  themeToCompare).CurrentSkillsAndDesires_aggregate.aggregate.count
+  const filterFunction = (themeToCompare) =>
+    countSkills.find((c) => c.label === themeToCompare)
+      .CurrentSkillsAndDesires_aggregate.aggregate.count;
 
   return (
     <div className="bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded">
