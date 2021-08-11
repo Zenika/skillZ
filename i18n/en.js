@@ -116,7 +116,7 @@ export default {
   },
   statistics: {
     titleSection: "My statistics",
-    dayStreak: "Day Streak",
+    dayStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
     league: "League",
@@ -142,5 +142,7 @@ export default {
       "Add skills in the Platform grid",
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Add skills in the Technics and methods grid",
+    subObjectiveProfile: "Complete profile informations",
+    explicationSubObjectiveProfile: "Add agency location and favourite subjects",
   },
 };

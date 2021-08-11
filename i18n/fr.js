@@ -118,7 +118,7 @@ export default {
   },
   statistics: {
     titleSection: "Mes statistiques",
-    dayStreak: "Jours d'affilés",
+    dayStreak: "Mois d'affilés",
     sentenceRankIncodming1: "Il te reste ",
     sentenceRankIncodming2: "xp à avoir pour être promu",
     league: "Classement général",
@@ -144,5 +144,7 @@ export default {
       "Ajoute des compétences dans la grille Plateformes",
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Ajoute des compétences dans la grille Techniques et méthodes",
+    subObjectiveProfile: "Compléter son profil",
+    explicationSubObjectiveProfile: "Ajoute la ville de ton agence, et tes sujets préférés",
   },
 };
