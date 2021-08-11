@@ -105,13 +105,42 @@ export default {
   },
   radar: {
     desire: "Desire",
-    level: "Level"
+    level: "Level",
   },
   search: {
     placeholder: "Search for a skill",
     skills: "Skills",
     profiles: "Profiles",
     noSkill: "No skill found",
-    noProfile: "No profile found"
-  }
+    noProfile: "No profile found",
+  },
+  statistics: {
+    titleSection: "My statistics",
+    dayStreak: "Day Streak",
+    sentenceRankIncodming1: "Still ",
+    sentenceRankIncodming2: "xp to be promoted",
+    league: "League",
+    bronze: "Bronze",
+    silver: "Silver",
+    gold: "Gold",
+    platin: "Platin",
+    diamond: "Diamond",
+    numberCompetencies: "Number of competences",
+  },
+  subojectives: {
+    subObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Category Langages and Frameworks",
+    subObjectivesCategoryCompletionTools: "Category Tools",
+    subObjectivesCategoryCompletionPlateform: "Category Plateforms",
+    subObjectivesCategoryCompletionTechnicsAndMethod:
+      "Category Technics et methods",
+    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks:
+      "Add skills in the Languages and Frameworks grid",
+    explicationSubObjectivesCategoryCompletionTools:
+      "Add skills in the Tools grid",
+    explicationSubObjectivesCategoryCompletionPlateform:
+      "Add skills in the Platform grid",
+    explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
+      "Add skills in the Technics and methods grid",
+  },
 };

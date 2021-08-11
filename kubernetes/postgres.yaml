@@ -27,20 +27,20 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:12
-        volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: data
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_PASSWORD
-          value: postgrespassword
+        - name: postgres
+          image: postgres:12
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgrespassword
       volumes:
         - name: data
           persistentVolumeClaim:
-              claimName: postgres-data
+            claimName: postgres-data
 ---
 apiVersion: v1
 kind: Service

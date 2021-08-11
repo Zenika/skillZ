@@ -15,10 +15,10 @@ spec:
         app: front
     spec:
       containers:
-      - name: front
-        image: zenika/zprofile-front
-        ports:
-        - containerPort: 80
+        - name: front
+          image: zenika/zprofile-front
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -36,10 +36,10 @@ metadata:
   name: front-ingress-route
 spec:
   routes:
-  - kind: Rule
-    priority: 1
-    match: PathPrefix("/")
-    services:
-    - kind: Service
-      name: front
-      port: 80
+    - kind: Rule
+      priority: 1
+      match: PathPrefix("/")
+      services:
+        - kind: Service
+          name: front
+          port: 80

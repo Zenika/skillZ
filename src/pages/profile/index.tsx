@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";
@@ -7,6 +7,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { Statistics } from "../../components/statistics/Statistics";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -24,6 +25,22 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
       name
       UserTopics(where: { userEmail: { _eq: $email } }) {
         created_at
+      }
+    }
+    UserAchievements(where: { userEmail: { _eq: $email } }) {
+      additionalInfo
+      created_at
+      label
+      points
+      step
+      userEmail
+    }
+    Category {
+      label
+      CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
+        aggregate {
+          count
+        }
       }
     }
   }
@@ -80,6 +97,22 @@ type GetUserAgencyAndAllAgenciesResult = {
   User: { email: string; UserLatestAgency: { agency: string } }[];
   Agency: { name: string }[];
   Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
+  UserAchievements: {
+    created_at: string;
+    points: number;
+    label: string;
+    userEmail: string;
+    step: string;
+    additionalInfo: string;
+  }[];
+  Category: {
+    label: string;
+    CurrentSkillsAndDesires_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+  }[];
 };
 
 const Profile = () => {
@@ -117,6 +150,9 @@ const Profile = () => {
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
     !data?.User[0]?.UserLatestAgency?.agency;
+  const userAchievements =
+    data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
+  const countSkills = data?.Category.length <= 0 ? undefined : data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
@@ -165,7 +201,7 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-row justify-start my-2 mx-4">
+          <div className="flex flex-row justify-start">
             <Image
               className="w-16 h-16 rounded-full"
               height="64"
@@ -176,7 +212,15 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          <div className="flex flex-col justify-around rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
+          {countSkills && userAchievements ? (
+            <Statistics
+              userAchievements={userAchievements}
+              countSkills={countSkills}
+            />
+          ) : (
+            <></>
+          )}
+          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}

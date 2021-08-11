@@ -15,21 +15,26 @@ spec:
         app: hasura
     spec:
       containers:
-      - name: hasura
-        image: hasura/graphql-engine:v1.3.2
-        ports:
-        - containerPort: 8080
-        env:
-        - name: HASURA_GRAPHQL_DATABASE_URL
-          value: postgres://postgres:postgrespassword@postgres:5432/postgres
-        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-          value: "true"
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: key
+        - name: hasura
+          image: hasura/graphql-engine:v1.3.2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HASURA_GRAPHQL_DATABASE_URL
+              value: postgres://postgres:postgrespassword@postgres:5432/postgres
+            - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+              value: "true"
+            - name: HASURA_GRAPHQL_ADMIN_SECRET
+              value: key
       initContainers:
         - name: wait-for-db
           image: postgres:12
-          command: ['sh', '-c', 'until pg_isready -d postgres -h postgres -p 5432 -U postgres; do echo waiting for database; sleep 2; done;']
+          command:
+            [
+              "sh",
+              "-c",
+              "until pg_isready -d postgres -h postgres -p 5432 -U postgres; do echo waiting for database; sleep 2; done;",
+            ]
 ---
 apiVersion: v1
 kind: Service
@@ -47,16 +52,16 @@ metadata:
   name: hasura-ingress-route
 spec:
   routes:
-  - kind: Rule
-    priority: 2
-    middlewares:
-    - name: hasura-replace-regex
-      namespace: default 
-    match: PathPrefix("/api")
-    services:
-    - kind: Service
-      name: hasura
-      port: 8080
+    - kind: Rule
+      priority: 2
+      middlewares:
+        - name: hasura-replace-regex
+          namespace: default
+      match: PathPrefix("/api")
+      services:
+        - kind: Service
+          name: hasura
+          port: 8080
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
