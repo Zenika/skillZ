@@ -1,7 +1,7 @@
 .progressTracker {
   width: 50%;
   height: 20px;
-  background: rgb(0, 128, 0);
+  background: #d2dae2;
   border-radius: 10px;
   box-shadow: inset 0 0 5px #000;
 }
@@ -10,6 +10,6 @@
   width: 50%;
   height: 20px;
   background: rgb(34, 34, 34);
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: inset 0 0 5px #000;
 }

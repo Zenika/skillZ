@@ -5,18 +5,26 @@ import {
   BadgeSubojectivesProfileCompletion,
 } from "./badges";
 import { StatisticsHighlights } from "./StatisticsHighlights";
+import { useDarkMode } from "../../utils/darkMode";
 
 export const Statistics = ({ userAchievements, countSkills }) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
 
   const filterFunction = (themeToCompare) =>
     countSkills.find((c) => c.label === themeToCompare)
       .CurrentSkillsAndDesires_aggregate.aggregate.count;
 
   return (
-    <div className="bg-dark-dark pb-4 pl-4 pr-4 m-4 flex-col rounded grid grid-cols-1 divide-y divide-dark-light">
+    <div
+      className={
+        darkMode
+          ? `bg-dark-dark pb-4 pl-4 pr-4 m-4 flex-col rounded-lg grid grid-cols-1 divide-y divide-dark-light mt-8`
+          : `bg-dark pb-4 pl-4 pr-4 m-4 flex-col rounded-lg grid grid-cols-1 divide-y divide-dark-light mt-8`
+      }
+    >
       <h2 className="p-2 pt-4 text-2xl">{t("statistics.titleSection")}</h2>
-      <div className="flex p-6 inline-block flew-wrap content-evenly ">
+      <div className="flex p-6 inline-block flew-wrap content-evenly">
         <div>
           <StatisticsHighlights
             src="/img/badges/flame.svg"

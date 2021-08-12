@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { Statistics } from "../../components/statistics/Statistics";
+import { useDarkMode } from "../../utils/darkMode";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -120,6 +121,7 @@ const Profile = () => {
   const { query } = useRouter();
   const { context } = query;
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_AGENCY_AND_AGENCIES_QUERY,
     {
@@ -220,7 +222,13 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
+          <div
+            className={
+              darkMode
+                ? `flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2`
+                : `flex flex-col justify-around rounded-lg bg-light-light my-2 p-2`
+            }
+          >
             <div className="p-2">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
@@ -240,7 +248,13 @@ const Profile = () => {
               </div>
             </div> */}
           </div>
-          <div className="flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
+          <div
+            className={
+              darkMode
+                ? `flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2`
+                : `flex flex-col rounded-lg bg-light-light dark:bg-dark-dark my-2 p-2`
+            }
+          >
             <span>{t("profile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
               {topics?.map((topic) => (

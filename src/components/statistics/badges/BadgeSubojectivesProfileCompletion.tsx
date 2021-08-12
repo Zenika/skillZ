@@ -2,11 +2,19 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import { i18nContext } from "../../../utils/i18nContext";
 import { ProgressBar } from "../progressBar/ProgressBar";
+import { useDarkMode } from "../../../utils/darkMode";
 
 export const BadgeSubojectivesProfileCompletion = ({ src }) => {
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   return (
-    <div className="bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0">
+    <div
+      className={
+        darkMode
+          ? `bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0`
+          : `bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0`
+      }
+    >
       <div className="flex flex-row items-stretch ">
         <Image
           className="object-fill h-48 w-full object-center"

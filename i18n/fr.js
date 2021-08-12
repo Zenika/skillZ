@@ -145,6 +145,7 @@ export default {
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Ajoute des compétences dans la grille Techniques et méthodes",
     subObjectiveProfile: "Compléter son profil",
-    explicationSubObjectiveProfile: "Ajoute la ville de ton agence, et tes sujets préférés",
+    explicationSubObjectiveProfile:
+      "Ajoute la ville de ton agence, et tes sujets préférés",
   },
 };
