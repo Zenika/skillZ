@@ -1,0 +1,2 @@
+CREATE TABLE "public"."UserAchievements" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "additionalInfo" text, "created_at" Date NOT NULL DEFAULT now(), "label" text NOT NULL, "points" integer NOT NULL, "step" integer NOT NULL, "userEmail" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("userEmail") REFERENCES "public"."User"("email") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"), UNIQUE ("userEmail", "label", "additionalInfo", "step"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

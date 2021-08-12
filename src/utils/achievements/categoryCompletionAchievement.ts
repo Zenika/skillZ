@@ -1,4 +1,6 @@
 import { of } from "await-of";
+import { cpuUsage } from "process";
+import CommonPage from "../../components/CommonPage";
 import { AchievementRequestData } from "../../pages/api/achievement";
 import { fetcher } from "../fetcher";
 import { Achievement } from "./types";
@@ -18,7 +20,7 @@ query getSkillCountForCategoryFromSkill($skillId: uuid!, $userEmail: String!) {
 }`;
 
 const InsertCategoryCompletionAchievementMutation = `mutation insertCategoryCompletionAchievement($data: [UserAchievements_insert_input!]!) {
-  insert_UserAchievements(objects: $data, on_conflict: {constraint: UserAchievements_userEmail_achievementLabel_additionalInfo_step, update_columns: userEmail}) {
+  insert_UserAchievements(objects: $data, on_conflict: {constraint: UserAchievements_userEmail_label_additionalInfo_step_key, update_columns: userEmail}) {
     affected_rows
   }
 }
