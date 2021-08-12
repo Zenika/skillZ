@@ -143,6 +143,7 @@ export default {
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Add skills in the Technics and methods grid",
     subObjectiveProfile: "Complete profile informations",
-    explicationSubObjectiveProfile: "Add agency location and favourite subjects",
+    explicationSubObjectiveProfile:
+      "Add agency location and favourite subjects",
   },
 };
