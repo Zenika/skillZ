@@ -130,6 +130,8 @@ export default {
     numberCompetencies: "Compétences ajoutées",
   },
   subojectives: {
+    subObjectivesProfileCompletion: "Categorie Profile",
+    explicationProfileCompletion: "Ajoute tes sujets préférés et ton agence",
     subObjectivesCategoryCompletionLanguageAndFrameworks:
       "Catégorie Langages et Frameworks",
     subObjectivesCategoryCompletionTools: "Catégorie Outils",

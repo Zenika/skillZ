@@ -4,51 +4,13 @@ import { useState, useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
-import { useDarkMode } from "../../../utils/darkMode";
 
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
-export const BadgeSubojectivesCategoryCompletion = ({
-  themeToCompare,
-  datas,
-  src,
-  titleSubobjective,
-  descriptionSubobjective,
-  countSkills,
-}) => {
-  const [step, setStep] = useState([]);
-  const [skillsNumber, setSkillsNumber] = useState(0);
-  const [max, setMax] = useState(5);
+export const BadgeSubojectivesProfileCompletion = ({ src }) => {
+  const { t } = useContext(i18nContext);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
   const [badgeFilterCss, setBadgeFilterCss] = useState();
-
-  useEffect(() => {
-    setSkillsNumber(countSkills);
-  }, [countSkills]);
-  useEffect(() => {
-    getStepsByCategory();
-  }, [countSkills]);
-
-  useEffect(() => {
-    const maxVerif = Math.max(...step) + 5;
-    if (isFinite(maxVerif)) {
-      setMax(maxVerif);
-      setpercentageBarValue((skillsNumber / max) * 100);
-    } else setpercentageBarValue((skillsNumber / max) * 100);
-  }, [max, skillsNumber]);
-  const getStepsByCategory = () => {
-    setStep((step) => [
-      ...step,
-      ...datas
-        .filter(
-          (d) =>
-            d.label === "categoryCompletion" &&
-            d.additionalInfo === themeToCompare
-        )
-        .map((s) => s.step),
-    ]);
-    return;
-  };
 
   return (
     <div
@@ -66,15 +28,17 @@ export const BadgeSubojectivesCategoryCompletion = ({
           height="45"
         />
         <div className="p-2 pl-4 text-l">
-          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
-          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+          <p className="font-extrabold text-xl mt-2">
+            {t("subojectives.subObjectivesProfileCompletion")}
+          </p>
+          <p className="mt-1.5 mb-2">
+            {t("subojectives.explicationProfileCompletion")}
+          </p>
         </div>
       </div>
       <div className="flex flex-row">
         <ProgressBar percentage={percentageBarValue} />
-        <p className="pl-4">
-          {skillsNumber}/{max}
-        </p>
+        <p className="pl-4">0/0</p>
       </div>
     </div>
   );

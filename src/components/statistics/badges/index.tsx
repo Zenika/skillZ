@@ -1,3 +1,3 @@
 export { BadgeSubojectivesCategoryCompletion } from "./BadgeSubojectivesCategoryCompletion";
 export { BadgeSubojectives } from "./BadgeSubojectives";
-export { BadgeSubojectivesProfileCompletion } from "./BadgeSubojectivesProfileCompletion";
+export { BadgeSubojectivesProfileCompletion } from "./BadgeSubobjectiveProfile";

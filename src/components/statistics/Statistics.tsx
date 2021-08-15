@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useDarkMode } from "../../utils/darkMode";
-import { BadgeSubojectivesCategoryCompletion } from "./badges";
+import {
+  BadgeSubojectivesCategoryCompletion,
+  BadgeSubojectivesProfileCompletion,
+} from "./badges";
 
 export const Statistics = ({ userAchievements, countSkills }) => {
   const { t } = useContext(i18nContext);
@@ -70,6 +73,7 @@ export const Statistics = ({ userAchievements, countSkills }) => {
         )}
         countSkills={filterFunction("technics-and-methods")}
       />
+      <BadgeSubojectivesProfileCompletion src="/img/badges/medaille.svg" />
     </div>
   );
 };

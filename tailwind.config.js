@@ -44,11 +44,35 @@ module.exports = {
       homePanel: "400px",
       homePanelMobile: "300px",
     },
+
     extend: {
+      filters: [
+        {
+          name: "brightness",
+          theme: {
+            88: "88%",
+          },
+          name: "contrast",
+          theme: {
+            81: "81%",
+          },
+          name: "saturate",
+          theme: {
+            1685: "1685%",
+          },
+          name: "sepia",
+          theme: {
+            20: "20%",
+          },
+        },
+      ],
       width: {
         13: "3.25rem",
         15: "3.75rem",
         radar: "800px",
+        hueRotate: {
+          8: "8deg",
+        },
       },
       height: {
         radar: "800px",
@@ -69,5 +93,5 @@ module.exports = {
       opacity: ["disabled"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-css-filters")],
 };
