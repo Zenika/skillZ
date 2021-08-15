@@ -7,6 +7,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { useDarkMode } from "../../utils/darkMode";
 import { Statistics } from "../../components/statistics/Statistics";
 import { useDarkMode } from "../../utils/darkMode";
 
@@ -119,6 +120,7 @@ type GetUserAgencyAndAllAgenciesResult = {
 const Profile = () => {
   const { user } = useAuth0();
   const { query } = useRouter();
+  const { darkMode } = useDarkMode();
   const { context } = query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -223,13 +225,13 @@ const Profile = () => {
             <></>
           )}
           <div
-            className={
+            className={`${
               darkMode
-                ? `flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2`
-                : `flex flex-col justify-around rounded-lg bg-light-light my-2 p-2`
-            }
+                ? "flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2"
+                : "flex flex-col justify-around rounded-lg bg-lidht-med my-2 p-2"
+            }`}
           >
-            <div className="p-2">{t("profile.agency")}</div>
+            <div className="p-2 text-xl">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
               selectedChoice={userAgency}
@@ -249,13 +251,13 @@ const Profile = () => {
             </div> */}
           </div>
           <div
-            className={
+            className={`${
               darkMode
-                ? `flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2`
-                : `flex flex-col rounded-lg bg-light-light dark:bg-dark-dark my-2 p-2`
-            }
+                ? "flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2"
+                : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
+            }`}
           >
-            <span>{t("profile.topics")}</span>
+            <span className="text-xl p-2">{t("profile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
               {topics?.map((topic) => (
                 <button

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useState, useContext } from "react";
+import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
 import { useDarkMode } from "../../../utils/darkMode";
@@ -48,11 +49,11 @@ export const BadgeSubojectivesCategoryCompletion = ({
 
   return (
     <div
-      className={
+      className={`${
         darkMode
-          ? `bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0`
-          : `bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0`
-      }
+          ? "bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0"
+          : "bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0"
+      }`}
     >
       <div className="flex flex-row items-stretch ">
         <Image
