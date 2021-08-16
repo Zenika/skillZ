@@ -3,7 +3,9 @@ module.exports = {
   // Active dark mode on class basis
   darkMode: "class",
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
+
   theme: {
+
     colors: {
       dark: {
         light: "#292929",
@@ -35,6 +37,7 @@ module.exports = {
         blue: "#52B9FF",
         red: "#bf1d67",
       },
+
     },
     backgroundPosition: {
       right: "right 2rem bottom 50%",
@@ -44,35 +47,32 @@ module.exports = {
       homePanel: "400px",
       homePanelMobile: "300px",
     },
-
     extend: {
-      filters: [
-        {
-          name: "brightness",
+      filters: [{
+      name: 'brightness',
           theme: {
-            88: "88%",
+            88: '88%',
           },
-          name: "contrast",
+          name: 'contrast',
           theme: {
             81: "81%",
           },
-          name: "saturate",
+          name: 'saturate',
           theme: {
-            1685: "1685%",
+            1685: '1685%',
           },
-          name: "sepia",
+          name: 'sepia',
           theme: {
-            20: "20%",
+            20: '80%',
           },
-        },
-      ],
+      }],
+      hueRotate: {
+        8: "8deg",
+      },
       width: {
         13: "3.25rem",
         15: "3.75rem",
         radar: "800px",
-        hueRotate: {
-          8: "8deg",
-        },
       },
       height: {
         radar: "800px",

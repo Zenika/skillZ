@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { categoryCompletionAchievement } from "../../utils/achievements/categoryCompletionAchievement";
+import { categoryProfileAchievement } from "../../utils/achievements/profileCompletionAchievement";
 
 const ACHIEVEMENTS = {
   categoryCompletionAchievement: categoryCompletionAchievement,
+  categoryProfileAchievement: categoryProfileAchievement,
 };
 
 export type AchievementRequestData = {
