@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "main": "index.js",
   "scripts": {
@@ -24,35 +24,35 @@
     "seeds:apply": "npm run hasura seeds apply"
   },
   "dependencies": {
-    "@apollo/client": "3.3.9",
-    "@auth0/auth0-react": "1.2.0",
-    "await-of": "3.1.0",
-    "graphql": "15.5.0",
-    "next": "11.0.1",
-    "next-pwa": "5.0.5",
+    "@apollo/client": "3.4.7",
+    "@auth0/auth0-react": "1.6.0",
+    "await-of": "3.1.1",
+    "graphql": "15.5.1",
+    "next": "11.1.0",
+    "next-pwa": "5.2.24",
     "object-path": "0.11.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-responsive": "8.2.0",
-    "react-swipeable": "6.0.1",
-    "use-debounce": "6.0.0"
+    "react-swipeable": "6.1.2",
+    "use-debounce": "7.0.0"
   },
   "devDependencies": {
-    "@types/faker": "5.5.6",
-    "@types/node": "14.14.14",
-    "@types/object-path": "0.11.0",
-    "@types/react": "17.0.0",
+    "@types/faker": "5.5.7",
+    "@types/node": "16.6.1",
+    "@types/object-path": "0.11.1",
+    "@types/react": "17.0.17",
     "autoprefixer": "^10.2.6",
     "ava": "3.15.0",
-    "cypress": "6.3.0",
+    "cypress": "8.2.0",
     "faker": "5.5.3",
-    "hasura-cli": "2.0.0",
+    "hasura-cli": "2.0.5",
     "json-sql": "0.5.0",
-    "postcss": "^8.3.5",
-    "prettier": "^2.3.1",
-    "tailwindcss": "^2.2.4",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.4"
+    "postcss": "8.3.6",
+    "prettier": "2.3.2",
+    "tailwindcss": "2.2.7",
+    "ts-node": "10.2.0",
+    "typescript": "4.3.5"
   },
   "ava": {
     "extensions": [
