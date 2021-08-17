@@ -5,6 +5,25 @@ module.exports = {
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
 
   theme: {
+    filter: {
+      name: "brightness",
+      theme: {
+        88: "88%",
+      },
+    },
+
+    name: "contrast",
+    theme: {
+      81: "81%",
+    },
+    name: "saturate",
+    theme: {
+      1685: "1685%",
+    },
+    name: "sepia",
+    theme: {
+      20: "80%",
+    },
 
     colors: {
       dark: {
@@ -37,7 +56,6 @@ module.exports = {
         blue: "#52B9FF",
         red: "#bf1d67",
       },
-
     },
     backgroundPosition: {
       right: "right 2rem bottom 50%",
@@ -48,24 +66,6 @@ module.exports = {
       homePanelMobile: "300px",
     },
     extend: {
-      filters: [{
-      name: 'brightness',
-          theme: {
-            88: '88%',
-          },
-          name: 'contrast',
-          theme: {
-            81: "81%",
-          },
-          name: 'saturate',
-          theme: {
-            1685: '1685%',
-          },
-          name: 'sepia',
-          theme: {
-            20: '80%',
-          },
-      }],
       hueRotate: {
         8: "8deg",
       },

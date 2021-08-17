@@ -6,7 +6,7 @@ import {
   BadgeSubojectivesProfileCompletion,
 } from "./badges";
 
-export const Statistics = ({ userAchievements, countSkills }) => {
+export const Statistics = ({ userAchievements, countSkills, countTopics, userAgency }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 
@@ -73,7 +73,7 @@ export const Statistics = ({ userAchievements, countSkills }) => {
         )}
         countSkills={filterFunction("technics-and-methods")}
       />
-      <BadgeSubojectivesProfileCompletion src="/img/badges/medaille.svg" />
+      <BadgeSubojectivesProfileCompletion src="/img/badges/medaille.svg" datas={userAchievements} countTopics={countTopics} userAgency={userAgency}/>
     </div>
   );
 };

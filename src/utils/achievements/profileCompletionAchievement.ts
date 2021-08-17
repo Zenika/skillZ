@@ -20,15 +20,16 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertProfileAchie
   `;
 
 const achievementsMetadata = {
-  steps: [4]
+  steps: [4],
 };
-export const ACHIEVEMENTS_STEPS: Achievement[] = 
-    achievementsMetadata.steps.map((step) => ({
-      label: "profileCompletion",
-      points: 20,
-      step,
-      additionalInfo: "preferedTopics",
-    }))
+export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.steps.map(
+  (step) => ({
+    label: "profileCompletion",
+    points: 20,
+    step,
+    additionalInfo: "preferedTopics",
+  })
+);
 
 /*
 Récupérer le nombre de skills pour la catégorie du skill qui a été inséré
@@ -48,12 +49,11 @@ export const categoryProfileAchievement = async (
     return;
   }
   const result = await response.json();
-  const topicsCount =
-    result?.UserTopic_aggregate?.aggregate?.count;
+  const topicsCount = result?.UserTopic_aggregate?.aggregate?.count;
   const achievementsObtained = ACHIEVEMENTS_STEPS.filter(
     (achievement) =>
-    topicsCount >= achievement.step &&
-    achievement.additionalInfo === "preferedTopics"
+      topicsCount >= achievement.step &&
+      achievement.additionalInfo === "preferedTopics"
   ).map((achievement) => ({ ...achievement, userEmail }));
   const [mutationResult, mutationErr] = await of(
     fetcher(InsertCategoryCompletionAchievementMutation, {

@@ -5,15 +5,33 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
 
-
-
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
-export const BadgeSubojectivesProfileCompletion = ({ src }) => {
-  const { t } = useContext(i18nContext);
+export const BadgeSubojectivesProfileCompletion = ({ src, datas, countTopics, userAgency }) => {
+    const { t } = useContext(i18nContext);
+  const [step, setStep] = useState([]);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
+  const [ points, setPoints ] = useState(0);
   const [badgeFilterCss, setBadgeFilterCss] = useState();
 
+    useEffect(() => {
+        if (countTopics > 3)
+            countTopics = 3;
+        setPoints(countTopics + (userAgency === undefined ? 0 : 1));
+    }, [countTopics, userAgency]);
+    const getStepPreferedTopics = () => {
+        setStep((step) => [
+            ...step,
+            ...datas
+              .filter(
+                (d) =>
+                  d.label === "profileCompletion" &&
+                  d.additionalInfo === "preferedTopics"
+              )
+              .map((s) => s.step),
+          ]);
+          return;
+    };
   return (
     <div
       className={`${
@@ -40,7 +58,7 @@ export const BadgeSubojectivesProfileCompletion = ({ src }) => {
       </div>
       <div className="flex flex-row">
         <ProgressBar percentage={percentageBarValue} />
-        <p className="pl-4">0/0</p>
+        <p className="pl-4">{points}/0</p>
       </div>
     </div>
   );

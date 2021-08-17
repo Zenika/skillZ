@@ -4,7 +4,6 @@ import { useState, useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
-import { useDarkMode } from "../../../utils/darkMode";
 
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
 export const BadgeSubojectivesCategoryCompletion = ({

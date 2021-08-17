@@ -9,7 +9,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useDarkMode } from "../../utils/darkMode";
 import { Statistics } from "../../components/statistics/Statistics";
-import { useDarkMode } from "../../utils/darkMode";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
@@ -45,6 +44,11 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
         }
       }
     }
+    UserTopic_aggregate(where: {userEmail: {_eq: $email}}) {
+      aggregate {
+        count
+      }
+  }
   }
 `;
 
@@ -115,12 +119,16 @@ type GetUserAgencyAndAllAgenciesResult = {
       };
     };
   }[];
+  UserTopic_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
 
 const Profile = () => {
   const { user } = useAuth0();
   const { query } = useRouter();
-  const { darkMode } = useDarkMode();
   const { context } = query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -145,6 +153,7 @@ const Profile = () => {
     error || !data?.User[0]?.UserLatestAgency?.agency
       ? undefined
       : data?.User[0]?.UserLatestAgency?.agency;
+  console.log(userAgency);
   const agencies =
     error || data?.Agency.length <= 0
       ? []
@@ -220,6 +229,8 @@ const Profile = () => {
             <Statistics
               userAchievements={userAchievements}
               countSkills={countSkills}
+              countTopics={data?.UserTopic_aggregate.aggregate.count}
+              userAgency={userAgency}
             />
           ) : (
             <></>
