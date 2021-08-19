@@ -1,0 +1,48 @@
+.filterSilver {
+  filter: invert(86%) sepia(0%) saturate(1183%) hue-rotate(233deg)
+    brightness(86%) contrast(104%);
+}
+
+.filterBronze {
+  filter: invert(68%) sepia(16%) saturate(3475%) hue-rotate(339deg)
+    brightness(86%) contrast(83%);
+}
+
+.filterGold {
+  filter: invert(92%) sepia(83%) saturate(7156%) hue-rotate(324deg)
+    brightness(86%) contrast(92%);
+}
+
+.filterDiamond {
+  border: outset, black;
+  animation-name: bright;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bright {
+  0% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(102%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+  }
+  50% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(40%) contrast(123%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(72%) contrast(169%);
+  }
+  100% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+  }
+}

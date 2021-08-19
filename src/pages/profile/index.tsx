@@ -44,11 +44,11 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
         }
       }
     }
-    UserTopic_aggregate(where: {userEmail: {_eq: $email}}) {
+    UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
       aggregate {
         count
       }
-  }
+    }
   }
 `;
 

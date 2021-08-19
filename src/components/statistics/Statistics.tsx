@@ -6,7 +6,12 @@ import {
   BadgeSubojectivesProfileCompletion,
 } from "./badges";
 
-export const Statistics = ({ userAchievements, countSkills, countTopics, userAgency }) => {
+export const Statistics = ({
+  userAchievements,
+  countSkills,
+  countTopics,
+  userAgency,
+}) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 
@@ -28,7 +33,7 @@ export const Statistics = ({ userAchievements, countSkills, countTopics, userAge
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="languages-and-frameworks"
         datas={userAchievements}
-        src="/img/badges/medaille.svg"
+        src="/img/badges/badge.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks"
         )}
@@ -40,7 +45,7 @@ export const Statistics = ({ userAchievements, countSkills, countTopics, userAge
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="platforms"
         datas={userAchievements}
-        src="/img/badges/medaille.svg"
+        src="/img/badges/badge.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionPlateform"
         )}
@@ -52,7 +57,7 @@ export const Statistics = ({ userAchievements, countSkills, countTopics, userAge
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="tools"
         datas={userAchievements}
-        src="/img/badges/medaille.svg"
+        src="/img/badges/badge.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionTools"
         )}
@@ -64,7 +69,7 @@ export const Statistics = ({ userAchievements, countSkills, countTopics, userAge
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="technics-and-methods"
         datas={userAchievements}
-        src="/img/badges/medaille.svg"
+        src="/img/badges/badge.svg"
         titleSubobjective={t(
           "subojectives.subObjectivesCategoryCompletionTechnicsAndMethod"
         )}
@@ -73,7 +78,12 @@ export const Statistics = ({ userAchievements, countSkills, countTopics, userAge
         )}
         countSkills={filterFunction("technics-and-methods")}
       />
-      <BadgeSubojectivesProfileCompletion src="/img/badges/medaille.svg" datas={userAchievements} countTopics={countTopics} userAgency={userAgency}/>
+      <BadgeSubojectivesProfileCompletion
+        src="/img/badges/badge.svg"
+        datas={userAchievements}
+        countTopics={countTopics}
+        userAgency={userAgency}
+      />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
+import styles from "./badgeLevels.module.css";
 
 //export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
 export const BadgeSubojectivesCategoryCompletion = ({
@@ -19,10 +20,19 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [max, setMax] = useState(5);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
-  const [badgeFilterCss, setBadgeFilterCss] = useState();
+  const [badgeFilterCss, setBadgeFilterCss] = useState(
+    `${styles.filterBronze}`
+  );
+  const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
+
+  useEffect(() => {
+    setFilterBadgesLevel();
+  }, [skillsNumber]);
 
   useEffect(() => {
     setSkillsNumber(countSkills);
+    if (countSkills >= 40) setDisplayCheckLogo(true);
+    if (countSkills > 40) setSkillsNumber(40);
   }, [countSkills]);
   useEffect(() => {
     getStepsByCategory();
@@ -49,6 +59,14 @@ export const BadgeSubojectivesCategoryCompletion = ({
     return;
   };
 
+  const setFilterBadgesLevel = () => {
+    if (skillsNumber >= 10 && skillsNumber < 20)
+      setBadgeFilterCss(`${styles.filterSilver}`);
+    if (skillsNumber >= 20 && skillsNumber < 30)
+      setBadgeFilterCss(`${styles.filterGold}`);
+    if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
+  };
+
   return (
     <div
       className={`${
@@ -57,9 +75,11 @@ export const BadgeSubojectivesCategoryCompletion = ({
           : "bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0"
       }`}
     >
-      <div className="flex flex-row items-stretch ">
+      <div className="flex flex-row items-stretch">
         <Image
-          className="filter filter-brightness-88 filter-saturate-1685 filter-sepia-20 filter-contrast-81 object-fill h-48 w-full object-center pb-5"
+          /* className="filter filter-brightness-88 filter-saturate-1685 filter-sepia-20 filter-contrast-81 object-fill h-48 w-full object-center pb-5"
+           */
+          className={badgeFilterCss}
           src={src}
           width="45"
           height="45"
@@ -74,6 +94,16 @@ export const BadgeSubojectivesCategoryCompletion = ({
         <p className="pl-4">
           {skillsNumber}/{max}
         </p>
+        {displayCheckLogo ? (
+          <Image
+            className="pl-2"
+            src="/img/badges/check.svg"
+            width="20"
+            height="20"
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

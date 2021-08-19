@@ -7,9 +7,7 @@ module.exports = {
   theme: {
     filter: {
       name: "brightness",
-      theme: {
-        88: "88%",
-      },
+      88: "88%",
     },
 
     name: "contrast",

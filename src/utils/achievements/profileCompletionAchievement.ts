@@ -20,7 +20,7 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertProfileAchie
   `;
 
 const achievementsMetadata = {
-  steps: [4],
+  steps: [3],
 };
 export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.steps.map(
   (step) => ({
