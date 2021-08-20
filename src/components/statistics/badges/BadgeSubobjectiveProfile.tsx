@@ -14,7 +14,6 @@ export const BadgeSubojectivesProfileCompletion = ({
   userAgency,
 }) => {
   const { t } = useContext(i18nContext);
-  const [step, setStep] = useState([]);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
   const [points, setPoints] = useState(0);
@@ -27,10 +26,10 @@ export const BadgeSubojectivesProfileCompletion = ({
     if (countTopics > 3) countTopics = 3;
     setPoints(countTopics + (userAgency === undefined ? 0 : 1));
     setpercentageBarValue((points / 4) * 100);
-    if (points >= 4) setDisplayCheckLogo(true);
   }, [countTopics, userAgency, points, displayCheckLogo]);
   useEffect(() => {
     setFilterBadgesLevel();
+    if (points >= 4) setDisplayCheckLogo(true);
   }, [points]);
 
   const setFilterBadgesLevel = () => {

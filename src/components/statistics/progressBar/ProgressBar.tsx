@@ -7,7 +7,8 @@ export const ProgressBar = ({ percentage }) => {
   const [percentageValueVerif, setPercentageValueVerif] = useState(percentage);
 
   useEffect(() => {
-    if (percentage > 100) setPercentageValueVerif(100);
+    if (percentage >= 100) setPercentageValueVerif(100);
+    else setPercentageValueVerif(percentage);
   }, [percentage]);
 
   return (
