@@ -1,9 +1,15 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ProgressBar.module.css";
 import { useDarkMode } from "../../../utils/darkMode";
 //w-6/12 h-6 bg-red-700 rounded-3xl shadow-inner
 export const ProgressBar = ({ percentage }) => {
   const { darkMode } = useDarkMode();
+  const [percentageValueVerif, setPercentageValueVerif] = useState(percentage);
+
+  useEffect(() => {
+    if (percentage > 100) setPercentageValueVerif(100);
+  }, [percentage]);
+
   return (
     <div
       className={`${
@@ -16,7 +22,7 @@ export const ProgressBar = ({ percentage }) => {
         className={`${
           darkMode ? styles.progressTrackerDark : styles.progressTrackerLight
         }`}
-        style={{ width: `${percentage}%` }}
+        style={{ width: `${percentageValueVerif}%` }}
       />
     </div>
   );
