@@ -153,7 +153,6 @@ const Profile = () => {
     error || !data?.User[0]?.UserLatestAgency?.agency
       ? undefined
       : data?.User[0]?.UserLatestAgency?.agency;
-  console.log(userAgency);
   const agencies =
     error || data?.Agency.length <= 0
       ? []
@@ -225,7 +224,7 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          {countSkills && userAchievements ? (
+          {countSkills ? (
             <Statistics
               userAchievements={userAchievements}
               countSkills={countSkills}

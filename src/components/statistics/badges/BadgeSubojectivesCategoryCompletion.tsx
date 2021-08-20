@@ -14,7 +14,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
   descriptionSubobjective,
   countSkills,
 }) => {
-  const [step, setStep] = useState([]);
+  const [step, setStep] = useState([0]);
   const [skillsNumber, setSkillsNumber] = useState(0);
   const [max, setMax] = useState(5);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
@@ -44,16 +44,18 @@ export const BadgeSubojectivesCategoryCompletion = ({
     } else setpercentageBarValue((skillsNumber / max) * 100);
   }, [max, skillsNumber]);
   const getStepsByCategory = () => {
-    setStep((step) => [
-      ...step,
-      ...datas
-        .filter(
-          (d) =>
-            d.label === "categoryCompletion" &&
-            d.additionalInfo === themeToCompare
-        )
-        .map((s) => s.step),
-    ]);
+    if (datas) {
+      setStep((step) => [
+        ...step,
+        ...datas
+          .filter(
+            (d) =>
+              d.label === "categoryCompletion" &&
+              d.additionalInfo === themeToCompare
+          )
+          .map((s) => s.step),
+      ]);
+    }
     return;
   };
 
