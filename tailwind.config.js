@@ -91,5 +91,5 @@ module.exports = {
       opacity: ["disabled"],
     },
   },
-  plugins: [require("tailwindcss-css-filters")],
+  plugins: [],
 };
