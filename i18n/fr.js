@@ -118,7 +118,7 @@ export default {
   },
   statistics: {
     titleSection: "Mes statistiques",
-    dayStreak: "Mois d'affilés",
+    monthStreak: "Mois d'affilés",
     sentenceRankIncodming1: "Il te reste ",
     sentenceRankIncodming2: "xp à avoir pour être promu",
     league: "Classement général",

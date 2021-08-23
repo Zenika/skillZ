@@ -116,7 +116,7 @@ export default {
   },
   statistics: {
     titleSection: "My statistics",
-    dayStreak: "Months Streak",
+    monthStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
     league: "League",
