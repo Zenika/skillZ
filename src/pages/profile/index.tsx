@@ -7,6 +7,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { useDarkMode } from "../../utils/darkMode";
 import { Statistics } from "../../components/statistics/Statistics";
 
 const USER_AGENCY_AND_AGENCIES_QUERY = gql`
@@ -41,6 +42,11 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
         aggregate {
           count
         }
+      }
+    }
+    UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
+      aggregate {
+        count
       }
     }
   }
@@ -113,6 +119,11 @@ type GetUserAgencyAndAllAgenciesResult = {
       };
     };
   }[];
+  UserTopic_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
 
 const Profile = () => {
@@ -120,6 +131,7 @@ const Profile = () => {
   const { query } = useRouter();
   const { context } = query;
   const { t } = useContext(i18nContext);
+  const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_AGENCY_AND_AGENCIES_QUERY,
     {
@@ -212,16 +224,24 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          {countSkills && userAchievements ? (
+          {countSkills ? (
             <Statistics
               userAchievements={userAchievements}
               countSkills={countSkills}
+              countTopics={data?.UserTopic_aggregate.aggregate.count}
+              userAgency={userAgency}
             />
           ) : (
             <></>
           )}
-          <div className="flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2">
-            <div className="p-2">{t("profile.agency")}</div>
+          <div
+            className={`${
+              darkMode
+                ? "flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2"
+                : "flex flex-col justify-around rounded-lg bg-lidht-med my-2 p-2"
+            }`}
+          >
+            <div className="p-2 text-xl">{t("profile.agency")}</div>
             <CustomSelect
               choices={agencies}
               selectedChoice={userAgency}
@@ -240,8 +260,14 @@ const Profile = () => {
               </div>
             </div> */}
           </div>
-          <div className="flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
-            <span>{t("profile.topics")}</span>
+          <div
+            className={`${
+              darkMode
+                ? "flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2"
+                : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
+            }`}
+          >
+            <span className="text-xl p-2">{t("profile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
               {topics?.map((topic) => (
                 <button

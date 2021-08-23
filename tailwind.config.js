@@ -3,7 +3,26 @@ module.exports = {
   // Active dark mode on class basis
   darkMode: "class",
   // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
+
   theme: {
+    filter: {
+      name: "brightness",
+      88: "88%",
+    },
+
+    name: "contrast",
+    theme: {
+      81: "81%",
+    },
+    name: "saturate",
+    theme: {
+      1685: "1685%",
+    },
+    name: "sepia",
+    theme: {
+      20: "80%",
+    },
+
     colors: {
       dark: {
         light: "#292929",
@@ -45,6 +64,9 @@ module.exports = {
       homePanelMobile: "300px",
     },
     extend: {
+      hueRotate: {
+        8: "8deg",
+      },
       width: {
         13: "3.25rem",
         15: "3.75rem",
@@ -69,5 +91,5 @@ module.exports = {
       opacity: ["disabled"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-css-filters")],
 };

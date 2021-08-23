@@ -118,7 +118,7 @@ export default {
   },
   statistics: {
     titleSection: "Mes statistiques",
-    dayStreak: "Jours d'affilés",
+    monthStreak: "Mois d'affilés",
     sentenceRankIncodming1: "Il te reste ",
     sentenceRankIncodming2: "xp à avoir pour être promu",
     league: "Classement général",
@@ -130,6 +130,8 @@ export default {
     numberCompetencies: "Compétences ajoutées",
   },
   subojectives: {
+    subObjectivesProfileCompletion: "Categorie Profile",
+    explicationProfileCompletion: "Ajoute tes sujets préférés et ton agence",
     subObjectivesCategoryCompletionLanguageAndFrameworks:
       "Catégorie Langages et Frameworks",
     subObjectivesCategoryCompletionTools: "Catégorie Outils",
@@ -144,5 +146,8 @@ export default {
       "Ajoute des compétences dans la grille Plateformes",
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Ajoute des compétences dans la grille Techniques et méthodes",
+    subObjectiveProfile: "Compléter son profil",
+    explicationSubObjectiveProfile:
+      "Ajoute la ville de ton agence, et tes sujets préférés",
   },
 };

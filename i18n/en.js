@@ -116,7 +116,7 @@ export default {
   },
   statistics: {
     titleSection: "My statistics",
-    dayStreak: "Day Streak",
+    monthStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
     league: "League",
@@ -128,6 +128,8 @@ export default {
     numberCompetencies: "Number of competences",
   },
   subojectives: {
+    subObjectivesProfileCompletion: "Category Profile Completion",
+    explicationProfileCompletion: "Add your prefered topics and your agency",
     subObjectivesCategoryCompletionLanguageAndFrameworks:
       "Category Langages and Frameworks",
     subObjectivesCategoryCompletionTools: "Category Tools",
@@ -142,5 +144,8 @@ export default {
       "Add skills in the Platform grid",
     explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
       "Add skills in the Technics and methods grid",
+    subObjectiveProfile: "Complete profile informations",
+    explicationSubObjectiveProfile:
+      "Add agency location and favourite subjects",
   },
 };
