@@ -1,6 +1,4 @@
 import { of } from "await-of";
-import { cpuUsage } from "process";
-import CommonPage from "../../components/CommonPage";
 import { AchievementRequestData } from "../../pages/api/achievement";
 import { fetcher } from "../fetcher";
 import { Achievement } from "./types";
