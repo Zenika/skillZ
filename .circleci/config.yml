@@ -228,9 +228,6 @@ workflows:
             - unit-test
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_STAGING_BASE_URL
-          filters: &deploy-staging-filters
-            branches:
-              only: main
       - deploy-hasura:
           name: deploy-hasura-staging
           hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
@@ -238,7 +235,9 @@ workflows:
             - build-staging
             # - hasura-test-apply-migrations
           context: clever-cloud2-zenika-dev
-          filters: *deploy-staging-filters
+          filters: &deploy-staging-filters
+            branches:
+              only: main
       - run-migrations:
           name: run-migrations-staging
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
