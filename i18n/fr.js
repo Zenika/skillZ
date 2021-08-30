@@ -70,7 +70,7 @@ export default {
     2: "Je préfère éviter, ou seulement pour dépanner",
     3: "Je n'adore pas mais ca ne me dérange pas",
     4: "J'aime beaucoup",
-    5: "Je veux l'utliser tous les jours",
+    5: "Je veux l'utiliser tous les jours",
   },
   skills: {
     nothingHere: "Il n'y a rien ici, essayez d'ajouter une compétence",
