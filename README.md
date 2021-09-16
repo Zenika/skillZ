@@ -27,6 +27,7 @@ Create an file named `.env.local`, then add these variables
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
+NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
 ```
 
@@ -35,6 +36,7 @@ HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
+NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 ```
 
