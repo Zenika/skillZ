@@ -19,7 +19,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   if (req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN) {
-    res.status(401).json({});
+    res.status(403).json({});
   }
   const payload: AchievementRequestData = {
     userEmail: req.body.event.session_variables["x-hasura-user-email"],
