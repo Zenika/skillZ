@@ -132,16 +132,18 @@ jobs:
         type: string
       hasura-endpoint:
         type: string
+      next_api_bearer_token:
+        type: string
     steps:
       - checkout
       - run:
           name: Apply migrations
           working_directory: hasura
-          command: hasura-cli migrate apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+          command: NEXT_API_BEARER_TOKEN=<< parameters.next_api_bearer_token >> hasura-cli migrate apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
       - run:
           name: Apply metadata
           working_directory: hasura
-          command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+          command: NEXT_API_BEARER_TOKEN=<< parameters.next_api_bearer_token >> hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
   deploy:
     executor: node
     parameters:
@@ -242,6 +244,7 @@ workflows:
           name: run-migrations-staging
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
           hasura-endpoint: $HASURA_ENDPOINT_STAGING
+          next_api_bearer_token: $NEXT_API_BEARER_TOKEN
           requires:
             - deploy-hasura-staging
           filters: *deploy-staging-filters
@@ -290,6 +293,7 @@ workflows:
           name: run-migrations
           hasura-admin-secret: $HASURA_ADMIN_SECRET_PROD
           hasura-endpoint: $HASURA_ENDPOINT_PROD
+          next_api_bearer_token: $NEXT_API_BEARER_TOKEN
           requires:
             - deploy-hasura
           filters: *deploy-filters
