@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";
@@ -17,16 +17,19 @@ const SkillPanel = ({
   skill,
   context,
   count,
+  categoryLabel,
   onEditClick,
 }: {
   skill: Skill;
   context: string;
   count?: number;
+  categoryLabel?: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
+  
   const { category, agency } = query;
   const computedAgency =
     agency && agency !== "World"
@@ -34,9 +37,7 @@ const SkillPanel = ({
         ? agency
         : agency.join("")
       : undefined;
-  const link = new URL(
-    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${category}/${skill.name}`
-  );
+  const link = new URL(`${NEXT_PUBLIC_BASE_URL}/skills/${context}/${categoryLabel}/${skill.name}`);
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }

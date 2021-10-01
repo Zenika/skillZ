@@ -6,7 +6,10 @@ import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
+import { FilterData } from "../utils/types";
 import { i18nContext } from "../utils/i18nContext";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+
 
 const SEARCH_QUERY = gql`
   query searchSkillsAndProfiles($search: String!) {
@@ -17,6 +20,9 @@ const SEARCH_QUERY = gql`
       name
       skillLevel: averageSkillLevel
       desireLevel: averageDesireLevel
+      Category {
+        label
+      }
     }
     profiles: User(where: { name: { _ilike: $search } }) {
       email
@@ -31,6 +37,7 @@ const SEARCH_QUERY = gql`
 
 const Search = ({ pathName }) => {
   const { query } = useRouter();
+
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -45,6 +52,7 @@ const Search = ({ pathName }) => {
   }
   const skills = data?.skills;
   const profiles = data?.profiles;
+
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
       <div className="flex justify-center mb-16">
@@ -62,7 +70,7 @@ const Search = ({ pathName }) => {
                 <h1 className="text-xl">{t("search.skills")}</h1>
                 {skills?.length > 0 ? (
                   skills.map((skill) => (
-                    <SkillPanel skill={skill} context={""} />
+                    <SkillPanel key={skill.name} skill={skill} categoryLabel={skill.Category?.label} context={"zenika"} />
                   ))
                 ) : (
                   <span className="text-sm">{t("search.noSkill")}</span>

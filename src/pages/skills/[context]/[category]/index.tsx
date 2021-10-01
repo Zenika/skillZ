@@ -130,6 +130,7 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
+  const [ categoryClicked, setCategoryClicked ] = useState("");
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
@@ -155,6 +156,11 @@ const ListSkills = () => {
       fetchPolicy: "network-only",
     }
   );
+  useEffect(() => {
+    setCategoryClicked((JSON.stringify(category)).replace(/\"/g, ""));
+  }
+  ), [JSON.stringify(category)];
+
   useEffect(
     () =>
       setFilterByAgency(
@@ -291,9 +297,8 @@ const ListSkills = () => {
                 key={skill.name}
                 skill={skill}
                 count={skill.count}
-                context={
-                  typeof context === "string" ? context : context.join("")
-                }
+                context={"zenika"}
+                categoryLabel={categoryClicked}
                 onEditClick={onEditClick}
               />
             ))

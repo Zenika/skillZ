@@ -25,10 +25,6 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
   useEffect(() => {
-    setFilterBadgesLevel();
-  }, [skillsNumber]);
-
-  useEffect(() => {
     setSkillsNumber(countSkills);
     if (countSkills >= 40) setDisplayCheckLogo(true);
   }, [countSkills]);
@@ -59,13 +55,13 @@ export const BadgeSubojectivesCategoryCompletion = ({
     return;
   };
 
-  const setFilterBadgesLevel = () => {
+/*   const setFilterBadgesLevel = () => {
     if (skillsNumber >= 10 && skillsNumber < 20)
       setBadgeFilterCss(`${styles.filterSilver}`);
     if (skillsNumber >= 20 && skillsNumber < 30)
       setBadgeFilterCss(`${styles.filterGold}`);
     if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
-  };
+  }; */
 
   return (
     <div
