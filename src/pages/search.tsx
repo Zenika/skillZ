@@ -10,7 +10,6 @@ import { FilterData } from "../utils/types";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
-
 const SEARCH_QUERY = gql`
   query searchSkillsAndProfiles($search: String!) {
     skills: ZenikasAverageCurrentSkillsAndDesires(
@@ -70,7 +69,12 @@ const Search = ({ pathName }) => {
                 <h1 className="text-xl">{t("search.skills")}</h1>
                 {skills?.length > 0 ? (
                   skills.map((skill) => (
-                    <SkillPanel key={skill.name} skill={skill} categoryLabel={skill.Category?.label} context={"zenika"} />
+                    <SkillPanel
+                      key={skill.name}
+                      skill={skill}
+                      categoryLabel={skill.Category?.label}
+                      context={"zenika"}
+                    />
                   ))
                 ) : (
                   <span className="text-sm">{t("search.noSkill")}</span>

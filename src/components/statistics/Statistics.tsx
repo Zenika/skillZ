@@ -83,7 +83,7 @@ export const Statistics = ({
         datas={userAchievements}
         countTopics={countTopics}
         userAgency={userAgency}
-        />
+      />
     </div>
   );
 };

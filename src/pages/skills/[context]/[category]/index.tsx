@@ -130,7 +130,7 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const [ categoryClicked, setCategoryClicked ] = useState("");
+  const [categoryClicked, setCategoryClicked] = useState("");
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
@@ -157,9 +157,9 @@ const ListSkills = () => {
     }
   );
   useEffect(() => {
-    setCategoryClicked((JSON.stringify(category)).replace(/\"/g, ""));
-  }
-  ), [JSON.stringify(category)];
+    setCategoryClicked(JSON.stringify(category).replace(/\"/g, ""));
+  }),
+    [JSON.stringify(category)];
 
   useEffect(
     () =>

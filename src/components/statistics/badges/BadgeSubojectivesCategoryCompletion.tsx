@@ -55,7 +55,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
     return;
   };
 
-/*   const setFilterBadgesLevel = () => {
+  /*   const setFilterBadgesLevel = () => {
     if (skillsNumber >= 10 && skillsNumber < 20)
       setBadgeFilterCss(`${styles.filterSilver}`);
     if (skillsNumber >= 20 && skillsNumber < 30)

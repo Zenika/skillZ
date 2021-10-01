@@ -29,7 +29,6 @@ const SkillPanel = ({
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
-  
   const { category, agency } = query;
   const computedAgency =
     agency && agency !== "World"
@@ -37,7 +36,9 @@ const SkillPanel = ({
         ? agency
         : agency.join("")
       : undefined;
-  const link = new URL(`${NEXT_PUBLIC_BASE_URL}/skills/${context}/${categoryLabel}/${skill.name}`);
+  const link = new URL(
+    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${categoryLabel}/${skill.name}`
+  );
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }
