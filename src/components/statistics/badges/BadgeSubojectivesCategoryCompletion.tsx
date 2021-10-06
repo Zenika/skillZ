@@ -56,10 +56,8 @@ export const BadgeSubojectivesCategoryCompletion = ({
   };
 
   const setFilterBadgesLevel = () => {
-    if (skillsNumber >= 10 && skillsNumber < 20) {
-      console.log("prout")
+    if (skillsNumber >= 10 && skillsNumber < 20)
       setBadgeFilterCss(`${styles.filterSilver}`);
-    }
     if (skillsNumber >= 20 && skillsNumber < 30)
       setBadgeFilterCss(`${styles.filterGold}`);
     if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
@@ -74,12 +72,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
       }`}
     >
       <div className="flex flex-row items-stretch">
-        <Image
-          className={badgeFilterCss}
-          src={src}
-          width="45"
-          height="45"
-        />
+        <Image className={badgeFilterCss} src={src} width="45" height="45" />
         <div className="p-2 pl-4 text-l">
           <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
           <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>

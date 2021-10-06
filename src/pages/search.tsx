@@ -1,14 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import router, { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
-import { FilterData } from "../utils/types";
 import { i18nContext } from "../utils/i18nContext";
-import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 const SEARCH_QUERY = gql`
   query searchSkillsAndProfiles($search: String!) {
