@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
 import { Skill } from "../pages/skills/[context]/[category]";
@@ -23,7 +23,7 @@ const SkillPanel = ({
   skill: Skill;
   context: string;
   count?: number;
-  categoryLabel?: string;
+  categoryLabel: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useDarkMode } from "../../utils/darkMode";
 import {
@@ -80,7 +80,6 @@ export const Statistics = ({
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
-        datas={userAchievements}
         countTopics={countTopics}
         userAgency={userAgency}
       />

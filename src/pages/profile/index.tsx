@@ -178,7 +178,7 @@ const Profile = () => {
     !data?.User[0]?.UserLatestAgency?.agency;
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
-  const skillsDatas = data?.Category.length <= 0 ? undefined : data?.Category;
+  const skillsDatas = data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });

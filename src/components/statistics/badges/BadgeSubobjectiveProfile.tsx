@@ -8,7 +8,6 @@ import styles from "./badgeLevels.module.css";
 
 export const BadgeSubojectivesProfileCompletion = ({
   src,
-  datas,
   countTopics,
   userAgency,
 }) => {

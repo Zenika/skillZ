@@ -130,7 +130,7 @@ const ListSkills = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const [categoryClicked, setCategoryClicked] = useState("");
+  const [ categoryClicked, setCategoryClicked ] = useState(undefined);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
@@ -157,9 +157,9 @@ const ListSkills = () => {
     }
   );
   useEffect(() => {
-    setCategoryClicked(JSON.stringify(category).replace(/\"/g, ""));
-  }),
-    [JSON.stringify(category)];
+    setCategoryClicked(category);  
+  }
+  ), [category];
 
   useEffect(
     () =>
@@ -289,7 +289,7 @@ const ListSkills = () => {
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
           } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
-          onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
+          onClick={() => (editPanelOpened ? onEditCancel() : () => {}) && console.log("prout")}
         >
           {sortedSkills?.length > 0 ? (
             sortedSkills?.map((skill) => (
