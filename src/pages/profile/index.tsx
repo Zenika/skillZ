@@ -43,6 +43,15 @@ const USER_AGENCY_AND_AGENCIES_QUERY = gql`
           count
         }
       }
+      CurrentSkillsAndDesires(
+        limit: 5
+        order_by: { desireLevel: desc }
+        where: { userEmail: { _eq: $email } }
+      ) {
+        name
+        skillLevel
+        desireLevel
+      }
     }
     UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
       aggregate {
@@ -118,6 +127,11 @@ type GetUserAgencyAndAllAgenciesResult = {
         count: number;
       };
     };
+    CurrentSkillsAndDesires: {
+      name: string;
+      skillLevel: number;
+      desireLevel: number;
+    }[];
   }[];
   UserTopic_aggregate: {
     aggregate: {
@@ -164,7 +178,7 @@ const Profile = () => {
     !data?.User[0]?.UserLatestAgency?.agency;
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
-  const countSkills = data?.Category.length <= 0 ? undefined : data?.Category;
+  const skillsDatas = data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
@@ -224,10 +238,10 @@ const Profile = () => {
               <span>{user?.name}</span>
             </div>
           </div>
-          {countSkills ? (
+          {skillsDatas ? (
             <Statistics
               userAchievements={userAchievements}
-              countSkills={countSkills}
+              skillsDatas={skillsDatas}
               countTopics={data?.UserTopic_aggregate.aggregate.count}
               userAgency={userAgency}
             />

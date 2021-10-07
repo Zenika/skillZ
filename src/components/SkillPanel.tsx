@@ -17,11 +17,13 @@ const SkillPanel = ({
   skill,
   context,
   count,
+  categoryLabel,
   onEditClick,
 }: {
   skill: Skill;
   context: string;
   count?: number;
+  categoryLabel: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
   const { t } = useContext(i18nContext);
@@ -35,7 +37,7 @@ const SkillPanel = ({
         : agency.join("")
       : undefined;
   const link = new URL(
-    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${category}/${skill.name}`
+    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${categoryLabel}/${skill.name}`
   );
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);

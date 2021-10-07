@@ -6,10 +6,8 @@ import { ProgressBar } from "../progressBar/ProgressBar";
 import { i18nContext } from "../../../utils/i18nContext";
 import styles from "./badgeLevels.module.css";
 
-//export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
 export const BadgeSubojectivesProfileCompletion = ({
   src,
-  datas,
   countTopics,
   userAgency,
 }) => {

@@ -5,7 +5,6 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
 
-//export const BadgeSubojectivesCategoryCompletion = ({ props: {themeToCompare, indexSkillCount, datas, src, titleSubobjective, descriptionSubobjective }, }: BadgeSubojectivesCategoryCompletionProps) => {
 export const BadgeSubojectivesCategoryCompletion = ({
   themeToCompare,
   datas,
@@ -25,10 +24,6 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
   useEffect(() => {
-    setFilterBadgesLevel();
-  }, [skillsNumber]);
-
-  useEffect(() => {
     setSkillsNumber(countSkills);
     if (countSkills >= 40) setDisplayCheckLogo(true);
   }, [countSkills]);
@@ -42,6 +37,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
       setMax(maxVerif);
       setpercentageBarValue((skillsNumber / max) * 100);
     } else setpercentageBarValue((skillsNumber / max) * 100);
+    setFilterBadgesLevel();
   }, [max, skillsNumber]);
   const getStepsByCategory = () => {
     if (datas) {
@@ -76,14 +72,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
       }`}
     >
       <div className="flex flex-row items-stretch">
-        <Image
-          /* className="filter filter-brightness-88 filter-saturate-1685 filter-sepia-20 filter-contrast-81 object-fill h-48 w-full object-center pb-5"
-           */
-          className={badgeFilterCss}
-          src={src}
-          width="45"
-          height="45"
-        />
+        <Image className={badgeFilterCss} src={src} width="45" height="45" />
         <div className="p-2 pl-4 text-l">
           <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
           <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>

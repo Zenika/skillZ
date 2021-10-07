@@ -8,15 +8,15 @@ import {
 
 export const Statistics = ({
   userAchievements,
-  countSkills,
+  skillsDatas,
   countTopics,
   userAgency,
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 
-  const filterFunction = (themeToCompare) =>
-    countSkills.find((c) => c.label === themeToCompare)
+  const filterCountSkills = (themeToCompare) =>
+    skillsDatas.find((c) => c.label === themeToCompare)
       .CurrentSkillsAndDesires_aggregate.aggregate.count;
 
   return (
@@ -40,7 +40,7 @@ export const Statistics = ({
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks"
         )}
-        countSkills={filterFunction("languages-and-frameworks")}
+        countSkills={filterCountSkills("languages-and-frameworks")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="platforms"
@@ -52,7 +52,7 @@ export const Statistics = ({
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
         )}
-        countSkills={filterFunction("platforms")}
+        countSkills={filterCountSkills("platforms")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="tools"
@@ -64,7 +64,7 @@ export const Statistics = ({
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTools"
         )}
-        countSkills={filterFunction("tools")}
+        countSkills={filterCountSkills("tools")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="technics-and-methods"
@@ -76,11 +76,10 @@ export const Statistics = ({
         descriptionSubobjective={t(
           "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
         )}
-        countSkills={filterFunction("technics-and-methods")}
+        countSkills={filterCountSkills("technics-and-methods")}
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
-        datas={userAchievements}
         countTopics={countTopics}
         userAgency={userAgency}
       />
