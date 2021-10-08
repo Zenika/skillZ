@@ -5,9 +5,19 @@ import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
+
 type UserData = {
   User: {
     email: string;
+    name: string;
+    picture: string;
+    UserLatestAgency: { agency: string }[];
   }[];
 };
 
@@ -34,6 +44,12 @@ const USER_QUERY = gql`
   query queryUser($email: String!) {
     User(where: { email: { _eq: $email } }) {
       email
+      name
+      id
+      picture
+      UserLatestAgency {
+        agency
+      }
     }
   }
 `;
@@ -73,8 +89,12 @@ const Home = ({ pathName }) => {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
+
+  const link = new URL(
+    `${NEXT_PUBLIC_BASE_URL}/profiles/${user.email}`
+  );
   if (userData?.User.length <= 0) {
-    push("/profile");
+    push(link);
   }
 
   const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {

@@ -7,13 +7,24 @@ import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
+import { userInfo } from "os";
+
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
 
 const SidePanel = () => {
   const { locale } = useRouter();
   const { error, user } = useAuth0();
+  const { push, query } = useRouter();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
-
+  const link = new URL(
+    `${NEXT_PUBLIC_BASE_URL}/profile/${user.email}`
+  );
   if (error) {
     console.error(
       `Something bad happened while authenticating user: ${error.message}`
@@ -36,7 +47,7 @@ const SidePanel = () => {
       </div>
       <ul className="flex flex-col justify-around h-full mt-4 pl-4">
         <li>
-          <Link href="/profile">
+          <Link href={`/profile/${user.email}`}>
             <div className="flex flex-row pl-4 cursor-pointer">
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/profile.svg`}

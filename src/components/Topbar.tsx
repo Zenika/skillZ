@@ -209,7 +209,7 @@ const Topbar = ({
               >
                 <ul className="flex flex-col justify-around h-full pl-2">
                   <li className="p-2">
-                    <Link href="/profile">
+                    <Link href={`/profile/${user.email}`}>
                       <div className="flex flex-row pl-4 cursor-pointer">
                         <Image
                           src={`/icons/${

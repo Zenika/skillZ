@@ -1,19 +1,21 @@
 import React, { useContext } from "react";
-import { i18nContext } from "../../utils/i18nContext";
+import { i18nContext } from "../../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import CommonPage from "../../components/CommonPage";
-import CustomSelect from "../../components/CustomSelect";
+import CommonPage from "../../../components/CommonPage";
+import CustomSelect from "../../../components/CustomSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
-import { useDarkMode } from "../../utils/darkMode";
-import { Statistics } from "../../components/statistics/Statistics";
+import Image from "next/image"; 
+import { useDarkMode } from "../../../utils/darkMode";
+import { Statistics } from "../../../components/statistics/Statistics";
 
-/*const USER_AGENCY_AND_AGENCIES_QUERY = gql`
+const USER_AGENCY_AND_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
     User(where: { email: { _eq: $email } }) {
       email
+      name
+      picture
       UserLatestAgency {
         agency
       }
@@ -109,7 +111,7 @@ const DELETE_USER_TOPIC_MUTATION = gql`
 `;
 
 type GetUserAgencyAndAllAgenciesResult = {
-  User: { email: string; UserLatestAgency: { agency: string } }[];
+  User: { email: string; name: string; picture: string; UserLatestAgency: { agency: string } }[];
   Agency: { name: string }[];
   Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
   UserAchievements: {
@@ -142,16 +144,18 @@ type GetUserAgencyAndAllAgenciesResult = {
 
 const Profile = () => {
   const { user } = useAuth0();
-  const { query } = useRouter();
-  const { context } = query;
+  const router = useRouter();
+  const { context, emailSended } = router.query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_AGENCY_AND_AGENCIES_QUERY,
     {
-      variables: { email: user?.email },
+      variables: { email: emailSended },
     }
   );
+  //?????
+  if (emailSended === user?.email) {
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
   if (user) {
     insertUser({
@@ -162,6 +166,7 @@ const Profile = () => {
       },
     });
   }
+}
 
   const userAgency =
     error || !data?.User[0]?.UserLatestAgency?.agency
@@ -176,14 +181,15 @@ const Profile = () => {
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
     !data?.User[0]?.UserLatestAgency?.agency;
+    const infoUser = data?.User[0];
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
-    upsertAgency({ variables: { email: user?.email, agency } });
+    upsertAgency({ variables: { email: emailSended, agency } });
   };
-
+  console.log("PICTUREEE " + infoUser?.picture)
   const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
   const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
   const updateTopic = (selectedTopic: {
@@ -197,18 +203,18 @@ const Profile = () => {
     );
     if (!topic) {
       insertTopic({
-        variables: { email: user?.email, topicId: selectedTopic.id },
+        variables: { email: infoUser?.email, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: user?.email },
+          variables: { email: infoUser?.email },
         })
       );
     } else {
       deleteTopic({
-        variables: { email: user?.email, topicId: selectedTopic.id },
+        variables: { email: emailSended, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: user?.email },
+          variables: { email: emailSended },
         })
       );
     }
@@ -235,7 +241,7 @@ const Profile = () => {
               src={user?.picture || ""}
             />
             <div className="flex flex-col mx-4 justify-center">
-              <span>{user?.name}</span>
+              <span>{infoUser?.name}</span>
             </div>
           </div>
           {skillsDatas ? (
@@ -303,4 +309,3 @@ const Profile = () => {
 };
 
 export default withAuthenticationRequired(Profile);
-*/
