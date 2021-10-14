@@ -154,8 +154,7 @@ const Profile = () => {
       variables: { email: emailSended },
     }
   );
-  //?????
-  if (emailSended === user?.email) {
+  if (emailSended && emailSended === user?.email) {
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
   if (user) {
     insertUser({
@@ -189,7 +188,6 @@ const Profile = () => {
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: emailSended, agency } });
   };
-  console.log("PICTUREEE " + infoUser?.picture)
   const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
   const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
   const updateTopic = (selectedTopic: {

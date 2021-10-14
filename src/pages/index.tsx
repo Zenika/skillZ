@@ -45,7 +45,6 @@ const USER_QUERY = gql`
     User(where: { email: { _eq: $email } }) {
       email
       name
-      id
       picture
       UserLatestAgency {
         agency
@@ -91,7 +90,7 @@ const Home = ({ pathName }) => {
   });
 
   const link = new URL(
-    `${NEXT_PUBLIC_BASE_URL}/profiles/${user.email}`
+    `${NEXT_PUBLIC_BASE_URL}/profile/${user.email}`
   );
   if (userData?.User.length <= 0) {
     push(link);
