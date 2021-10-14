@@ -6,7 +6,7 @@ import CustomSelect from "../../../components/CustomSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image"; 
+import Image from "next/image";
 import { useDarkMode } from "../../../utils/darkMode";
 import { Statistics } from "../../../components/statistics/Statistics";
 
@@ -111,7 +111,12 @@ const DELETE_USER_TOPIC_MUTATION = gql`
 `;
 
 type GetUserAgencyAndAllAgenciesResult = {
-  User: { email: string; name: string; picture: string; UserLatestAgency: { agency: string } }[];
+  User: {
+    email: string;
+    name: string;
+    picture: string;
+    UserLatestAgency: { agency: string };
+  }[];
   Agency: { name: string }[];
   Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
   UserAchievements: {
@@ -155,17 +160,17 @@ const Profile = () => {
     }
   );
   if (emailSended && emailSended === user?.email) {
-  const [insertUser] = useMutation(INSERT_USER_MUTATION);
-  if (user) {
-    insertUser({
-      variables: {
-        email: user?.email,
-        name: user?.name,
-        picture: user?.picture,
-      },
-    });
+    const [insertUser] = useMutation(INSERT_USER_MUTATION);
+    if (user) {
+      insertUser({
+        variables: {
+          email: user?.email,
+          name: user?.name,
+          picture: user?.picture,
+        },
+      });
+    }
   }
-}
 
   const userAgency =
     error || !data?.User[0]?.UserLatestAgency?.agency
@@ -180,7 +185,7 @@ const Profile = () => {
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
     !data?.User[0]?.UserLatestAgency?.agency;
-    const infoUser = data?.User[0];
+  const infoUser = data?.User[0];
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
