@@ -159,17 +159,15 @@ const Profile = () => {
       variables: { email: emailSended },
     }
   );
-  if (emailSended && emailSended === user?.email) {
-    const [insertUser] = useMutation(INSERT_USER_MUTATION);
-    if (user) {
-      insertUser({
-        variables: {
-          email: user?.email,
-          name: user?.name,
-          picture: user?.picture,
-        },
-      });
-    }
+  const [insertUser] = useMutation(INSERT_USER_MUTATION);
+  if (data?.User) {
+    insertUser({
+      variables: {
+        email: data.User[0].email,
+        name: data.User[0].name,
+        picture: data.User[0].picture,
+      },
+    });
   }
 
   const userAgency =
@@ -191,7 +189,7 @@ const Profile = () => {
   const skillsDatas = data?.Category;
   const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
-    upsertAgency({ variables: { email: emailSended, agency } });
+    upsertAgency({ variables: { email: user?.email, agency } });
   };
   const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
   const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
@@ -206,18 +204,18 @@ const Profile = () => {
     );
     if (!topic) {
       insertTopic({
-        variables: { email: infoUser?.email, topicId: selectedTopic.id },
+        variables: { email: user?.email, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: infoUser?.email },
+          variables: { email: user?.email },
         })
       );
     } else {
       deleteTopic({
-        variables: { email: emailSended, topicId: selectedTopic.id },
+        variables: { email: user?.email, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: emailSended },
+          variables: { email: user?.email },
         })
       );
     }

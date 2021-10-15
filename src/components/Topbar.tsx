@@ -44,7 +44,6 @@ const Topbar = ({
     }
     togglePanel();
   };
-
   const { data: userAgencyResult } = useQuery<UserLatestAgencyResult>(
     GET_USER_AGENCY_QUERY,
     {
