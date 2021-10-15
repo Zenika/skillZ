@@ -7,7 +7,6 @@ import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
-import { userInfo } from "os";
 
 const SidePanel = () => {
   const { locale } = useRouter();
@@ -37,7 +36,7 @@ const SidePanel = () => {
       </div>
       <ul className="flex flex-col justify-around h-full mt-4 pl-4">
         <li>
-          <Link href={"/profile"}>
+          <Link href="/profile">
             <div className="flex flex-row pl-4 cursor-pointer">
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/profile.svg`}

@@ -88,7 +88,6 @@ const Home = ({ pathName }) => {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
-
   const link = new URL(`${NEXT_PUBLIC_BASE_URL}/profile/${user.email}`);
   if (userData?.User.length <= 0) {
     push(link);
