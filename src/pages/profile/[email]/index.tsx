@@ -225,15 +225,6 @@ const Profile = () => {
     <CommonPage page={"profile"} faded={false} context={context}>
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
-          {onboarding ? (
-            <div className="flex flex-col justify-center rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
-              <div className="flex flex-row justify-center">
-                <div className="p-2">{t("profile.onboarding")}</div>
-              </div>
-            </div>
-          ) : (
-            <></>
-          )}
           <div className="flex flex-row justify-start">
             <Image
               className="w-16 h-16 rounded-full"
@@ -251,6 +242,7 @@ const Profile = () => {
               skillsDatas={skillsDatas}
               countTopics={data?.UserTopic_aggregate.aggregate.count}
               userAgency={userAgency}
+              myStatistics={false}
             />
           ) : (
             <></>

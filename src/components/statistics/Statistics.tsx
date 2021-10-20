@@ -11,6 +11,7 @@ export const Statistics = ({
   skillsDatas,
   countTopics,
   userAgency,
+  myStatistics,
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -28,42 +29,42 @@ export const Statistics = ({
       }`}
     >
       <h2 className="pb-2 pr-2 pt-6 text-2xl">
-        {t("statistics.titleSection")}
+        {myStatistics
+          ? t("statistics.myTitleSection")
+          : t("statistics.titleSection")}
       </h2>
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="languages-and-frameworks"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t(
-          "subojectives.subObjectivesCategoryCompletionLanguageAndFrameworks"
+          "statistics.subobjectivesTitles.LanguageAndFrameworks"
         )}
-        descriptionSubobjective={t(
-          "subojectives.explicationSubObjectivesCategoryCompletionLanguageAndFrameworks"
-        )}
+        descriptionSubobjective={
+          myStatistics
+            ? t("statistics.subobjectivesLegends.LanguageAndFrameworks")
+            : ""
+        }
         countSkills={filterCountSkills("languages-and-frameworks")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="platforms"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t(
-          "subojectives.subObjectivesCategoryCompletionPlateform"
-        )}
-        descriptionSubobjective={t(
-          "subojectives.explicationSubObjectivesCategoryCompletionPlateform"
-        )}
+        titleSubobjective={t("statistics.subobjectivesTitles.Plateform")}
+        descriptionSubobjective={
+          myStatistics ? t("statistics.subobjectivesLegends.Plateform") : ""
+        }
         countSkills={filterCountSkills("platforms")}
       />
       <BadgeSubojectivesCategoryCompletion
         themeToCompare="tools"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t(
-          "subojectives.subObjectivesCategoryCompletionTools"
-        )}
-        descriptionSubobjective={t(
-          "subojectives.explicationSubObjectivesCategoryCompletionTools"
-        )}
+        titleSubobjective={t("statistics.subobjectivesTitles.Tools")}
+        descriptionSubobjective={
+          myStatistics ? t("statistics.subobjectivesLegends.Tools") : ""
+        }
         countSkills={filterCountSkills("tools")}
       />
       <BadgeSubojectivesCategoryCompletion
@@ -71,17 +72,27 @@ export const Statistics = ({
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t(
-          "subojectives.subObjectivesCategoryCompletionTechnicsAndMethod"
+          "statistics.subobjectivesTitles.TechnicsAndMethod"
         )}
-        descriptionSubobjective={t(
-          "subojectives.explicationSubObjectivesCategoryCompletionTechnicsAndMethod"
-        )}
+        descriptionSubobjective={
+          myStatistics
+            ? t("statistics.subobjectivesLegends.TechnicsAndMethod")
+            : ""
+        }
         countSkills={filterCountSkills("technics-and-methods")}
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
         countTopics={countTopics}
         userAgency={userAgency}
+        titleSubobjective={t(
+          "statistics.subobjectivesTitles.ProfileCompletion"
+        )}
+        descriptionSubobjective={
+          myStatistics
+            ? t("statistics.subobjectivesLegends.ProfileCompletion")
+            : ""
+        }
       />
     </div>
   );

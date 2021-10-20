@@ -160,13 +160,13 @@ const Profile = () => {
     }
   );
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
-    insertUser({
-      variables: {
-        email: user?.email,
-        name: user?.name,
-        picture: user?.picture,
-      },
-    });
+  insertUser({
+    variables: {
+      email: user?.email,
+      name: user?.name,
+      picture: user?.picture,
+    },
+  });
 
   const userAgency =
     error || !data?.User[0]?.UserLatestAgency?.agency
@@ -249,6 +249,7 @@ const Profile = () => {
               skillsDatas={skillsDatas}
               countTopics={data?.UserTopic_aggregate.aggregate.count}
               userAgency={userAgency}
+              myStatistics={true}
             />
           ) : (
             <></>

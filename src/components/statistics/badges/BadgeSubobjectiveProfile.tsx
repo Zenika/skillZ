@@ -10,6 +10,8 @@ export const BadgeSubojectivesProfileCompletion = ({
   src,
   countTopics,
   userAgency,
+  titleSubobjective,
+  descriptionSubobjective,
 }) => {
   const { t } = useContext(i18nContext);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
@@ -44,21 +46,10 @@ export const BadgeSubojectivesProfileCompletion = ({
       }`}
     >
       <div className="flex flex-row items-stretch ">
-        <Image
-          /* className="filter-bronze object-fill h-48 w-full object-center pb-5"
-           */
-          className={badgeFilterCss}
-          src={src}
-          width="45"
-          height="45"
-        />
+        <Image className={badgeFilterCss} src={src} width="45" height="45" />
         <div className="p-2 pl-4 text-l">
-          <p className="font-extrabold text-xl mt-2">
-            {t("subojectives.subObjectivesProfileCompletion")}
-          </p>
-          <p className="mt-1.5 mb-2">
-            {t("subojectives.explicationProfileCompletion")}
-          </p>
+          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
+          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
         </div>
       </div>
       <div className="flex flex-row">
