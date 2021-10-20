@@ -297,7 +297,9 @@ const ListSkills = () => {
                 key={skill.name}
                 skill={skill}
                 count={skill.count}
-                context={"zenika"}
+                context={
+                  typeof context === "string" ? context : context.join("")
+                }
                 categoryLabel={categoryClicked}
                 onEditClick={onEditClick}
               />
