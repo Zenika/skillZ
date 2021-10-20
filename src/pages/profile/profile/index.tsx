@@ -150,25 +150,23 @@ type GetUserAgencyAndAllAgenciesResult = {
 const Profile = () => {
   const { user } = useAuth0();
   const router = useRouter();
-  const { context, emailSended } = router.query;
+  const { context } = router.query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_AGENCY_AND_AGENCIES_QUERY,
     {
-      variables: { email: emailSended },
+      variables: { email: user?.email },
     }
   );
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
-  if (data?.User) {
     insertUser({
       variables: {
-        email: data.User[0].email,
-        name: data.User[0].name,
-        picture: data.User[0].picture,
+        email: user?.email,
+        name: user?.name,
+        picture: user?.picture,
       },
     });
-  }
 
   const userAgency =
     error || !data?.User[0]?.UserLatestAgency?.agency
@@ -228,7 +226,7 @@ const Profile = () => {
           {onboarding ? (
             <div className="flex flex-col justify-center rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
               <div className="flex flex-row justify-center">
-                <div className="p-2">{t("profile.onboarding")}</div>
+                <div className="p-2">{t("myProfile.onboarding")}</div>
               </div>
             </div>
           ) : (
@@ -262,11 +260,11 @@ const Profile = () => {
                 : "flex flex-col justify-around rounded-lg bg-lidht-med my-2 p-2"
             }`}
           >
-            <div className="p-2 text-xl">{t("profile.agency")}</div>
+            <div className="p-2 text-xl">{t("myProfile.agency")}</div>
             <CustomSelect
               choices={agencies}
               selectedChoice={userAgency}
-              placeholder={t("profile.selectPlaceholder")}
+              placeholder={t("myProfile.selectPlaceholder")}
               onChange={(value: string) => updateAgency(value)}
             />
           </div>
@@ -277,7 +275,7 @@ const Profile = () => {
                 : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
             }`}
           >
-            <span className="text-xl p-2">{t("profile.topics")}</span>
+            <span className="text-xl p-2">{t("myProfile.topics")}</span>
             <div className="flex flex-row flex-wrap justify-around">
               {topics?.map((topic) => (
                 <button
@@ -298,7 +296,7 @@ const Profile = () => {
             <div className="flex flex-row justify-center">
               <Link href={"/"}>
                 <span className="p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-                  {t("profile.confirm")}
+                  {t("myProfile.confirm")}
                 </span>
               </Link>
             </div>

@@ -88,6 +88,7 @@ const Search = ({ pathName }) => {
                         name: profile.name,
                         agency: profile.UserLatestAgency?.agency,
                         picture: profile.picture,
+                        email: profile.email,
                       }}
                     />
                   ))

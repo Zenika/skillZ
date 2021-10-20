@@ -96,7 +96,7 @@ export default {
     addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% à été modifiée avec succès",
   },
-  profile: {
+  myProfile: {
     onboarding:
       "Bienvenue sur SkillZ ! Nous vous recommandons de renseigner votre agence et vos sujets préférés pour que votre profil soit complet",
     agency: "Mon agence",
@@ -104,6 +104,12 @@ export default {
     topics: "Mes sujets préférés",
     selectPlaceholder: "Mon agence",
     confirm: "CONFIRMER LE PROFIL",
+  },
+  userProfile: {
+    agency: "Agence",
+    contact: "Méthode de contact préférée",
+    topics: "Mes sujets préférés",
+    selectPlaceholder: "Agence",
   },
   radar: {
     desire: "Désir",

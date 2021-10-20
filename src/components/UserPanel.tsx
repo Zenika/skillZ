@@ -2,20 +2,22 @@ import { useContext } from "react";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useDarkMode } from "../utils/darkMode";
 
-type User = { name: string; picture: string; agency: string };
+type User = { name: string; picture: string; agency: string; email: string };
 const UserPanel = ({ user, context }: { user: User; context: string }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { query } = useRouter();
   const { category } = query;
   const { name, picture, agency } = user;
+  console.log("email : " + user?.email);
   return (
     <div
       className="flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg"
-      onClick={() => {}}
     >
+    <Link href={`/profile/${user?.email}`}>
       <div
         className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
       >
@@ -37,6 +39,7 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
       {/* <div className="flex w-1/6 justify-end">
         <Image src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`} width="8" height="12" />
       </div> */}
+    </Link>
     </div>
   );
 };
