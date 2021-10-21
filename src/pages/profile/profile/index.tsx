@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useDarkMode } from "../../../utils/darkMode";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
 import { userInfosQueries } from "../../../graphql/queries/userInfos";
+import PreferedTopics from "../../../components/profile/PreferedTopics";
 
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
@@ -90,39 +91,6 @@ const Profile = () => {
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
   };
-  const [insertTopic] = useMutation(
-    userInfosQueries.INSERT_USER_TOPIC_MUTATION
-  );
-  const [deleteTopic] = useMutation(
-    userInfosQueries.DELETE_USER_TOPIC_MUTATION
-  );
-  const updateTopic = (selectedTopic: {
-    id: string;
-    name: string;
-    UserTopics: { created_at: string }[];
-  }) => {
-    const topic = topics?.find(
-      (value) =>
-        selectedTopic.UserTopics.length > 0 && value.id === selectedTopic.id
-    );
-    if (!topic) {
-      insertTopic({
-        variables: { email: user?.email, topicId: selectedTopic.id },
-      }).then(() =>
-        refetch({
-          variables: { email: user?.email },
-        })
-      );
-    } else {
-      deleteTopic({
-        variables: { email: user?.email, topicId: selectedTopic.id },
-      }).then(() =>
-        refetch({
-          variables: { email: user?.email },
-        })
-      );
-    }
-  };
 
   return (
     <CommonPage page={"profile"} faded={false} context={context}>
@@ -163,30 +131,12 @@ const Profile = () => {
               onChange={(value: string) => updateAgency(value)}
             />
           </div>
-          <div
-            className={`${
-              darkMode
-                ? "flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2"
-                : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
-            }`}
-          >
-            <span className="text-xl p-2">{t("myProfile.topics")}</span>
-            <div className="flex flex-row flex-wrap justify-around">
-              {topics?.map((topic) => (
-                <button
-                  key={topic.name}
-                  className={`rounded-full m-2 ${
-                    topic.UserTopics.length <= 0
-                      ? "gradient-red-faded"
-                      : "gradient-red"
-                  }`}
-                  onClick={() => updateTopic(topic)}
-                >
-                  <span className="px-2 py-1 text-white">{topic.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          <PreferedTopics
+            topics={topics}
+            refetch={refetch}
+            user={data?.User}
+            readOnly={true}
+          ></PreferedTopics>
           {skillsDatas ? (
             <Statistics
               userAchievements={userAchievements}

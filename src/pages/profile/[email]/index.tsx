@@ -9,6 +9,7 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
 import { userInfosQueries } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
+import PreferedTopics from "../../../components/profile/PreferedTopics";
 
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
@@ -77,6 +78,7 @@ const Profile = () => {
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
+  const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
 
   return (
     <CommonPage page={"profile"} faded={false} context={context}>
@@ -94,6 +96,12 @@ const Profile = () => {
             </div>
           </div>
           <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
+          <PreferedTopics
+            topics={topics}
+            refetch={null}
+            user={data?.User}
+            readOnly={true}
+          ></PreferedTopics>
           {skillsDatas ? (
             <Statistics
               userAchievements={userAchievements}

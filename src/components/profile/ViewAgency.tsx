@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useDarkMode } from "../../utils/darkMode";
-import styles from "../CustomSelect.module.css";
 import { i18nContext } from "../../utils/i18nContext";
 
 type ViewAgencyProps = {
