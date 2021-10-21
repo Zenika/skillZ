@@ -1,0 +1,3 @@
+.disablePointer {
+  pointer-events: none;
+}

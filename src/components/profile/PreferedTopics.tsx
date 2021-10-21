@@ -1,8 +1,9 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
 import { userInfosQueries } from "../../graphql/queries/userInfos";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import styles from "./DisablePointer.module.css";
 
 type PreferedTopicsProps = {
   topics: { id: string; name: string; UserTopics: { created_at: string }[] }[];
@@ -57,6 +58,7 @@ const PreferedTopics = ({
       );
     }
   };
+
   return (
     <div
       className={`${
@@ -65,17 +67,18 @@ const PreferedTopics = ({
           : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
       }`}
     >
-      <span className="text-xl p-2">{t("myProfile.topics")}</span>
+      <span className="text-xl p-2">{t("userProfile.topics")}</span>
       <div className="flex flex-row flex-wrap justify-around">
         {topics?.map((topic) => (
           <button
+            disabled={readOnly ? true : false}
             key={topic.name}
             className={`rounded-full m-2 ${
               topic.UserTopics.length <= 0
                 ? "gradient-red-faded"
                 : "gradient-red"
-            }`}
-            onClick={() => (readOnly ? updateTopic(topic) : "")}
+            } ${readOnly ? styles.disablePointer : ""}`}
+            onClick={() => updateTopic(topic)}
           >
             <span className="px-2 py-1 text-white">{topic.name}</span>
           </button>

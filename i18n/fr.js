@@ -108,7 +108,7 @@ export default {
   userProfile: {
     agency: "Agence",
     contact: "Méthode de contact préférée",
-    topics: "Mes sujets préférés",
+    topics: "Sujets préférés",
     selectPlaceholder: "Agence",
   },
   radar: {

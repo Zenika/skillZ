@@ -135,7 +135,7 @@ const Profile = () => {
             topics={topics}
             refetch={refetch}
             user={data?.User}
-            readOnly={true}
+            readOnly={false}
           ></PreferedTopics>
           {skillsDatas ? (
             <Statistics
