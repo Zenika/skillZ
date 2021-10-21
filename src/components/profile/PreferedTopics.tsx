@@ -3,7 +3,6 @@ import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
 import { userInfosQueries } from "../../graphql/queries/userInfos";
 import { useMutation } from "@apollo/client";
-import styles from "./DisablePointer.module.css";
 
 type PreferedTopicsProps = {
   topics: { id: string; name: string; UserTopics: { created_at: string }[] }[];
@@ -77,7 +76,7 @@ const PreferedTopics = ({
               topic.UserTopics.length <= 0
                 ? "gradient-red-faded"
                 : "gradient-red"
-            } ${readOnly ? styles.disablePointer : ""}`}
+            } ${readOnly ? "cursor-default" : ""}`}
             onClick={() => updateTopic(topic)}
           >
             <span className="px-2 py-1 text-white">{topic.name}</span>

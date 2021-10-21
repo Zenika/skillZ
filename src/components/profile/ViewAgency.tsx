@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
-import styles from "./DisablePointer.module.css";
 
 type ViewAgencyProps = {
   agency: string;
@@ -33,7 +32,7 @@ const ViewAgency = ({ agency }: ViewAgencyProps) => {
           style={{ width: size.width, height: size.height }}
         >
           <div
-            className={`bg-light-light dark:bg-dark-light w-full cursor-pointer rounded -lg p-4 appearance-none ${styles.disablePointer}`}
+            className={`bg-light-light dark:bg-dark-light w-full rounded -lg p-4 appearance-none cursor-default`}
           >
             {agency}
           </div>
