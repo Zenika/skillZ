@@ -103,7 +103,7 @@ export default {
     selectPlaceholder: "My agency",
     confirm: "CONFIRM PROFILE",
   },
-  usersProfile: {
+  userProfile: {
     agency: "Agency",
     contact: "Prefered method of contact",
     topics: "Prefered topics",
