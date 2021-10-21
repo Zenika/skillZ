@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { useDarkMode } from "../../../utils/darkMode";
-import { Statistics } from "../../../components/statistics/Statistics";
+import { Statistics } from "../../../components/profile/statistics/Statistics";
 import { userInfosQueries } from "../../../graphql/queries/userInfos";
 
 type GetUserAgencyAndAllAgenciesResult = {
@@ -148,17 +148,6 @@ const Profile = () => {
               <span>{infoUser?.name}</span>
             </div>
           </div>
-          {skillsDatas ? (
-            <Statistics
-              userAchievements={userAchievements}
-              skillsDatas={skillsDatas}
-              countTopics={data?.UserTopic_aggregate.aggregate.count}
-              userAgency={userAgency}
-              myStatistics={true}
-            />
-          ) : (
-            <></>
-          )}
           <div
             className={`${
               darkMode
@@ -198,6 +187,17 @@ const Profile = () => {
               ))}
             </div>
           </div>
+          {skillsDatas ? (
+            <Statistics
+              userAchievements={userAchievements}
+              skillsDatas={skillsDatas}
+              countTopics={data?.UserTopic_aggregate.aggregate.count}
+              userAgency={userAgency}
+              myStatistics={true}
+            />
+          ) : (
+            <></>
+          )}
           <div className="flex flex-col justify-center my-2 p-2">
             <div className="flex flex-row justify-center">
               <Link href={"/"}>

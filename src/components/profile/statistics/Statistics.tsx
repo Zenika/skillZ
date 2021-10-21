@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { i18nContext } from "../../utils/i18nContext";
-import { useDarkMode } from "../../utils/darkMode";
+import { i18nContext } from "../../../utils/i18nContext";
+import { useDarkMode } from "../../../utils/darkMode";
 import {
   BadgeSubojectivesCategoryCompletion,
   BadgeSubojectivesProfileCompletion,

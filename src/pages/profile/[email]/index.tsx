@@ -6,8 +6,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useDarkMode } from "../../../utils/darkMode";
-import { Statistics } from "../../../components/statistics/Statistics";
+import { Statistics } from "../../../components/profile/statistics/Statistics";
 import { userInfosQueries } from "../../../graphql/queries/userInfos";
+import ViewAgency from "../../../components/profile/ViewAgency";
 
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
@@ -82,16 +83,17 @@ const Profile = () => {
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
           <div className="flex flex-row justify-start">
-            <Image
+            <img
               className="w-16 h-16 rounded-full"
               height="64"
               width="64"
-              src={user?.picture || ""}
+              src={infoUser?.picture || ""}
             />
             <div className="flex flex-col mx-4 justify-center">
               <span>{infoUser?.name}</span>
             </div>
           </div>
+          <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
           {skillsDatas ? (
             <Statistics
               userAchievements={userAchievements}
