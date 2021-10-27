@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
+import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import CommonPage from "../../../components/CommonPage";
-import CustomSelect from "../../../components/CustomSelect";
+import CommonPage from "../../components/CommonPage";
+import CustomSelect from "../../components/CustomSelect";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { useDarkMode } from "../../../utils/darkMode";
-import { Statistics } from "../../../components/profile/statistics/Statistics";
-import { userInfosQueries } from "../../../graphql/queries/userInfos";
-import PreferedTopics from "../../../components/profile/PreferedTopics";
+import { useDarkMode } from "../../utils/darkMode";
+import { Statistics } from "../../components/profile/statistics/Statistics";
+import {
+  USER_INFOS,
+  INSERT_USER_MUTATION,
+  UPSERT_AGENCY_MUTATION,
+} from "../../graphql/queries/userInfos";
+import PreferedTopics from "../../components/profile/PreferedTopics";
 
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
@@ -56,12 +60,12 @@ const Profile = () => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
-    userInfosQueries.USER_INFOS,
+    USER_INFOS,
     {
       variables: { email: user?.email },
     }
   );
-  const [insertUser] = useMutation(userInfosQueries.INSERT_USER_MUTATION);
+  const [insertUser] = useMutation(INSERT_USER_MUTATION);
   insertUser({
     variables: {
       email: user?.email,
@@ -87,7 +91,7 @@ const Profile = () => {
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
-  const [upsertAgency] = useMutation(userInfosQueries.UPSERT_AGENCY_MUTATION);
+  const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
   };

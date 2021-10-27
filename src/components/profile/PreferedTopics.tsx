@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
-import { userInfosQueries } from "../../graphql/queries/userInfos";
+import {
+  INSERT_USER_TOPIC_MUTATION,
+  DELETE_USER_TOPIC_MUTATION,
+} from "../../graphql/queries/userInfos";
 import { useMutation } from "@apollo/client";
 
 type PreferedTopicsProps = {
@@ -24,12 +27,8 @@ const PreferedTopics = ({
 }: PreferedTopicsProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const [insertTopic] = useMutation(
-    userInfosQueries.INSERT_USER_TOPIC_MUTATION
-  );
-  const [deleteTopic] = useMutation(
-    userInfosQueries.DELETE_USER_TOPIC_MUTATION
-  );
+  const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
+  const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
   const updateTopic = (selectedTopic: {
     id: string;
     name: string;
@@ -60,10 +59,10 @@ const PreferedTopics = ({
 
   return (
     <div
-      className={`${
+      className={`flex flex-col rounded-lg ${
         darkMode
-          ? "flex flex-col rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2"
-          : "flex flex-col rounded-lg bg-light dark:bg-dark-dark my-2 p-2"
+          ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
+          : "bg-light dark:bg-dark-dark my-2 p-2"
       }`}
     >
       <span className="text-xl p-2">{t("userProfile.topics")}</span>
