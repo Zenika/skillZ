@@ -30,7 +30,7 @@ const ViewAgency = ({ agency }: ViewAgencyProps) => {
           style={{ width: size.width, height: size.height }}
         >
           <div
-            className={`bg-light-light dark:bg-dark-light w-full rounded -lg p-4 appearance-none cursor-default`}
+            className={`bg-light-light dark:bg-dark-light w-full rounded-lg p-4 appearance-none cursor-default`}
           >
             {agency}
           </div>
