@@ -94,7 +94,7 @@ export default {
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
   },
-  profile: {
+  myProfile: {
     onboarding:
       "Welcome to SkillZ ! We recommend you set your agency and prefered topics so your profile is complete",
     agency: "My agency",
@@ -102,6 +102,12 @@ export default {
     topics: "My prefered topics",
     selectPlaceholder: "My agency",
     confirm: "CONFIRM PROFILE",
+  },
+  userProfile: {
+    agency: "Agency",
+    contact: "Prefered method of contact",
+    topics: "Prefered topics",
+    selectPlaceholder: "Agency",
   },
   radar: {
     desire: "Desire",
@@ -115,7 +121,8 @@ export default {
     noProfile: "No profile found",
   },
   statistics: {
-    titleSection: "My statistics",
+    myTitleSection: "My statistics",
+    titleSection : "Statistics",
     monthStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
@@ -126,26 +133,26 @@ export default {
     platin: "Platin",
     diamond: "Diamond",
     numberCompetencies: "Number of competences",
-  },
-  subojectives: {
-    subObjectivesProfileCompletion: "Category Profile Completion",
-    explicationProfileCompletion: "Add your prefered topics and your agency",
-    subObjectivesCategoryCompletionLanguageAndFrameworks:
+    subobjectivesTitles: {
+      ProfileCompletion: "Category Profile Completion",
+      LanguageAndFrameworks:
       "Category Langages and Frameworks",
-    subObjectivesCategoryCompletionTools: "Category Tools",
-    subObjectivesCategoryCompletionPlateform: "Category Plateforms",
-    subObjectivesCategoryCompletionTechnicsAndMethod:
+      Tools: "Category Tools",
+      Plateform: "Category Plateforms",
+      TechnicsAndMethod:
       "Category Technics et methods",
-    explicationSubObjectivesCategoryCompletionLanguageAndFrameworks:
+    },
+    subobjectivesLegends: {
+      ProfileCompletion: "Add your prefered topics and your agency",
+      LanguageAndFrameworks:
       "Add skills in the Languages and Frameworks grid",
-    explicationSubObjectivesCategoryCompletionTools:
+      Tools:
       "Add skills in the Tools grid",
-    explicationSubObjectivesCategoryCompletionPlateform:
+      Plateform:
       "Add skills in the Platform grid",
-    explicationSubObjectivesCategoryCompletionTechnicsAndMethod:
+      TechnicsAndMethod:
       "Add skills in the Technics and methods grid",
-    subObjectiveProfile: "Complete profile informations",
-    explicationSubObjectiveProfile:
-      "Add agency location and favourite subjects",
+      Profile: "Complete profile informations",
+    },
   },
 };

@@ -2,12 +2,23 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import HomePanel from "../components/HomePanel";
 import Loading from "../components/Loading";
 import { useRouter } from "next/router";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
+import { USER_SKILLS_QUERY, USER_QUERY } from "../graphql/queries/userInfos";
+
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+  );
+}
 
 type UserData = {
   User: {
     email: string;
+    name: string;
+    picture: string;
+    UserLatestAgency: { agency: string }[];
   }[];
 };
 
@@ -30,40 +41,6 @@ type SkillsData = {
   }[];
 };
 
-const USER_QUERY = gql`
-  query queryUser($email: String!) {
-    User(where: { email: { _eq: $email } }) {
-      email
-    }
-  }
-`;
-
-const USER_SKILLS_QUERY = gql`
-  query getUserSkillsAndTechnicalAppetites($email: String!) {
-    Category(order_by: { index: asc }) {
-      label
-      color
-      x
-      y
-      CurrentSkillsAndDesires(
-        limit: 5
-        order_by: { skillLevel: desc, desireLevel: desc }
-        where: { userEmail: { _eq: $email } }
-      ) {
-        name
-
-        skillLevel
-        desireLevel
-      }
-      CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
-        aggregate {
-          count
-        }
-      }
-    }
-  }
-`;
-
 const Home = ({ pathName }) => {
   const { push, query } = useRouter();
   const { context } = query;
@@ -73,8 +50,9 @@ const Home = ({ pathName }) => {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
+  const link = new URL(`${NEXT_PUBLIC_BASE_URL}/profile`);
   if (userData?.User.length <= 0) {
-    push("/profile");
+    push(link);
   }
 
   const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {

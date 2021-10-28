@@ -44,7 +44,6 @@ const Topbar = ({
     }
     togglePanel();
   };
-
   const { data: userAgencyResult } = useQuery<UserLatestAgencyResult>(
     GET_USER_AGENCY_QUERY,
     {
@@ -209,7 +208,7 @@ const Topbar = ({
               >
                 <ul className="flex flex-col justify-around h-full pl-2">
                   <li className="p-2">
-                    <Link href="/profile">
+                    <Link href={`/profile`}>
                       <div className="flex flex-row pl-4 cursor-pointer">
                         <Image
                           src={`/icons/${
