@@ -19,6 +19,7 @@ type UserSkillsAndAppetiteDetails = {
         User: {
           name: string;
           picture: string;
+          email: string;
           UserLatestAgency: {
             agency: string;
           };
@@ -60,6 +61,7 @@ const computeUsersSkillsAndTechnicalAppetitesDetail = ({
           User {
             name
             picture
+            email
             UserLatestAgency {
               agency
             }
@@ -79,14 +81,15 @@ const SkillPage = () => {
       ? agency
       : agency.join("")
     : undefined;
-  const { data } = useQuery<UserSkillsAndAppetiteDetails>(
-    computeUsersSkillsAndTechnicalAppetitesDetail({
-      agency: computedAgency,
-    }),
-    {
-      variables: { category, skill, agency },
-    }
-  );
+  const { data: userSkillAndAppetiteDetails } =
+    useQuery<UserSkillsAndAppetiteDetails>(
+      computeUsersSkillsAndTechnicalAppetitesDetail({
+        agency: computedAgency,
+      }),
+      {
+        variables: { category, skill, agency },
+      }
+    );
   const computedSkill = skill
     ? typeof skill === "string"
       ? skill
@@ -97,7 +100,7 @@ const SkillPage = () => {
       ? context
       : context.join("")
     : "";
-  const fetchedSkill = data?.Category[0]?.Skills[0];
+  const fetchedSkill = userSkillAndAppetiteDetails?.Category[0]?.Skills[0];
   const computedData = fetchedSkill?.UsersCurrentSkillsAndDesires.map(
     (userSkillDesire) => ({
       id: fetchedSkill.id,
@@ -109,6 +112,7 @@ const SkillPage = () => {
         name: userSkillDesire.User.name,
         picture: userSkillDesire.User.picture,
         agency: userSkillDesire.User.UserLatestAgency?.agency,
+        email: userSkillDesire.User.email,
       },
     })
   );
@@ -125,7 +129,7 @@ const SkillPage = () => {
         category={category}
         add={false}
         faded={false}
-        color={data?.Category[0]?.color}
+        color={userSkillAndAppetiteDetails?.Category[0]?.color}
       >
         <>
           {computedData?.map((data) => (
