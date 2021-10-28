@@ -47,6 +47,19 @@ export const DELETE_USER_TOPIC_MUTATION = gql`
   }
 `;
 
+export const USER_QUERY = gql`
+  query queryUser($email: String!) {
+    User(where: { email: { _eq: $email } }) {
+      email
+      name
+      picture
+      UserLatestAgency {
+        agency
+      }
+    }
+  }
+`;
+
 export const USER_INFOS = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
     User(where: { email: { _eq: $email } }) {
@@ -95,6 +108,32 @@ export const USER_INFOS = gql`
     UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
       aggregate {
         count
+      }
+    }
+  }
+`;
+
+export const USER_SKILLS_QUERY = gql`
+  query getUserSkillsAndTechnicalAppetites($email: String!) {
+    Category(order_by: { index: asc }) {
+      label
+      color
+      x
+      y
+      CurrentSkillsAndDesires(
+        limit: 5
+        order_by: { skillLevel: desc, desireLevel: desc }
+        where: { userEmail: { _eq: $email } }
+      ) {
+        name
+
+        skillLevel
+        desireLevel
+      }
+      CurrentSkillsAndDesires_aggregate(where: { userEmail: { _eq: $email } }) {
+        aggregate {
+          count
+        }
       }
     }
   }

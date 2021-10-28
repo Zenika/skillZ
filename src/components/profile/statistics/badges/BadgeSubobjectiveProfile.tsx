@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
-import { i18nContext } from "../../../../utils/i18nContext";
 import styles from "./badgeLevels.module.css";
 
 export const BadgeSubojectivesProfileCompletion = ({
@@ -13,7 +12,6 @@ export const BadgeSubojectivesProfileCompletion = ({
   titleSubobjective,
   descriptionSubobjective,
 }) => {
-  const { t } = useContext(i18nContext);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
   const [points, setPoints] = useState(0);

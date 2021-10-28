@@ -81,7 +81,7 @@ const Profile = () => {
   const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
 
   return (
-    <div className="">
+    <div>
       {infoUser ? (
         <CommonPage page={"profile"} faded={false} context={context}>
           <div className="flex flex-row justify-center mt-4 mb-20">
