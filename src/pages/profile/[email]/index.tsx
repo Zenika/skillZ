@@ -11,7 +11,7 @@ import {
 } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
-
+import Custom404 from "../../404";
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
     email: string;
@@ -121,7 +121,7 @@ const Profile = () => {
           </div>
         </CommonPage>
       ) : (
-        <p>{t(`loading.loadingText`)}</p>
+        <Custom404></Custom404>
       )}
     </div>
   );

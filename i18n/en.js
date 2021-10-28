@@ -1,4 +1,9 @@
 export default {
+  error: {
+    title404: "We are sorry, Page not found!",
+    text404: "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+    button404: "Back to home"
+  },
   nav: {
     mySkills: "My skills",
     zenikaSkills: "Zenika skills",

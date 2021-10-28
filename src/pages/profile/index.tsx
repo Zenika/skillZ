@@ -63,6 +63,7 @@ const Profile = () => {
     USER_INFOS,
     {
       variables: { email: user?.email },
+      fetchPolicy: "network-only",
     }
   );
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
