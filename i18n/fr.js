@@ -1,4 +1,9 @@
 export default {
+  error: {
+    title404: "Nous sommes désolé, page invalide !",
+    text404: "L'URL de la page que vous avez demandé n'existe probablement pas ou est temporairement indisponible.",
+    button404: "Retour au menu"
+  },
   nav: {
     mySkills: "Compétences",
     zenikaSkills: "Zenika",

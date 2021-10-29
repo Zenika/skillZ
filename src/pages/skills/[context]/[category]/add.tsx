@@ -13,6 +13,7 @@ import { FetchResult } from ".";
 import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
+import Custom404 from "../../../404";
 
 type Skill = {
   id: string;
@@ -144,21 +145,30 @@ const AddSkill = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
     undefined
   );
-  const { data, refetch } = useQuery<FetchResult>(SKILLS_AND_APPETITE_QUERY, {
+  const {
+    data,
+    error: errorSkillsApetite,
+    refetch,
+    loading: loadingSkillsApetite,
+  } = useQuery<FetchResult>(SKILLS_AND_APPETITE_QUERY, {
     variables: { email: user.email, category: category || "" },
     fetchPolicy: "network-only",
   });
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const { data: skillsData, refetch: refetchSearch } =
-    useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
-      variables: {
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-      },
-      fetchPolicy: "network-only",
-    });
+  const {
+    data: skillsData,
+    refetch: refetchSearch,
+    loading: loadingSearchSkill,
+    error: errorSearchSkills,
+  } = useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
+    variables: {
+      category,
+      search: `%${debouncedSearchValue}%`,
+      email: user?.email,
+      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+    },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
       useNotification(
@@ -205,58 +215,69 @@ const AddSkill = () => {
     })
   );
   const categoryId = data?.Category[0]?.["id"];
-
   return (
-    <CommonPage page={category} faded={modaleOpened} context={context}>
-      <PageWithSkillList
-        context={context}
-        category={category}
-        add={true}
-        faded={modaleOpened}
-        data={radarData}
-        color={data?.Category[0].color}
-      >
-        <div>
-          <div
-            className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-              modaleOpened ? "" : "hidden"
-            }`}
+    <div>
+      {radarData &&
+      !errorSkillsApetite &&
+      !loadingSearchSkill &&
+      !loadingSkillsApetite &&
+      !errorSearchSkills ? (
+        <CommonPage page={category} faded={modaleOpened} context={context}>
+          <PageWithSkillList
+            context={context}
+            category={category}
+            add={true}
+            faded={modaleOpened}
+            data={radarData}
+            color={data?.Category[0].color}
           >
-            {selectedSkill ? (
-              <div className="flex flex-row justify-center">
-                <AddOrEditSkillModale
-                  skill={selectedSkill}
-                  cancel={() => setModaleOpened(false)}
-                  callback={addAction}
+            <div>
+              <div
+                className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+                  modaleOpened ? "" : "hidden"
+                }`}
+              >
+                {selectedSkill ? (
+                  <div className="flex flex-row justify-center">
+                    <AddOrEditSkillModale
+                      skill={selectedSkill}
+                      cancel={() => setModaleOpened(false)}
+                      callback={addAction}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+              <div
+                className={`flex flex-col ${
+                  isDesktop ? "h-radar" : ""
+                } p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
+              >
+                <SearchBar setSearch={setSearch} />
+                <AddSkillListSelector
+                  action={preAddAction}
+                  skills={skillsData?.Skill.filter(
+                    (skill) =>
+                      skill.UserSkillDesires_aggregate.aggregate.count === 0
+                  )}
+                  categoryId={categoryId}
+                  search={debouncedSearchValue}
+                  didYouMeanSkills={skillsData?.didYouMeanSearch.filter(
+                    (skill) =>
+                      skill.UserSkillDesires_aggregate.aggregate.count === 0
+                  )}
                 />
               </div>
-            ) : (
-              <></>
-            )}
-          </div>
-          <div
-            className={`flex flex-col ${isDesktop ? "h-radar" : ""} p-2 z-10 ${
-              modaleOpened ? "opacity-25" : ""
-            }`}
-          >
-            <SearchBar setSearch={setSearch} />
-            <AddSkillListSelector
-              action={preAddAction}
-              skills={skillsData?.Skill.filter(
-                (skill) =>
-                  skill.UserSkillDesires_aggregate.aggregate.count === 0
-              )}
-              categoryId={categoryId}
-              search={debouncedSearchValue}
-              didYouMeanSkills={skillsData?.didYouMeanSearch.filter(
-                (skill) =>
-                  skill.UserSkillDesires_aggregate.aggregate.count === 0
-              )}
-            />
-          </div>
-        </div>
-      </PageWithSkillList>
-    </CommonPage>
+            </div>
+          </PageWithSkillList>
+        </CommonPage>
+      ) : loadingSkillsApetite && loadingSearchSkill ? (
+        t("loading.loadingText")
+      ) : (
+        <Custom404 />
+      )}
+    </div>
   );
 };
 

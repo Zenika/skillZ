@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../../components/CommonPage";
@@ -11,7 +11,7 @@ import {
 } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
-
+import Custom404 from "../../404";
 type GetUserAgencyAndAllAgenciesResult = {
   User: {
     email: string;
@@ -53,7 +53,7 @@ const Profile = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
-  const { data, error } = useQuery<GetUserAgencyAndAllAgenciesResult>(
+  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_INFOS,
     {
       variables: { email: userEmail },
@@ -69,7 +69,6 @@ const Profile = () => {
       },
     });
   }
-
   const infoUser = data?.User[0];
   const userAgency =
     error || infoUser?.UserLatestAgency?.agency
@@ -82,7 +81,7 @@ const Profile = () => {
 
   return (
     <div>
-      {infoUser ? (
+      {data?.User?.length > 0 && !error && !loading ? (
         <CommonPage page={"profile"} faded={false} context={context}>
           <div className="flex flex-row justify-center mt-4 mb-20">
             <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
@@ -120,8 +119,10 @@ const Profile = () => {
             </div>
           </div>
         </CommonPage>
+      ) : loading ? (
+        t("loading.loadingText")
       ) : (
-        <p>{t(`loading.loadingText`)}</p>
+        <Custom404 />
       )}
     </div>
   );
