@@ -149,21 +149,26 @@ const AddSkill = () => {
     data,
     error: errorSkillsApetite,
     refetch,
+    loading: loadingSkillsApetite,
   } = useQuery<FetchResult>(SKILLS_AND_APPETITE_QUERY, {
     variables: { email: user.email, category: category || "" },
     fetchPolicy: "network-only",
   });
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const { data: skillsData, refetch: refetchSearch } =
-    useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
-      variables: {
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-      },
-      fetchPolicy: "network-only",
-    });
+  const {
+    data: skillsData,
+    refetch: refetchSearch,
+    loading: loadingSearchSkill,
+    error: errorSearchSkills,
+  } = useQuery<SkillSearchResult>(SKILL_SEARCH_QUERY, {
+    variables: {
+      category,
+      search: `%${debouncedSearchValue}%`,
+      email: user?.email,
+      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+    },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
     onCompleted: (_) => {
       useNotification(
@@ -212,7 +217,11 @@ const AddSkill = () => {
   const categoryId = data?.Category[0]?.["id"];
   return (
     <div>
-      {radarData ? (
+      {radarData &&
+      !errorSkillsApetite &&
+      !loadingSearchSkill &&
+      !loadingSkillsApetite &&
+      !errorSearchSkills ? (
         <CommonPage page={category} faded={modaleOpened} context={context}>
           <PageWithSkillList
             context={context}
@@ -263,8 +272,10 @@ const AddSkill = () => {
             </div>
           </PageWithSkillList>
         </CommonPage>
-      ) : (
+      ) : loadingSkillsApetite && loadingSearchSkill ? (
         t("loading.loadingText")
+      ) : (
+        <Custom404 />
       )}
     </div>
   );
