@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../../components/CommonPage";
@@ -69,7 +69,6 @@ const Profile = () => {
       },
     });
   }
-
   const infoUser = data?.User[0];
   const userAgency =
     error || infoUser?.UserLatestAgency?.agency
@@ -82,7 +81,7 @@ const Profile = () => {
 
   return (
     <div>
-      {infoUser ? (
+      {data?.User?.length > 0 || !error ? (
         <CommonPage page={"profile"} faded={false} context={context}>
           <div className="flex flex-row justify-center mt-4 mb-20">
             <div className="flex flex-col justify-center max-w-screen-md w-full p-4">

@@ -26,7 +26,6 @@ export const BadgeSubojectivesCategoryCompletion = ({
   useEffect(() => {
     setSkillsNumber(countSkills);
     if (countSkills >= 40) setDisplayCheckLogo(true);
-    console.log("count : " + countSkills);
   }, [countSkills]);
   useEffect(() => {
     getStepsByCategory();
