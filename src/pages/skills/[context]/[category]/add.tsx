@@ -14,6 +14,7 @@ import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
 import Custom404 from "../../../404";
+import Loading from "../../../../components/Loading";
 
 type Skill = {
   id: string;
@@ -217,11 +218,7 @@ const AddSkill = () => {
   const categoryId = data?.Category[0]?.["id"];
   return (
     <div>
-      {radarData &&
-      !errorSkillsApetite &&
-      !loadingSearchSkill &&
-      !loadingSkillsApetite &&
-      !errorSearchSkills ? (
+      {radarData && !errorSkillsApetite && !errorSearchSkills ? (
         <CommonPage page={category} faded={modaleOpened} context={context}>
           <PageWithSkillList
             context={context}
@@ -273,7 +270,7 @@ const AddSkill = () => {
           </PageWithSkillList>
         </CommonPage>
       ) : loadingSkillsApetite && loadingSearchSkill ? (
-        t("loading.loadingText")
+        <Loading />
       ) : (
         <Custom404 />
       )}
