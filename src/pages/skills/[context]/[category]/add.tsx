@@ -13,7 +13,6 @@ import { FetchResult } from ".";
 import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
-import Custom404 from "../../../404";
 
 type Skill = {
   id: string;
