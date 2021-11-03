@@ -202,7 +202,7 @@ const AddSkill = () => {
       },
     });
   };
-  if (loadingSearchSkill || loadingSkillsApetite) return <Loading />;
+
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
@@ -269,6 +269,8 @@ const AddSkill = () => {
             </div>
           </PageWithSkillList>
         </CommonPage>
+      ) : loadingSkillsApetite && loadingSearchSkill ? (
+        <Loading />
       ) : (
         <Custom404 />
       )}
