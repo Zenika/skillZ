@@ -9,12 +9,12 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "favicon-32x32.png",
+      "src": "ogo32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "favicon-16x16.png",
+      "src": "logo16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
@@ -29,7 +29,7 @@
       "type": "image/png"
     },
     {
-      "src": "android-chrome-512x512.pngg",
+      "src": "android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
@@ -39,12 +39,12 @@
       "type": "image/ico"
     },
     {
-      "src": "favicon.svg",
+      "src": "logo-svg.svg",
       "sizes": "26x35",
       "type": "image/svg"
     },
     {
-      "src": "mstile-150x150.png",
+      "src": "logo150x150.png",
       "sizes": "150x150",
       "type": "image/png"
     },
