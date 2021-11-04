@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
-import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../../components/CommonPage";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
