@@ -36,17 +36,17 @@ export default class extends Document {
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/favicon-32x32.png"
+            href="/logo32x32.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/favicon-16x16.png"
+            href="/logo16x16.png"
           />
           <link rel="manifest" href="/skillz.webmanifest" />
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/logoIco.ico" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:url" content="https://skillz.zenika.com" />
           <meta name="twitter:title" content="Skillz" />
