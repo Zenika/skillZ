@@ -53,7 +53,7 @@ const Profile = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
-  const { data, error } = useQuery<GetUserAgencyAndAllAgenciesResult>(
+  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesResult>(
     USER_INFOS,
     {
       variables: { email: userEmail },
@@ -81,7 +81,7 @@ const Profile = () => {
 
   return (
     <div>
-      {data?.User?.length > 0 && !error ? (
+      {(data?.User?.length > 0 && !error) || loading ? (
         <CommonPage page={"profile"} faded={false} context={context}>
           <div className="flex flex-row justify-center mt-4 mb-20">
             <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
