@@ -75,6 +75,8 @@ jobs:
         type: string
       base-url:
         type: string
+      admin-secret:
+        type: string
     steps:
       - checkout
       - restore_cache:
