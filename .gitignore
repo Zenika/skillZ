@@ -45,3 +45,7 @@ public/workbox-*.js.map
 
 # we use npm
 yarn.lock
+
+# Generated typings
+/src/generated/
+graphql.schema.json

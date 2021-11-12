@@ -82,6 +82,9 @@ jobs:
             - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
             - v4-packaging-dependencies-
       - run:
+          name: generate types
+          command: NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> HASURA_ADMIN_SECRET=<< parameters.admin-secret >> npm run generate
+      - run:
           name: build
           command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
   unit-test:
@@ -227,6 +230,7 @@ workflows:
             - qc-prettier
             - unit-test
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          admin-secret: $HASURA_ADMIN_SECRET_STAGING
           base-url: $NEXT_STAGING_BASE_URL
       - deploy-hasura:
           name: deploy-hasura-staging
@@ -277,6 +281,7 @@ workflows:
             - qc-prettier
             - unit-test
           graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_URL
+          admin-secret: $HASURA_ADMIN_SECRET_STAGING
           base-url: $NEXT_PROD_BASE_URL
           filters: *deploy-filters
       - deploy-hasura:
