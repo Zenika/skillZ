@@ -15,43 +15,7 @@ import {
   UPSERT_AGENCY_MUTATION,
 } from "../../graphql/queries/userInfos";
 import PreferedTopics from "../../components/profile/PreferedTopics";
-
-type GetUserAgencyAndAllAgenciesResult = {
-  User: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string };
-  }[];
-  Agency: { name: string }[];
-  Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
-  UserAchievements: {
-    created_at: string;
-    points: number;
-    label: string;
-    userEmail: string;
-    step: string;
-    additionalInfo: string;
-  }[];
-  Category: {
-    label: string;
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-    CurrentSkillsAndDesires: {
-      name: string;
-      skillLevel: number;
-      desireLevel: number;
-    }[];
-  }[];
-  UserTopic_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 
 const Profile = () => {
   const { user } = useAuth0();
@@ -59,7 +23,7 @@ const Profile = () => {
   const { context } = router.query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
+  const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
     USER_INFOS,
     {
       variables: { email: user?.email },

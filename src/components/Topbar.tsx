@@ -10,6 +10,7 @@ import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
+import { GetUserAgencyQuery } from "../generated/graphql";
 
 const GET_USER_AGENCY_QUERY = gql`
   query getUserAgency($email: String!) {
@@ -18,10 +19,6 @@ const GET_USER_AGENCY_QUERY = gql`
     }
   }
 `;
-
-type UserLatestAgencyResult = {
-  UserLatestAgency: { agency: string }[];
-};
 
 const Topbar = ({
   path,
@@ -44,7 +41,7 @@ const Topbar = ({
     }
     togglePanel();
   };
-  const { data: userAgencyResult } = useQuery<UserLatestAgencyResult>(
+  const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
       variables: { email: user.email },

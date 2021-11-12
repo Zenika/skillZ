@@ -5,6 +5,10 @@ import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { USER_SKILLS_QUERY, USER_QUERY } from "../graphql/queries/userInfos";
+import {
+  GetUserSkillsAndTechnicalAppetitesQuery,
+  QueryUserQuery,
+} from "../generated/graphql";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -13,40 +17,12 @@ if (!NEXT_PUBLIC_BASE_URL) {
   );
 }
 
-type UserData = {
-  User: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string }[];
-  }[];
-};
-
-type SkillsData = {
-  Category: {
-    label: string;
-    color: string;
-    x: string;
-    y: string;
-    CurrentSkillsAndDesires: {
-      name: string;
-      skillLevel: number;
-      desireLevel: number;
-    }[];
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count;
-      };
-    };
-  }[];
-};
-
 const Home = ({ pathName }) => {
   const { push, query } = useRouter();
   const { context } = query;
   const { user, isLoading } = useAuth0();
 
-  const { data: userData } = useQuery<UserData>(USER_QUERY, {
+  const { data: userData } = useQuery<QueryUserQuery>(USER_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
@@ -55,10 +31,11 @@ const Home = ({ pathName }) => {
     push(link);
   }
 
-  const { data: skillsData, error } = useQuery<SkillsData>(USER_SKILLS_QUERY, {
-    variables: { email: user.email },
-    fetchPolicy: "network-only",
-  });
+  const { data: skillsData, error } =
+    useQuery<GetUserSkillsAndTechnicalAppetitesQuery>(USER_SKILLS_QUERY, {
+      variables: { email: user.email },
+      fetchPolicy: "network-only",
+    });
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,

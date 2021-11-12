@@ -4,32 +4,10 @@ import Loading from "../components/Loading";
 import { gql, useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { useRouter } from "next/router";
-import FilterByPanel, { Filter } from "../components/FilterByPanel";
 import { useEffect, useState } from "react";
 import { FilterData } from "../utils/types";
 import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
-
-type SkillsData = {
-  Category: {
-    label: string;
-    color: string;
-    x: string;
-    y: string;
-    AverageCurrentSkillsAndDesires: {
-      name: string;
-      averageSkillLevel: number;
-      averageDesireLevel: number;
-    }[];
-    AverageCurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count;
-      };
-    };
-  }[];
-  Agency: {
-    name: string;
-  }[];
-};
+import { GetSkillsAndTechnicalAppetitesByCategoryQuery } from "../generated/graphql";
 
 const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
   query getSkillsAndTechnicalAppetites${agency ? "($agency: String!)" : ""} {
@@ -72,19 +50,20 @@ const Zenika = ({ pathName }) => {
     FilterData<string> | undefined
   >(undefined);
 
-  const { data: skillsData, error } = useQuery<SkillsData>(
-    computeZenikaSkillsQuery({
-      agency: filterByAgency?.selected
-        ? filterByAgency?.selected === "World"
-          ? undefined
-          : filterByAgency?.selected
-        : undefined,
-    }),
-    {
-      variables: { email: user.email, agency: filterByAgency?.selected },
-      fetchPolicy: "network-only",
-    }
-  );
+  const { data: skillsData, error } =
+    useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
+      computeZenikaSkillsQuery({
+        agency: filterByAgency?.selected
+          ? filterByAgency?.selected === "World"
+            ? undefined
+            : filterByAgency?.selected
+          : undefined,
+      }),
+      {
+        variables: { email: user.email, agency: filterByAgency?.selected },
+        fetchPolicy: "network-only",
+      }
+    );
   useEffect(() => {
     setFilterByAgency({
       name: "Agency",

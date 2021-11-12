@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
+import { InsertSkillMutationMutation } from "../generated/graphql";
 import { i18nContext } from "../utils/i18nContext";
 
 export type Skill = {
@@ -38,16 +39,15 @@ const AddSkillListSelector = ({
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-  const [insertSkill, { error: mutationError }] = useMutation<{
-    insert_Skill: { returning: Skill[] };
-  }>(INSERT_SKILL_MUTATION, {
-    onCompleted: (response) => {
-      if (!response?.insert_Skill?.returning) {
-        return;
-      }
-      action(response?.insert_Skill?.returning[0]);
-    },
-  });
+  const [insertSkill, { error: mutationError }] =
+    useMutation<InsertSkillMutationMutation>(INSERT_SKILL_MUTATION, {
+      onCompleted: (response) => {
+        if (!response?.insert_Skill?.returning) {
+          return;
+        }
+        action(response?.insert_Skill?.returning[0]);
+      },
+    });
   const addSkillButtonClick = () => {
     if (!categoryId || !search || search === "") {
       return;

@@ -6,6 +6,7 @@ import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
+import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { i18nContext } from "../utils/i18nContext";
 
 const SEARCH_QUERY = gql`
@@ -41,7 +42,7 @@ const Search = ({ pathName }) => {
   const { t } = useContext(i18nContext);
   const [search, setSearch] = useState("");
 
-  const { data, error } = useQuery(SEARCH_QUERY, {
+  const { data, error } = useQuery<SearchSkillsAndProfilesQuery>(SEARCH_QUERY, {
     variables: { search: `%${search}%` },
   });
   if (error) {

@@ -5,29 +5,8 @@ import { useContext } from "react";
 import CommonPage from "../../../../../components/CommonPage";
 import PageWithSkillList from "../../../../../components/PageWithSkillList";
 import UserSkillPanel from "../../../../../components/UserSkillPanel";
+import { GetUserSkillsAndTechnicalAppetitesQuery } from "../../../../../generated/graphql";
 import { i18nContext } from "../../../../../utils/i18nContext";
-
-type UserSkillsAndAppetiteDetails = {
-  Category: {
-    color: string;
-    Skills: {
-      id: string;
-      name: string;
-      UsersCurrentSkillsAndDesires: {
-        skillLevel: number;
-        desireLevel: number;
-        User: {
-          name: string;
-          picture: string;
-          email: string;
-          UserLatestAgency: {
-            agency: string;
-          };
-        };
-      }[];
-    }[];
-  }[];
-};
 
 const computeUsersSkillsAndTechnicalAppetitesDetail = ({
   agency,
@@ -82,7 +61,7 @@ const SkillPage = () => {
       : agency.join("")
     : undefined;
   const { data: userSkillAndAppetiteDetails } =
-    useQuery<UserSkillsAndAppetiteDetails>(
+    useQuery<GetUserSkillsAndTechnicalAppetitesQuery>(
       computeUsersSkillsAndTechnicalAppetitesDetail({
         agency: computedAgency,
       }),

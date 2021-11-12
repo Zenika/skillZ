@@ -12,48 +12,13 @@ import {
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
 import Custom404 from "../../404";
-type GetUserAgencyAndAllAgenciesResult = {
-  User: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string };
-  }[];
-  Agency: { name: string }[];
-  Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
-  UserAchievements: {
-    created_at: string;
-    points: number;
-    label: string;
-    userEmail: string;
-    step: string;
-    additionalInfo: string;
-  }[];
-  Category: {
-    label: string;
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-    CurrentSkillsAndDesires: {
-      name: string;
-      skillLevel: number;
-      desireLevel: number;
-    }[];
-  }[];
-  UserTopic_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 
 const Profile = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
-  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesResult>(
+  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
     USER_INFOS,
     {
       variables: { email: userEmail },
