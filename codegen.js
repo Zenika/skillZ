@@ -1,8 +1,5 @@
 require("dotenv").config({ path: ".env.local" });
-console.log(
-  process.env.NEXT_PUBLIC_GRAPHQL_URL,
-  process.env.HASURA_ADMIN_SECRET
-);
+
 module.exports = {
   schema: [
     {
