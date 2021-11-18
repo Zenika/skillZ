@@ -64,6 +64,7 @@ const App = ({ Component, pageProps }) => {
       scope="read:current_user"
       redirectUri={BASE_URL}
       useRefreshTokens={true}
+      connection="google-oauth2"
     >
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>
