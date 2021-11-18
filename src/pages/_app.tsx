@@ -64,7 +64,6 @@ const App = ({ Component, pageProps }) => {
       scope="read:current_user"
       redirectUri={BASE_URL}
       useRefreshTokens={true}
-      cacheLocation={"localstorage"}
     >
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>

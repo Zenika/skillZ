@@ -30,6 +30,7 @@ const GraphQLProvider = ({ children }) => {
     loginWithRedirect,
     isAuthenticated,
     isLoading,
+    error,
   } = useAuth0();
   const [client, setClient] = useState<ApolloClient<any> | undefined>(
     undefined
@@ -38,8 +39,20 @@ const GraphQLProvider = ({ children }) => {
     if (isLoading) {
       return;
     }
+    if (error) {
+      if (error.message === "Login required") {
+        loginWithRedirect({
+          redirect_uri: NEXT_PUBLIC_BASE_URL,
+          prompt: "login",
+        });
+        return;
+      } else {
+        console.error(error);
+        return;
+      }
+    }
     if (!isAuthenticated) {
-      loginWithRedirect({ redirect_uri: NEXT_PUBLIC_BASE_URL });
+      loginWithRedirect({ redirect_uri: NEXT_PUBLIC_BASE_URL, prompt: "none" });
       return;
     }
     (async () => {
