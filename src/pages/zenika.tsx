@@ -7,39 +7,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FilterData } from "../utils/types";
 import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
-import { GetSkillsAndTechnicalAppetitesByCategoryQuery } from "../generated/graphql";
-
-const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
-  query getSkillsAndTechnicalAppetites${agency ? "($agency: String!)" : ""} {
-    Category(order_by: {index: asc}) {
-      label
-      color
-      x
-      y
-      AverageCurrentSkillsAndDesires: ${
-        agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires(order_by: {averageSkillLevel: desc, averageDesireLevel: desc}, limit: 5 ${
-  agency ? `, where: {agency: {_eq: $agency}}` : ""
-}) {
-        name
-        averageSkillLevel
-        averageDesireLevel
-      }
-      AverageCurrentSkillsAndDesires_aggregate: ${
-        agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires_aggregate ${
-  agency ? `(where: {agency: {_eq: $agency}})` : ""
-} {
-        aggregate {
-          count(columns: skillId, distinct: true)
-        }
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
+import {
+  GET_SKILLS_AND_DESIRES,
+  GET_SKILLS_AND_DESIRES_BY_AGENCY,
+} from "../graphql/queries/skills";
+import { GetSkillsAndDesiresByAgencyQuery } from "../generated/graphql";
 
 const Zenika = ({ pathName }) => {
   const { user, isLoading } = useAuth0();
@@ -51,14 +23,12 @@ const Zenika = ({ pathName }) => {
   >(undefined);
 
   const { data: skillsData, error } =
-    useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
-      computeZenikaSkillsQuery({
-        agency: filterByAgency?.selected
-          ? filterByAgency?.selected === "World"
-            ? undefined
-            : filterByAgency?.selected
-          : undefined,
-      }),
+    useQuery<GetSkillsAndDesiresByAgencyQuery>(
+      filterByAgency?.selected
+        ? GET_SKILLS_AND_DESIRES_BY_AGENCY
+          ? GET_SKILLS_AND_DESIRES
+          : GET_SKILLS_AND_DESIRES_BY_AGENCY
+        : GET_SKILLS_AND_DESIRES,
       {
         variables: { email: user.email, agency: filterByAgency?.selected },
         fetchPolicy: "network-only",

@@ -4,10 +4,13 @@ import Loading from "../components/Loading";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
-import { USER_SKILLS_QUERY, USER_QUERY } from "../graphql/queries/userInfos";
 import {
-  GetUserSkillsAndTechnicalAppetitesQuery,
-  QueryUserQuery,
+  GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
+  GET_USER_QUERY,
+} from "../graphql/queries/userInfos";
+import {
+  GetCurrentUserSkillsAndDesiresQuery,
+  GetUserQuery,
 } from "../generated/graphql";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -22,7 +25,7 @@ const Home = ({ pathName }) => {
   const { context } = query;
   const { user, isLoading } = useAuth0();
 
-  const { data: userData } = useQuery<QueryUserQuery>(USER_QUERY, {
+  const { data: userData } = useQuery<GetUserQuery>(GET_USER_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
@@ -32,10 +35,13 @@ const Home = ({ pathName }) => {
   }
 
   const { data: skillsData, error } =
-    useQuery<GetUserSkillsAndTechnicalAppetitesQuery>(USER_SKILLS_QUERY, {
-      variables: { email: user.email },
-      fetchPolicy: "network-only",
-    });
+    useQuery<GetCurrentUserSkillsAndDesiresQuery>(
+      GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
+      {
+        variables: { email: user.email },
+        fetchPolicy: "network-only",
+      }
+    );
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,

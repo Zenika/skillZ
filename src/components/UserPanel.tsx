@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import Image from "next/image";
 import { i18nContext } from "../utils/i18nContext";
-import router, { useRouter } from "next/router";
 import Link from "next/link";
 
 type User = { name: string; picture: string; agency: string; email: string };

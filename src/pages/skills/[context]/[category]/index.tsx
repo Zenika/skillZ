@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../../../../utils/i18nContext";
 import SkillPanel from "../../../../components/SkillPanel";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
-import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../../../../components/Loading";
@@ -16,105 +15,39 @@ import { useNotification } from "../../../../utils/useNotification";
 import { FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 import { useDarkMode } from "../../../../utils/darkMode";
+import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
+import {
+  GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+  GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+} from "../../../../graphql/queries/skills";
+import {
+  AgenciesAverageCurrentSkillsAndDesires,
+  Category,
+  GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery,
+  GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery,
+  Maybe,
+  Skill,
+  ZenikasAverageCurrentSkillsAndDesires,
+} from "../../../../generated/graphql";
 
-export type FetchResult = {
-  Category: FetchedCategory[];
-  Agency: {
-    name: string;
-  }[];
-};
+// export type FetchResult = {
+//   Category: FetchedCategory[];
+//   Agency: {
+//     name: string;
+//   }[];
+// };
 
-export type FetchedCategory = {
-  color: string;
-  CurrentSkillsAndDesires: FetchedSkill[];
-};
-export type FetchedSkill = {
-  id: string;
-  name: string;
-  skillLevel: number;
-  desireLevel: number;
-  userCount: number;
-};
-
-export type Skill = {
-  id: string;
-  name: string;
-  skillLevel: number;
-  count?: number;
-  desireLevel: number;
-  certif: boolean;
-};
-
-const EDIT_SKILL_MUTATION = gql`
-  mutation addUserSkill(
-    $email: String!
-    $skillId: uuid!
-    $skillLevel: Int!
-    $desireLevel: Int!
-  ) {
-    insert_UserSkillDesire(
-      objects: {
-        skillId: $skillId
-        skillLevel: $skillLevel
-        desireLevel: $desireLevel
-        userEmail: $email
-      }
-      on_conflict: {
-        constraint: UserSkillDesire_userEmail_skillId_created_at_key
-        update_columns: [skillLevel, desireLevel]
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
-const SKILLS_AND_APPETITE_QUERY = gql`
-  query getSkillsAndTechnicalAppetitesByCategory(
-    $email: String!
-    $category: String!
-  ) {
-    Category(where: { label: { _eq: $category } }) {
-      color
-      CurrentSkillsAndDesires(
-        order_by: { skillLevel: desc, desireLevel: desc }
-        where: { userEmail: { _eq: $email } }
-      ) {
-        id: skillId
-        name
-        desireLevel
-        skillLevel
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
-
-const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
-  query getSkillsAndTechnicalAppetites($category: String!, ${
-    agency ? "$agency: String!" : ""
-  }) {
-    Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
-      color
-      CurrentSkillsAndDesires: ${
-        agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires(order_by: {averageSkillLevel: desc, averageDesireLevel: desc} ${
-  agency ? `, where: {agency: {_eq: $agency}}` : ""
-}) {
-      id: skillId
-      name
-      skillLevel: averageSkillLevel
-      desireLevel: averageDesireLevel
-      userCount
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
+// export type FetchedCategory = {
+//   color: string;
+//   CurrentSkillsAndDesires: FetchedSkill[];
+// };
+// export type FetchedSkill = {
+//   id: string;
+//   name: string;
+//   skillLevel: number;
+//   desireLevel: number;
+//   userCount: number;
+// };
 
 const ListSkills = () => {
   const router = useRouter();
@@ -127,35 +60,63 @@ const ListSkills = () => {
   const { context, category, agency } = router.query;
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
-    undefined
-  );
+  const [selectedSkill, setSelectedSkill] = useState<Skill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-  const [skills, setSkills] = useState<FetchedCategory>();
   const [radarData, setRadarData] = useState<RadarData[]>();
-  const [sortedSkills, setSortedSkills] = useState<Skill[]>();
-  const { data: skillsData, refetch } = useQuery<FetchResult>(
-    context === "zenika"
-      ? computeZenikaSkillsQuery({
-          agency: filterByAgency?.selected
-            ? filterByAgency?.selected === "World"
-              ? undefined
-              : filterByAgency?.selected
-            : undefined,
-        })
-      : SKILLS_AND_APPETITE_QUERY,
-    {
-      variables: {
-        email: user.email,
-        category: category || "",
-        agency: filterByAgency?.selected,
-      },
-      fetchPolicy: "network-only",
+  const [sortedSkills, setSortedSkills] = useState<Partial<Skill>[]>();
+  const { categoryData, agencyData, refetch } = (() => {
+    if (context === "zenika") {
+      const { data, refetch } =
+        useQuery<GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery>(
+          GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+          {
+            variables: {
+              email: user.email,
+              category: category || "",
+              agency: filterByAgency?.selected,
+            },
+            fetchPolicy: "network-only",
+          }
+        );
+      return {
+        agencyData: data.Agency,
+        categoryData: {
+          color: data.Category[0].color,
+          CurrentSkillsAndDesires: {
+            ...data.Category[0].ZenikasAverageCurrentSkillsAndDesires,
+            __typename: undefined,
+          },
+        },
+        refetch,
+      };
     }
-  );
+    const { data, refetch } =
+      useQuery<GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery>(
+        GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+        {
+          variables: {
+            email: user.email,
+            category: category || "",
+            agency: filterByAgency?.selected,
+          },
+          fetchPolicy: "network-only",
+        }
+      );
+    return {
+      agencyData: data.Agency,
+      categoryData: {
+        color: data.Category[0].color,
+        CurrentSkillsAndDesires: {
+          ...data.Category[0].AgenciesAverageCurrentSkillsAndDesires,
+          __typename: undefined,
+        },
+      },
+      refetch,
+    };
+  })();
   useEffect(() => {
     setCategoryClicked(category);
   }),
@@ -167,20 +128,19 @@ const ListSkills = () => {
         agency
           ? {
               name: "Agency",
-              values: skillsData?.Agency.map((agency) => agency.name) || [],
+              values: agencyData.map((agency) => agency.name) || [],
               selected: typeof agency === "string" ? agency : agency.join("-"),
             }
           : undefined
       ),
-    [agency, skillsData]
+    [agency, categoryData]
   );
   useEffect(() => {
-    if (!skillsData) {
+    if (!categoryData) {
       return;
     }
-    setSkills(skillsData.Category[0]);
     setRadarData(
-      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
+      categoryData?.CurrentSkillsAndDesires.map((skill) => ({
         x: skill.skillLevel,
         y: skill.desireLevel,
         weight: 65,
@@ -189,29 +149,33 @@ const ListSkills = () => {
       }))
     );
     setSortedSkills(
-      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
-        id: skill.id,
-        name: skill.name,
-        count: skill.userCount,
-        skillLevel: skill.skillLevel,
-        desireLevel: skill.desireLevel,
-        certif: false,
-      }))
+      categoryData.CurrentSkillsAndDesires.map(
+        (
+          skill:
+            | ZenikasAverageCurrentSkillsAndDesires
+            | AgenciesAverageCurrentSkillsAndDesires
+        ) => ({
+          id: skill.skillId,
+          name: skill.name,
+          count: skill.userCount,
+          skillLevel: skill.averageSkillLevel,
+          desire: skill.averageDesireLevel,
+        })
+      )
     );
-    if (!filterByAgency && context !== "mine" && skillsData?.Agency) {
+    if (!filterByAgency && context !== "mine" && agencyData) {
       setFilterByAgency({
-        values: skillsData.Agency.map((agency) => agency.name),
+        values: agencyData.map((agency) => agency.name),
         name: "Agency",
       });
     }
-  }, [skillsData]);
+  }, [categoryData]);
 
   const [addSkill, { error: mutationError }] = useMutation(
-    EDIT_SKILL_MUTATION,
+    ADD_USER_SKILL_MUTATION,
     {
       onCompleted: async () => {
         const { data } = await refetch({ email: user.email, category });
-        setSkills(data.Category[0]);
         useNotification(
           t("skills.updateSkillSuccess").replace(
             "%skill%",
@@ -254,7 +218,7 @@ const ListSkills = () => {
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
-  if (isLoading || !skills) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
@@ -283,7 +247,7 @@ const ListSkills = () => {
         }
         faded={editPanelOpened || modaleOpened}
         data={radarData}
-        color={skills.color}
+        color={categoryData.color}
       >
         <div
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
@@ -296,7 +260,9 @@ const ListSkills = () => {
               <SkillPanel
                 key={skill.name}
                 skill={skill}
-                count={skill.count}
+                count={
+                  skill.UsersCurrentSkillsAndDesires_aggregate.aggregate.count
+                }
                 context={
                   typeof context === "string" ? context : context.join("")
                 }

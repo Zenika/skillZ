@@ -11,14 +11,7 @@ import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
 import { GetUserAgencyQuery } from "../generated/graphql";
-
-const GET_USER_AGENCY_QUERY = gql`
-  query getUserAgency($email: String!) {
-    UserLatestAgency(where: { userEmail: { _eq: $email } }) {
-      agency
-    }
-  }
-`;
+import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
 
 const Topbar = ({
   path,

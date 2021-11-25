@@ -6,50 +6,11 @@ import CommonPage from "../../../../../components/CommonPage";
 import PageWithSkillList from "../../../../../components/PageWithSkillList";
 import UserSkillPanel from "../../../../../components/UserSkillPanel";
 import { GetUserSkillsAndTechnicalAppetitesQuery } from "../../../../../generated/graphql";
+import {
+  GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY,
+  GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY,
+} from "../../../../../graphql/queries/skills";
 import { i18nContext } from "../../../../../utils/i18nContext";
-
-const computeUsersSkillsAndTechnicalAppetitesDetail = ({
-  agency,
-}: {
-  agency?: string;
-}) => gql`
-  query getUserSkillsAndTechnicalAppetitesDetail(
-    $category: String!
-    $skill: String!
-    ${agency ? "$agency: String!" : ""}
-  ) {
-    Category(where: { label: { _eq: $category } }) {
-      color
-      Skills(where: { name: { _eq: $skill } ${
-        agency
-          ? ", UserSkillDesires: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
-          : ""
-      } }) {
-        id
-        name
-        UsersCurrentSkillsAndDesires(
-          order_by: { skillLevel: desc, desireLevel: desc }
-          ${
-            agency
-              ? ", where: {User: {UserLatestAgency: {agency: {_eq: $agency}}}}"
-              : ""
-          }
-        ) {
-          skillLevel
-          desireLevel
-          User {
-            name
-            picture
-            email
-            UserLatestAgency {
-              agency
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 
 const SkillPage = () => {
   const router = useRouter();
@@ -62,9 +23,9 @@ const SkillPage = () => {
     : undefined;
   const { data: userSkillAndAppetiteDetails } =
     useQuery<GetUserSkillsAndTechnicalAppetitesQuery>(
-      computeUsersSkillsAndTechnicalAppetitesDetail({
-        agency: computedAgency,
-      }),
+      computedAgency
+        ? GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY
+        : GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY,
       {
         variables: { category, skill, agency },
       }

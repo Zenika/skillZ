@@ -4,13 +4,6 @@ import { useMediaQuery } from "react-responsive";
 import { InsertSkillMutationMutation } from "../generated/graphql";
 import { i18nContext } from "../utils/i18nContext";
 
-export type Skill = {
-  id: string;
-  name: string;
-  skillLevel?: number;
-  desireLevel?: number;
-};
-
 const INSERT_SKILL_MUTATION = gql`
   mutation insertSkillMutation($name: String!, $categoryId: uuid!) {
     insert_Skill(objects: { name: $name, categoryId: $categoryId }) {

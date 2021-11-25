@@ -6,121 +6,19 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
 import SearchBar from "../../../../components/SearchBar";
 import AddSkillListSelector from "../../../../components/AddSkilListSelector";
-import { gql } from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
-import { FetchResult } from ".";
 import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
 import Custom404 from "../../../404";
 import Loading from "../../../../components/Loading";
+import { GetSkillsAndTechnicalAppetitesByCategoryQuery } from "../../../../generated/graphql";
+import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import {
-  GetSkillsAndTechnicalAppetitesByCategoryQuery,
-  GetSkillsByCategoryQuery,
-} from "../../../../generated/graphql";
-
-type Skill = {
-  id: string;
-  name: string;
-  UserSkillDesires_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
-
-type SkillSearchResult = {
-  Skill: Skill[];
-  didYouMeanSearch: Skill[];
-};
-
-const SKILLS_AND_APPETITE_QUERY = gql`
-  query getSkillsAndTechnicalAppetitesByCategory(
-    $email: String!
-    $category: String!
-  ) {
-    Category(where: { label: { _eq: $category } }) {
-      color
-      id
-      CurrentSkillsAndDesires(
-        order_by: { skillLevel: desc, desireLevel: desc }
-        where: { userEmail: { _eq: $email } }
-      ) {
-        id: skillId
-        name
-        desireLevel
-        skillLevel
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
-
-const SKILL_SEARCH_QUERY = gql`
-  query getSkillsByCategory(
-    $search: String!
-    $category: String!
-    $email: String!
-    $didYouMeanSearch: String!
-  ) {
-    Skill(
-      where: {
-        Category: { label: { _eq: $category } }
-        name: { _ilike: $search }
-      }
-      order_by: { name: asc }
-    ) {
-      name
-      id
-      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
-        aggregate {
-          count
-        }
-      }
-    }
-    didYouMeanSearch: Skill(
-      where: {
-        Category: { label: { _eq: $category } }
-        name: { _similar: $didYouMeanSearch }
-      }
-    ) {
-      name
-      id
-      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
-        aggregate {
-          count
-        }
-      }
-    }
-  }
-`;
-
-const ADD_SKILL_MUTATION = gql`
-  mutation addUserSkill(
-    $email: String!
-    $skillId: uuid!
-    $skillLevel: Int!
-    $desireLevel: Int!
-  ) {
-    insert_UserSkillDesire(
-      objects: {
-        skillId: $skillId
-        skillLevel: $skillLevel
-        desireLevel: $desireLevel
-        userEmail: $email
-      }
-      on_conflict: {
-        constraint: UserSkillDesire_userEmail_skillId_created_at_key
-        update_columns: [skillLevel, desireLevel]
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
+  GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+  SEARCH_SKILLS_BY_CATEGORY_QUERY,
+} from "../../../../graphql/queries/skills";
 
 const computeDidYouMeanSearchString = (search: string) => {
   const searches: string[] = [];
@@ -156,7 +54,7 @@ const AddSkill = () => {
     refetch,
     loading: loadingSkillsApetite,
   } = useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
-    SKILLS_AND_APPETITE_QUERY,
+    GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
     {
       variables: { email: user.email, category: category || "" },
       fetchPolicy: "network-only",
@@ -169,7 +67,7 @@ const AddSkill = () => {
     loading: loadingSearchSkill,
     error: errorSearchSkills,
   } = useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
-    SKILL_SEARCH_QUERY,
+    SEARCH_SKILLS_BY_CATEGORY_QUERY,
     {
       variables: {
         category,
@@ -180,22 +78,25 @@ const AddSkill = () => {
       fetchPolicy: "network-only",
     }
   );
-  const [addSkill, { error: mutationError }] = useMutation(ADD_SKILL_MUTATION, {
-    onCompleted: (_) => {
-      useNotification(
-        t("skills.addSkillSuccess").replace("%skill%", selectedSkill?.name),
-        "green",
-        5000
-      );
-      setSelectedSkill(undefined);
-      refetchSearch({ category, search: `%${debouncedSearchValue}%` });
-      refetch({
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-      });
-    },
-  });
+  const [addSkill, { error: mutationError }] = useMutation(
+    ADD_USER_SKILL_MUTATION,
+    {
+      onCompleted: (_) => {
+        useNotification(
+          t("skills.addSkillSuccess").replace("%skill%", selectedSkill?.name),
+          "green",
+          5000
+        );
+        setSelectedSkill(undefined);
+        refetchSearch({ category, search: `%${debouncedSearchValue}%` });
+        refetch({
+          category,
+          search: `%${debouncedSearchValue}%`,
+          email: user?.email,
+        });
+      },
+    }
+  );
   const preAddAction = (skill: Skill) => {
     setSelectedSkill(skill);
     setModaleOpened(true);

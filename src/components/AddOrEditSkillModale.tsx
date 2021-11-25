@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
-import { Skill } from "./AddSkilListSelector";
 
 type AddOrEditSkillModaleProps = {
   skill?: Skill;

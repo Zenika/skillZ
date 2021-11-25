@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import Image from "next/image";
 import LevelBar from "./LevelBar";
-import { Skill } from "../pages/skills/[context]/[category]";
 import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
 import { useDarkMode } from "../utils/darkMode";

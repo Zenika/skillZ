@@ -5,21 +5,19 @@ import CommonPage from "../../../components/CommonPage";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
-import {
-  USER_INFOS,
-  INSERT_USER_MUTATION,
-} from "../../../graphql/queries/userInfos";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
 import Custom404 from "../../404";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
+import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
 
 const Profile = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
   const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
-    USER_INFOS,
+    GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
     {
       variables: { email: userEmail },
     }

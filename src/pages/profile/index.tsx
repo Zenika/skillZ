@@ -9,13 +9,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useDarkMode } from "../../utils/darkMode";
 import { Statistics } from "../../components/profile/statistics/Statistics";
-import {
-  USER_INFOS,
-  INSERT_USER_MUTATION,
-  UPSERT_AGENCY_MUTATION,
-} from "../../graphql/queries/userInfos";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import PreferedTopics from "../../components/profile/PreferedTopics";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
+import { INSERT_USER_MUTATION } from "../../graphql/mutations/userInfos";
 
 const Profile = () => {
   const { user } = useAuth0();
@@ -24,7 +21,7 @@ const Profile = () => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
-    USER_INFOS,
+    GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
     {
       variables: { email: user?.email },
       fetchPolicy: "network-only",
