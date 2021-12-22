@@ -18,12 +18,14 @@ import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import {
   GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+  GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
   GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
 } from "../../../../graphql/queries/skills";
 import {
   AgenciesAverageCurrentSkillsAndDesires,
   Category,
   GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery,
+  GetSkillsAndDesiresByCategoryQuery,
   GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery,
   Maybe,
   Skill,
@@ -65,30 +67,50 @@ const ListSkills = () => {
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-  const [radarData, setRadarData] = useState<RadarData[]>();
-  const [sortedSkills, setSortedSkills] = useState<Partial<Skill>[]>();
   const { categoryData, agencyData, refetch } = (() => {
-    if (context === "zenika") {
+    if (context !== "zenika") {
+      const { data, refetch } = useQuery<GetSkillsAndDesiresByCategoryQuery>(
+        GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+        {
+          variables: {
+            email: user.email,
+            category: category || "",
+          },
+          fetchPolicy: "network-only",
+        }
+      );
+      return {
+        agencyData: data?.Agency,
+        categoryData: {
+          color: data?.Category[0]?.color,
+          CurrentSkillsAndDesires:
+            data?.Category[0]?.CurrentSkillsAndDesires.map((value) => ({
+              ...value,
+              __typename: undefined,
+            })) || [],
+        },
+        refetch,
+      };
+    }
+    if (!filterByAgency?.selected) {
       const { data, refetch } =
         useQuery<GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery>(
           GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
           {
             variables: {
-              email: user.email,
               category: category || "",
-              agency: filterByAgency?.selected,
             },
             fetchPolicy: "network-only",
           }
         );
       return {
-        agencyData: data.Agency,
+        agencyData: data?.Agency,
         categoryData: {
-          color: data.Category[0].color,
-          CurrentSkillsAndDesires: {
-            ...data.Category[0].ZenikasAverageCurrentSkillsAndDesires,
-            __typename: undefined,
-          },
+          color: data?.Category[0].color,
+          CurrentSkillsAndDesires:
+            data?.Category[0].ZenikasAverageCurrentSkillsAndDesires.map(
+              (value) => ({ ...value, __typename: undefined })
+            ) || [],
         },
         refetch,
       };
@@ -98,7 +120,6 @@ const ListSkills = () => {
         GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
         {
           variables: {
-            email: user.email,
             category: category || "",
             agency: filterByAgency?.selected,
           },
@@ -106,21 +127,20 @@ const ListSkills = () => {
         }
       );
     return {
-      agencyData: data.Agency,
+      agencyData: data?.Agency,
       categoryData: {
-        color: data.Category[0].color,
-        CurrentSkillsAndDesires: {
-          ...data.Category[0].AgenciesAverageCurrentSkillsAndDesires,
-          __typename: undefined,
-        },
+        color: data?.Category[0].color,
+        CurrentSkillsAndDesires:
+          data?.Category[0].AgenciesAverageCurrentSkillsAndDesires.map(
+            (value) => ({ ...value, __typename: undefined })
+          ) || [],
       },
       refetch,
     };
   })();
   useEffect(() => {
     setCategoryClicked(category);
-  }),
-    [category];
+  });
 
   useEffect(
     () =>
@@ -135,47 +155,39 @@ const ListSkills = () => {
       ),
     [agency, categoryData]
   );
-  useEffect(() => {
-    if (!categoryData) {
-      return;
-    }
-    setRadarData(
-      categoryData?.CurrentSkillsAndDesires.map((skill) => ({
-        x: skill.skillLevel,
-        y: skill.desireLevel,
-        weight: 65,
-        labels: [skill.name],
-        name: skill.name,
-      }))
-    );
-    setSortedSkills(
-      categoryData.CurrentSkillsAndDesires.map(
-        (
-          skill:
-            | ZenikasAverageCurrentSkillsAndDesires
-            | AgenciesAverageCurrentSkillsAndDesires
-        ) => ({
-          id: skill.skillId,
-          name: skill.name,
-          count: skill.userCount,
-          skillLevel: skill.averageSkillLevel,
-          desire: skill.averageDesireLevel,
-        })
-      )
-    );
-    if (!filterByAgency && context !== "mine" && agencyData) {
-      setFilterByAgency({
-        values: agencyData.map((agency) => agency.name),
-        name: "Agency",
-      });
-    }
-  }, [categoryData]);
+
+  const radarData = categoryData?.CurrentSkillsAndDesires.map((skill) => ({
+    x: skill.skillLevel,
+    y: skill.desireLevel,
+    weight: 65,
+    labels: [skill.name],
+    name: skill.name,
+  }));
+
+  const sortedSkills = categoryData.CurrentSkillsAndDesires.map(
+    (
+      skill:
+        | ZenikasAverageCurrentSkillsAndDesires
+        | AgenciesAverageCurrentSkillsAndDesires
+    ) => ({
+      id: skill.skillId,
+      name: skill.name,
+      count: skill.userCount,
+      skillLevel: skill.averageSkillLevel,
+      desire: skill.averageDesireLevel,
+    })
+  );
+  if (!filterByAgency && context !== "mine" && agencyData) {
+    setFilterByAgency({
+      values: agencyData.map((agency) => agency.name),
+      name: "Agency",
+    });
+  }
 
   const [addSkill, { error: mutationError }] = useMutation(
     ADD_USER_SKILL_MUTATION,
     {
       onCompleted: async () => {
-        const { data } = await refetch({ email: user.email, category });
         useNotification(
           t("skills.updateSkillSuccess").replace(
             "%skill%",
@@ -261,7 +273,7 @@ const ListSkills = () => {
                 key={skill.name}
                 skill={skill}
                 count={
-                  skill.UsersCurrentSkillsAndDesires_aggregate.aggregate.count
+                  skill?.count
                 }
                 context={
                   typeof context === "string" ? context : context.join("")

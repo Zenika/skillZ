@@ -12,6 +12,14 @@ if (!NEXT_PUBLIC_BASE_URL) {
   );
 }
 
+type Skill = {
+  name?: string | null | undefined;
+  userCount?: any | null | undefined;
+  id?: any | null | undefined;
+  skillLevel?: any | null | undefined;
+  desireLevel?: any | null | undefined;
+};
+
 const SkillPanel = ({
   skill,
   context,
@@ -25,6 +33,7 @@ const SkillPanel = ({
   categoryLabel: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
+  console.log("skill", skill);
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
@@ -41,7 +50,8 @@ const SkillPanel = ({
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }
-  const { id, name, skillLevel, desireLevel, certif } = skill;
+  // Placeholder
+  const certif = false;
   return (
     <div
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
@@ -53,7 +63,7 @@ const SkillPanel = ({
         className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
       >
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl">{name}</h2>
+          <h2 className="text-xl">{skill.name}</h2>
           {count || certif ? (
             <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
               <div className="flex flex-col justify-center">
@@ -78,11 +88,11 @@ const SkillPanel = ({
             <p className="text-xs text-center my-2">
               {t("skills.desireLevel")}
             </p>
-            <LevelBar color="red" level={desireLevel} />
+            <LevelBar color="red" level={skill.desireLevel} />
           </div>
           <div className="flex flex-col">
             <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
-            <LevelBar color="yellow" level={skillLevel} />
+            <LevelBar color="yellow" level={skill.skillLevel} />
           </div>
         </div>
       </div>
