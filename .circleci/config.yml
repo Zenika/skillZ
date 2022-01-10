@@ -70,9 +70,9 @@ jobs:
       - run:
           name: "install hasura cli"
           command: sudo npm i -g hasura-cli
-      - run:
-          name: "wait for Hasura for a minute max"
-          command: dockerize -wait http://localhost:8080 -timeout 1m -wait-retry-interval 2s
+      # - run:
+      #     name: "wait for Hasura for a minute max"
+      #     command: dockerize -wait http://localhost:8080 -timeout 1m -wait-retry-interval 2s
       - run:
           name: migrate
           working_directory: hasura
@@ -88,6 +88,17 @@ jobs:
           paths:
             - ./src/generated
           key: v4-packaging-types-{{ $CIRCLE_SHA1 }}
+  unit-test:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+      - run:
+          name: unit-test
+          command: npm run test:unit
   build:
     executor: node
     parameters:
@@ -103,21 +114,10 @@ jobs:
           keys:
             - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
             - v4-packaging-dependencies-
+            - v4-packaging-types-{{ $CIRCLE_SHA1 }}
       - run:
           name: build
           command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
-  unit-test:
-    executor: node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v4-packaging-dependencies-
-            - v4-packaging-types-{{ $CIRCLE_SHA1 }}
-      - run:
-          name: unit-test
-          command: npm run test:unit
   deploy-hasura:
     parameters:
       hasura-deploy-dir:
