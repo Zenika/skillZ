@@ -8,63 +8,39 @@ import { useEffect, useState } from "react";
 import { FilterData } from "../utils/types";
 import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
 import {
-  GET_SKILLS_AND_DESIRES,
-  GET_SKILLS_AND_DESIRES_BY_AGENCY,
+  GetSkillsAndDesiresByAgencyQuery,
+  GetSkillsAndDesiresQuery,
+} from "../generated/graphql";
+import {
+  GET_SKILLS_AND_DESIRES_QUERY,
+  GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
 } from "../graphql/queries/skills";
-import { GetSkillsAndDesiresByAgencyQuery } from "../generated/graphql";
+import { useFetchZenikaPageData } from "../utils/fetchers/useFetchZenikaPageData";
 
 const Zenika = ({ pathName }) => {
   const { user, isLoading } = useAuth0();
   const { query, push } = useRouter();
   const { context, agency } = query;
-
+  const computedAgency = agency
+    ? typeof agency === "string"
+      ? agency
+      : agency.join("")
+    : undefined;
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-
-  const { data: skillsData, error } =
-    useQuery<GetSkillsAndDesiresByAgencyQuery>(
-      filterByAgency?.selected
-        ? GET_SKILLS_AND_DESIRES_BY_AGENCY
-          ? GET_SKILLS_AND_DESIRES
-          : GET_SKILLS_AND_DESIRES_BY_AGENCY
-        : GET_SKILLS_AND_DESIRES,
-      {
-        variables: { email: user.email, agency: filterByAgency?.selected },
-        fetchPolicy: "network-only",
-      }
-    );
+  const { homePanelData, agencies, error } = useFetchZenikaPageData(
+    user.email || "",
+    computedAgency
+  );
   useEffect(() => {
     setFilterByAgency({
       name: "Agency",
-      values: skillsData?.Agency.map((agency) => agency.name) || [],
-      selected: agency
-        ? typeof agency === "string"
-          ? agency
-          : agency.join("-")
-        : undefined,
+      values: agencies?.map((agency) => agency.name) || [],
+      selected: computedAgency,
     });
-  }, [agency, skillsData]);
+  }, [agency, agencies]);
 
-  const homePanelData = skillsData?.Category.map((data) => ({
-    x: data.x,
-    y: data.y,
-    color: data.color,
-    name: data.label,
-    count: data.AverageCurrentSkillsAndDesires_aggregate.aggregate.count,
-    context: "zenika",
-    data: data.AverageCurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.averageSkillLevel,
-      y: skill.averageDesireLevel,
-      weight: 25,
-      labels: [``],
-      name: skill.name,
-    })),
-    certifs: 0,
-  })).map((row) => ({
-    ...row,
-    data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
-  }));
   return (
     <PageWithNavAndPanel
       pathName={pathName}

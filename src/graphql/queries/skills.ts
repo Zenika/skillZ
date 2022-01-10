@@ -189,7 +189,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
   }
 `;
 
-export const GET_SKILLS_AND_DESIRES = gql`
+export const GET_SKILLS_AND_DESIRES_QUERY = gql`
   query getSkillsAndDesires {
     Category(order_by: { index: asc }) {
       label
@@ -216,7 +216,7 @@ export const GET_SKILLS_AND_DESIRES = gql`
   }
 `;
 
-export const GET_SKILLS_AND_DESIRES_BY_AGENCY = gql`
+export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
   query getSkillsAndDesiresByAgency($agency: String!) {
     Category(order_by: { index: asc }) {
       label
