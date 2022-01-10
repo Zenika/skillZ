@@ -10,7 +10,19 @@ const UserSkillPanel = ({
   skill,
   context,
 }: {
-  skill: Skill;
+  skill: {
+    id: any;
+    name: string;
+    level: number;
+    desire: number;
+    certif: boolean;
+    user: {
+      name: string;
+      picture: string;
+      agency: string;
+      email: string;
+    };
+  };
   context: string;
 }) => {
   const { t } = useContext(i18nContext);

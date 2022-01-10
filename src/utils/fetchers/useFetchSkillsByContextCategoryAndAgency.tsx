@@ -9,14 +9,7 @@ import {
   GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
   GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
 } from "../../graphql/queries/skills";
-
-type FetchedSkill = {
-  id: string;
-  name: string;
-  desireLevel: number;
-  skillLevel: number;
-  userCount?: number;
-};
+import { FetchedSkill } from "../types";
 
 const fetchMySkills = (email: string, category: string) => {
   const { data, refetch, loading } =

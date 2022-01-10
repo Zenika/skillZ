@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
-import { InsertSkillMutationMutation } from "../generated/graphql";
+import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { i18nContext } from "../utils/i18nContext";
 
 const INSERT_SKILL_MUTATION = gql`
@@ -22,11 +22,11 @@ const AddSkillListSelector = ({
   categoryId,
   action,
 }: {
-  skills: Skill[];
-  didYouMeanSkills: Skill[];
+  skills: Partial<Skill>[];
+  didYouMeanSkills: Partial<Skill>[];
   search: string;
   categoryId: string;
-  action: (skill: Skill) => void;
+  action: (skill: Partial<Skill>) => void;
 }) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({

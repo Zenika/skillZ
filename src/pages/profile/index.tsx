@@ -12,7 +12,10 @@ import { Statistics } from "../../components/profile/statistics/Statistics";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import PreferedTopics from "../../components/profile/PreferedTopics";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
-import { INSERT_USER_MUTATION } from "../../graphql/mutations/userInfos";
+import {
+  INSERT_USER_MUTATION,
+  UPSERT_USER_AGENCY_MUTATION,
+} from "../../graphql/mutations/userInfos";
 
 const Profile = () => {
   const { user } = useAuth0();
@@ -53,7 +56,7 @@ const Profile = () => {
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
-  const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
+  const [upsertAgency] = useMutation(UPSERT_USER_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
   };
@@ -100,7 +103,7 @@ const Profile = () => {
           <PreferedTopics
             topics={topics}
             refetch={refetch}
-            user={data?.User}
+            user={data?.User[0]}
             readOnly={false}
           ></PreferedTopics>
           {skillsDatas ? (

@@ -12,7 +12,7 @@ import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
-import { FilterData } from "../../../../utils/types";
+import { FetchedSkill, FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
@@ -45,7 +45,7 @@ const ListSkills = () => {
     : undefined;
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<Skill>(undefined);
+  const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
@@ -115,7 +115,7 @@ const ListSkills = () => {
       },
     }
   );
-  const onEditClick = (skill: Skill) => {
+  const onEditClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     openModale();
   };

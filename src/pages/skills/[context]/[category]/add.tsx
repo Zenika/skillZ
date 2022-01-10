@@ -23,6 +23,7 @@ import {
   GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
   SEARCH_SKILLS_BY_CATEGORY_QUERY,
 } from "../../../../graphql/queries/skills";
+import { FetchedSkill } from "../../../../utils/types";
 
 const computeDidYouMeanSearchString = (search: string) => {
   const searches: string[] = [];
@@ -49,7 +50,7 @@ const AddSkill = () => {
   }
   const [search, setSearch] = useState("");
   const [modaleOpened, setModaleOpened] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
+  const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | undefined>(
     undefined
   );
   const {
@@ -97,7 +98,7 @@ const AddSkill = () => {
       },
     }
   );
-  const preAddAction = (skill: Skill) => {
+  const preAddAction = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     setModaleOpened(true);
   };
@@ -127,6 +128,7 @@ const AddSkill = () => {
     })
   );
   const categoryId = data?.Category[0]?.["id"];
+
   return (
     <div>
       {radarData && !errorSkillsApetite && !errorSearchSkills ? (
@@ -165,16 +167,20 @@ const AddSkill = () => {
                 <SearchBar setSearch={setSearch} />
                 <AddSkillListSelector
                   action={preAddAction}
-                  skills={skillsData?.Skill.filter(
-                    (skill) =>
-                      skill.UserSkillDesires_aggregate.aggregate.count === 0
-                  )}
+                  skills={
+                    skillsData?.Skill.filter(
+                      (skill) =>
+                        skill.UserSkillDesires_aggregate.aggregate.count === 0
+                    ) as Partial<Skill>[]
+                  }
                   categoryId={categoryId}
                   search={debouncedSearchValue}
-                  didYouMeanSkills={skillsData?.didYouMeanSearch.filter(
-                    (skill) =>
-                      skill.UserSkillDesires_aggregate.aggregate.count === 0
-                  )}
+                  didYouMeanSkills={
+                    skillsData?.didYouMeanSearch.filter(
+                      (skill) =>
+                        skill.UserSkillDesires_aggregate.aggregate.count === 0
+                    ) as Partial<Skill>[]
+                  }
                 />
               </div>
             </div>

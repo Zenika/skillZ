@@ -65,7 +65,7 @@ const Profile = () => {
               <PreferedTopics
                 topics={topics}
                 refetch={null}
-                user={data?.User}
+                user={data?.User[0]}
                 readOnly={true}
               ></PreferedTopics>
               {skillsDatas ? (
