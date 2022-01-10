@@ -85,7 +85,7 @@ jobs:
           working_directory: hasura
           command: hasura metadata apply --endpoint http://hasura:8080
   build-local:
-    executor: docker
+    executor: hasura
     parameters:
       graphql-url:
         type: string
