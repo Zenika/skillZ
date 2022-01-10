@@ -100,10 +100,10 @@ jobs:
           command: dockerize -wait http://hasura:8080/healthz -timeout 1m
       - run:
           name: "Apply migrations"
-          command: npm run hasura migrate apply --endpoint=http://hasura:8080
+          command: npm run hasura -- --endpoint=http://hasura:8080 migrate apply
       - run:
           name: "Apply metadatas"
-          command: npm run hasura metadata apply --endpoint=http://hasura:8080
+          command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
       - run:
           name: generate
           command: |
