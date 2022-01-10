@@ -252,7 +252,7 @@ workflows:
       #     parallel: true
       #     parallelism: 2
       - build-local:
-          name: build-staging
+          name: build-local
           requires:
             - qc-prettier
             - unit-test
