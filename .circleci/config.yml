@@ -19,7 +19,7 @@ executors:
       - image: hasura/graphql-engine:v2.0.6.cli-migrations-v3
         name: hasura
         environment:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+          HASURA_GRAPHQL_DATABASE_URL: postgresql://postgres:@localhost:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
   docker:
     docker:
