@@ -13,11 +13,13 @@ executors:
       - image: postgres:12
         name: postgres
         environment:
-          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          PGPORT: 5432
       - image: hasura/graphql-engine:v2.0.6.cli-migrations-v3
         name: hasura
         environment:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@localhost/postgres
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
   docker:
     docker:
