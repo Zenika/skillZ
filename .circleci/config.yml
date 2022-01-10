@@ -9,18 +9,18 @@ executors:
       - image: circleci/node:16.13.0
   hasura:
     docker:
-      - image: circleci/node:16.13.0
-      - image: hasura/postgres-13.0-alpine-postgis3:latest
-        name: postgres
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
-          PGPORT: 5432
-      - image: hasura/graphql-engine:v2.0.6.cli-migrations-v3
-        name: hasura
-        environment:
-          HASURA_GRAPHQL_DATABASE_URL: postgresql://postgres:@localhost:5432/postgres
-          HASURA_GRAPHQL_ADMIN_SECRET: key
+      - image: cimg/node:16.13.0
+      # - image: postgres:12
+      #   name: postgres
+      #   environment:
+      #     POSTGRES_USER: postgres
+      #     POSTGRES_DB: postgres
+      #     PGPORT: 5432
+      # - image: hasura/graphql-engine:v2.0.6.cli-migrations-v3
+      #   name: hasura
+      #   environment:
+      #     HASURA_GRAPHQL_DATABASE_URL: postgresql://postgres:@localhost:5432/postgres
+      #     HASURA_GRAPHQL_ADMIN_SECRET: key
   docker:
     docker:
       - image: docker:stable
@@ -56,27 +56,31 @@ jobs:
     executor: hasura
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           keys:
             - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
             - v4-packaging-dependencies-
       - run:
+          name: "docker-compose up -d"
+          command: docker-compose up -d
+      - run:
           name: "install hasura cli"
           command: sudo npm i -g hasura-cli
       - run:
           name: "wait for Hasura for a minute max"
-          command: dockerize -wait tcp://hasura:8080 -timeout 1m
+          command: dockerize -wait tcp://localhost:8080 -timeout 1m
       - run:
           name: migrate
           working_directory: hasura
-          command: hasura migrate apply --endpoint http://hasura:8080
+          command: hasura migrate apply --endpoint http://localhost:8080
       - run:
           name: metadata
           working_directory: hasura
-          command: hasura metadata apply --endpoint http://hasura:8080
+          command: hasura metadata apply --endpoint http://localhost:8080
       - run:
           name: generate types
-          command: NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080 HASURA_ADMIN_SECRET=key npm run generate
+          command: NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080 HASURA_ADMIN_SECRET=key npm run generate
       - save_cache:
           paths:
             - ./src/generated
