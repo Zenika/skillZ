@@ -279,8 +279,8 @@ workflows:
       - build:
           name: build-staging
           requires:
-            - deploy-hasura
-            - run-migrations
+            - deploy-hasura-staging
+            - run-migrations-staging
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_STAGING_BASE_URL
           filters: *deploy-staging-filters
