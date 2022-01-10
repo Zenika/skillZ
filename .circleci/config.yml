@@ -186,12 +186,14 @@ jobs:
 workflows:
   qc-test-deploy-staging:
     jobs:
-      # - hasura-test-apply-migrations
       - install-dependencies
       - qc-prettier:
           requires:
             - install-dependencies
       - unit-test:
+          requires:
+            - install-dependencies
+      - hasura-test-apply-migrations:
           requires:
             - install-dependencies
       # - cypress/install:
@@ -226,6 +228,7 @@ workflows:
           requires:
             - qc-prettier
             - unit-test
+            - hasura-test-apply-migrations
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           base-url: $NEXT_STAGING_BASE_URL
       - deploy-hasura:
