@@ -20,6 +20,7 @@ executors:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
           HASURA_GRAPHQL_NO_OF_RETRIES: 30
+          HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
   docker:
     docker:
       - image: docker:stable
