@@ -22,8 +22,6 @@ executors:
           HASURA_GRAPHQL_NO_OF_RETRIES: 30
           HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
           NEXT_API_BEARER_TOKEN: key
-          HASURA_GRAPHQL_MIGRATIONS_DIR: hasura/migrations
-          HASURA_GRAPHQL_METADATA_DIR: hasura/metadata
   docker:
     docker:
       - image: docker:stable
@@ -100,6 +98,12 @@ jobs:
       - run:
           name: "wait for Hasura for a minute max"
           command: dockerize -wait http://hasura:8080/healthz -timeout 1m
+      - run:
+          name: "Apply migrations"
+          command: npm run hasura migrate apply
+      - run:
+          name: "Apply metadatas"
+          command: npm run hasura metadata apply
       - run:
           name: generate
           command: |
