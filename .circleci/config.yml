@@ -72,7 +72,7 @@ jobs:
           command: sudo npm i -g hasura-cli
       - run:
           name: "wait for Hasura for a minute max"
-          command: dockerize -wait tcp://localhost:8080 -timeout 1m
+          command: dockerize -wait http://localhost:8080 -timeout 1m -wait-retry-interval 2s
       - run:
           name: migrate
           working_directory: hasura
