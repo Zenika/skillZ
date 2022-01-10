@@ -10,7 +10,7 @@ executors:
   hasura:
     docker:
       - image: circleci/node:16.13.0
-      - image: postgres:12
+      - image: hasura/postgres-13.0-alpine-postgis3:latest
         name: postgres
         environment:
           POSTGRES_USER: postgres
