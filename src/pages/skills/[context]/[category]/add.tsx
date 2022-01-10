@@ -13,7 +13,11 @@ import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
 import Custom404 from "../../../404";
 import Loading from "../../../../components/Loading";
-import { GetSkillsAndTechnicalAppetitesByCategoryQuery } from "../../../../generated/graphql";
+import {
+  GetSkillsAndDesiresByCategoryQuery,
+  SearchSkillsByCategoryQuery,
+  Skill,
+} from "../../../../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import {
   GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
@@ -53,11 +57,10 @@ const AddSkill = () => {
     error: errorSkillsApetite,
     refetch,
     loading: loadingSkillsApetite,
-  } = useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
+  } = useQuery<GetSkillsAndDesiresByCategoryQuery>(
     GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
     {
       variables: { email: user.email, category: category || "" },
-      fetchPolicy: "network-only",
     }
   );
   const [debouncedSearchValue] = useDebounce(search, 500);
@@ -66,18 +69,15 @@ const AddSkill = () => {
     refetch: refetchSearch,
     loading: loadingSearchSkill,
     error: errorSearchSkills,
-  } = useQuery<GetSkillsAndTechnicalAppetitesByCategoryQuery>(
-    SEARCH_SKILLS_BY_CATEGORY_QUERY,
-    {
-      variables: {
-        category,
-        search: `%${debouncedSearchValue}%`,
-        email: user?.email,
-        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-      },
-      fetchPolicy: "network-only",
-    }
-  );
+  } = useQuery<SearchSkillsByCategoryQuery>(SEARCH_SKILLS_BY_CATEGORY_QUERY, {
+    variables: {
+      category,
+      search: `%${debouncedSearchValue}%`,
+      email: user?.email,
+      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+    },
+    fetchPolicy: "network-only",
+  });
   const [addSkill, { error: mutationError }] = useMutation(
     ADD_USER_SKILL_MUTATION,
     {

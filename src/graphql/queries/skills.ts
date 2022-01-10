@@ -9,14 +9,11 @@ export const GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY = gql`
         order_by: { skillLevel: desc, desireLevel: desc }
         where: { userEmail: { _eq: $email } }
       ) {
-        id: skillId
+        skillId
         name
         desireLevel
         skillLevel
       }
-    }
-    Agency {
-      name
     }
   }
 `;
@@ -91,10 +88,10 @@ export const GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY = g
       ZenikasAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
       ) {
-        id: skillId
+        skillId
         name
-        skillLevel: averageSkillLevel
-        desireLevel: averageDesireLevel
+        averageSkillLevel
+        averageDesireLevel
         userCount
       }
     }
@@ -115,10 +112,10 @@ export const GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY =
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         where: { agency: { _eq: $agency } }
       ) {
-        id: skillId
+        skillId
         name
-        skillLevel: averageSkillLevel
-        desireLevel: averageDesireLevel
+        averageSkillLevel
+        averageDesireLevel
         userCount
       }
     }

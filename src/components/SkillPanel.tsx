@@ -33,11 +33,10 @@ const SkillPanel = ({
   categoryLabel: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
-  console.log("skill", skill);
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
-  const { category, agency } = query;
+  const { agency } = query;
   const computedAgency =
     agency && agency !== "World"
       ? typeof agency === "string"
