@@ -70,17 +70,17 @@ jobs:
       - run:
           name: "install hasura cli"
           command: sudo npm i -g hasura-cli
-      # - run:
-      #     name: "wait for Hasura for a minute max"
-      #     command: dockerize -wait http://localhost:8080 -timeout 1m -wait-retry-interval 2s
+      - run:
+          name: "wait for Hasura for a minute max"
+          command: dockerize -wait http://localhost:8080/healthz -timeout 1m -wait-retry-interval 2s
       - run:
           name: migrate
           working_directory: hasura
-          command: hasura migrate apply --endpoint http://localhost:8080
+          command: hasura migrate apply
       - run:
           name: metadata
           working_directory: hasura
-          command: hasura metadata apply --endpoint http://localhost:8080
+          command: hasura metadata apply
       - run:
           name: generate types
           command: NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080 HASURA_ADMIN_SECRET=key npm run generate
