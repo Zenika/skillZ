@@ -92,6 +92,12 @@ const Radar = ({
   const [resized, setResized] = useState(false);
   const [circles, setCircles] = useState<RadarData[]>([]);
   const isFullSize = title === "";
+  const colorTable = {
+    yellow: "text-light-yellow dark:text-dark-yellow",
+    violet: "text-light-violet dark:text-dark-violet",
+    blue: "text-light-blue dark:text-dark-blue",
+    cyan: "text-light-cyan dark:text-dark-cyan",
+  };
   useEffect(() => {
     if (!window) {
       return;
@@ -145,18 +151,18 @@ const Radar = ({
   }, [radar, data, resized]);
   return (
     <div
-      className={`flex flex-col${y === "bot" ? "-reverse" : ""} h-full w-full ${
-        faded ? "opacity-25" : ""
-      }`}
+      className={`flex ${
+        y === "bot" ? "flex-col-reverse" : "flex-col"
+      } h-full w-full ${faded ? "opacity-25" : ""}`}
     >
       <div className="w-full h-4/5">
         <div
           ref={radar}
           className={`${
             title === "" ? "w-radar h-radar" : "w-11/12 h-5/6"
-          } m-3 max-w-radar max-h-radar border-b-2 border-${
-            x === "left" ? "r" : "l"
-          }-2 border-dark-red border-dashed`}
+          } m-3 max-w-radar max-h-radar border-b-2 ${
+            x === "left" ? "border-r-2" : "border-l-2"
+          } border-dark-red border-dashed`}
         >
           {oneToSix.map((i) => (
             <RadarRow key={i} i={i} isFullSize={isFullSize} />
@@ -170,14 +176,14 @@ const Radar = ({
       </div>
       <div className="w-full h-1/5">
         <div
-          className={`flex flex-auto justify-${
-            x === "left" ? "end" : "start"
+          className={`flex flex-auto ${
+            x === "left" ? "justify-end" : "justify-start"
           } flex-row py-4 px-1 h-1/3 ${y === "bot" ? "order-1" : "order-12"}`}
         >
           <span
-            className={`text-xl px-2 w-full text-${
-              x === "left" ? "right" : "left"
-            } text-light-${color} dark:text-dark-${color}`}
+            className={`text-xl px-2 w-full ${
+              x === "left" ? "text-right" : "text-left"
+            } ${colorTable[color]}`}
           >
             {title}
           </span>

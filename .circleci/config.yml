@@ -6,15 +6,15 @@ orbs:
 executors:
   node:
     docker:
-      - image: circleci/node:16.13.0
+      - image: cimg/node:16.13.0
   hasura:
     docker:
-      - image: circleci/node:16.13.0
+      - image: cimg/node:16.13.0
       - image: postgres:12
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
-      - image: hasura/graphql-engine:v2.0.6.cli-migrations-v3
+      - image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
         name: hasura
         environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -141,7 +141,7 @@ jobs:
             clever deploy --force
   run-migrations:
     docker:
-      - image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
+      - image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
     parameters:
       hasura-admin-secret:
         type: string

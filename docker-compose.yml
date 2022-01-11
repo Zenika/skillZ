@@ -1,14 +1,14 @@
 version: "3.8"
 services:
   postgres:
-    image: postgres:12
+    image: postgres:13
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
-    image: hasura/graphql-engine:v2.0.6
+    image: hasura/graphql-engine:v2.1.1
     ports:
       - "8080:8080"
     depends_on:
