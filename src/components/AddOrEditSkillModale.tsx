@@ -2,12 +2,12 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
-import { Skill } from "./AddSkilListSelector";
+import { FetchedSkill } from "../utils/types";
 
 type AddOrEditSkillModaleProps = {
-  skill?: Skill;
+  skill?: FetchedSkill;
   cancel: () => void;
-  callback: (skill: Skill) => void;
+  callback: (skill: FetchedSkill) => void;
 };
 
 const AddOrEditSkillModale = ({

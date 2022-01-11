@@ -9,49 +9,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useDarkMode } from "../../utils/darkMode";
 import { Statistics } from "../../components/profile/statistics/Statistics";
-import {
-  USER_INFOS,
-  INSERT_USER_MUTATION,
-  UPSERT_AGENCY_MUTATION,
-} from "../../graphql/queries/userInfos";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import PreferedTopics from "../../components/profile/PreferedTopics";
-
-type GetUserAgencyAndAllAgenciesResult = {
-  User: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string };
-  }[];
-  Agency: { name: string }[];
-  Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
-  UserAchievements: {
-    created_at: string;
-    points: number;
-    label: string;
-    userEmail: string;
-    step: string;
-    additionalInfo: string;
-  }[];
-  Category: {
-    label: string;
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-    CurrentSkillsAndDesires: {
-      name: string;
-      skillLevel: number;
-      desireLevel: number;
-    }[];
-  }[];
-  UserTopic_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
+import {
+  INSERT_USER_MUTATION,
+  UPSERT_USER_AGENCY_MUTATION,
+} from "../../graphql/mutations/userInfos";
 
 const Profile = () => {
   const { user } = useAuth0();
@@ -59,8 +23,8 @@ const Profile = () => {
   const { context } = router.query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesResult>(
-    USER_INFOS,
+  const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
+    GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
     {
       variables: { email: user?.email },
       fetchPolicy: "network-only",
@@ -92,7 +56,7 @@ const Profile = () => {
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
-  const [upsertAgency] = useMutation(UPSERT_AGENCY_MUTATION);
+  const [upsertAgency] = useMutation(UPSERT_USER_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
     upsertAgency({ variables: { email: user?.email, agency } });
   };
@@ -139,7 +103,7 @@ const Profile = () => {
           <PreferedTopics
             topics={topics}
             refetch={refetch}
-            user={data?.User}
+            user={data?.User[0]}
             readOnly={false}
           ></PreferedTopics>
           {skillsDatas ? (

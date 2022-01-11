@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
+import { AgencySelectorQueryQuery } from "../generated/graphql";
 import Loading from "./Loading";
-
-type AgenciesList = { Agency: [{ name: string }] };
 
 const AGENCY_SELECTOR_QUERY = gql`
   query agencySelectorQuery {
@@ -12,7 +11,7 @@ const AGENCY_SELECTOR_QUERY = gql`
 `;
 
 const AgencySelector = ({ setAgency }) => {
-  const { data, error, loading } = useQuery<AgenciesList>(
+  const { data, error, loading } = useQuery<AgencySelectorQueryQuery>(
     AGENCY_SELECTOR_QUERY
   );
   const agencies = data?.Agency.map((agency) => agency.name);

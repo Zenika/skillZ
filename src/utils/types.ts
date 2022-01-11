@@ -12,3 +12,11 @@ export type FetchResult<T> = {
 };
 
 export type FilterData<T> = { name: string; values: T[]; selected?: T };
+
+export type FetchedSkill = {
+  id: string;
+  name: string;
+  desireLevel: number;
+  skillLevel: number;
+  userCount?: number;
+};

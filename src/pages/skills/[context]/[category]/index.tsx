@@ -5,116 +5,19 @@ import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../../../../utils/i18nContext";
 import SkillPanel from "../../../../components/SkillPanel";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
-import { gql } from "graphql-tag";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../../../../components/Loading";
 import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
 import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
-import { FilterData } from "../../../../utils/types";
+import { FetchedSkill, FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 import { useDarkMode } from "../../../../utils/darkMode";
-
-export type FetchResult = {
-  Category: FetchedCategory[];
-  Agency: {
-    name: string;
-  }[];
-};
-
-export type FetchedCategory = {
-  color: string;
-  CurrentSkillsAndDesires: FetchedSkill[];
-};
-export type FetchedSkill = {
-  id: string;
-  name: string;
-  skillLevel: number;
-  desireLevel: number;
-  userCount: number;
-};
-
-export type Skill = {
-  id: string;
-  name: string;
-  skillLevel: number;
-  count?: number;
-  desireLevel: number;
-  certif: boolean;
-};
-
-const EDIT_SKILL_MUTATION = gql`
-  mutation addUserSkill(
-    $email: String!
-    $skillId: uuid!
-    $skillLevel: Int!
-    $desireLevel: Int!
-  ) {
-    insert_UserSkillDesire(
-      objects: {
-        skillId: $skillId
-        skillLevel: $skillLevel
-        desireLevel: $desireLevel
-        userEmail: $email
-      }
-      on_conflict: {
-        constraint: UserSkillDesire_userEmail_skillId_created_at_key
-        update_columns: [skillLevel, desireLevel]
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
-const SKILLS_AND_APPETITE_QUERY = gql`
-  query getSkillsAndTechnicalAppetitesByCategory(
-    $email: String!
-    $category: String!
-  ) {
-    Category(where: { label: { _eq: $category } }) {
-      color
-      CurrentSkillsAndDesires(
-        order_by: { skillLevel: desc, desireLevel: desc }
-        where: { userEmail: { _eq: $email } }
-      ) {
-        id: skillId
-        name
-        desireLevel
-        skillLevel
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
-
-const computeZenikaSkillsQuery = ({ agency }: { agency?: string }) => gql`
-  query getSkillsAndTechnicalAppetites($category: String!, ${
-    agency ? "$agency: String!" : ""
-  }) {
-    Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
-      color
-      CurrentSkillsAndDesires: ${
-        agency ? "Agencies" : "Zenikas"
-      }AverageCurrentSkillsAndDesires(order_by: {averageSkillLevel: desc, averageDesireLevel: desc} ${
-  agency ? `, where: {agency: {_eq: $agency}}` : ""
-}) {
-      id: skillId
-      name
-      skillLevel: averageSkillLevel
-      desireLevel: averageDesireLevel
-      userCount
-      }
-    }
-    Agency {
-      name
-    }
-  }
-`;
+import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
+import { Skill } from "../../../../generated/graphql";
+import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 
 const ListSkills = () => {
   const router = useRouter();
@@ -124,38 +27,32 @@ const ListSkills = () => {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-  const { context, category, agency } = router.query;
+  let { context, category, agency } = router.query;
+  context = context
+    ? typeof context === "string"
+      ? context
+      : context.join("")
+    : undefined;
+  category = category
+    ? typeof category === "string"
+      ? category
+      : category.join("")
+    : undefined;
+  agency = agency
+    ? typeof agency === "string"
+      ? agency
+      : agency.join("")
+    : undefined;
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<Skill | undefined>(
-    undefined
-  );
+  const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-  const [skills, setSkills] = useState<FetchedCategory>();
-  const [radarData, setRadarData] = useState<RadarData[]>();
-  const [sortedSkills, setSortedSkills] = useState<Skill[]>();
-  const { data: skillsData, refetch } = useQuery<FetchResult>(
-    context === "zenika"
-      ? computeZenikaSkillsQuery({
-          agency: filterByAgency?.selected
-            ? filterByAgency?.selected === "World"
-              ? undefined
-              : filterByAgency?.selected
-            : undefined,
-        })
-      : SKILLS_AND_APPETITE_QUERY,
-    {
-      variables: {
-        email: user.email,
-        category: category || "",
-        agency: filterByAgency?.selected,
-      },
-      fetchPolicy: "network-only",
-    }
-  );
+  const [radarData, setRadarData] = useState<RadarData[]>([]);
+  const { skillsData, color, agencies, refetch, loading } =
+    useFetchSkillsByContextCategoryAndAgency(category, agency, user.email);
   useEffect(() => {
     setCategoryClicked(category);
   }),
@@ -167,7 +64,7 @@ const ListSkills = () => {
         agency
           ? {
               name: "Agency",
-              values: skillsData?.Agency.map((agency) => agency.name) || [],
+              values: agencies || [],
               selected: typeof agency === "string" ? agency : agency.join("-"),
             }
           : undefined
@@ -175,12 +72,12 @@ const ListSkills = () => {
     [agency, skillsData]
   );
   useEffect(() => {
-    if (!skillsData) {
+    if (!skillsData || skillsData.length <= 0) {
       return;
     }
-    setSkills(skillsData.Category[0]);
+    console.log("skillsData", skillsData);
     setRadarData(
-      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
+      skillsData.map((skill) => ({
         x: skill.skillLevel,
         y: skill.desireLevel,
         weight: 65,
@@ -188,30 +85,23 @@ const ListSkills = () => {
         name: skill.name,
       }))
     );
-    setSortedSkills(
-      skillsData.Category[0]?.CurrentSkillsAndDesires.map((skill) => ({
-        id: skill.id,
-        name: skill.name,
-        count: skill.userCount,
-        skillLevel: skill.skillLevel,
-        desireLevel: skill.desireLevel,
-        certif: false,
-      }))
-    );
-    if (!filterByAgency && context !== "mine" && skillsData?.Agency) {
+    if (!filterByAgency && context !== "mine" && agencies) {
       setFilterByAgency({
-        values: skillsData.Agency.map((agency) => agency.name),
+        values: agencies,
         name: "Agency",
       });
     }
-  }, [skillsData]);
+  }, [loading === false]);
 
   const [addSkill, { error: mutationError }] = useMutation(
-    EDIT_SKILL_MUTATION,
+    ADD_USER_SKILL_MUTATION,
     {
       onCompleted: async () => {
-        const { data } = await refetch({ email: user.email, category });
-        setSkills(data.Category[0]);
+        try {
+          await refetch();
+        } catch (err) {
+          useNotification(`Error updating skill: ${err}`, "red", 5000);
+        }
         useNotification(
           t("skills.updateSkillSuccess").replace(
             "%skill%",
@@ -225,10 +115,9 @@ const ListSkills = () => {
       },
     }
   );
-  const onEditClick = (skill: Skill) => {
+  const onEditClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     openModale();
-    // setEditPanelOpened(true);
   };
 
   const onEditCancel = () => {
@@ -254,7 +143,7 @@ const ListSkills = () => {
   if (mutationError) {
     console.error("Error adding skill", mutationError);
   }
-  if (isLoading || !skills) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
@@ -283,7 +172,7 @@ const ListSkills = () => {
         }
         faded={editPanelOpened || modaleOpened}
         data={radarData}
-        color={skills.color}
+        color={color}
       >
         <div
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
@@ -291,12 +180,12 @@ const ListSkills = () => {
           } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
-          {sortedSkills?.length > 0 ? (
-            sortedSkills?.map((skill) => (
+          {skillsData?.length > 0 ? (
+            skillsData?.map((skill) => (
               <SkillPanel
                 key={skill.name}
                 skill={skill}
-                count={skill.count}
+                count={skill.userCount || undefined}
                 context={
                   typeof context === "string" ? context : context.join("")
                 }

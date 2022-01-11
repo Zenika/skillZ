@@ -1,21 +1,22 @@
 import { useContext } from "react";
 import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
-import {
-  INSERT_USER_TOPIC_MUTATION,
-  DELETE_USER_TOPIC_MUTATION,
-} from "../../graphql/queries/userInfos";
 import { useMutation } from "@apollo/client";
+import {
+  DELETE_USER_TOPIC_MUTATION,
+  INSERT_USER_TOPIC_MUTATION,
+} from "../../graphql/mutations/userInfos";
 
 type PreferedTopicsProps = {
   topics: { id: string; name: string; UserTopics: { created_at: string }[] }[];
   refetch: any;
   user: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string };
-  }[];
+    __typename?: string;
+    email?: string;
+    name?: string;
+    picture?: string;
+    UserLatestAgency?: { __typename?: string; agency?: string };
+  };
   readOnly: boolean;
 };
 
@@ -40,18 +41,18 @@ const PreferedTopics = ({
     );
     if (!topic) {
       insertTopic({
-        variables: { email: user[0]?.email, topicId: selectedTopic.id },
+        variables: { email: user.email, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: user[0]?.email },
+          variables: { email: user.email },
         })
       );
     } else {
       deleteTopic({
-        variables: { email: user[0]?.email, topicId: selectedTopic.id },
+        variables: { email: user.email, topicId: selectedTopic.id },
       }).then(() =>
         refetch({
-          variables: { email: user[0]?.email },
+          variables: { email: user.email },
         })
       );
     }

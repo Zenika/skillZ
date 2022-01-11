@@ -10,18 +10,8 @@ import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
-
-const GET_USER_AGENCY_QUERY = gql`
-  query getUserAgency($email: String!) {
-    UserLatestAgency(where: { userEmail: { _eq: $email } }) {
-      agency
-    }
-  }
-`;
-
-type UserLatestAgencyResult = {
-  UserLatestAgency: { agency: string }[];
-};
+import { GetUserAgencyQuery } from "../generated/graphql";
+import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
 
 const Topbar = ({
   path,
@@ -44,7 +34,7 @@ const Topbar = ({
     }
     togglePanel();
   };
-  const { data: userAgencyResult } = useQuery<UserLatestAgencyResult>(
+  const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
       variables: { email: user.email },

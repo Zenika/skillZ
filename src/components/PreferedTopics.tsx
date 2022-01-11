@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
+import { TopicSelectorQueryQuery } from "../generated/graphql";
 
 type Topic = {
   id: string;
@@ -27,7 +28,7 @@ const TOPIC_SELECTOR_QUERY = gql`
 `;
 
 const TopicSelector = ({ email, topics, setTopics }) => {
-  const { data, error, loading } = useQuery<TopicSelectorData>(
+  const { data, error, loading } = useQuery<TopicSelectorQueryQuery>(
     TOPIC_SELECTOR_QUERY,
     {
       variables: {

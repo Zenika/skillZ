@@ -19,29 +19,14 @@ executors:
         environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: key
+          HASURA_GRAPHQL_NO_OF_RETRIES: 30
+          HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
+          NEXT_API_BEARER_TOKEN: key
   docker:
     docker:
       - image: docker:stable
 
 jobs:
-  hasura-test-apply-migrations:
-    executor: hasura
-    steps:
-      - checkout
-      - run:
-          name: "install hasura cli"
-          command: sudo npm i -g hasura-cli
-      - run:
-          name: "wait for Hasura for a minute max"
-          command: dockerize -wait tcp://hasura:8080 -timeout 1m
-      - run:
-          name: migrate
-          working_directory: hasura
-          command: hasura migrate apply --endpoint http://hasura:8080
-      - run:
-          name: metadata
-          working_directory: hasura
-          command: hasura metadata apply --endpoint http://hasura:8080
   install-dependencies:
     executor: node
     steps:
@@ -68,8 +53,37 @@ jobs:
       - run:
           name: qc-prettier
           command: npm run prettier:check
-  build:
+  unit-test:
     executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+      - run:
+          name: unit-test
+          command: npm run test:unit
+  hasura-test-apply-migrations:
+    executor: hasura
+    steps:
+      - checkout
+      - run:
+          name: "install hasura cli"
+          command: sudo npm i -g hasura-cli
+      - run:
+          name: "wait for Hasura for a minute max"
+          command: dockerize -wait http://hasura:8080/healthz -timeout 1m
+      - run:
+          name: migrate
+          working_directory: hasura
+          command: hasura migrate apply --endpoint http://hasura:8080
+      - run:
+          name: metadata
+          working_directory: hasura
+          command: hasura metadata apply --endpoint http://hasura:8080
+  build-local:
+    executor: hasura
     parameters:
       graphql-url:
         type: string
@@ -82,19 +96,22 @@ jobs:
             - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
             - v4-packaging-dependencies-
       - run:
+          name: "wait for Hasura for a minute max"
+          command: dockerize -wait http://hasura:8080/healthz -timeout 1m
+      - run:
+          name: "Apply migrations"
+          command: npm run hasura -- --endpoint=http://hasura:8080 migrate apply
+      - run:
+          name: "Apply metadatas"
+          command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
+      - run:
+          name: generate
+          command: |
+            echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
+            npm run generate
+      - run:
           name: build
           command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
-  unit-test:
-    executor: node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v4-packaging-dependencies-
-      - run:
-          name: unit-test
-          command: npm run test:unit
   deploy-hasura:
     parameters:
       hasura-deploy-dir:
@@ -142,6 +159,22 @@ jobs:
           name: Apply metadata
           working_directory: hasura
           command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
+  build:
+    executor: node
+    parameters:
+      graphql-url:
+        type: string
+      base-url:
+        type: string
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+      - run:
+          name: build
+          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> npm run build
   deploy:
     executor: node
     parameters:
@@ -182,11 +215,9 @@ jobs:
             clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
             clever link << parameters.clever-app-id >>
             clever deploy --force
-
 workflows:
   qc-test-deploy-staging:
     jobs:
-      # - hasura-test-apply-migrations
       - install-dependencies
       - qc-prettier:
           requires:
@@ -194,6 +225,9 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
+      # - hasura-test-apply-migrations:
+      #     requires:
+      #       - install-dependencies
       # - cypress/install:
       #     cache-key: >-
       #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
@@ -221,18 +255,19 @@ workflows:
       #     browser: firefox
       #     parallel: true
       #     parallelism: 2
-      - build:
-          name: build-staging
+      - build-local:
+          name: build-local
           requires:
             - qc-prettier
             - unit-test
-          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
-          base-url: $NEXT_STAGING_BASE_URL
+            # - hasura-test-apply-migrations
+          graphql-url: http://localhost:8080/v1/graphql
+          base-url: http://localhost:3000
       - deploy-hasura:
           name: deploy-hasura-staging
           hasura-clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
           requires:
-            - build-staging
+            - build-local
             # - hasura-test-apply-migrations
           context: clever-cloud2-zenika-dev
           filters: &deploy-staging-filters
@@ -244,6 +279,14 @@ workflows:
           hasura-endpoint: $HASURA_ENDPOINT_STAGING
           requires:
             - deploy-hasura-staging
+          filters: *deploy-staging-filters
+      - build:
+          name: build-staging
+          requires:
+            - deploy-hasura-staging
+            - run-migrations-staging
+          graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          base-url: $NEXT_STAGING_BASE_URL
           filters: *deploy-staging-filters
       - deploy:
           name: deploy-staging

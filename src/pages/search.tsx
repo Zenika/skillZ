@@ -6,31 +6,9 @@ import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
+import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
+import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
-
-const SEARCH_QUERY = gql`
-  query searchSkillsAndProfiles($search: String!) {
-    skills: ZenikasAverageCurrentSkillsAndDesires(
-      where: { name: { _ilike: $search } }
-      order_by: { name: asc }
-    ) {
-      name
-      skillLevel: averageSkillLevel
-      desireLevel: averageDesireLevel
-      Category {
-        label
-      }
-    }
-    profiles: User(where: { name: { _ilike: $search } }) {
-      email
-      name
-      picture
-      UserLatestAgency {
-        agency
-      }
-    }
-  }
-`;
 
 const Search = ({ pathName }) => {
   const { query } = useRouter();
@@ -41,9 +19,12 @@ const Search = ({ pathName }) => {
   const { t } = useContext(i18nContext);
   const [search, setSearch] = useState("");
 
-  const { data, error } = useQuery(SEARCH_QUERY, {
-    variables: { search: `%${search}%` },
-  });
+  const { data, error } = useQuery<SearchSkillsAndProfilesQuery>(
+    SEARCH_SKILLS_AND_PROFILES_QUERY,
+    {
+      variables: { search: `%${search}%` },
+    }
+  );
   if (error) {
     console.error(error);
   }

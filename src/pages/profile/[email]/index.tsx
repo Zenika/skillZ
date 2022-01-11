@@ -5,56 +5,19 @@ import CommonPage from "../../../components/CommonPage";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
-import {
-  USER_INFOS,
-  INSERT_USER_MUTATION,
-} from "../../../graphql/queries/userInfos";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
 import Custom404 from "../../404";
-type GetUserAgencyAndAllAgenciesResult = {
-  User: {
-    email: string;
-    name: string;
-    picture: string;
-    UserLatestAgency: { agency: string };
-  }[];
-  Agency: { name: string }[];
-  Topic: { id: string; name: string; UserTopics: { created_at: string }[] }[];
-  UserAchievements: {
-    created_at: string;
-    points: number;
-    label: string;
-    userEmail: string;
-    step: string;
-    additionalInfo: string;
-  }[];
-  Category: {
-    label: string;
-    CurrentSkillsAndDesires_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-    CurrentSkillsAndDesires: {
-      name: string;
-      skillLevel: number;
-      desireLevel: number;
-    }[];
-  }[];
-  UserTopic_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
+import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
 
 const Profile = () => {
   const router = useRouter();
   const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
-  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesResult>(
-    USER_INFOS,
+  const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
+    GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
     {
       variables: { email: userEmail },
     }
@@ -102,7 +65,7 @@ const Profile = () => {
               <PreferedTopics
                 topics={topics}
                 refetch={null}
-                user={data?.User}
+                user={data?.User[0]}
                 readOnly={true}
               ></PreferedTopics>
               {skillsDatas ? (
