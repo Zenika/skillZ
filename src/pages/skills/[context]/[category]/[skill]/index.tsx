@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import CommonPage from "../../../../../components/CommonPage";
@@ -55,7 +54,11 @@ const SkillPage = () => {
       >
         <>
           {data?.map((data) => (
-            <UserSkillPanel skill={data} context={context as string} />
+            <UserSkillPanel
+              skill={data}
+              context={context as string}
+              key={`key-${data.name}-${data.user}`}
+            />
           ))}
         </>
       </PageWithSkillList>

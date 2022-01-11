@@ -16,7 +16,6 @@ import { FetchedSkill, FilterData } from "../../../../utils/types";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
-import { Skill } from "../../../../generated/graphql";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 
 const ListSkills = () => {
@@ -52,30 +51,21 @@ const ListSkills = () => {
   >(undefined);
   const [radarData, setRadarData] = useState<RadarData[]>([]);
   const { skillsData, color, agencies, refetch, loading } =
-    useFetchSkillsByContextCategoryAndAgency(category, agency, user.email);
+    useFetchSkillsByContextCategoryAndAgency(
+      context,
+      category,
+      agency,
+      user.email
+    );
   useEffect(() => {
     setCategoryClicked(category);
   }),
     [category];
-
-  useEffect(
-    () =>
-      setFilterByAgency(
-        agency
-          ? {
-              name: "Agency",
-              values: agencies || [],
-              selected: typeof agency === "string" ? agency : agency.join("-"),
-            }
-          : undefined
-      ),
-    [agency, skillsData]
-  );
   useEffect(() => {
     if (!skillsData || skillsData.length <= 0) {
+      setRadarData([]);
       return;
     }
-    console.log("skillsData", skillsData);
     setRadarData(
       skillsData.map((skill) => ({
         x: skill.skillLevel,
@@ -85,12 +75,15 @@ const ListSkills = () => {
         name: skill.name,
       }))
     );
-    if (!filterByAgency && context !== "mine" && agencies) {
-      setFilterByAgency({
-        values: agencies,
-        name: "Agency",
-      });
-    }
+    setFilterByAgency({
+      name: "Agency",
+      values: agencies || [],
+      selected: agency
+        ? typeof agency === "string"
+          ? agency
+          : agency.join("-")
+        : "World",
+    });
   }, [loading === false]);
 
   const [addSkill, { error: mutationError }] = useMutation(
@@ -153,7 +146,7 @@ const ListSkills = () => {
         category={category}
         add={false}
         filters={
-          filterByAgency
+          filterByAgency && context !== "mine"
             ? [
                 {
                   name: filterByAgency.name,

@@ -13,7 +13,7 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
     useQuery<GetSkillsAndDesiresByAgencyQuery>(
       GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
       {
-        variables: { email, agency },
+        variables: { agency },
       }
     );
   const homePanelData = skillsData?.Category?.map((data) => ({
@@ -22,15 +22,16 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
     color: data?.color,
     name: data?.label,
     count:
-      data?.AgenciesAverageCurrentSkillsAndDesires_aggregate.aggregate.count,
+      data?.AgenciesAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
-    data: data?.AgenciesAverageCurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.averageSkillLevel,
-      y: skill.averageDesireLevel,
-      weight: 25,
-      labels: [``],
-      name: skill.name,
-    })),
+    data:
+      data?.AgenciesAverageCurrentSkillsAndDesires?.map((skill, i) => ({
+        x: skill.averageSkillLevel,
+        y: skill.averageDesireLevel,
+        weight: 25,
+        labels: [``],
+        name: skill.name,
+      })) || [],
     certifs: 0,
   })).map((row) => ({
     ...row,
@@ -43,10 +44,7 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
 };
 const fetchZenikaPageData = (email: string) => {
   const { data: skillsData, error } = useQuery<GetSkillsAndDesiresQuery>(
-    GET_SKILLS_AND_DESIRES_QUERY,
-    {
-      variables: { email },
-    }
+    GET_SKILLS_AND_DESIRES_QUERY
   );
   const homePanelData = skillsData?.Category?.map((data) => ({
     x: data?.x,
@@ -54,15 +52,16 @@ const fetchZenikaPageData = (email: string) => {
     color: data?.color,
     name: data?.label,
     count:
-      data?.ZenikasAverageCurrentSkillsAndDesires_aggregate.aggregate.count,
+      data?.ZenikasAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
-    data: data?.ZenikasAverageCurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.averageSkillLevel,
-      y: skill.averageDesireLevel,
-      weight: 25,
-      labels: [``],
-      name: skill.name,
-    })),
+    data:
+      data?.ZenikasAverageCurrentSkillsAndDesires?.map((skill, i) => ({
+        x: skill.averageSkillLevel,
+        y: skill.averageDesireLevel,
+        weight: 25,
+        labels: [``],
+        name: skill.name,
+      })) || [],
     certifs: 0,
   })).map((row) => ({
     ...row,
@@ -75,6 +74,6 @@ export const useFetchZenikaPageData = (
   email: string,
   agency: string | undefined
 ) =>
-  agency && agency !== "World"
-    ? fetchZenikaPageDataByAgency(email, agency)
-    : fetchZenikaPageData(email);
+  !agency || agency === "World"
+    ? fetchZenikaPageData(email)
+    : fetchZenikaPageDataByAgency(email, agency);

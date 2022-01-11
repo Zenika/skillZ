@@ -7,14 +7,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FilterData } from "../utils/types";
 import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
-import {
-  GetSkillsAndDesiresByAgencyQuery,
-  GetSkillsAndDesiresQuery,
-} from "../generated/graphql";
-import {
-  GET_SKILLS_AND_DESIRES_QUERY,
-  GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
-} from "../graphql/queries/skills";
 import { useFetchZenikaPageData } from "../utils/fetchers/useFetchZenikaPageData";
 
 const Zenika = ({ pathName }) => {

@@ -53,7 +53,7 @@ const fetchZenikasSkills = (category: string) => {
       }
     );
   const skillsData: FetchedSkill[] =
-    data?.Category[0]?.ZenikasAverageCurrentSkillsAndDesires.map((skill) => ({
+    data?.Category[0]?.ZenikasAverageCurrentSkillsAndDesires?.map((skill) => ({
       id: skill.skillId,
       name: skill.name,
       skillLevel: skill.averageSkillLevel,
@@ -63,7 +63,7 @@ const fetchZenikasSkills = (category: string) => {
   return {
     skillsData,
     color: data?.Category[0]?.color,
-    agencies: data.Agency.map((agency) => agency.name),
+    agencies: data?.Agency.map((agency) => agency.name),
     refetch: (): Promise<any> =>
       refetch({
         category,
@@ -83,7 +83,7 @@ const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
       }
     );
   const skillsData: FetchedSkill[] =
-    data?.Category[0]?.AgenciesAverageCurrentSkillsAndDesires.map((skill) => ({
+    data?.Category[0]?.AgenciesAverageCurrentSkillsAndDesires?.map((skill) => ({
       id: skill.skillId,
       name: skill.name,
       skillLevel: skill.averageSkillLevel,
@@ -93,7 +93,7 @@ const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
   return {
     skillsData,
     color: data?.Category[0]?.color,
-    agencies: data.Agency.map((agency) => agency.name),
+    agencies: data?.Agency.map((agency) => agency.name),
     refetch: (): Promise<any> =>
       refetch({
         agency,
@@ -103,12 +103,13 @@ const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
   };
 };
 export const useFetchSkillsByContextCategoryAndAgency = (
+  context: string,
   category: string,
   agency?: string,
   email?: string
 ) =>
-  email
+  context !== "zenika"
     ? fetchMySkills(email, category)
-    : agency
+    : agency && agency !== "World"
     ? fetchZenikasSkillsByAgency(category, agency)
     : fetchZenikasSkills(category);
