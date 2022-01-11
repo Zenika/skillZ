@@ -74,16 +74,19 @@ const AddOrEditSkillModale = ({
                   setSkillLevel(index);
                   setNavState("desire");
                 }}
-                className="flex flex-row text-left py-1 my-2"
+                className="flex flex-row text-left my-2"
               >
-                <Image
-                  src={`/icons/${darkMode ? "dark" : "light"}/${
-                    skillLevel === index ? "full" : "empty"
-                  }-select.svg`}
-                  height="32"
-                  width="32"
-                />
-                <span className="pl-2 pt-1">{`${index} : ${t(
+                <span className="shrink-0 my-0.5">
+                  <Image
+                    src={`/icons/${darkMode ? "dark" : "light"}/${
+                      desireLevel === index ? "full" : "empty"
+                    }-select.svg`}
+                    height={32}
+                    width={32}
+                    layout="fixed"
+                  />
+                </span>
+                <span className="ml-2 mt-1 text-base">{`${index} : ${t(
                   `skillLevels.${index}`
                 )}`}</span>
               </button>
@@ -96,16 +99,20 @@ const AddOrEditSkillModale = ({
               <button
                 key={`desire-${index}`}
                 onClick={() => setDesireLevel(index)}
-                className="flex flex-row text-left py-1 my-2"
+                className="flex flex-row text-left my-2"
               >
-                <Image
-                  src={`/icons/${darkMode ? "dark" : "light"}/${
-                    desireLevel === index ? "full" : "empty"
-                  }-select.svg`}
-                  height="32"
-                  width="32"
-                />
-                <span className="pl-2 pt-1">{`${index} : ${t(
+                <span className="shrink-0 my-0.5">
+                  <Image
+                    src={`/icons/${darkMode ? "dark" : "light"}/${
+                      desireLevel === index ? "full" : "empty"
+                    }-select.svg`}
+                    height={32}
+                    width={32}
+                    layout="fixed"
+                  />
+                </span>
+
+                <span className="pl-2 pt-1 text-base">{`${index} : ${t(
                   `desireLevels.${index}`
                 )}`}</span>
               </button>

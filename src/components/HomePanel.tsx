@@ -55,18 +55,51 @@ const HomePanel = ({
       typeof agency === "string" ? agency : agency.join("")
     );
   }
+  const roundTable = {
+    top: {
+      left: "rounded-tl-2xl",
+      right: "rounded-tr-2xl",
+    },
+    bot: {
+      left: "rounded-bl-2xl",
+      right: "rounded-br-2xl",
+    },
+  };
+
+  const colorTable = {
+    yellow: "text-light-yellow dark:text-dark-yellow",
+    violet: "text-light-violet dark:text-dark-violet",
+    blue: "text-light-blue dark:text-dark-blue",
+    cyan: "text-light-cyan dark:text-dark-cyan",
+  };
+
+  const widthTable = {
+    desktop: {
+      0: "w-15",
+      1: "w-13",
+      2: "w-11",
+      3: "w-9",
+      4: "w-7",
+    },
+    mobile: {
+      0: "w-12",
+      1: "w-10",
+      2: "w-8",
+      3: "w-6",
+      4: "w-4",
+    },
+  };
+
   return (
     <Link href={link.toString()}>
       <div
-        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel min-h-homePanel${
-          !isDesktop ? "-mobile" : ""
-        } rounded-${y === "top" ? "t" : "b"}${
-          x === "left" ? "l" : "r"
-        }-2xl m-1 w-2/5`}
+        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel ${
+          !isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"
+        } ${y && x ? roundTable[y][x] : ""} m-1 w-2/5`}
       >
         <div
-          className={`flex flex-auto flex-row${
-            x === "right" ? "-reverse" : ""
+          className={`flex flex-auto ${
+            x === "right" ? "flex-row-reverse" : ""
           }`}
         >
           <div
@@ -118,21 +151,21 @@ const HomePanel = ({
                     className="flex flex-auto flex-row justify-between"
                   >
                     <div
-                      className={`${
-                        x === "right" ? "order-last" : ""
-                      } text-${x} ${
+                      className={`${x === "right" ? "order-last" : ""} ${
+                        x === "right" ? "text-right" : "text-left"
+                      } ${
                         data[i]
-                          ? `w-${
-                              (!isDesktop ? 12 : 15) - i * 2
+                          ? `${
+                              widthTable[isDesktop ? "desktop" : "mobile"][i]
                             } gradient-${color}`
                           : ""
-                      } rounded-${
-                        x === "right" ? "l" : "r"
-                      }-2xl h-6 m-0.5 text-light-greytext dark:text-dark-med p-0.5`}
+                      } ${
+                        x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
+                      } h-6 m-0.5 text-light-greytext dark:text-dark-med p-0.5`}
                     >
                       {data[i] ? i + 1 : ""}
                     </div>
-                    <span className="px-2 overflow-clip overflow-hidden">
+                    <span className="px-2 overflow-clip">
                       {data[i]?.name ?? ""}
                     </span>
                   </div>
@@ -148,16 +181,16 @@ const HomePanel = ({
               </div>
             )}
             <div
-              className={`flex flex-auto justify-${
-                x === "left" ? "end" : "start"
+              className={`flex flex-auto ${
+                x === "left" ? "justify-end" : "justify-start"
               } flex-row py-4 px-1 h-1/3 ${
                 y === "bot" ? "order-1" : "order-12"
               }`}
             >
               <span
-                className={`text-xl px-2 w-full text-${
-                  x === "left" ? "right" : "left"
-                } text-light-${color} dark:text-dark-${color}`}
+                className={`text-xl px-2 w-full ${
+                  x === "left" ? "text-right" : "text-left"
+                } ${colorTable[color]}`}
               >
                 {isDesktop ? "" : t(`home.${name}`)}
               </span>

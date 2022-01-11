@@ -5,7 +5,7 @@ export default class extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/favicon.svg" />
+          <link rel="icon" href="/logo-svg.svg" />
           <link
             rel="preload"
             href="/fonts/Nunito/Nunito-Regular.ttf"

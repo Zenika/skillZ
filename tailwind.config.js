@@ -2,7 +2,7 @@ module.exports = {
   important: true,
   // Active dark mode on class basis
   darkMode: "class",
-  // purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
+  content: ["./src/**/*.tsx"],
 
   theme: {
     filter: {
