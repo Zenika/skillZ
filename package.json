@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:local": "npm run generate:local && npm run build",
+    "build:prod": "npm run generate && npm run build",
     "start": "next start -p 8080",
     "start:local": "next start -p 3000",
     "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
@@ -22,7 +24,8 @@
     "hasura": "hasura --project ./hasura",
     "seeds:generate": "ts-node ./hasura/seeds/seedscript.ts",
     "seeds:apply": "npm run hasura seeds apply",
-    "generate": "graphql-codegen --config codegen.js"
+    "generate": "graphql-codegen --config codegen.js",
+    "generate:local": "graphql-codegen -r dotenv/config --config codegen.js dotenv_config_path=.env.local "
   },
   "dependencies": {
     "@apollo/client": "3.4.7",
