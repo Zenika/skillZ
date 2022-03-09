@@ -40,7 +40,10 @@ const GraphQLProvider = ({ children }) => {
       return;
     }
     if (error) {
-      if (error.message === "Login required") {
+      if (
+        error.message === "Login required" ||
+        error.message === "Consent required"
+      ) {
         loginWithRedirect({
           redirect_uri: NEXT_PUBLIC_BASE_URL,
           prompt: "login",
