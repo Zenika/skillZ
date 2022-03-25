@@ -1,0 +1,64 @@
+table:
+  name: UserSkillDesire
+  schema: public
+object_relationships:
+- name: Skill
+  using:
+    foreign_key_constraint_on: skillId
+- name: User
+  using:
+    foreign_key_constraint_on: userEmail
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns:
+    - created_at
+    - desireLevel
+    - skillId
+    - skillLevel
+    - userEmail
+  role: world
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - userEmail
+    - skillId
+    - skillLevel
+    - desireLevel
+    - created_at
+    filter: {}
+  role: world
+update_permissions:
+- permission:
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns:
+    - created_at
+    - desireLevel
+    - skillId
+    - skillLevel
+    - userEmail
+    filter:
+      userEmail:
+        _eq: x-hasura-user-email
+  role: world
+event_triggers:
+- definition:
+    enable_manual: false
+    insert:
+      columns: "*"
+  headers:
+  - name: authorization
+    value_from_env: NEXT_API_BEARER_TOKEN
+  name: categoryCompletionAchievement
+  retry_conf:
+    interval_sec: 30
+    num_retries: 5
+    timeout_sec: 60
+  webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT

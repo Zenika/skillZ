@@ -1,0 +1,26 @@
+table:
+  name: UsersCurrentSkillsAndDesires
+  schema: public
+object_relationships:
+- name: User
+  using:
+    manual_configuration:
+      column_mapping:
+        userEmail: email
+      insertion_order: null
+      remote_table:
+        name: User
+        schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - skillId
+    - categoryId
+    - userEmail
+    - name
+    - skillLevel
+    - desireLevel
+    - created_at
+    filter: {}
+  role: world

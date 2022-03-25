@@ -1,0 +1,18 @@
+table:
+  name: Agency
+  schema: public
+array_relationships:
+- name: UserAgencies
+  using:
+    foreign_key_constraint_on:
+      column: agency
+      table:
+        name: UserAgency
+        schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - name
+    filter: {}
+  role: world

@@ -1,0 +1,43 @@
+table:
+  name: UserAgency
+  schema: public
+object_relationships:
+- name: Agency
+  using:
+    foreign_key_constraint_on: agency
+- name: User
+  using:
+    foreign_key_constraint_on: userEmail
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns:
+    - userEmail
+    - agency
+    - created_at
+  role: world
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - agency
+    - userEmail
+    filter: {}
+  role: world
+update_permissions:
+- permission:
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns:
+    - userEmail
+    - agency
+    - created_at
+    filter:
+      userEmail:
+        _eq: x-hasura-user-email
+  role: world

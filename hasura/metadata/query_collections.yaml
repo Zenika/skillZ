@@ -1,1 +1,126 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+    - name: getAllAgencies
+      query: |-
+        query allAgencies {
+          Agency {
+            name
+          }
+        }
+    - name: getAllTopics
+      query: |-
+        query allTopics {
+          Topic {
+            name
+          }
+        }
+    - name: getUserInfosByAgencyAndTopic
+      query: |-
+        query getUserByAgencyAndTopic($agency: String!, $topic: String!) {
+          User(where: {UserLatestAgency: {agency: {_eq: $agency}}, UserTopics: {Topic: {name: {_eq: $topic}}}}) {
+            name
+            email
+          }
+        }
+    - name: update skll from skill ID
+      query: |-
+        mutation addUserSkill($email: String!, $skillId: uuid!, $skillLevel: Int!, $desireLevel: Int!) {
+          insert_UserSkillDesire(objects: {skillId: $skillId, skillLevel: $skillLevel, desireLevel: $desireLevel, userEmail: $email}, on_conflict: {constraint: UserSkillDesire_userEmail_skillId_created_at_key, update_columns: [skillLevel, desireLevel]}) {
+            affected_rows
+          }
+        }
+    - name: get-all-emails
+      query: |-
+        query addUserSkill {
+          User {
+            email
+          }
+        }
+    - name: getSkillName
+      query: |-
+        query addUserSkill($skill: uuid!) {
+          Skill_by_pk(id: $skill) {
+            name
+          }
+        }
+    - name: getSkillInfos
+      query: |-
+        query getSkillInfosFromID($skill: uuid!) {
+          Skill_by_pk(id: $skill) {
+            name
+            Category {
+              label
+            }
+          }
+        }
+    - name: getSkillNameByID
+      query: |-
+        query getSKillNameByID($id: uuid!) {
+          Skill_by_pk(id: $id) {
+            name
+          }
+        }
+    - name: getAllSkillsName
+      query: |-
+        query getAllSkillsName {
+          Skill {
+            name
+          }
+        }
+    - name: getSkillCategoryAndIDByName
+      query: |-
+        query getSkillCategoryAndIDByName($name: String!) {
+          Skill(where: {name: {_eq: $name}}) {
+            Category {
+              label
+            }
+            id
+          }
+        }
+    - name: getBotNotifications
+      query: |-
+        query getBotNotifications($email: String!) {
+          User(where: {email: {_eq: $email}}) {
+            botNotifications
+          }
+        }
+    - name: setBotNotifications
+      query: |-
+        mutation setBotNotifications($email: String!, $botNotifications: Boolean!) {
+          update_User(where: {email: {_eq: $email}}, _set: {botNotifications: $botNotifications}) {
+            affected_rows
+          }
+        }
+    - name: getSkillIDByName
+      query: |-
+        query getSkillCategoryAndIDByName($name: String!) {
+          Skill(where: {name: {_eq: $name}}) {
+            id
+          }
+        }
+    - name: getSkillsInfosByIDAndEmail
+      query: |-
+        query getSkillInfosFromEmailAndID($email: String!, $id: uuid!) {
+          UserSkillDesire(where: {User: {email: {_eq: $email}}, skillId: {_eq: $id}}) {
+            Skill {
+              UserSkillDesires {
+                desireLevel
+                skillLevel
+                created_at
+              }
+            }
+          }
+        }
+    - name: getCreatedAt
+      query: |-
+        query getSkillInfosFromID($email: String!) {
+          UserSkillDesire(where: {User: {email: {_eq: $email}}}, distinct_on: skillId) {
+            Skill {
+              UserSkillDesires {
+                created_at
+                skillId
+              }
+            }
+          }
+        }
