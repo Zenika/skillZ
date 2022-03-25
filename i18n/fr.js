@@ -1,8 +1,9 @@
 export default {
   error: {
     title404: "Nous sommes désolé, page invalide !",
-    text404: "L'URL de la page que vous avez demandé n'existe probablement pas ou est temporairement indisponible.",
-    button404: "Retour au menu"
+    text404:
+      "L'URL de la page que vous avez demandé n'existe probablement pas ou est temporairement indisponible.",
+    button404: "Retour au menu",
   },
   nav: {
     mySkills: "Compétences",
@@ -16,6 +17,7 @@ export default {
     preferedLanguage: "Langue",
     darkMode: "Mode sombre",
     logout: "Se déconnecter",
+    botNotifications: "Notifications du bot",
   },
   home: {
     addSkill: "Ajouter une compétence",
@@ -142,23 +144,19 @@ export default {
     numberCompetencies: "Compétences ajoutées",
     subobjectivesTitles: {
       ProfileCompletion: "Categorie Profile",
-      LanguageAndFrameworks:
-      "Catégorie Langages et Frameworks",
+      LanguageAndFrameworks: "Catégorie Langages et Frameworks",
       Tools: "Catégorie Outils",
       Plateform: "Catégorie Plateformes",
-      TechnicsAndMethod:
-      "Catégorie Techniques et méthodes",
+      TechnicsAndMethod: "Catégorie Techniques et méthodes",
     },
     subobjectivesLegends: {
       ProfileCompletion: "Ajoute tes sujets préférés et ton agence",
       LanguageAndFrameworks:
-      "Ajoute des compétences dans la grille Langages et Frameworks",
-      Tools:
-      "Ajoute des compétences dans la grille Outil",
-      Plateform:
-      "Ajoute des compétences dans la grille Plateformes",
+        "Ajoute des compétences dans la grille Langages et Frameworks",
+      Tools: "Ajoute des compétences dans la grille Outil",
+      Plateform: "Ajoute des compétences dans la grille Plateformes",
       TechnicsAndMethod:
-      "Ajoute des compétences dans la grille Techniques et méthodes",
+        "Ajoute des compétences dans la grille Techniques et méthodes",
       Profile: "Compléter son profil",
     },
   },

@@ -1,8 +1,9 @@
 export default {
   error: {
     title404: "We are sorry, Page not found!",
-    text404: "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
-    button404: "Back to home"
+    text404:
+      "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+    button404: "Back to home",
   },
   nav: {
     mySkills: "My skills",
@@ -16,6 +17,7 @@ export default {
     preferedLanguage: "Prefered language",
     darkMode: "Dark mode",
     logout: "Logout",
+    botNotifications: "Bot notifications",
   },
   home: {
     addSkill: "Add skill",
@@ -127,7 +129,7 @@ export default {
   },
   statistics: {
     myTitleSection: "My statistics",
-    titleSection : "Statistics",
+    titleSection: "Statistics",
     monthStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
@@ -140,23 +142,17 @@ export default {
     numberCompetencies: "Number of competences",
     subobjectivesTitles: {
       ProfileCompletion: "Category Profile Completion",
-      LanguageAndFrameworks:
-      "Category Langages and Frameworks",
+      LanguageAndFrameworks: "Category Langages and Frameworks",
       Tools: "Category Tools",
       Plateform: "Category Plateforms",
-      TechnicsAndMethod:
-      "Category Technics et methods",
+      TechnicsAndMethod: "Category Technics et methods",
     },
     subobjectivesLegends: {
       ProfileCompletion: "Add your prefered topics and your agency",
-      LanguageAndFrameworks:
-      "Add skills in the Languages and Frameworks grid",
-      Tools:
-      "Add skills in the Tools grid",
-      Plateform:
-      "Add skills in the Platform grid",
-      TechnicsAndMethod:
-      "Add skills in the Technics and methods grid",
+      LanguageAndFrameworks: "Add skills in the Languages and Frameworks grid",
+      Tools: "Add skills in the Tools grid",
+      Plateform: "Add skills in the Platform grid",
+      TechnicsAndMethod: "Add skills in the Technics and methods grid",
       Profile: "Complete profile informations",
     },
   },
