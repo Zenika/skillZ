@@ -1,0 +1,51 @@
+table:
+  name: Skill
+  schema: public
+object_relationships:
+- name: Category
+  using:
+    foreign_key_constraint_on: categoryId
+array_relationships:
+- name: UserSkillDesires
+  using:
+    foreign_key_constraint_on:
+      column: skillId
+      table:
+        name: UserSkillDesire
+        schema: public
+- name: UsersCurrentSkillsAndDesires
+  using:
+    manual_configuration:
+      column_mapping:
+        id: skillId
+      insertion_order: null
+      remote_table:
+        name: UsersCurrentSkillsAndDesires
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - categoryId
+    - id
+    - name
+  role: world
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - categoryId
+    - id
+    - name
+    filter: {}
+  role: world
+update_permissions:
+- permission:
+    check: {}
+    columns:
+    - categoryId
+    - id
+    - name
+    filter: {}
+  role: world

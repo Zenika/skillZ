@@ -1,0 +1,50 @@
+table:
+  name: Category
+  schema: public
+array_relationships:
+- name: AgenciesAverageCurrentSkillsAndDesires
+  using:
+    manual_configuration:
+      column_mapping:
+        id: categoryId
+      insertion_order: null
+      remote_table:
+        name: AgenciesAverageCurrentSkillsAndDesires
+        schema: public
+- name: CurrentSkillsAndDesires
+  using:
+    manual_configuration:
+      column_mapping:
+        id: categoryId
+      insertion_order: null
+      remote_table:
+        name: UsersCurrentSkillsAndDesires
+        schema: public
+- name: Skills
+  using:
+    foreign_key_constraint_on:
+      column: categoryId
+      table:
+        name: Skill
+        schema: public
+- name: ZenikasAverageCurrentSkillsAndDesires
+  using:
+    manual_configuration:
+      column_mapping:
+        id: categoryId
+      insertion_order: null
+      remote_table:
+        name: ZenikasAverageCurrentSkillsAndDesires
+        schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - label
+    - x
+    - y
+    - color
+    - index
+    filter: {}
+  role: world

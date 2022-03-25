@@ -1,0 +1,16 @@
+table:
+  name: AgenciesAverageCurrentSkillsAndDesires
+  schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - skillId
+    - categoryId
+    - agency
+    - name
+    - averageSkillLevel
+    - averageDesireLevel
+    - userCount
+    filter: {}
+  role: world

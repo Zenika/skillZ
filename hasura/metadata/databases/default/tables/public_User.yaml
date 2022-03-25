@@ -1,0 +1,68 @@
+table:
+  name: User
+  schema: public
+object_relationships:
+- name: UserLatestAgency
+  using:
+    manual_configuration:
+      column_mapping:
+        email: userEmail
+      insertion_order: null
+      remote_table:
+        name: UserLatestAgency
+        schema: public
+array_relationships:
+- name: UserAgencies
+  using:
+    foreign_key_constraint_on:
+      column: userEmail
+      table:
+        name: UserAgency
+        schema: public
+- name: UserSkillDesires
+  using:
+    foreign_key_constraint_on:
+      column: userEmail
+      table:
+        name: UserSkillDesire
+        schema: public
+- name: UserTopics
+  using:
+    foreign_key_constraint_on:
+      column: userEmail
+      table:
+        name: UserTopic
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      email:
+        _eq: x-hasura-user-email
+    columns:
+    - email
+    - name
+    - picture
+  role: world
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - email
+    - name
+    - picture
+    filter: {}
+  role: world
+update_permissions:
+- permission:
+    check:
+      email:
+        _eq: x-hasura-user-email
+    columns:
+    - email
+    - name
+    - picture
+    filter:
+      email:
+        _eq: x-hasura-user-email
+  role: world

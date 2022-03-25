@@ -1,0 +1,38 @@
+table:
+  name: UserAchievements
+  schema: public
+object_relationships:
+- name: User
+  using:
+    foreign_key_constraint_on: userEmail
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns: []
+  role: world
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - additionalInfo
+    - created_at
+    - id
+    - label
+    - points
+    - step
+    - userEmail
+    filter: {}
+  role: world
+update_permissions:
+- permission:
+    check:
+      userEmail:
+        _eq: x-hasura-user-email
+    columns: []
+    filter:
+      userEmail:
+        _eq: x-hasura-user-email
+  role: world

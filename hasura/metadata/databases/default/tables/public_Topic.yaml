@@ -1,0 +1,19 @@
+table:
+  name: Topic
+  schema: public
+array_relationships:
+- name: UserTopics
+  using:
+    foreign_key_constraint_on:
+      column: topicId
+      table:
+        name: UserTopic
+        schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - name
+    filter: {}
+  role: world
