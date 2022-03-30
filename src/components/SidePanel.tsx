@@ -57,7 +57,6 @@ const SidePanel = () => {
             t={t}
           />
         </li>
-        <li>prout</li>
         <li className="p-2">
           <BotNotifications darkMode={darkMode} t={t}></BotNotifications>
         </li>

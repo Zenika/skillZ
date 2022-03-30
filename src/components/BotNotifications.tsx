@@ -5,13 +5,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { GET_BOT_NOTIFICATIONS_QUERY } from "../graphql/mutations/botNotifications";
 import { useQuery } from "@apollo/client";
-import {
-  GetBotNotificationsQuery,
-} from "../generated/graphql";
+import { GetBotNotificationsQuery } from "../generated/graphql";
 
 type botNotificationsTypes = {
   User: {
     botNotifications?: boolean;
+    email?: string;
   };
 };
 
@@ -28,8 +27,8 @@ export const BotNotifications = ({
     data: userDatas,
     error: errorUserDatas,
     loading,
-  } = useQuery<botNotificationsTypes>(GET_BOT_NOTIFICATIONS_QUERY, {
-    variables: { email: user?.email },
+  } = useQuery<GetBotNotificationsQuery>(GET_BOT_NOTIFICATIONS_QUERY, {
+    variables: { email: user.email },
     fetchPolicy: "network-only",
   });
   const [setBotNotification, { error: mutationError }] = useMutation(
@@ -41,7 +40,7 @@ export const BotNotifications = ({
     else values[0];
   }),
     [userDatas];
-  //console.log(errorUserDatas);
+  console.log(errorUserDatas);
   return (
     <div>
       {!errorUserDatas ? (
@@ -51,8 +50,7 @@ export const BotNotifications = ({
             setBotNotification({
               variables: {
                 email: user?.email,
-                BotNotifications:
-                  !userDatas.user[0]?.botNotifications,
+                BotNotifications: !userDatas.User[0].botNotifications,
               },
             })
           }
