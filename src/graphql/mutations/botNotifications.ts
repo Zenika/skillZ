@@ -11,7 +11,7 @@ export const SET_BOT_NOTIFICATIONS = gql`
   }
 `;
 
-export const GET_BOT_NOTIFICATIONS = gql`
+export const GET_BOT_NOTIFICATIONS_QUERY = gql`
   query getBotNotifications($email: String!) {
     User(where: { email: { _eq: $email } }) {
       botNotifications

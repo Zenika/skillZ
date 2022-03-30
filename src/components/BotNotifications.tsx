@@ -3,11 +3,14 @@ import { SET_BOT_NOTIFICATIONS } from "../graphql/mutations/botNotifications";
 import { SlidingCheckbox } from "./SlidingCheckbox";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-import { GET_BOT_NOTIFICATIONS } from "../graphql/mutations/botNotifications";
+import { GET_BOT_NOTIFICATIONS_QUERY } from "../graphql/mutations/botNotifications";
 import { useQuery } from "@apollo/client";
+import {
+  GetBotNotificationsQuery,
+} from "../generated/graphql";
 
 type botNotificationsTypes = {
-  user: {
+  User: {
     botNotifications?: boolean;
   };
 };
@@ -22,10 +25,10 @@ export const BotNotifications = ({
   const values: [any, any] = [false, true];
   const { error, user } = useAuth0();
   const {
-    data: botNotificationsValue,
-    error: errorBotNotifications,
+    data: userDatas,
+    error: errorUserDatas,
     loading,
-  } = useQuery<botNotificationsTypes>(GET_BOT_NOTIFICATIONS, {
+  } = useQuery<botNotificationsTypes>(GET_BOT_NOTIFICATIONS_QUERY, {
     variables: { email: user?.email },
     fetchPolicy: "network-only",
   });
@@ -34,14 +37,14 @@ export const BotNotifications = ({
   );
 
   useEffect(() => {
-    if (botNotificationsValue) values[1];
+    if (userDatas) values[1];
     else values[0];
   }),
-    [botNotificationsValue];
-  console.log(errorBotNotifications);
+    [userDatas];
+  //console.log(errorUserDatas);
   return (
     <div>
-      {!errorBotNotifications ? (
+      {!errorUserDatas ? (
         <div
           className="cursor"
           onClick={() =>
@@ -49,7 +52,7 @@ export const BotNotifications = ({
               variables: {
                 email: user?.email,
                 BotNotifications:
-                  !botNotificationsValue.user[0]?.botNotifications,
+                  !userDatas.user[0]?.botNotifications,
               },
             })
           }
