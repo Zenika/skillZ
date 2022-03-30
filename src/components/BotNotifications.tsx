@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/client";
 
 type botNotificationsTypes = {
   user: {
-    botNotifications: boolean;
+    botNotifications?: boolean;
   };
 };
 
