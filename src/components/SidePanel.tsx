@@ -57,9 +57,6 @@ const SidePanel = () => {
             t={t}
           />
         </li>
-        <li className="p-2">
-          <BotNotifications darkMode={darkMode} t={t}></BotNotifications>
-        </li>
         <li>
           <Link href="/logout">
             <div className="flex flex-row pl-4 cursor-pointer">
