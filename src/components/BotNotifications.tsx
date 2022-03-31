@@ -2,70 +2,61 @@ import { useMutation } from "@apollo/client";
 import { SET_BOT_NOTIFICATIONS } from "../graphql/mutations/botNotifications";
 import { SlidingCheckbox } from "./SlidingCheckbox";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
 import { GET_BOT_NOTIFICATIONS_QUERY } from "../graphql/mutations/botNotifications";
 import { useQuery } from "@apollo/client";
 import { GetBotNotificationsQuery } from "../generated/graphql";
+import Loading from "./Loading";
 
-type botNotificationsTypes = {
-  User: {
-    botNotifications?: boolean;
-    email?: string;
-  };
-};
-
-export const BotNotifications = ({
-  darkMode,
-  t,
-}: {
-  darkMode: boolean;
-  t: (path: string) => string;
-}) => {
+export const BotNotifications = ({ t }: { t: (path: string) => string }) => {
   const values: [any, any] = [false, true];
   const { error, user } = useAuth0();
   const {
     data: userDatas,
-    error: errorUserDatas,
     loading,
+    error: errorUserDatas,
+    refetch,
   } = useQuery<GetBotNotificationsQuery>(GET_BOT_NOTIFICATIONS_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
-  const [setBotNotification, { error: mutationError }] = useMutation(
-    SET_BOT_NOTIFICATIONS
-  );
+  const [setBotNotification] = useMutation(SET_BOT_NOTIFICATIONS);
 
-  useEffect(() => {
-    if (userDatas) values[1];
-    else values[0];
-  }),
-    [userDatas];
-  console.log(errorUserDatas);
+  function changeBotNotification() {
+    if (userDatas?.User[0].botNotifications === values[0]) {
+      setBotNotification({
+        variables: {
+          email: user.email,
+          botNotifications: values[1],
+        },
+      });
+    } else {
+      setBotNotification({
+        variables: {
+          email: user.email,
+          botNotifications: values[0],
+        },
+      });
+    }
+    refetch();
+  }
   return (
     <div>
-      {!errorUserDatas ? (
-        <div
-          className="cursor"
-          onClick={() =>
-            setBotNotification({
-              variables: {
-                email: user?.email,
-                BotNotifications: !userDatas.User[0].botNotifications,
-              },
-            })
-          }
-        >
+      {userDatas && !errorUserDatas && !loading ? (
+        <div className="cursor" onClick={() => changeBotNotification()}>
           <span>{t("sidepanel.botNotifications")}</span>
           <ul className="flex flex-row justify-around">
-            <li>☀️</li>
+            <li>🔇</li>
             <li>
-              <SlidingCheckbox selectedValue={darkMode} values={values} />
+              <SlidingCheckbox
+                selectedValue={userDatas?.User[0].botNotifications}
+                values={values}
+              />
             </li>
-            <li>🌑</li>
+            <li>🔔</li>
           </ul>
         </div>
       ) : (
-        loading
+        <Loading />
       )}
     </div>
   );

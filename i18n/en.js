@@ -17,7 +17,7 @@ export default {
     preferedLanguage: "Prefered language",
     darkMode: "Dark mode",
     logout: "Logout",
-    botNotifications: "Bot notifications",
+    botNotifications: "Slack bot notifications",
   },
   home: {
     addSkill: "Add skill",
