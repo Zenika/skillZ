@@ -6,7 +6,6 @@ export const GET_USER_QUERY = gql`
       email
       name
       picture
-      botNotifications
       UserLatestAgency {
         agency
       }
