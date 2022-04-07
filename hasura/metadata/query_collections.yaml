@@ -1,13 +1,17 @@
 - name: allowed-queries
   definition:
     queries:
-    - name: setbotnotif
+    - name: getSkillName
       query: |-
-        mutation setBotNotifications($email: String!, $botNotifications: Boolean!) {
-            update_User(
-              where: { email: { _eq: $email } }
-              _set: { botNotifications: $botNotifications }
-            ) {
-              affected_rows
-            }
+        query getSkillName($skill: uuid!) {
+          Skill_by_pk(id: $skill) {
+            name
           }
+        }
+    - name: getAllAgencies
+      query: |-
+        query allAgencies {
+          Agency {
+            name
+          }
+        }
