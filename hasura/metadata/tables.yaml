@@ -2,494 +2,494 @@
     schema: public
     name: AgenciesAverageCurrentSkillsAndDesires
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - skillId
-      - categoryId
-      - agency
-      - name
-      - averageSkillLevel
-      - averageDesireLevel
-      - userCount
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - skillId
+          - categoryId
+          - agency
+          - name
+          - averageSkillLevel
+          - averageDesireLevel
+          - userCount
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: Agency
   array_relationships:
-  - name: UserAgencies
-    using:
-      foreign_key_constraint_on:
-        column: agency
-        table:
-          schema: public
-          name: UserAgency
+    - name: UserAgencies
+      using:
+        foreign_key_constraint_on:
+          column: agency
+          table:
+            schema: public
+            name: UserAgency
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - name
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - name
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: Category
   array_relationships:
-  - name: AgenciesAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: AgenciesAverageCurrentSkillsAndDesires
-        insertion_order: null
-        column_mapping:
-          id: categoryId
-  - name: CurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UsersCurrentSkillsAndDesires
-        insertion_order: null
-        column_mapping:
-          id: categoryId
-  - name: Skills
-    using:
-      foreign_key_constraint_on:
-        column: categoryId
-        table:
-          schema: public
-          name: Skill
-  - name: ZenikasAverageCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: ZenikasAverageCurrentSkillsAndDesires
-        insertion_order: null
-        column_mapping:
-          id: categoryId
+    - name: AgenciesAverageCurrentSkillsAndDesires
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: AgenciesAverageCurrentSkillsAndDesires
+          insertion_order: null
+          column_mapping:
+            id: categoryId
+    - name: CurrentSkillsAndDesires
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: UsersCurrentSkillsAndDesires
+          insertion_order: null
+          column_mapping:
+            id: categoryId
+    - name: Skills
+      using:
+        foreign_key_constraint_on:
+          column: categoryId
+          table:
+            schema: public
+            name: Skill
+    - name: ZenikasAverageCurrentSkillsAndDesires
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: ZenikasAverageCurrentSkillsAndDesires
+          insertion_order: null
+          column_mapping:
+            id: categoryId
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - id
-      - label
-      - x
-      - "y"
-      - color
-      - index
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - id
+          - label
+          - x
+          - "y"
+          - color
+          - index
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: Skill
   object_relationships:
-  - name: Category
-    using:
-      foreign_key_constraint_on: categoryId
+    - name: Category
+      using:
+        foreign_key_constraint_on: categoryId
   array_relationships:
-  - name: UserSkillDesires
-    using:
-      foreign_key_constraint_on:
-        column: skillId
-        table:
-          schema: public
-          name: UserSkillDesire
-  - name: UsersCurrentSkillsAndDesires
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UsersCurrentSkillsAndDesires
-        insertion_order: null
-        column_mapping:
-          id: skillId
+    - name: UserSkillDesires
+      using:
+        foreign_key_constraint_on:
+          column: skillId
+          table:
+            schema: public
+            name: UserSkillDesire
+    - name: UsersCurrentSkillsAndDesires
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: UsersCurrentSkillsAndDesires
+          insertion_order: null
+          column_mapping:
+            id: skillId
   insert_permissions:
-  - role: world
-    permission:
-      check: {}
-      columns:
-      - categoryId
-      - id
-      - name
-      backend_only: false
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - categoryId
+          - id
+          - name
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - categoryId
-      - id
-      - name
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - categoryId
+          - id
+          - name
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns:
-      - categoryId
-      - id
-      - name
-      filter: {}
-      check: {}
+    - role: world
+      permission:
+        columns:
+          - categoryId
+          - id
+          - name
+        filter: {}
+        check: {}
 - table:
     schema: public
     name: Topic
   array_relationships:
-  - name: UserTopics
-    using:
-      foreign_key_constraint_on:
-        column: topicId
-        table:
-          schema: public
-          name: UserTopic
+    - name: UserTopics
+      using:
+        foreign_key_constraint_on:
+          column: topicId
+          table:
+            schema: public
+            name: UserTopic
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - id
-      - name
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - id
+          - name
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: User
   object_relationships:
-  - name: UserLatestAgency
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: UserLatestAgency
-        insertion_order: null
-        column_mapping:
-          email: userEmail
+    - name: UserLatestAgency
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: UserLatestAgency
+          insertion_order: null
+          column_mapping:
+            email: userEmail
   array_relationships:
-  - name: UserAgencies
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserAgency
-  - name: UserSkillDesires
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserSkillDesire
-  - name: UserTopics
-    using:
-      foreign_key_constraint_on:
-        column: userEmail
-        table:
-          schema: public
-          name: UserTopic
+    - name: UserAgencies
+      using:
+        foreign_key_constraint_on:
+          column: userEmail
+          table:
+            schema: public
+            name: UserAgency
+    - name: UserSkillDesires
+      using:
+        foreign_key_constraint_on:
+          column: userEmail
+          table:
+            schema: public
+            name: UserSkillDesire
+    - name: UserTopics
+      using:
+        foreign_key_constraint_on:
+          column: userEmail
+          table:
+            schema: public
+            name: UserTopic
   insert_permissions:
-  - role: world
-    permission:
-      check:
-        email:
-          _eq: x-hasura-user-email
-      columns:
-      - botNotifications
-      - email
-      - name
-      - picture
-      backend_only: false
+    - role: world
+      permission:
+        check:
+          email:
+            _eq: x-hasura-user-email
+        columns:
+          - botNotifications
+          - email
+          - name
+          - picture
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - botNotifications
-      - email
-      - name
-      - picture
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - botNotifications
+          - email
+          - name
+          - picture
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns:
-      - botNotifications
-      - email
-      - name
-      - picture
-      filter:
-        email:
-          _eq: x-hasura-user-email
-      check:
-        email:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        columns:
+          - botNotifications
+          - email
+          - name
+          - picture
+        filter:
+          email:
+            _eq: x-hasura-user-email
+        check:
+          email:
+            _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserAchievements
   object_relationships:
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
+    - name: User
+      using:
+        foreign_key_constraint_on: userEmail
   insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns: []
-      backend_only: false
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns: []
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - additionalInfo
-      - created_at
-      - id
-      - label
-      - points
-      - step
-      - userEmail
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - additionalInfo
+          - created_at
+          - id
+          - label
+          - points
+          - step
+          - userEmail
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns: []
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        columns: []
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserAgency
   object_relationships:
-  - name: Agency
-    using:
-      foreign_key_constraint_on: agency
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
+    - name: Agency
+      using:
+        foreign_key_constraint_on: agency
+    - name: User
+      using:
+        foreign_key_constraint_on: userEmail
   insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns:
-      - userEmail
-      - agency
-      - created_at
-      backend_only: false
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns:
+          - userEmail
+          - agency
+          - created_at
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - created_at
-      - agency
-      - userEmail
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - created_at
+          - agency
+          - userEmail
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns:
-      - userEmail
-      - agency
-      - created_at
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - agency
+          - created_at
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
 - table:
     schema: public
     name: UserLatestAgency
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - userEmail
-      - agency
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - agency
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: UserSkillDesire
   object_relationships:
-  - name: Skill
-    using:
-      foreign_key_constraint_on: skillId
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
+    - name: Skill
+      using:
+        foreign_key_constraint_on: skillId
+    - name: User
+      using:
+        foreign_key_constraint_on: userEmail
   insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns:
-      - created_at
-      - desireLevel
-      - skillId
-      - skillLevel
-      - userEmail
-      backend_only: false
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns:
+          - created_at
+          - desireLevel
+          - skillId
+          - skillLevel
+          - userEmail
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - id
-      - userEmail
-      - skillId
-      - skillLevel
-      - desireLevel
-      - created_at
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - id
+          - userEmail
+          - skillId
+          - skillLevel
+          - desireLevel
+          - created_at
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns:
-      - created_at
-      - desireLevel
-      - skillId
-      - skillLevel
-      - userEmail
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        columns:
+          - created_at
+          - desireLevel
+          - skillId
+          - skillLevel
+          - userEmail
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
   event_triggers:
-  - name: categoryCompletionAchievement
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 30
-      timeout_sec: 60
-    webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
-    headers:
-    - name: authorization
-      value_from_env: NEXT_API_BEARER_TOKEN
+    - name: categoryCompletionAchievement
+      definition:
+        enable_manual: false
+        insert:
+          columns: "*"
+      retry_conf:
+        num_retries: 5
+        interval_sec: 30
+        timeout_sec: 60
+      webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
+      headers:
+        - name: authorization
+          value_from_env: NEXT_API_BEARER_TOKEN
 - table:
     schema: public
     name: UserTopic
   object_relationships:
-  - name: Topic
-    using:
-      foreign_key_constraint_on: topicId
-  - name: User
-    using:
-      foreign_key_constraint_on: userEmail
+    - name: Topic
+      using:
+        foreign_key_constraint_on: topicId
+    - name: User
+      using:
+        foreign_key_constraint_on: userEmail
   insert_permissions:
-  - role: world
-    permission:
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
-      columns:
-      - userEmail
-      - topicId
-      - created_at
-      backend_only: false
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns:
+          - userEmail
+          - topicId
+          - created_at
+        backend_only: false
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - created_at
-      - userEmail
-      - topicId
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - created_at
+          - userEmail
+          - topicId
+        filter: {}
+        allow_aggregations: true
   update_permissions:
-  - role: world
-    permission:
-      columns:
-      - userEmail
-      - topicId
-      - created_at
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
-      check:
-        userEmail:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - topicId
+          - created_at
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
   delete_permissions:
-  - role: world
-    permission:
-      filter:
-        userEmail:
-          _eq: x-hasura-user-email
+    - role: world
+      permission:
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
   event_triggers:
-  - name: categoryProfileAchievement
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-    retry_conf:
-      num_retries: 5
-      interval_sec: 30
-      timeout_sec: 60
-    webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
-    headers:
-    - name: authorization
-      value_from_env: NEXT_API_BEARER_TOKEN
+    - name: categoryProfileAchievement
+      definition:
+        enable_manual: false
+        insert:
+          columns: "*"
+      retry_conf:
+        num_retries: 5
+        interval_sec: 30
+        timeout_sec: 60
+      webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
+      headers:
+        - name: authorization
+          value_from_env: NEXT_API_BEARER_TOKEN
 - table:
     schema: public
     name: UsersCurrentSkillsAndDesires
   object_relationships:
-  - name: User
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: User
-        insertion_order: null
-        column_mapping:
-          userEmail: email
+    - name: User
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: User
+          insertion_order: null
+          column_mapping:
+            userEmail: email
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - skillId
-      - categoryId
-      - userEmail
-      - name
-      - skillLevel
-      - desireLevel
-      - created_at
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - skillId
+          - categoryId
+          - userEmail
+          - name
+          - skillLevel
+          - desireLevel
+          - created_at
+        filter: {}
+        allow_aggregations: true
 - table:
     schema: public
     name: ZenikasAverageCurrentSkillsAndDesires
   object_relationships:
-  - name: Category
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: Category
-        insertion_order: null
-        column_mapping:
-          categoryId: id
+    - name: Category
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: Category
+          insertion_order: null
+          column_mapping:
+            categoryId: id
   select_permissions:
-  - role: world
-    permission:
-      columns:
-      - skillId
-      - categoryId
-      - name
-      - averageSkillLevel
-      - averageDesireLevel
-      - userCount
-      filter: {}
-      allow_aggregations: true
+    - role: world
+      permission:
+        columns:
+          - skillId
+          - categoryId
+          - name
+          - averageSkillLevel
+          - averageDesireLevel
+          - userCount
+        filter: {}
+        allow_aggregations: true
