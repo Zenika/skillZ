@@ -194,6 +194,7 @@
           email:
             _eq: x-hasura-user-email
         columns:
+          - botNotifications
           - email
           - name
           - picture
@@ -202,6 +203,7 @@
     - role: world
       permission:
         columns:
+          - botNotifications
           - email
           - name
           - picture
@@ -211,6 +213,7 @@
     - role: world
       permission:
         columns:
+          - botNotifications
           - email
           - name
           - picture
