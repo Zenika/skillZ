@@ -44,17 +44,13 @@ const SkillPage = () => {
   const { darkMode } = useDarkMode();
   function updateLevelFilter(levelCategory, i) {
     if (levelCategory === "desire")
-      setDesireLevelSelector(desireLevelSelector + i)
+      setDesireLevelSelector(desireLevelSelector + i);
     if (levelCategory === "skill")
-      setSkillLevelSelector(skillLevelSelector + i)
-    if (desireLevelSelector < 1)
-      setDesireLevelSelector(1)
-    if (skillLevelSelector < 1)
-      setSkillLevelSelector(1)
-    if (desireLevelSelector > 5)
-      setDesireLevelSelector(5)
-    if (skillLevelSelector > 5)
-      setSkillLevelSelector(5)
+      setSkillLevelSelector(skillLevelSelector + i);
+    if (desireLevelSelector < 1) setDesireLevelSelector(1);
+    if (skillLevelSelector < 1) setSkillLevelSelector(1);
+    if (desireLevelSelector > 5) setDesireLevelSelector(5);
+    if (skillLevelSelector > 5) setSkillLevelSelector(5);
   }
   if (error) {
     useNotification(`Error: ${error.message}`, "red", 5000);
@@ -68,35 +64,37 @@ const SkillPage = () => {
       skill={skill}
     >
       {/*filter section*/}
-      <div className="flex flex-col justify-center w-1/2 my-6 bg-light-light dark:bg-dark-dark">
-        <div className="flex justify-center"> Apply filters</div>
-        <div className="flex items-center flex-row my-6 justify-center">
-          <div className="px-4 flex">
-          <Image
-            src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-            width="28"
-            height="28"
-            onClick={() => updateLevelFilter("desire", -1)}
-          />
+      <div className="flex justify-center">
+        <div className="flex flex-col justify-center w-1/2 my-6 bg-light-light dark:bg-dark-dark">
+          <div className="flex justify-center"> Apply filters</div>
+          <div className="flex items-center flex-row my-6 justify-center">
+            <div className="px-4 flex">
+              <Image
+                src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
+                width="28"
+                height="28"
+                onClick={() => updateLevelFilter("desire", -1)}
+              />
+            </div>
+            <div className="">
+              <LevelBar color="red" level={desireLevelSelector}></LevelBar>
+            </div>
+            <div className="px-4 flex">
+              <Image
+                src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
+                width="28"
+                height="28"
+                onClick={() => updateLevelFilter("desire", 1)}
+              />
+            </div>
           </div>
-          <div className="">
-          <LevelBar color="red" level={desireLevelSelector}></LevelBar>
+          <div className="flex flex-row my-6 justify-center">
+            <LevelBar color="yellow" level={4}></LevelBar>
           </div>
-          <div className="px-4 flex">
-          <Image
-            src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-            width="28"
-            height="28"
-            onClick={() => updateLevelFilter("desire", 1)}
-          />
-          </div>
-        </div>
-        <div className="flex flex-row my-6 justify-center">
-          <LevelBar color="yellow" level={4}></LevelBar>
-        </div>
 
-        <div className="flex justify-center p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-                  OK
+          <div className="flex justify-center p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
+            OK
+          </div>
         </div>
       </div>
       {/*end of filter section*/}

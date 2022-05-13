@@ -25,8 +25,7 @@
     "seeds:generate": "ts-node ./hasura/seeds/seedscript.ts",
     "seeds:apply": "npm run hasura seeds apply",
     "generate": "graphql-codegen --config codegen.js",
-    "generate:local": "graphql-codegen -r dotenv/config --config codegen.js dotenv_config_path=.env.local ",
-    "rest-script": "dotenv ./rest-hasura-metadatas.sh"
+    "generate:local": "graphql-codegen -r dotenv/config --config codegen.js dotenv_config_path=.env.local "
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",
