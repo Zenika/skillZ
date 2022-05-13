@@ -1,1 +1,1 @@
-alter table "public"."User" drop column if exists "botNotifications";
+alter table "public"."User" drop column if exists "botNotifications"; 
