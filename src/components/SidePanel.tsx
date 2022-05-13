@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { i18nContext } from "../utils/i18nContext";
@@ -7,13 +7,13 @@ import { LocaleSelector } from "./LocaleSelector";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
+import { BotNotifications } from "./BotNotifications";
 
 const SidePanel = () => {
   const { locale } = useRouter();
   const { error, user } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
-
   if (error) {
     console.error(
       `Something bad happened while authenticating user: ${error.message}`
