@@ -12,6 +12,7 @@ import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
 import { GetUserAgencyQuery } from "../generated/graphql";
 import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
+import { BotNotifications } from "./BotNotifications";
 
 const Topbar = ({
   path,
@@ -224,6 +225,9 @@ const Topbar = ({
                       changeDarkMode={changeDarkMode}
                       t={t}
                     />
+                  </li>
+                  <li className="p-2">
+                    <BotNotifications t={t}></BotNotifications>
                   </li>
                   <li className="p-2">
                     <Link href="/logout">

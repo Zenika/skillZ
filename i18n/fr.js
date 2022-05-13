@@ -16,6 +16,7 @@ export default {
     preferedLanguage: "Langue",
     darkMode: "Mode sombre",
     logout: "Se déconnecter",
+    botNotifications: "Notifications du bot Slack",
   },
   home: {
     addSkill: "Ajouter une compétence",
