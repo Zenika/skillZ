@@ -7,8 +7,6 @@ import { useFetchUsersForSkill } from "../../../../../utils/fetchers/useFetchUse
 import { useNotification } from "../../../../../utils/useNotification";
 import LevelBar from "../../../../../components/LevelBar";
 import { useState } from "react";
-import Image from "next/image";
-import logoLess from "../../../../../../public/icons/light/minus.png";
 import { useDarkMode } from "../../../../../utils/darkMode";
 import {
   IoIosArrowDroprightCircle,
@@ -18,6 +16,8 @@ import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 
 const SkillPage = () => {
   const router = useRouter();
+  const [desireLevelSelector, setDesireLevelSelector] = useState(0);
+  const [skillLevelSelector, setSkillLevelSelector] = useState(0);
   let { context, category, skill, agency } = router.query;
   agency = agency
     ? typeof agency === "string"
@@ -42,10 +42,10 @@ const SkillPage = () => {
   const { data, color, loading, error } = useFetchUsersForSkill(
     category,
     skill,
-    agency
+    agency,
+    desireLevelSelector,
+    skillLevelSelector
   );
-  const [desireLevelSelector, setDesireLevelSelector] = useState(0);
-  const [skillLevelSelector, setSkillLevelSelector] = useState(0);
   const [filtersSection, setFiltersSection] = useState(false);
   const { darkMode } = useDarkMode();
 
@@ -128,11 +128,11 @@ const SkillPage = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-center p-2">
+            {/* <div className="flex justify-center p-2">
               <div className="flex justify-center p-2 px-4 gradient-red rounded-full text-white cursor-pointer w-1/5">
                 OK
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <></>

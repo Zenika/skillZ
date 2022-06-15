@@ -8,11 +8,16 @@ import {
   GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY,
 } from "../../graphql/queries/skills";
 
-const fetchUsersForSkill = (category: string, skill: string) =>
+const fetchUsersForSkill = (
+  category: string,
+  skill: string,
+  desireMin: number,
+  skillMin: number
+) =>
   useQuery<GetUserSkillsAndDesiresDetailQuery>(
     GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY,
     {
-      variables: { category, skill },
+      variables: { category, skill, desireMin, skillMin },
     }
   );
 
@@ -31,11 +36,13 @@ const fetchUsersForSkillByAgency = (
 export const useFetchUsersForSkill = (
   category: string,
   skill: string,
-  agency?: string
+  agency?: string,
+  desireLevelMin?: number,
+  skillLevelMin?: number
 ) => {
   const { data, loading, error } = agency
     ? fetchUsersForSkillByAgency(category, skill, agency)
-    : fetchUsersForSkill(category, skill);
+    : fetchUsersForSkill(category, skill, desireLevelMin, skillLevelMin);
   const fetchedSkill = data?.Category[0]?.Skills[0];
   return {
     loading,

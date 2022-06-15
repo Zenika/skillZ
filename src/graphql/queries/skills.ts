@@ -126,10 +126,23 @@ export const GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY =
 `;
 
 export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY = gql`
-  query getUserSkillsAndDesiresDetail($category: String!, $skill: String!) {
+  query getUserSkillsAndDesiresDetail(
+    $category: String!
+    $skill: String!
+    $desireMin: Int!
+    $skillMin: Int!
+  ) {
     Category(where: { label: { _eq: $category } }) {
       color
-      Skills(where: { name: { _eq: $skill } }) {
+      Skills(
+        where: {
+          name: { _eq: $skill }
+          UsersCurrentSkillsAndDesires: {
+            desireLevel: { _gte: $desireMin }
+            skillLevel: { _gte: $skillMin }
+          }
+        }
+      ) {
         id
         name
         UsersCurrentSkillsAndDesires(
