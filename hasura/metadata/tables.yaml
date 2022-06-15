@@ -194,8 +194,8 @@
           email:
             _eq: x-hasura-user-email
         columns:
-          - botNotifications
           - email
+          - botNotifications
           - name
           - picture
         backend_only: false
@@ -203,8 +203,8 @@
     - role: world
       permission:
         columns:
-          - botNotifications
           - email
+          - botNotifications
           - name
           - picture
         filter: {}
@@ -370,7 +370,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -433,7 +433,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30

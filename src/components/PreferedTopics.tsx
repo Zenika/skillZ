@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
 import { TopicSelectorQueryQuery } from "../generated/graphql";
 
 type Topic = {

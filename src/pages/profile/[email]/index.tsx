@@ -59,9 +59,13 @@ const Profile = () => {
                   <span>{infoUser?.name}</span>
                 </div>
               </div>
-              <ViewAgency
-                agency={infoUser?.UserLatestAgency.agency}
-              ></ViewAgency>
+              {infoUser?.UserLatestAgency?.agency ? (
+                <ViewAgency
+                  agency={infoUser?.UserLatestAgency.agency}
+                ></ViewAgency>
+              ) : (
+                ""
+              )}
               <PreferedTopics
                 topics={topics}
                 refetch={null}

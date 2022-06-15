@@ -10,6 +10,11 @@ import { useState } from "react";
 import Image from "next/image";
 import logoLess from "../../../../../../public/icons/light/minus.png";
 import { useDarkMode } from "../../../../../utils/darkMode";
+import {
+  IoIosArrowDroprightCircle,
+  IoIosArrowDropdownCircle,
+} from "react-icons/io";
+import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 
 const SkillPage = () => {
   const router = useRouter();
@@ -41,7 +46,9 @@ const SkillPage = () => {
   );
   const [desireLevelSelector, setDesireLevelSelector] = useState(0);
   const [skillLevelSelector, setSkillLevelSelector] = useState(0);
+  const [filtersSection, setFiltersSection] = useState(false);
   const { darkMode } = useDarkMode();
+
   function updateLevelFilter(levelCategory, i) {
     if (levelCategory === "desire")
       setDesireLevelSelector(desireLevelSelector + i);
@@ -52,6 +59,7 @@ const SkillPage = () => {
     if (desireLevelSelector > 5) setDesireLevelSelector(5);
     if (skillLevelSelector > 5) setSkillLevelSelector(5);
   }
+
   if (error) {
     useNotification(`Error: ${error.message}`, "red", 5000);
   }
@@ -63,39 +71,72 @@ const SkillPage = () => {
       category={category}
       skill={skill}
     >
-      {/*filter section*/}
-      <div className="flex justify-center">
-        <div className="flex flex-col justify-center w-1/2 my-6 bg-light-light dark:bg-dark-dark">
-          <div className="flex justify-center"> Apply filters</div>
-          <div className="flex items-center flex-row my-6 justify-center">
-            <div className="px-4 flex">
-              <Image
-                src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-                width="28"
-                height="28"
-                onClick={() => updateLevelFilter("desire", -1)}
-              />
-            </div>
-            <div className="">
-              <LevelBar color="red" level={desireLevelSelector}></LevelBar>
-            </div>
-            <div className="px-4 flex">
-              <Image
-                src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-                width="28"
-                height="28"
-                onClick={() => updateLevelFilter("desire", 1)}
-              />
-            </div>
-          </div>
-          <div className="flex flex-row my-6 justify-center">
-            <LevelBar color="yellow" level={4}></LevelBar>
-          </div>
+      {/*filter header*/}
 
-          <div className="flex justify-center p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-            OK
-          </div>
+      <div
+        className={`${
+          darkMode
+            ? "flex flex-col justify-around bg-dark-dark p-2"
+            : "flex flex-col justify-around bg-lidht-med p-2"
+        }`}
+      >
+        <div className="flex flex-row items-center">
+          <div className="p-2 text-xl">Filtres</div>
+          {filtersSection ? (
+            <IoIosArrowDropdownCircle
+              size={20}
+              onClick={() => setFiltersSection(false)}
+            />
+          ) : (
+            <IoIosArrowDroprightCircle
+              size={20}
+              onClick={() => setFiltersSection(true)}
+            />
+          )}
         </div>
+        {/*filter section*/}
+        {filtersSection ? (
+          <div className="flex flex-col">
+            <div className="flex justify-center">
+              Set desire level (at least)
+            </div>
+            <div className="flex items-center flex-row my-6 justify-center">
+              <div className="px-4 flex">
+                <AiFillMinusCircle
+                  onClick={() => updateLevelFilter("desire", -1)}
+                />
+              </div>
+              <LevelBar color="red" level={desireLevelSelector}></LevelBar>
+              <div className="px-4 flex">
+                <AiFillPlusCircle
+                  onClick={() => updateLevelFilter("desire", 1)}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center">Skill level (at least)</div>
+            <div className="flex items-center flex-row my-6 justify-center">
+              <div className="px-4 flex">
+                <AiFillMinusCircle
+                  onClick={() => updateLevelFilter("skill", -1)}
+                />
+              </div>
+              <LevelBar color="yellow" level={skillLevelSelector}></LevelBar>
+              <div className="px-4 flex">
+                <AiFillPlusCircle
+                  onClick={() => updateLevelFilter("skill", 1)}
+                />
+              </div>
+            </div>
+            <div className="flex justify-center p-2">
+              <div className="flex justify-center p-2 px-4 gradient-red rounded-full text-white cursor-pointer w-1/5">
+                OK
+              </div>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       {/*end of filter section*/}
       <PageWithSkillList
@@ -105,15 +146,13 @@ const SkillPage = () => {
         faded={false}
         color={color}
       >
-        <>
-          {data?.map((data) => (
-            <UserSkillPanel
-              skill={data}
-              context={context as string}
-              key={`key-${data.name}-${data.user}`}
-            />
-          ))}
-        </>
+        {data?.map((data) => (
+          <UserSkillPanel
+            skill={data}
+            context={context as string}
+            key={`key-${data.name}-${data.user}`}
+          />
+        ))}
       </PageWithSkillList>
     </CommonPage>
   );
