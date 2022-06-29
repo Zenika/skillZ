@@ -1,4 +1,4 @@
-import { withAuthenticationRequired } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import CommonPage from "../../../../../components/CommonPage";
 import PageWithSkillList from "../../../../../components/PageWithSkillList";
@@ -6,19 +6,31 @@ import UserSkillPanel from "../../../../../components/UserSkillPanel";
 import { useFetchUsersForSkill } from "../../../../../utils/fetchers/useFetchUsersForSkill";
 import { useNotification } from "../../../../../utils/useNotification";
 import LevelBar from "../../../../../components/LevelBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDarkMode } from "../../../../../utils/darkMode";
 import {
   IoIosArrowDroprightCircle,
   IoIosArrowDropdownCircle,
 } from "react-icons/io";
+import FilterByPanel from "../../../../../components/FilterByPanel";
+import { FilterData } from "../../../../../utils/types";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import { useFetchZenikaPageData } from "../../../../../utils/fetchers/useFetchZenikaPageData";
+
+import { useComputeFilterUrl } from "../../../../../utils/useComputeFilterUrl";
 
 const SkillPage = () => {
-  const router = useRouter();
+  const { push, query } = useRouter();
+  const { user } = useAuth0();
   const [desireLevelSelector, setDesireLevelSelector] = useState(0);
   const [skillLevelSelector, setSkillLevelSelector] = useState(0);
-  let { context, category, skill, agency } = router.query;
+  let { context, category, skill, agency } = query;
+  const computedAgency = agency
+    ? typeof agency === "string"
+      ? agency
+      : agency.join("")
+    : undefined;
+
   agency = agency
     ? typeof agency === "string"
       ? agency
@@ -49,6 +61,12 @@ const SkillPage = () => {
   const [filtersSection, setFiltersSection] = useState(false);
   const { darkMode } = useDarkMode();
 
+  const [filterByAgency, setFilterByAgency] = useState<
+    FilterData<string> | undefined
+  >(undefined);
+  //need error
+  const { agencies } = useFetchZenikaPageData(user.email || "", computedAgency);
+
   function updateLevelFilter(levelCategory, i) {
     if (levelCategory === "desire")
       setDesireLevelSelector(desireLevelSelector + i);
@@ -63,6 +81,14 @@ const SkillPage = () => {
   if (error) {
     useNotification(`Error: ${error.message}`, "red", 5000);
   }
+
+  useEffect(() => {
+    setFilterByAgency({
+      name: "Agency",
+      values: agencies?.map((agency) => agency.name) || [],
+      selected: computedAgency,
+    });
+  }, [agency, agencies]);
   return (
     <CommonPage
       page={skill}
@@ -97,6 +123,28 @@ const SkillPage = () => {
         {/*filter section*/}
         {filtersSection ? (
           <div className="flex flex-col">
+            <FilterByPanel
+              filters={
+                filterByAgency
+                  ? [
+                      {
+                        name: filterByAgency.name,
+                        values: ["World", ...filterByAgency.values],
+                        selected: filterByAgency.selected,
+                        callback: (value) =>
+                          push(
+                            useComputeFilterUrl(
+                              `${window.location}`,
+                              value
+                                ? [{ name: "agency", value: `${value}` }]
+                                : []
+                            )
+                          ),
+                      },
+                    ]
+                  : undefined
+              }
+            ></FilterByPanel>
             <div className="flex justify-center">
               Set desire level (at least)
             </div>
