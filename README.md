@@ -36,19 +36,18 @@ HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 
 ### Run postgres and hasura locally with docker
 
-Start by running
+Start by running `docker compose up -d` to launch the postgres database and the hasura graphql-engine.
 
-`docker compose up -d postgres`
-
-Once the instance is up you can run `docker compose up -d` to launch the hasura graphql-engine
-
-Check that engine is running by going to `http://localhost:8080`
+Check that engine is running by going to `http://localhost:8080` (do not modify schemas through this URL).
 
 ### Run the hasura migrations
 
 Run `npm run hasura migrate apply` (schemas setup) and `npm run hasura metadata apply` (graphql setup) to apply migrations and metadatas
 
-To connect to the Hasura console and make sure changes are tracked, run `npm run hasura console` (it should open the console in your browser with the correct port).
+Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the correct port (to keep track of schema changes in the hasura/migrations folder)).
+
+Browse to the `Data` tab in the console and select the `User` table.
+Create your own Zenika user (its email should match your login email).
 
 ### Launch the app
 
