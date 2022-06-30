@@ -4,19 +4,13 @@ A progressive web app to store your proficiency and desire to learn different sk
 
 ## Quick start
 
-### Run postgres and hasura localy with docker
+### Docker
 
-Start by running
+You will need Docker installed on your machine.
 
-`docker compose up -d postgres`
+### Install dependencies
 
-Once the instance is up you can run `docker compose up -d` to launch the hasura graphql-engine
-
-Check that engine is running by going to `http://localhost:8080`
-
-### Run the hasura migrations
-
-Run `npm run hasura migrate apply` and `npm run hasura metadata apply` to apply migrations and metadatas
+Install dependencies using `npm install` at the root of the project.
 
 ### Create an env file
 
@@ -40,9 +34,25 @@ NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 ```
 
+### Run postgres and hasura locally with docker
+
+Start by running `docker compose up -d` to launch the postgres database and the hasura graphql-engine.
+
+Check that engine is running by going to `http://localhost:8080` (do not modify schemas through this URL).
+
+### Run the hasura migrations
+
+Run `npm run hasura migrate apply` (schemas setup) and `npm run hasura metadata apply` (graphql setup) to apply migrations and metadatas
+
+Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the correct port (to keep track of schema changes in the hasura/migrations folder)).
+
+Browse to the `Data` tab in the console and select the `User` table.
+Create your own Zenika user (its email should match your login email).
+
 ### Launch the app
 
-Then install dependencies using `npm install`, run the dev server using `npm run dev`
+Run the dev server using `npm run dev`.
+The application should be available at the URL specified in your .env.local file under `NEXT_PUBLIC_BASE_URL`.
 
 ### Generate seeds
 
