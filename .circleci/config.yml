@@ -14,7 +14,7 @@ executors:
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
-      - image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
+      - image: hasura/graphql-engine:v2.8.4.cli-migrations-v3
         name: hasura
         environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -158,7 +158,8 @@ jobs:
           working_directory: hasura
           command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
   deploy:
-    executor: node
+    docker:
+      - image: circleci/node:lts
     parameters:
       graphql-url:
         type: string
