@@ -135,6 +135,6 @@ ${userAgenciesInsertQuery.query}
 ${userSkillsInsertQuery.query}`;
 
 (async () => {
-  await writeFile("./hasura/seeds/seeds.sql", result);
-  console.log("Seeds succesfully generated into hasura/seeds/seeds.sql file");
+  await writeFile("./hasura/local_seeds/seeds.sql", result);
+  console.log("Seeds succesfully generated into hasura/local_seeds/seeds.sql file");
 })();
