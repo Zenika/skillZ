@@ -14,6 +14,7 @@ type Skill = { id: string; name: string; categoryId: string };
 
 const agencies: Agency[] = require("./Agency.json");
 const categories = require("./Category.json");
+const tags: Skill[] = require("./Tag.json");
 const skills: Skill[] = require("./Skill.json");
 const topics = require("./Topic.json");
 
