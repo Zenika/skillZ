@@ -22,17 +22,17 @@ export default {
   home: {
     addSkill: "Add skill",
     noSkill: "No skill here",
-    "languages-and-frameworks": "Languages & Frameworks",
-    platforms: "Platforms",
-    tools: "Tools",
-    "technics-and-methods": "Technics & Methods",
+    practices: "Practices",
+    activities: "Activities",
+    knowledge: "Knowledge",
+    behaviors: "Behavior",
   },
   commonPageNav: {
     addSkill: "Add skill",
-    "languages-and-frameworks": "Languages & Frameworks",
-    platforms: "Platforms",
-    tools: "Tools",
-    "technics-and-methods": "Technics & Methods",
+    practices: "Practice",
+    activities: "Activity",
+    knowledge: "Knowledge",
+    behaviors: "Behavior",
     profile: "Profile",
   },
   onboarding: {
@@ -54,6 +54,10 @@ export default {
     Lyon: "Lyon",
     Rennes: "Rennes",
     Lille: "Lille",
+    Niort: "Niort",
+    "Clermont-Ferrand": "Clermont-Ferrand",
+    Toronto: "Toronto",
+    Casablanca: "Casablanca"
   },
   createProfile: {
     title: "Let's create a profile !",
