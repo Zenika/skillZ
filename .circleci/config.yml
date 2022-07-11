@@ -6,11 +6,11 @@ orbs:
 executors:
   node:
     docker:
-      - image: cimg/node:16.15
+      - image: cimg/node:18.4.0
   hasura:
     docker:
-      - image: cimg/node:16.15
-      - image: postgres:12
+      - image: cimg/node:18.4.0
+      - image: postgres:13
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
