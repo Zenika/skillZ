@@ -1,12 +1,12 @@
 INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('domain', 'Delivery'),
 ('domain', 'Product'),
-('domain', 'Organization transformation'),
 ('domain', 'Infrastructure / Ops'),
-('domain', 'Data Engineering'),
+('domain', 'Data engineering'),
 ('domain', 'Frontend (UI)'),
 ('domain', 'Backend (servers)'),
 ('domain', 'Data Science / Analytics'),
+('domain', 'Quality assurance'),
 ('sensitivity', 'Architecture'),
 ('sensitivity', 'DevOps'),
 ('sensitivity', 'Green'),
@@ -14,9 +14,13 @@ INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('sensitivity', 'Cloud'),
 ('sensitivity', 'Agile'),
 ('sensitivity', 'Craftsmanship'),
-('sensitivity', 'Cybersecurity'),
+('sensitivity', 'Security'),
 ('sensitivity', 'Facilitation'),
-('sensitivity', 'Development process')
+('sensitivity', 'Development process'),
+('generic', 'Business'),
+('generic', 'Professional behavior'),
+('generic', 'Spoken language'),
+('generic', 'Programming language')
 ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
 
 DELETE FROM "public"."UserTopic" WHERE "topicId" IN 

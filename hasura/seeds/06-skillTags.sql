@@ -1,4 +1,4 @@
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Software Programming' WHERE tag.name IN ('cloud') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Software Programming' WHERE tag.name IN ('programming') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Cloud Migration' WHERE tag.name IN ('cloud') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Code Refactoring' WHERE tag.name IN ('craftsmanship') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Mob programming' WHERE tag.name IN ('craftsmanship') ON CONFLICT DO NOTHING;
@@ -9,7 +9,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Kafka Ops' WHERE tag.name IN ('data','kafka') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Frontend Development' WHERE tag.name IN ('field','web','frontend') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Backend Development' WHERE tag.name IN ('field','backend') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Devops Coaching' WHERE tag.name IN ('devops') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='DevOps Coaching' WHERE tag.name IN ('devops') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Kubernetes Admin' WHERE tag.name IN ('devops','kubernetes','containers') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Kubernetes Dev' WHERE tag.name IN ('devops','kubernetes','containers') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Agile Coaching' WHERE tag.name IN ('agile','organization','coaching') ON CONFLICT DO NOTHING;
@@ -99,7 +99,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Positive' WHERE tag.name IN ('behavior','strength','relations') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Team-first' WHERE tag.name IN ('behavior','strength','relations') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Strategy-sensitive' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name=' Analytical' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Analytical' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Contextual' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Future-driven' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Ideator' WHERE tag.name IN ('behavior','strength','strategy') ON CONFLICT DO NOTHING;
@@ -434,7 +434,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Shell' WHERE tag.name IN ('programming','language') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Acceptance Test Driven Development' WHERE tag.name IN ('qa','testing') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Behavior Driven Development' WHERE tag.name IN ('qa','testing') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Non Violen Communication' WHERE tag.name IN ('organization','coaching') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Non Violent Communication' WHERE tag.name IN ('organization','coaching') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Cucumber' WHERE tag.name IN ('qa','testing') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Design Thinking' WHERE tag.name IN ('agile','design') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Agile Dual-track' WHERE tag.name IN ('agile') ON CONFLICT DO NOTHING;
