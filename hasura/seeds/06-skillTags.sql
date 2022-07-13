@@ -482,3 +482,4 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Cloudera' WHERE tag.name IN ('data') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Hyperledger' WHERE tag.name IN ('data','blockchain') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Ethereum' WHERE tag.name IN ('data','blockchain') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Organization transformation' WHERE tag.name IN ('management','organization','delivery','consulting') ON CONFLICT DO NOTHING;

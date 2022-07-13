@@ -483,3 +483,4 @@ INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" to
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Cloudera' WHERE topic.name IN ('Data engineering', 'Cloud') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Hyperledger' WHERE topic.name IN ('Data engineering') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Ethereum' WHERE topic.name IN ('Data engineering') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Organization transformation' WHERE topic.name IN ('Delivery', 'Business', 'Management') ON CONFLICT DO NOTHING;

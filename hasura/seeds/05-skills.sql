@@ -482,5 +482,6 @@ INSERT INTO "public"."Skill" ("name", "categoryId", "verified") VALUES
 ('Delta Lake', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
 ('Cloudera', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
 ('Hyperledger', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
-('Ethereum', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true)
+('Ethereum', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
+('Organization transformation', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true)
 ON CONFLICT ("name") DO UPDATE SET "categoryId" = EXCLUDED."categoryId", "verified" = true;
