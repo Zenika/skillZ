@@ -22,8 +22,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "hasura": "hasura --project ./hasura",
-    "seeds:generate": "ts-node ./hasura/seeds/seedscript.ts",
-    "seeds:apply": "npm run hasura seeds apply",
+    "seeds:generate": "ts-node ./hasura/local_seeds/seedscript.ts",
+    "seeds:apply": "npm run hasura seeds apply --file ./hasura/local_seeds/seeds.sql",
     "generate": "graphql-codegen --config codegen.js",
     "generate:local": "graphql-codegen -r dotenv/config --config codegen.js dotenv_config_path=.env.local "
   },

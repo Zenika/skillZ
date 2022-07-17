@@ -138,6 +138,9 @@
     name: SkillTag
 - table:
     schema: public
+    name: SkillTopic
+- table:
+    schema: public
     name: Tag
 - table:
     schema: public

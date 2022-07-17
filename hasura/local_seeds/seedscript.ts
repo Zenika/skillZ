@@ -14,6 +14,7 @@ type Skill = { id: string; name: string; categoryId: string };
 
 const agencies: Agency[] = require("./Agency.json");
 const categories = require("./Category.json");
+const tags: Skill[] = require("./Tag.json");
 const skills: Skill[] = require("./Skill.json");
 const topics = require("./Topic.json");
 
@@ -134,6 +135,6 @@ ${userAgenciesInsertQuery.query}
 ${userSkillsInsertQuery.query}`;
 
 (async () => {
-  await writeFile("./hasura/seeds/seeds.sql", result);
-  console.log("Seeds succesfully generated into hasura/seeds/seeds.sql file");
+  await writeFile("./hasura/local_seeds/seeds.sql", result);
+  console.log("Seeds succesfully generated into hasura/local_seeds/seeds.sql file");
 })();

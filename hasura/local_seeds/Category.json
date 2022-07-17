@@ -2,7 +2,7 @@
   {
     "index": 1,
     "color": "yellow",
-    "label": "languages-and-frameworks",
+    "label": "practices",
     "x": "left",
     "y": "top",
     "id": "89780de3-4a4c-40c2-bcdf-b5d15a48437a"
@@ -10,7 +10,7 @@
   {
     "index": 2,
     "color": "violet",
-    "label": "platforms",
+    "label": "activities",
     "x": "right",
     "y": "top",
     "id": "06420261-3e78-4a91-bc6a-1a52cad5d6a1"
@@ -18,7 +18,7 @@
   {
     "index": 3,
     "color": "blue",
-    "label": "tools",
+    "label": "knowledge",
     "x": "left",
     "y": "bot",
     "id": "c3341edb-3c1f-4e3d-bf89-8e795eb13690"
@@ -26,7 +26,7 @@
   {
     "index": 4,
     "color": "cyan",
-    "label": "technics-and-methods",
+    "label": "behaviors",
     "x": "right",
     "y": "bot",
     "id": "89f5e9a5-5ce6-416c-bed9-dd736546aa7f"
