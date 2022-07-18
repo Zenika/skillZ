@@ -93,8 +93,8 @@ const Radar = ({
   const [circles, setCircles] = useState<RadarData[]>([]);
   const isFullSize = title === "";
   const colorTable = {
-    yellow: "text-light-yellow dark:text-dark-yellow",
-    violet: "text-light-violet dark:text-dark-violet",
+    green: "text-light-green dark:text-dark-green",
+    red: "text-light-red dark:text-dark-red",
     blue: "text-light-blue dark:text-dark-blue",
     cyan: "text-light-cyan dark:text-dark-cyan",
   };
