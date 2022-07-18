@@ -148,19 +148,19 @@ export default {
     numberCompetencies: "Compétences ajoutées",
     subobjectivesTitles: {
       ProfileCompletion: "Categorie Profile",
-      LanguageAndFrameworks: "Catégorie Langages et Frameworks",
-      Tools: "Catégorie Outils",
-      Plateform: "Catégorie Plateformes",
-      TechnicsAndMethod: "Catégorie Techniques et méthodes",
+      Practices: "Catégorie Pratiques",
+      Activities: "Catégorie Activités",
+      Knowledge: "Catégorie Connaissances",
+      Behaviors: "Catégorie Postures",
     },
     subobjectivesLegends: {
       ProfileCompletion: "Ajoute tes sujets préférés et ton agence",
-      LanguageAndFrameworks:
-        "Ajoute des compétences dans la grille Langages et Frameworks",
-      Tools: "Ajoute des compétences dans la grille Outil",
-      Plateform: "Ajoute des compétences dans la grille Plateformes",
-      TechnicsAndMethod:
-        "Ajoute des compétences dans la grille Techniques et méthodes",
+      Practices:
+        "Ajoute des compétences dans la grille Pratiques",
+        Activities: "Ajoute des compétences dans la grille Activités",
+      Knowledge: "Ajoute des compétences dans la grille Connaissances",
+      Postures:
+        "Ajoute des compétences dans la grille Postures",
       Profile: "Compléter son profil",
     },
   },
