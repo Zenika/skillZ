@@ -26,12 +26,7 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertCategoryComp
 
 const achievementsMetadata = {
   steps: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-  categories: [
-    "practices",
-    "activities",
-    "knowledge",
-    "behaviors",
-  ],
+  categories: ["practices", "activities", "knowledge", "behaviors"],
 };
 export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.categories
   .map((category) =>
