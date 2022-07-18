@@ -68,7 +68,7 @@ export const Statistics = ({
         countSkills={filterCountSkills("knowledge")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="behavior"
+        themeToCompare="behaviors"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t(
@@ -79,7 +79,7 @@ export const Statistics = ({
             ? t("statistics.subobjectivesLegends.TechnicsAndMethod")
             : ""
         }
-        countSkills={filterCountSkills("behavior")}
+        countSkills={filterCountSkills("behaviors")}
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
