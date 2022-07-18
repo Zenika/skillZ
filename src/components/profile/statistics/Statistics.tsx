@@ -34,7 +34,7 @@ export const Statistics = ({
           : t("statistics.titleSection")}
       </h2>
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="languages-and-frameworks"
+        themeToCompare="practices"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t(
@@ -45,30 +45,30 @@ export const Statistics = ({
             ? t("statistics.subobjectivesLegends.LanguageAndFrameworks")
             : ""
         }
-        countSkills={filterCountSkills("languages-and-frameworks")}
+        countSkills={filterCountSkills("practices")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="platforms"
+        themeToCompare="activities"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t("statistics.subobjectivesTitles.Plateform")}
         descriptionSubobjective={
           myStatistics ? t("statistics.subobjectivesLegends.Plateform") : ""
         }
-        countSkills={filterCountSkills("platforms")}
+        countSkills={filterCountSkills("activities")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="tools"
+        themeToCompare="knowledge"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t("statistics.subobjectivesTitles.Tools")}
         descriptionSubobjective={
           myStatistics ? t("statistics.subobjectivesLegends.Tools") : ""
         }
-        countSkills={filterCountSkills("tools")}
+        countSkills={filterCountSkills("knowledge")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="technics-and-methods"
+        themeToCompare="behavior"
         datas={userAchievements}
         src="/img/badges/badge.svg"
         titleSubobjective={t(
@@ -79,7 +79,7 @@ export const Statistics = ({
             ? t("statistics.subobjectivesLegends.TechnicsAndMethod")
             : ""
         }
-        countSkills={filterCountSkills("technics-and-methods")}
+        countSkills={filterCountSkills("behavior")}
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
