@@ -82,5 +82,6 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('artifacts'),
 ('identity'),
 ('appliance'),
-('ide')
+('ide'),
+('whiteboard')
 ON CONFLICT ("name") DO NOTHING;
