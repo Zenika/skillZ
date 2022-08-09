@@ -114,7 +114,6 @@
           - categoryId
           - id
           - name
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -207,7 +206,6 @@
           - botNotifications
           - name
           - picture
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -246,7 +244,6 @@
           userEmail:
             _eq: x-hasura-user-email
         columns: []
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -290,7 +287,6 @@
           - userEmail
           - agency
           - created_at
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -346,7 +342,6 @@
           - skillId
           - skillLevel
           - userEmail
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -408,7 +403,6 @@
           - userEmail
           - topicId
           - created_at
-        backend_only: false
   select_permissions:
     - role: world
       permission:
@@ -434,6 +428,7 @@
   delete_permissions:
     - role: world
       permission:
+        backend_only: false
         filter:
           userEmail:
             _eq: x-hasura-user-email
