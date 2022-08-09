@@ -3,6 +3,7 @@ INSERT INTO "public"."Agency" ("name") VALUES
 ('Nantes'),
 ('Bordeaux'),
 ('Brest'),
+('La Réunion'),
 ('Grenoble'),
 ('Lyon'),
 ('Rennes'),
