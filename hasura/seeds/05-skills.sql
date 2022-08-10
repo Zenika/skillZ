@@ -553,5 +553,5 @@ INSERT INTO "public"."Skill" ("name", "categoryId", "verified") VALUES
 ('Xcode','89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
 ('Zeplin','89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
 ('Zeroheight','89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
-('Zoom','89780de3-4a4c-40c2-bcdf-b5d15a48437a', true),
-ON CONFLICT ("name") DO UPDATE SETEXCLUDED."categoryId", "verified" = true;
+('Zoom','89780de3-4a4c-40c2-bcdf-b5d15a48437a', true)
+ON CONFLICT ("name") DO UPDATE SET "categoryId" = EXCLUDED."categoryId", "verified" = true;
