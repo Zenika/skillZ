@@ -84,6 +84,12 @@
         allow_aggregations: true
 - table:
     schema: public
+    name: Certification
+- table:
+    schema: public
+    name: CertificationSkill
+- table:
+    schema: public
     name: Skill
   object_relationships:
     - name: Category
@@ -309,6 +315,9 @@
         check:
           userEmail:
             _eq: x-hasura-user-email
+- table:
+    schema: public
+    name: UserCertification
 - table:
     schema: public
     name: UserLatestAgency
