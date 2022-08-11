@@ -215,7 +215,7 @@ INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" to
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Quarkus' WHERE topic.name IN ('Backend (servers)') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='RabbitMQ' WHERE topic.name IN ('Backend (servers)', 'Data engineering') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Redis' WHERE topic.name IN ('Backend (servers)', 'Data engineering') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='SBT' WHERE topic.name IN ('Quality assurance') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='SBT' WHERE topic.name IN ('Development process') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Solr' WHERE topic.name IN ('Backend (servers)', 'Data engineering') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Spring' WHERE topic.name IN ('Backend (servers)') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Spring Batch' WHERE topic.name IN ('Backend (servers)', 'Data engineering') ON CONFLICT DO NOTHING;
