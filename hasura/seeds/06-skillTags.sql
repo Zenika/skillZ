@@ -214,7 +214,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Quarkus' WHERE tag.name IN ('backend','java','framework') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='RabbitMQ' WHERE tag.name IN ('backend','data','middleware') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Redis' WHERE tag.name IN ('backend','data') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='SBT' WHERE tag.name IN ('backend','scala') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='SBT' WHERE tag.name IN ('backend','scala', 'tooling') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Solr' WHERE tag.name IN ('backend','java','data','search','framework') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Spring' WHERE tag.name IN ('backend','java','framework') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Spring Batch' WHERE tag.name IN ('backend','java','framework') ON CONFLICT DO NOTHING;
