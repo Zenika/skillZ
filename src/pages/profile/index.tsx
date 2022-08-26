@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import CommonPage from "../../components/CommonPage";
@@ -8,13 +8,19 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { useDarkMode } from "../../utils/darkMode";
+import { useNotification } from "../../utils/useNotification";
 import { Statistics } from "../../components/profile/statistics/Statistics";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import PreferedTopics from "../../components/profile/PreferedTopics";
+import CertificationsList from "../../components/profile/certifications/CertificationsList";
+import CertificationModal from "../../components/profile/certifications/CertificationModal";
+import { UserCertification, Certification } from "../../utils/types";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 import {
   INSERT_USER_MUTATION,
   UPSERT_USER_AGENCY_MUTATION,
+  UPSERT_USER_CERTIFICATION_MUTATION,
+  DELETE_USER_CERTIFICATION_MUTATION,
 } from "../../graphql/mutations/userInfos";
 
 const Profile = () => {
@@ -30,14 +36,24 @@ const Profile = () => {
       fetchPolicy: "network-only",
     }
   );
+  const [userInserted, setUserInserted] = useState(false);
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
-  insertUser({
-    variables: {
-      email: user?.email,
-      name: user?.name,
-      picture: user?.picture,
-    },
-  });
+  const insertUserIfNeeded = () => {
+    if (!userInserted) {
+      return insertUser({
+        variables: {
+          email: user?.email,
+          name: user?.name,
+          picture: user?.picture,
+        },
+      }).then(() => {
+        setUserInserted(true);
+      });
+    }
+    return Promise.resolve();
+  };
+
+  const [certModalOpened, setCertModalOpened] = useState(false);
 
   const userAgency =
     error || !data?.User[0]?.UserLatestAgency?.agency
@@ -48,6 +64,10 @@ const Profile = () => {
       ? []
       : data?.Agency.map((agency) => agency.name);
   const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
+  const certifications =
+    error || data?.Certification.length <= 0 ? [] : data?.Certification;
+  const userCertifications =
+    error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
   const onboarding =
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
@@ -58,13 +78,75 @@ const Profile = () => {
   const skillsDatas = data?.Category;
   const [upsertAgency] = useMutation(UPSERT_USER_AGENCY_MUTATION);
   const updateAgency = (agency: string) => {
-    upsertAgency({ variables: { email: user?.email, agency } });
+    insertUserIfNeeded().then(() => {
+      upsertAgency({ variables: { email: user?.email, agency } });
+    });
+  };
+  const [selectedUserCert, setSelectedUserCert] = useState<UserCertification>();
+  const [upsertCertificationMutation] = useMutation(
+    UPSERT_USER_CERTIFICATION_MUTATION,
+    {
+      onCompleted: async () => {
+        useNotification(t("myProfile.updateUserCertSuccess"), "green", 5000);
+        refetch();
+        setCertModalOpened(false);
+        setSelectedUserCert(undefined);
+      },
+      onError: async () => {
+        useNotification(`${t("myProfile.updateUserCertError")}`, "red", 5000);
+      },
+    }
+  );
+  const updateCertification = (userCert: UserCertification) => {
+    insertUserIfNeeded().then(() => {
+      upsertCertificationMutation({
+        variables: {
+          email: user?.email,
+          certId: userCert.Certification.id,
+          obtained: userCert.obtained,
+          from: userCert.from,
+          to: userCert.to,
+          url: userCert.url,
+        },
+      });
+    });
+  };
+  const [deleteCertificationMutation] = useMutation(
+    DELETE_USER_CERTIFICATION_MUTATION,
+    {
+      onCompleted: async () => {
+        useNotification(t("myProfile.deleteUserCertSuccess"), "green", 5000);
+        refetch();
+        setCertModalOpened(false);
+        setSelectedUserCert(undefined);
+      },
+      onError: async () => {
+        useNotification(`${t("myProfile.deleteUserCertError")}`, "red", 5000);
+      },
+    }
+  );
+  const deleteCertification = (userCert: UserCertification) => {
+    insertUserIfNeeded().then(() => {
+      deleteCertificationMutation({
+        variables: {
+          email: user?.email,
+          certId: userCert.Certification.id,
+          from: userCert.from,
+        },
+      });
+    });
   };
 
   return (
-    <CommonPage page={"profile"} faded={false} context={context}>
-      <div className="flex flex-row justify-center mt-4 mb-20">
-        <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
+    <CommonPage page={"profile"} faded={certModalOpened} context={context}>
+      <div
+        className={`flex flex-row justify-center mt-4 mb-20 ${
+          certModalOpened ? "opacity-25" : ""
+        }`}
+      >
+        <div
+          className={`flex flex-col justify-center max-w-screen-md w-full p-4`}
+        >
           {onboarding ? (
             <div className="flex flex-col justify-center rounded-lg bg-light-dark dark:bg-dark-dark my-2 p-2">
               <div className="flex flex-row justify-center">
@@ -94,6 +176,8 @@ const Profile = () => {
           >
             <div className="p-2 text-xl">{t("myProfile.agency")}</div>
             <CustomSelect
+              labelFn={(x) => x}
+              keyFn={(x) => x}
               choices={agencies}
               selectedChoice={userAgency}
               placeholder={t("myProfile.selectPlaceholder")}
@@ -106,6 +190,15 @@ const Profile = () => {
             user={data?.User[0]}
             readOnly={false}
           ></PreferedTopics>
+          <CertificationsList
+            userCertifications={userCertifications}
+            onUserCertificationSelect={(userCert) => {
+              setCertModalOpened(true);
+              setSelectedUserCert(userCert);
+            }}
+            onUserCertificationAdd={() => setCertModalOpened(true)}
+            readOnly={false}
+          ></CertificationsList>
           {skillsDatas ? (
             <Statistics
               userAchievements={userAchievements}
@@ -127,6 +220,32 @@ const Profile = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div
+        className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+          certModalOpened ? "" : "hidden"
+        }`}
+      >
+        {certModalOpened ? (
+          <div className="flex flex-row justify-center">
+            <CertificationModal
+              userCertificationRef={selectedUserCert}
+              certificationsRef={certifications}
+              onCancel={() => {
+                setCertModalOpened(false);
+                setSelectedUserCert(undefined);
+              }}
+              onConfirm={(userCertification) =>
+                updateCertification(userCertification)
+              }
+              onDelete={(userCertification) =>
+                deleteCertification(userCertification)
+              }
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </CommonPage>
   );

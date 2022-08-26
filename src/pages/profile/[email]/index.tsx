@@ -8,6 +8,7 @@ import { Statistics } from "../../../components/profile/statistics/Statistics";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
+import CertificationsList from "../../../components/profile/certifications/CertificationsList";
 import Custom404 from "../../404";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
@@ -41,6 +42,8 @@ const Profile = () => {
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
   const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
+  const userCertifications =
+    error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
 
   return (
     <div>
@@ -72,6 +75,10 @@ const Profile = () => {
                 user={data?.User[0]}
                 readOnly={true}
               ></PreferedTopics>
+              <CertificationsList
+                userCertifications={userCertifications}
+                readOnly={true}
+              ></CertificationsList>
               {skillsDatas ? (
                 <Statistics
                   userAchievements={userAchievements}

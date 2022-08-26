@@ -21,3 +21,18 @@ export type FetchedSkill = {
   userCount?: number;
   add?: boolean;
 };
+
+export type Certification = {
+  id: number;
+  name: string;
+  verified: boolean;
+  certBody: string;
+};
+
+export type UserCertification = {
+  from: string;
+  to: string;
+  obtained: boolean;
+  url: string;
+  Certification: Certification;
+};
