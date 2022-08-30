@@ -246,8 +246,10 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
   }
 `;
 
-export const GET_SKILL_ID_BY_NAME = `query getSkillCategoryAndIDByName($name: String!) {
-  Skill(where: {name: {_eq: $name}}) {
-    id
+export const GET_SKILL_ID_BY_NAME = gql`
+  query getSkillCategoryAndIDByName($name: String!) {
+    Skill(where: { name: { _eq: $name } }) {
+      id
+    }
   }
-}`;
+`;

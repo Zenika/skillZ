@@ -105,6 +105,7 @@ export default {
     },
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
+    deleteSkillSuccess: "Skill %skill% was deleted successfully",
   },
   myProfile: {
     onboarding:

@@ -369,6 +369,13 @@
         check:
           userEmail:
             _eq: x-hasura-user-email
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
   event_triggers:
     - name: categoryCompletionAchievement
       definition:

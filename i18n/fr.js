@@ -107,6 +107,7 @@ export default {
     },
     addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% à été modifiée avec succès",
+    deleteSkillSuccess: "La compétence %skill% a été supprimée avec succès",
   },
   myProfile: {
     onboarding:

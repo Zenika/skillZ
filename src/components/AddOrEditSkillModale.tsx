@@ -4,9 +4,6 @@ import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import { RiDeleteBinFill } from "react-icons/ri";
-import { GET_SKILL_ID_BY_NAME } from "../graphql/queries/skills";
-import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
-import { useQuery } from "@apollo/client";
 
 type AddOrEditSkillModaleProps = {
   skill?: FetchedSkill;
@@ -26,7 +23,11 @@ const AddOrEditSkillModale = ({
   const [desireLevel, setDesireLevel] = useState(skill?.desireLevel || 0);
 
   const onAddButtonClick = () => {
-    callback({ ...skill, skillLevel, desireLevel });
+    callback({ ...skill, skillLevel, desireLevel, add: true });
+  };
+
+  const onDeleteButtonClick = () => {
+    callback({ ...skill, add: false });
   };
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const AddOrEditSkillModale = ({
         <button
           disabled={skillLevel === 0 || desireLevel === 0}
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
+          onClick={onDeleteButtonClick}
         >
           <div className="grid justify-items-center">
             <RiDeleteBinFill />
