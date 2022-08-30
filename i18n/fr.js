@@ -58,7 +58,7 @@ export default {
     Niort: "Niort",
     "Clermont-Ferrand": "Clermont-Ferrand",
     Toronto: "Toronto",
-    Casablanca: "Casablanca"
+    Casablanca: "Casablanca",
   },
   createProfile: {
     title: "Créez votre profil !",
@@ -103,6 +103,7 @@ export default {
       desire: "Appétence",
       cancel: "ANNULER",
       addSkill: "AJOUTER",
+      delete: "Supprimer",
     },
     addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% à été modifiée avec succès",
@@ -155,12 +156,10 @@ export default {
     },
     subobjectivesLegends: {
       ProfileCompletion: "Ajoute tes sujets préférés et ton agence",
-      Practices:
-        "Ajoute des compétences dans la grille Pratiques",
-        Activities: "Ajoute des compétences dans la grille Activités",
+      Practices: "Ajoute des compétences dans la grille Pratiques",
+      Activities: "Ajoute des compétences dans la grille Activités",
       Knowledge: "Ajoute des compétences dans la grille Connaissances",
-      Postures:
-        "Ajoute des compétences dans la grille Postures",
+      Postures: "Ajoute des compétences dans la grille Postures",
       Profile: "Compléter son profil",
     },
   },

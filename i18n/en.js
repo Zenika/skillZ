@@ -57,7 +57,7 @@ export default {
     Niort: "Niort",
     "Clermont-Ferrand": "Clermont-Ferrand",
     Toronto: "Toronto",
-    Casablanca: "Casablanca"
+    Casablanca: "Casablanca",
   },
   createProfile: {
     title: "Let's create a profile !",
@@ -101,6 +101,7 @@ export default {
       desire: "Desire",
       cancel: "CANCEL",
       addSkill: "ADD SKILL",
+      delete: "Delete",
     },
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",

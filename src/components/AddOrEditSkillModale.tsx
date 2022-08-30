@@ -3,6 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
+import { RiDeleteBinFill } from "react-icons/ri";
+import { GET_SKILL_ID_BY_NAME } from "../graphql/queries/skills";
+import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
+import { useQuery } from "@apollo/client";
 
 type AddOrEditSkillModaleProps = {
   skill?: FetchedSkill;
@@ -37,7 +41,20 @@ const AddOrEditSkillModale = ({
   }, [desireLevel]);
   return (
     <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
-      <h1 className="px-2 my-4 text-xl text-bold">{skill?.name}</h1>
+      <div className="flex flex-row place-content-between">
+        <h1 className="flex-start px-2 my-4 text-xl text-bold">
+          {skill?.name}
+        </h1>
+        <button
+          disabled={skillLevel === 0 || desireLevel === 0}
+          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
+        >
+          <div className="grid justify-items-center">
+            <RiDeleteBinFill />
+            {t("skills.modale.delete")}
+          </div>
+        </button>
+      </div>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">

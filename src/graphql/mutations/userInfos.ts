@@ -46,3 +46,13 @@ export const DELETE_USER_TOPIC_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_USER_SKILL_MUTATION = gql`
+  mutation deleteSkillLevelsByUser($email: String!, $skillId: uuid!) {
+    delete_UserSkillDesire(
+      where: { userEmail: { _eq: $email }, skillId: { _eq: $skillId } }
+    ) {
+      affected_rows
+    }
+  }
+`;
