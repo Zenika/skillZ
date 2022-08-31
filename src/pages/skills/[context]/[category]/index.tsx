@@ -64,28 +64,38 @@ const ListSkills = () => {
       user.email,
       debouncedSearchValue
     );
-  console.log("skills data in index", skillsData);
   useEffect(() => {
     setCategoryClicked(category);
   }),
     [category];
+
   useEffect(() => {
-    console.log("search", search);
-  }, [search]);
+    if (skillsData) {
+      setRadarData(
+        skillsData
+          .filter(
+            (skill) =>
+              (skill.skillLevel > 0 || skill.skillLevel) &&
+              (skill.desireLevel > 0 || skill.desireLevel)
+          )
+          .map((skill) => ({
+            x: skill.skillLevel,
+            y: skill.desireLevel,
+            weight: 65,
+            labels: [skill.name],
+            name: skill.name,
+          }))
+      );
+    }
+  }),
+    [search];
+
   useEffect(() => {
     if (!skillsData || skillsData.length <= 0) {
       setRadarData([]);
       return;
     }
-    // setRadarData(
-    //   skillsData.map((skill) => ({
-    //     x: skill.skillLevel,
-    //     y: skill.desireLevel,
-    //     weight: 65,
-    //     labels: [skill.name],
-    //     name: skill.name,
-    //   }))
-    // );
+
     setFilterByAgency({
       name: "Agency",
       values: agencies || [],
@@ -173,7 +183,6 @@ const ListSkills = () => {
           skillId: id,
         },
       });
-      console.log("prout je voudrais delete");
     }
   };
   if (mutationError) {
@@ -215,24 +224,30 @@ const ListSkills = () => {
       >
         <SearchBar setSearch={setSearch} />
         <div
-          className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
+          className={`my-4 z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
           } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
           {skillsData?.length > 0 ? (
-            skillsData?.map((skill) => (
-              <SkillPanel
-                key={skill.name}
-                skill={skill}
-                count={skill.userCount || undefined}
-                context={
-                  typeof context === "string" ? context : context.join("")
-                }
-                categoryLabel={categoryClicked}
-                onEditClick={onEditClick}
-              />
-            ))
+            skillsData
+              .filter(
+                (skill) =>
+                  (skill.skillLevel > 0 || skill.skillLevel) &&
+                  (skill.desireLevel > 0 || skill.desireLevel)
+              )
+              .map((skill) => (
+                <SkillPanel
+                  key={skill.name}
+                  skill={skill}
+                  count={skill.userCount || undefined}
+                  context={
+                    typeof context === "string" ? context : context.join("")
+                  }
+                  categoryLabel={categoryClicked}
+                  onEditClick={onEditClick}
+                />
+              ))
           ) : (
             <p>{t("skills.nothingHere")}</p>
           )}

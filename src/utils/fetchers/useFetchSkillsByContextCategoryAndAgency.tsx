@@ -37,7 +37,6 @@ const fetchMySkills = (
     }
     return `%(${searches.join("|")})%`;
   };
-  console.log("debounced", debouncedSearchValue);
   const { data, refetch, loading } = useQuery<SearchSkillsByCategoryQuery>(
     SEARCH_SKILLS_BY_CATEGORY_QUERY,
     {
@@ -55,10 +54,9 @@ const fetchMySkills = (
     skillLevel: skill.UsersCurrentSkillsAndDesires[0]?.skillLevel,
     desireLevel: skill.UsersCurrentSkillsAndDesires[0]?.desireLevel,
   }));
-  console.log("datas in useFetch", data);
   return {
     skillsData,
-    color: "green",
+    color: data?.Skill[0]?.Category.color,
     agencies: undefined,
     refetch: (): Promise<any> =>
       refetch({
