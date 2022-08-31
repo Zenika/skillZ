@@ -14,7 +14,7 @@ import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/us
 import PreferedTopics from "../../components/profile/PreferedTopics";
 import CertificationsList from "../../components/profile/certifications/CertificationsList";
 import CertificationModal from "../../components/profile/certifications/CertificationModal";
-import { UserCertification, Certification } from "../../utils/types";
+import { UserCertification } from "../../utils/types";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 import {
   INSERT_USER_MUTATION,

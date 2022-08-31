@@ -31,8 +31,8 @@ export type Certification = {
 
 export type UserCertification = {
   from: string;
-  to: string;
+  to?: string;
   obtained: boolean;
-  url: string;
+  url?: string;
   Certification: Certification;
 };

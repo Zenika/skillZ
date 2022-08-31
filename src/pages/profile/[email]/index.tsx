@@ -9,6 +9,7 @@ import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
+import { UserCertification } from "../../../utils/types";
 import Custom404 from "../../404";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
