@@ -41,7 +41,9 @@ Start by running `docker compose up -d` to launch the postgres database and the 
 Check that engine is running by going to `http://localhost:8080` (do not modify schemas through this URL).
 
 ### Run the hasura migrations
+
 In order to initialize / update the database run :
+
 ```
 # npm run hasura migrate apply # Sets up the schema
 # npm run hasura metadata apply # Sets up GraphQL
@@ -54,7 +56,9 @@ Browse to the `Data` tab in the console and select the `User` table.
 Create your own Zenika user (its email should match your login email).
 
 ### Develop with hasura
+
 For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine and console.
+
 ```
 # npm install --global hasura-cli # Installs the hasura console globally
 # cd ./hasura # Go into the hasura folder to reuse the config.yaml

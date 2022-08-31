@@ -17,6 +17,7 @@ import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
+import { DELETE_USER_SKILL_MUTATION } from "../../../../graphql/mutations/userInfos";
 
 const ListSkills = () => {
   const router = useRouter();
@@ -86,6 +87,28 @@ const ListSkills = () => {
     });
   }, [loading === false]);
 
+  const [deleteSkill, { error: mutationDeleteError }] = useMutation(
+    DELETE_USER_SKILL_MUTATION,
+    {
+      onCompleted: async () => {
+        try {
+          await refetch();
+        } catch (err) {
+          useNotification(`Error updating skill: ${err}`, "red", 5000);
+        }
+        useNotification(
+          t("skills.deleteSkillSuccess").replace(
+            "%skill%",
+            selectedSkill?.name
+          ),
+          "green",
+          5000
+        );
+        setModaleOpened(false);
+        setSelectedSkill(undefined);
+      },
+    }
+  );
   const [addSkill, { error: mutationError }] = useMutation(
     ADD_USER_SKILL_MUTATION,
     {
@@ -123,18 +146,31 @@ const ListSkills = () => {
     setEditPanelOpened(false);
   };
 
-  const editAction = ({ id, name, skillLevel, desireLevel }) => {
-    addSkill({
-      variables: {
-        skillId: id,
-        email: user?.email,
-        skillLevel,
-        desireLevel,
-      },
-    });
+  const editAction = ({ id, name, skillLevel, desireLevel, add }) => {
+    if (add) {
+      addSkill({
+        variables: {
+          skillId: id,
+          email: user?.email,
+          skillLevel,
+          desireLevel,
+        },
+      });
+    } else {
+      deleteSkill({
+        variables: {
+          email: user?.email,
+          skillId: id,
+        },
+      });
+      console.log("prout je voudrais delete");
+    }
   };
   if (mutationError) {
     console.error("Error adding skill", mutationError);
+  }
+  if (mutationDeleteError) {
+    console.error("Error deleting skill", mutationError);
   }
   if (isLoading) {
     return <Loading />;
