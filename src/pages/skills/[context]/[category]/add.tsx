@@ -79,6 +79,7 @@ const AddSkill = () => {
     },
     fetchPolicy: "network-only",
   });
+  console.log("search add", skillsData);
   const [addSkill, { error: mutationError }] = useMutation(
     ADD_USER_SKILL_MUTATION,
     {

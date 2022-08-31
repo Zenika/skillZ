@@ -18,6 +18,8 @@ import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { DELETE_USER_SKILL_MUTATION } from "../../../../graphql/mutations/userInfos";
+import SearchBar from "../../../../components/SearchBar";
+import { useDebounce } from "use-debounce";
 
 const ListSkills = () => {
   const router = useRouter();
@@ -43,10 +45,13 @@ const ListSkills = () => {
       ? agency
       : agency.join("")
     : undefined;
+
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modaleOpened, setModaleOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
+  const [search, setSearch] = useState("");
+  const [debouncedSearchValue] = useDebounce(search, 500);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
@@ -56,26 +61,31 @@ const ListSkills = () => {
       context,
       category,
       agency,
-      user.email
+      user.email,
+      debouncedSearchValue
     );
+  console.log("skills data in index", skillsData);
   useEffect(() => {
     setCategoryClicked(category);
   }),
     [category];
   useEffect(() => {
+    console.log("search", search);
+  }, [search]);
+  useEffect(() => {
     if (!skillsData || skillsData.length <= 0) {
       setRadarData([]);
       return;
     }
-    setRadarData(
-      skillsData.map((skill) => ({
-        x: skill.skillLevel,
-        y: skill.desireLevel,
-        weight: 65,
-        labels: [skill.name],
-        name: skill.name,
-      }))
-    );
+    // setRadarData(
+    //   skillsData.map((skill) => ({
+    //     x: skill.skillLevel,
+    //     y: skill.desireLevel,
+    //     weight: 65,
+    //     labels: [skill.name],
+    //     name: skill.name,
+    //   }))
+    // );
     setFilterByAgency({
       name: "Agency",
       values: agencies || [],
@@ -203,6 +213,7 @@ const ListSkills = () => {
         data={radarData}
         color={color}
       >
+        <SearchBar setSearch={setSearch} />
         <div
           className={`z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
