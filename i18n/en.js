@@ -117,6 +117,7 @@ export default {
     selectPlaceholder: "My agency",
     confirm: "CONFIRM PROFILE",
     validFrom: "valid from",
+    targeting: "aiming for",
     validTo: "to",
     addCert: "Add Cert",
     updateUserCertSuccess: "Certifications were successfully updated",
@@ -145,6 +146,7 @@ export default {
     certifications: "Certifications",
     selectPlaceholder: "Agency",
     validFrom: "valid from",
+    targeting: "aiming for",
     validTo: "to",
     addCert: "Add Cert",
     certModal: {

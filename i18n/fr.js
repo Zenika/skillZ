@@ -119,6 +119,7 @@ export default {
     selectPlaceholder: "Mon agence",
     confirm: "CONFIRMER LE PROFIL",
     validFrom: "valide depuis",
+    targeting: "ciblée pour le",
     validTo: "jusqu'au",
     addCert: "Ajouter Certif",
     updateUserCertSuccess: "Les certifications ont été modifiées avec succès",
@@ -147,6 +148,7 @@ export default {
     certifications: "Certifications",
     selectPlaceholder: "Agence",
     validFrom: "valide depuis",
+    targeting: "ciblée pour le",
     validTo: "jusqu'au",
     addCert: "Ajouter Certif",
     certModal: {
