@@ -41,9 +41,11 @@ const CertificationsList = ({
           >
             <span className="px-2 py-1 text-white">{`${userCert.Certification.certBody} - ${userCert.Certification.name}`}</span>
             <br />
-            <span className="px-2 py-1 text-white">{`${t(
-              "userProfile.validFrom"
-            )} ${userCert.from} ${
+            <span className="px-2 py-1 text-white">{`${
+              userCert.obtained
+                ? t("userProfile.validFrom")
+                : t("userProfile.targeting")
+            } ${userCert.from} ${
               userCert.to ? ` ${t("userProfile.validTo")} ${userCert.to}` : ""
             }`}</span>
           </button>
