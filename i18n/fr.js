@@ -202,7 +202,7 @@ export default {
       Practices: "Ajoute des compétences dans la grille Pratiques",
       Activities: "Ajoute des compétences dans la grille Activités",
       Knowledge: "Ajoute des compétences dans la grille Connaissances",
-      Postures: "Ajoute des compétences dans la grille Postures",
+      Behaviors: "Ajoute des compétences dans la grille Postures",
       Profile: "Compléter son profil",
     },
   },
