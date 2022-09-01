@@ -31,6 +31,7 @@ const App = ({ Component, pageProps }) => {
     if (process.browser) {
       window.localStorage.setItem("darkMode", `${darkMode}`);
     }
+    document.body.style["color-scheme"] = darkMode ? "dark" : "light";
   };
   const changeLocale = (locale: string) => {
     push(pathName, asPath, { locale });
@@ -52,9 +53,8 @@ const App = ({ Component, pageProps }) => {
     }
   }, [storedLocaleString]);
   useEffect(() => {
-    document
-      .querySelector("body")
-      .classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
+    document.body.classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
+    document.body.style["color-scheme"] = darkMode ? "dark" : "light";
   });
   return (
     <Auth0Provider

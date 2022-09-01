@@ -13,6 +13,8 @@ const FilterByPanel = ({ filters }: { filters: Filter[] }) => {
       {filters.map(({ name, values, selected, callback }) => (
         <div style={{ width: `300px` }}>
           <CustomSelect
+            labelFn={(x) => x}
+            keyFn={(x) => x}
             choices={values}
             placeholder={`Filter by ${name}`}
             selectedChoice={selected}
