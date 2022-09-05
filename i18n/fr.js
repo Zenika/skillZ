@@ -98,7 +98,7 @@ export default {
     didYouMean: "Vouliez-vous dire:",
     addNewSkill: "Ajoutez %skill% comme une nouvelle compétence",
     addButton: "Ajouter %skill%",
-    modale: {
+    modal: {
       knowledge: "Connaissance",
       desire: "Appétence",
       cancel: "ANNULER",
