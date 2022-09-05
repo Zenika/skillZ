@@ -222,7 +222,7 @@ const ListSkills = () => {
         data={radarData}
         color={color}
       >
-        <SearchBar setSearch={setSearch} />
+        {context === "mine" && <SearchBar setSearch={setSearch} />}
         <div
           className={`my-4 z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
