@@ -22,7 +22,10 @@ export const BotNotifications = ({ t }: { t: (path: string) => string }) => {
   const [setBotNotification] = useMutation(SET_BOT_NOTIFICATIONS);
 
   function changeBotNotification() {
-    if (userDatas?.User[0].botNotifications === values[0]) {
+    if (
+      userDatas?.User.length > 0 &&
+      userDatas?.User[0].botNotifications === values[0]
+    ) {
       setBotNotification({
         variables: {
           email: user.email,
@@ -47,10 +50,12 @@ export const BotNotifications = ({ t }: { t: (path: string) => string }) => {
           <ul className="flex flex-row justify-around">
             <li>🔇</li>
             <li>
-              <SlidingCheckbox
-                selectedValue={userDatas?.User[0].botNotifications}
-                values={values}
-              />
+              {userDatas?.User[0] && (
+                <SlidingCheckbox
+                  selectedValue={userDatas?.User[0].botNotifications}
+                  values={values}
+                />
+              )}
             </li>
             <li>🔔</li>
           </ul>
