@@ -4,6 +4,10 @@ export default {
     text404:
       "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
     button404: "Back to home",
+    graphql: {
+      unique: "This value already exists.",
+    },
+    unknown: "An unknown error has occurred.",
   },
   nav: {
     mySkills: "My skills",

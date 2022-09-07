@@ -4,6 +4,10 @@ export default {
     text404:
       "L'URL de la page que vous avez demandé n'existe probablement pas ou est temporairement indisponible.",
     button404: "Retour au menu",
+    graphql: {
+      unique: "Cette donnée existe déjà.",
+    },
+    unknown: "Une erreur inconnue est survenue.",
   },
   nav: {
     mySkills: "Compétences",
