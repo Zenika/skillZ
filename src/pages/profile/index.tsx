@@ -176,8 +176,8 @@ const Profile = () => {
           >
             <div className="p-2 text-xl">{t("myProfile.agency")}</div>
             {!userAgency && (
-              <div className="border-l-4 p-4 mb-4" role="alert">
-                <p className="font-bold">
+              <div className="border-l-4 p-4 mb-4 border-dark-red" role="alert">
+                <p className="font-bold text-dark-red">
                   {t("createProfile.warningAgencyTitle")}
                 </p>
                 <p>{t("createProfile.warningAgency")}</p>
