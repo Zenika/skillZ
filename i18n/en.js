@@ -4,6 +4,9 @@ export default {
     text404:
       "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
     button404: "Back to home",
+    insertSkillError:
+      "Unable to add this skill, check that it does not already exist.",
+    unknown: "An unknown error has occurred.",
   },
   nav: {
     mySkills: "My skills",

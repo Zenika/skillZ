@@ -33,7 +33,7 @@ const Notification = () => {
         options?.color
       } ${
         options
-          ? `${isDesktop ? "w-2/12 maw-w-screen-sm" : "h-24"}`
+          ? `${isDesktop ? "w-3/12 maw-w-screen-sm" : "h-24"}`
           : `${isDesktop ? "w-0" : "h-0"}`
       } duration-500`}
       onClick={() => setOptions(undefined)}

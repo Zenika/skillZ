@@ -2,11 +2,12 @@ import {
   ApolloClient,
   ApolloProvider,
   createHttpLink,
+  from,
   InMemoryCache,
 } from "@apollo/client";
-import { of } from "await-of";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
+import { of } from "await-of";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
@@ -83,7 +84,7 @@ const GraphQLProvider = ({ children }) => {
 
       setClient(
         new ApolloClient<any>({
-          link: authLink.concat(httpLink),
+          link: from([authLink, httpLink]),
           cache,
         })
       );
