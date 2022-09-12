@@ -67,6 +67,8 @@ export default {
     topics:
       "What topic are you interested in ? Don't worry you can change it later",
     submit: "Submit",
+    warningAgencyTitle: "Warning",
+    warningAgency: "To fully utilize Skillz, please fill out your agency.",
   },
   skillLevels: {
     1: "I looked at what it was",

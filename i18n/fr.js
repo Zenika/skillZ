@@ -68,6 +68,9 @@ export default {
     topics:
       "Quels sujets vous intéressent ? Ne vous en faites pas vous pouvez modifier vos choix plus tard",
     submit: "Envoyer",
+    warningAgencyTitle: "Attention",
+    warningAgency:
+      "Pour utiliser pleinement Skillz, veuillez renseigner votre agence.",
   },
   skillLevels: {
     1: "J'ai regardé ce que c'était",
