@@ -7,7 +7,7 @@ import PageWithSkillList from "../../../../components/PageWithSkillList";
 import SearchBar from "../../../../components/SearchBar";
 import AddSkillListSelector from "../../../../components/AddSkilListSelector";
 import { useMutation, useQuery } from "@apollo/client";
-import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
+import AddOrEditSkillModal from "../../../../components/AddOrEditSkillModal";
 import CommonPage from "../../../../components/CommonPage";
 import { useNotification } from "../../../../utils/useNotification";
 import { i18nContext } from "../../../../utils/i18nContext";
@@ -49,7 +49,7 @@ const AddSkill = () => {
     router.push(`/skills/${context}/${category}`);
   }
   const [search, setSearch] = useState("");
-  const [modaleOpened, setModaleOpened] = useState(false);
+  const [modalOpened, setModalOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | undefined>(
     undefined
   );
@@ -100,11 +100,11 @@ const AddSkill = () => {
   );
   const preAddAction = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
-    setModaleOpened(true);
+    setModalOpened(true);
   };
 
   const addAction = ({ id, name, skillLevel, desireLevel }) => {
-    setModaleOpened(false);
+    setModalOpened(false);
     addSkill({
       variables: {
         skillId: id,
@@ -132,26 +132,26 @@ const AddSkill = () => {
   return (
     <div>
       {radarData && !errorSkillsApetite && !errorSearchSkills ? (
-        <CommonPage page={category} faded={modaleOpened} context={context}>
+        <CommonPage page={category} faded={modalOpened} context={context}>
           <PageWithSkillList
             context={context}
             category={category}
             add={true}
-            faded={modaleOpened}
+            faded={modalOpened}
             data={radarData}
             color={data?.Category[0].color}
           >
             <div>
               <div
                 className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-                  modaleOpened ? "" : "hidden"
+                  modalOpened ? "" : "hidden"
                 }`}
               >
                 {selectedSkill ? (
                   <div className="flex flex-row justify-center">
-                    <AddOrEditSkillModale
+                    <AddOrEditSkillModal
                       skill={selectedSkill}
-                      cancel={() => setModaleOpened(false)}
+                      cancel={() => setModalOpened(false)}
                       callback={addAction}
                     />
                   </div>
@@ -162,7 +162,7 @@ const AddSkill = () => {
               <div
                 className={`flex flex-col ${
                   isDesktop ? "h-radar" : ""
-                } p-2 z-10 ${modaleOpened ? "opacity-25" : ""}`}
+                } p-2 z-10 ${modalOpened ? "opacity-25" : ""}`}
               >
                 <SearchBar setSearch={setSearch} />
                 <AddSkillListSelector

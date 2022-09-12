@@ -96,7 +96,7 @@ export default {
     addNewSkill: "Add %skill% as a new skill",
     addButton: "Add %skill%",
     didYouMean: "Did you mean:",
-    modale: {
+    modal: {
       knowledge: "Knowledge",
       desire: "Desire",
       cancel: "CANCEL",

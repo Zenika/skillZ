@@ -5,17 +5,17 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import { RiDeleteBinFill } from "react-icons/ri";
 
-type AddOrEditSkillModaleProps = {
+type AddOrEditSkillModalProps = {
   skill?: FetchedSkill;
   cancel: () => void;
   callback: (skill: FetchedSkill) => void;
 };
 
-const AddOrEditSkillModale = ({
+const AddOrEditSkillModal = ({
   skill,
   cancel,
   callback,
-}: AddOrEditSkillModaleProps) => {
+}: AddOrEditSkillModalProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
@@ -53,7 +53,7 @@ const AddOrEditSkillModale = ({
         >
           <div className="grid justify-items-center">
             <RiDeleteBinFill />
-            {t("skills.modale.delete")}
+            {t("skills.modal.delete")}
           </div>
         </button>
       </div>
@@ -61,7 +61,7 @@ const AddOrEditSkillModale = ({
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
             <button className="p-2" onClick={() => setNavState("knowledge")}>
-              {t("skills.modale.knowledge")}
+              {t("skills.modal.knowledge")}
             </button>
             <span
               className={`h-1 rounded-full ${
@@ -71,7 +71,7 @@ const AddOrEditSkillModale = ({
           </div>
           <div className="flex flex-col">
             <button className="p-2" onClick={() => setNavState("desire")}>
-              {t("skills.modale.desire")}
+              {t("skills.modal.desire")}
             </button>
             <span
               className={`h-1 rounded-full ${
@@ -144,18 +144,18 @@ const AddOrEditSkillModale = ({
           onClick={() => cancel()}
           className="mx-1 px-5 py-2 bg-light-graybutton dark:bg-dark-graybutton rounded-full"
         >
-          {t("skills.modale.cancel")}
+          {t("skills.modal.cancel")}
         </button>
         <button
           disabled={skillLevel === 0 || desireLevel === 0}
           onClick={() => onAddButtonClick()}
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
         >
-          {t("skills.modale.addSkill")}
+          {t("skills.modal.addSkill")}
         </button>
       </div>
     </div>
   );
 };
 
-export default AddOrEditSkillModale;
+export default AddOrEditSkillModal;
