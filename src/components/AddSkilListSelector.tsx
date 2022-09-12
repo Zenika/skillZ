@@ -1,9 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
-import ApolloErrorHandler from "../exceptions/apollo-error-handler";
 import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { i18nContext } from "../utils/i18nContext";
+import { useNotification } from "../utils/useNotification";
 
 const INSERT_SKILL_MUTATION = gql`
   mutation insertSkillMutation($name: String!, $categoryId: uuid!) {
@@ -42,8 +42,12 @@ const AddSkillListSelector = ({
         }
         action(response?.insert_Skill?.returning[0]);
       },
-      onError: async (error) => {
-        ApolloErrorHandler(error, t);
+      onError: async ({ graphQLErrors }) => {
+        if (graphQLErrors) {
+          useNotification(`${t("error.insertSkillError")}`, "red", 5000);
+        } else {
+          useNotification(`${t("error.unknown")}`, "red", 5000);
+        }
       },
     }
   );

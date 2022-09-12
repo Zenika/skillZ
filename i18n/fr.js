@@ -4,9 +4,8 @@ export default {
     text404:
       "L'URL de la page que vous avez demandé n'existe probablement pas ou est temporairement indisponible.",
     button404: "Retour au menu",
-    graphql: {
-      unique: "Cette donnée existe déjà.",
-    },
+    insertSkillError:
+      "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
   },
   nav: {
