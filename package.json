@@ -55,7 +55,7 @@
     "@types/react": "17.0.17",
     "autoprefixer": "^10.4.2",
     "ava": "^4.0.1",
-    "cypress": "^9.2.1",
+    "cypress": "^10.7.0",
     "dotenv": "^10.0.0",
     "faker": "5.5.3",
     "hasura-cli": "^2.8.4",
