@@ -163,7 +163,6 @@ const ListSkills = () => {
           skillId: id,
         },
       });
-      console.log("prout je voudrais delete");
     }
   };
   if (mutationError) {
