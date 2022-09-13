@@ -1,166 +1,80 @@
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { useMediaQuery } from "react-responsive";
-import { i18nContext } from "../../../../utils/i18nContext";
-import SkillPanel from "../../../../components/SkillPanel";
-import PageWithSkillList from "../../../../components/PageWithSkillList";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import Loading from "../../../../components/Loading";
-import AddOrEditSkillModal from "../../../../components/AddOrEditSkillModal";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import CommonPage from "../../../../components/CommonPage";
-import { RadarData } from "../../../../components/Radar";
-import { useNotification } from "../../../../utils/useNotification";
-import { FetchedSkill, FilterData } from "../../../../utils/types";
-import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
-import { useDarkMode } from "../../../../utils/darkMode";
+import ErrorPage from "../../../../components/ErrorPage";
+import Loading from "../../../../components/Loading";
+import PageWithSkillList from "../../../../components/PageWithSkillList";
+import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
-import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { DELETE_USER_SKILL_MUTATION } from "../../../../graphql/mutations/userInfos";
-import SearchBar from "../../../../components/SearchBar";
-import { useDebounce } from "use-debounce";
+import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categorie";
+import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
+import { i18nContext } from "../../../../utils/i18nContext";
+import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";
+import { useNotification } from "../../../../utils/useNotification";
 
-const ListSkills = () => {
-  const router = useRouter();
+const ListSkillsPage = () => {
+  /*
+   * HOOKS
+   */
   const { user, isLoading } = useAuth0();
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
-  const isDesktop = useMediaQuery({
-    query: "(min-device-width: 1280px)",
-  });
+  const router = useRouter();
+
+  /*
+   * CONTEXT
+   */
   let { context, category, agency } = router.query;
-  context = context
-    ? typeof context === "string"
-      ? context
-      : context.join("")
-    : undefined;
-  category = category
-    ? typeof category === "string"
-      ? category
-      : category.join("")
-    : undefined;
-  agency = agency
-    ? typeof agency === "string"
-      ? agency
-      : agency.join("")
-    : undefined;
+  context = typeof context === "string" ? context : context?.join("") ?? null;
+  category =
+    typeof category === "string" ? category : category?.join("") ?? null;
+  agency = typeof agency === "string" ? agency : agency?.join("") ?? null;
 
-  const [editPanelOpened, setEditPanelOpened] = useState(false);
+  /*
+   * STATES
+   */
   const [modalOpened, setModalOpened] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
-  const [categoryClicked, setCategoryClicked] = useState(undefined);
-  const [search, setSearch] = useState("");
-  const [debouncedSearchValue] = useDebounce(search, 500);
-  const [filterByAgency, setFilterByAgency] = useState<
-    FilterData<string> | undefined
-  >(undefined);
-  const [radarData, setRadarData] = useState<RadarData[]>([]);
-  const { skillsData, color, agencies, refetch, loading } =
-    useFetchSkillsByContextCategoryAndAgency(
-      context,
-      category,
-      agency,
-      user.email,
-      debouncedSearchValue
-    );
-  useEffect(() => {
-    setCategoryClicked(category);
-  }, [category]);
 
-  // Filter skills that appears on the graph
-  useEffect(() => {
-    if (skillsData && skillsData.length) {
-      setRadarData(
-        skillsData
-          .filter(
-            (skill) =>
-              (skill.skillLevel > 0 || skill.skillLevel) &&
-              (skill.desireLevel > 0 || skill.desireLevel)
-          )
-          .map((skill) => ({
-            x: skill.skillLevel,
-            y: skill.desireLevel,
-            weight: 65,
-            labels: [skill.name],
-            name: skill.name,
-          }))
-      );
-    } else setRadarData([]);
-  }, [search, !loading]);
+  /*
+   * QUERIES
+   */
+  const {
+    data: categoryData,
+    refetch: categoryRefetch,
+    loading: categoryLoading,
+    error: categoryError,
+  } = useQuery<GetCategoryIdByNameQuery>(GET_CATEGORIE_ID_BY_NAME, {
+    variables: {
+      name: category,
+    },
+  });
 
-  useEffect(() => {
-    setFilterByAgency({
-      name: "Agency",
-      values: agencies || [],
-      selected: agency
-        ? typeof agency === "string"
-          ? agency
-          : agency.join("-")
-        : "World",
-    });
-  }, [loading === false]);
-
-  const [deleteSkill, { error: mutationDeleteError }] = useMutation(
-    DELETE_USER_SKILL_MUTATION,
-    {
-      onCompleted: async () => {
-        try {
-          await refetch();
-        } catch (err) {
-          useNotification(`Error updating skill: ${err}`, "red", 5000);
-        }
-        useNotification(
-          t("skills.deleteSkillSuccess").replace(
-            "%skill%",
-            selectedSkill?.name
-          ),
-          "green",
-          5000
-        );
-        setModalOpened(false);
-        setSelectedSkill(undefined);
-      },
-    }
+  const {
+    skillsData,
+    color,
+    agencies,
+    refetch: SkillsRefetch,
+    loading: skillsLoading,
+  } = useFetchSkillsByContextCategoryAndAgency(
+    context,
+    category,
+    agency,
+    user.email
   );
+
+  /*
+   * MUTATIONS
+   */
   const [addSkill, { error: mutationError }] = useMutation(
-    ADD_USER_SKILL_MUTATION,
-    {
-      onCompleted: async () => {
-        try {
-          await refetch();
-        } catch (err) {
-          useNotification(`Error updating skill: ${err}`, "red", 5000);
-        }
-        useNotification(
-          t("skills.updateSkillSuccess").replace(
-            "%skill%",
-            selectedSkill?.name
-          ),
-          "green",
-          5000
-        );
-        setModalOpened(false);
-        setSelectedSkill(undefined);
-      },
-    }
+    ADD_USER_SKILL_MUTATION
   );
-  const onEditClick = (skill: FetchedSkill) => {
-    setSelectedSkill(skill);
-    openModal();
-  };
+  const [deleteSkill, { error: mutationDeleteError }] = useMutation(
+    DELETE_USER_SKILL_MUTATION
+  );
 
-  const onEditCancel = () => {
-    setSelectedSkill(undefined);
-    setEditPanelOpened(false);
-  };
-
-  const openModal = () => {
-    setModalOpened(true);
-    setEditPanelOpened(false);
-  };
-
-  const editAction = ({ id, name, skillLevel, desireLevel, add }) => {
+  const editSkillAction = ({ id, name, skillLevel, desireLevel, add }) => {
     if (add) {
       addSkill({
         variables: {
@@ -169,38 +83,79 @@ const ListSkills = () => {
           skillLevel,
           desireLevel,
         },
-      });
+      })
+        .then(async () => {
+          SkillsRefetch()
+            .then(() => {
+              useNotification(
+                t("skills.updateSkillSuccess").replace("%skill%", name),
+                "green",
+                5000
+              );
+            })
+            .catch(() =>
+              useNotification(t("skills.refreshSkillFailed"), "red", 5000)
+            );
+        })
+        .catch(() => {
+          useNotification(
+            t("skills.updateSkillFailed").replace("%skill%", name),
+            "red",
+            5000
+          );
+        });
     } else {
       deleteSkill({
         variables: {
           email: user?.email,
           skillId: id,
         },
-      });
+      })
+        .then(async () => {
+          SkillsRefetch()
+            .then(() => {
+              useNotification(
+                t("skills.deleteSkillSuccess").replace("%skill%", name),
+                "green",
+                5000
+              );
+            })
+            .catch(() =>
+              useNotification(t("skills.refreshSkillFailed"), "red", 5000)
+            );
+        })
+        .catch(() => {
+          useNotification(t("skills.deleteSkillFailed"), "red", 5000);
+        });
     }
   };
-  if (mutationError) {
-    console.error("Error adding skill", mutationError);
-  }
-  if (mutationDeleteError) {
-    console.error("Error deleting skill", mutationError);
-  }
-  if (isLoading) {
-    return <Loading />;
-  }
-  return (
-    <CommonPage page={category} faded={modalOpened} context={context}>
+
+  const renderResult = () => {
+    if (isLoading || skillsLoading || categoryLoading) {
+      return <Loading />;
+    }
+    if (categoryError) {
+      return <ErrorPage />;
+    }
+    return (
       <PageWithSkillList
         context={context}
-        category={category}
-        add={false}
+        category={{
+          name: category as string,
+          id: categoryData.Category[0].id,
+        }}
+        editSkillAction={editSkillAction}
         filters={
-          filterByAgency && context !== "mine"
+          context !== "mine"
             ? [
                 {
-                  name: filterByAgency.name,
-                  values: ["World", ...filterByAgency.values],
-                  selected: filterByAgency.selected,
+                  name: "Agency",
+                  values: ["World", ...(agencies ?? [])],
+                  selected: agency
+                    ? typeof agency === "string"
+                      ? agency
+                      : agency?.join("-")
+                    : "World",
                   callback: (value) =>
                     router.push(
                       useComputeFilterUrl(
@@ -212,93 +167,17 @@ const ListSkills = () => {
               ]
             : undefined
         }
-        faded={editPanelOpened || modalOpened}
-        data={radarData}
+        data={skillsData}
         color={color}
-      >
-        {context === "mine" && <SearchBar setSearch={setSearch} />}
-        <div
-          className={`my-4 z-10 ${modalOpened ? "cursor-pointer" : ""} ${
-            isDesktop ? "h-radar overflow-y-auto" : ""
-          } ${editPanelOpened || modalOpened ? "opacity-25" : ""}`}
-          onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
-        >
-          {skillsData?.length > 0 ? (
-            skillsData
-              .filter(
-                (skill) =>
-                  (skill.skillLevel > 0 || skill.skillLevel) &&
-                  (skill.desireLevel > 0 || skill.desireLevel)
-              )
-              .map((skill) => (
-                <SkillPanel
-                  key={skill.name}
-                  skill={skill}
-                  count={skill.userCount || undefined}
-                  context={
-                    typeof context === "string" ? context : context.join("")
-                  }
-                  categoryLabel={categoryClicked}
-                  onEditClick={onEditClick}
-                />
-              ))
-          ) : (
-            <p>{t("skills.nothingHere")}</p>
-          )}
-        </div>
-        <div
-          className={`fixed inset-x-0 duration-500 z-20 bottom-0 h-${
-            editPanelOpened ? "2/6" : "0"
-          } w-8/10 bg-light-light dark:bg-dark-light mx-2 rounded`}
-        >
-          <div className={`flex flex-col py-6 px-4 justify-between`}>
-            <h1 className="text-xl text-bold">{selectedSkill?.name}</h1>
-            <div className="flex flex-col h-full mt-8 justify-around ml-2">
-              <button
-                className="flex flex-row flex-start p-1 my-2"
-                onClick={() => openModal()}
-              >
-                <Image
-                  src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
-                  width="24"
-                  height="24"
-                />
-                <span className="px-2">{t("skills.editSkill")}</span>
-              </button>
-              <button
-                className="flex flex-row flex-start p-1 my-2"
-                onClick={() => onEditCancel()}
-              >
-                <Image
-                  src={`/icons/${darkMode ? "dark" : "light"}/back-arrow.svg`}
-                  width="16"
-                  height="16"
-                />
-                <span className="px-4">{t("skills.cancelAction")}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            modalOpened ? "" : "hidden"
-          }`}
-        >
-          {selectedSkill ? (
-            <div className="flex flex-row justify-center">
-              <AddOrEditSkillModal
-                skill={selectedSkill}
-                cancel={() => setModalOpened(false)}
-                callback={editAction}
-              />
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-      </PageWithSkillList>
+        setFadedPage={setModalOpened}
+      />
+    );
+  };
+  return (
+    <CommonPage page={category} faded={modalOpened} context={context}>
+      {renderResult()}
     </CommonPage>
   );
 };
 
-export default withAuthenticationRequired(ListSkills);
+export default withAuthenticationRequired(ListSkillsPage);
