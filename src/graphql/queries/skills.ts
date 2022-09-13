@@ -6,7 +6,7 @@ export const GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY = gql`
       id
       color
       CurrentSkillsAndDesires(
-        order_by: { skillLevel: desc, desireLevel: desc }
+        order_by: { name: asc }
         where: { userEmail: { _eq: $email } }
       ) {
         skillId
