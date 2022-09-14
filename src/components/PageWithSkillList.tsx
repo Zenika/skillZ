@@ -17,7 +17,6 @@ import { useNotification } from "../utils/useNotification";
 import AddOrEditSkillModal from "./AddOrEditSkillModal";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel from "./FilterByPanel";
-import Loading from "./Loading";
 import Radar from "./Radar";
 import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
@@ -123,7 +122,7 @@ const PageWithSkillList = ({
           desireLevel,
         },
       })
-        .then(async () => {
+        .then(() => {
           SkillsRefetch()
             .then(() => {
               useNotification(
@@ -150,7 +149,7 @@ const PageWithSkillList = ({
           skillId: id,
         },
       })
-        .then(async () => {
+        .then(() => {
           SkillsRefetch()
             .then(() => {
               useNotification(
@@ -202,23 +201,21 @@ const PageWithSkillList = ({
         ]
       : undefined;
 
-  if (skillsLoading || loadingSearch) {
-    return <Loading />;
-  } else {
-    return (
-      <div className="flex flex-row justify-center mt-4 mb-20">
-        <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
-          <div className="flex flex-col w-full">
-            {filters && (
-              <div className="mx-4">
-                <FilterByPanel filters={filters} />
-              </div>
-            )}
-            <div className="flex flex-row justify-center w-full">
-              {isDesktop && skillsData && color && (
-                <div className="flex flex-col h-2/3 w-2/3 px-2">
-                  <Radar
-                    data={skillsData
+  return (
+    <div className="flex flex-row justify-center mt-4 mb-20">
+      <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
+        <div className="flex flex-col w-full">
+          {filters && (
+            <div className="mx-4">
+              <FilterByPanel filters={filters} />
+            </div>
+          )}
+          <div className="flex flex-row justify-center w-full">
+            {isDesktop && (
+              <div className="flex flex-col h-2/3 w-2/3 px-2">
+                <Radar
+                  data={
+                    skillsData
                       ?.filter(
                         (skill) =>
                           (skill.skillLevel > 0 || skill.skillLevel) &&
@@ -230,21 +227,21 @@ const PageWithSkillList = ({
                         weight: 65,
                         labels: [skill.name],
                         name: skill.name,
-                      }))}
-                    color={color}
-                    x="top"
-                    y="left"
-                    title=""
-                    faded={editPanelOpened}
-                  />
-                </div>
-              )}
-              <div
-                className={`flex flex-col ${
-                  isDesktop ? "w-1/3" : "w-full"
-                } px-2`}
-              >
-                {context !== "zenika" && (
+                      })) ?? []
+                  }
+                  color={color}
+                  x="top"
+                  y="left"
+                  title=""
+                  faded={editPanelOpened}
+                />
+              </div>
+            )}
+            <div
+              className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
+            >
+              {context !== "zenika" && (
+                <>
                   <div
                     className={`flex flex-row justify-around px-2 py-1 ${
                       editPanelOpened ? "opacity-25" : ""
@@ -278,115 +275,105 @@ const PageWithSkillList = ({
                       </button>
                     </Link>
                   </div>
+                </>
+              )}
+              <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
+                {context != "zenika" && (
+                  <SearchBar setSearch={setSearch} value={search} />
                 )}
-                <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
-                  {add && context != "zenika" && (
-                    <div
-                      className={`flex flex-col ${
-                        isDesktop ? "h-radar" : ""
-                      } p-2 z-10 ${editPanelOpened ? "opacity-25" : ""}`}
-                    >
-                      <SearchBar setSearch={setSearch} value={search} />
-                      <AddSkillListSelector
-                        action={onModalClick}
-                        skills={
-                          dataSearch?.Skill.filter(
-                            (skill) =>
-                              skill.UserSkillDesires_aggregate.aggregate
-                                .count === 0
-                          ) as Partial<Skill>[]
-                        }
-                        categoryId={category.id}
-                        search={debouncedSearchValue}
-                        didYouMeanSkills={
-                          dataSearch?.didYouMeanSearch.filter(
-                            (skill) =>
-                              skill.UserSkillDesires_aggregate.aggregate
-                                .count === 0
-                          ) as Partial<Skill>[]
-                        }
+                {add && context != "zenika" && (
+                  <div
+                    className={`flex flex-col ${
+                      isDesktop ? "h-radar" : ""
+                    } p-2 z-10 ${editPanelOpened ? "opacity-25" : ""}`}
+                  >
+                    <AddSkillListSelector
+                      action={onModalClick}
+                      skills={
+                        dataSearch?.Skill.filter(
+                          (skill) =>
+                            skill.UserSkillDesires_aggregate.aggregate.count ===
+                            0
+                        ) as Partial<Skill>[]
+                      }
+                      categoryId={category.id}
+                      search={debouncedSearchValue}
+                      didYouMeanSkills={
+                        dataSearch?.didYouMeanSearch.filter(
+                          (skill) =>
+                            skill.UserSkillDesires_aggregate.aggregate.count ===
+                            0
+                        ) as Partial<Skill>[]
+                      }
+                    />
+                  </div>
+                )}
+                {(!add || context === "zenika") && (
+                  <div
+                    className={`my-4 z-10 ${
+                      editPanelOpened ? "cursor-pointer" : ""
+                    } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
+                      editPanelOpened ? "opacity-25" : ""
+                    }`}
+                    onClick={() =>
+                      editPanelOpened ? onModalCancel() : () => {}
+                    }
+                  >
+                    {skillsData?.length > 0 ? (
+                      skillsData
+                        ?.filter(
+                          (skill) =>
+                            (skill.skillLevel > 0 || skill.skillLevel) &&
+                            (skill.desireLevel > 0 || skill.desireLevel)
+                        )
+                        .map((skill) => (
+                          <SkillPanel
+                            key={skill.name}
+                            skill={skill}
+                            count={skill.userCount || undefined}
+                            context={context}
+                            categoryLabel={category.name}
+                            onEditClick={onModalClick}
+                          />
+                        ))
+                    ) : (
+                      <p>{t("skills.nothingHere")}</p>
+                    )}
+                  </div>
+                )}
+                <div
+                  className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+                    editPanelOpened ? "" : "hidden"
+                  }`}
+                >
+                  {selectedSkill && (
+                    <div className="flex flex-row justify-center">
+                      <AddOrEditSkillModal
+                        skill={selectedSkill}
+                        cancel={onModalCancel}
+                        callback={(skill) => {
+                          editSkillAction({
+                            id: skill.id,
+                            name: skill.name,
+                            skillLevel: skill.skillLevel,
+                            desireLevel: skill.desireLevel,
+                            add: skill.add,
+                          });
+                          setEditPanelOpened(false);
+                          setSelectedSkill(null);
+                          setFadedPage(false);
+                        }}
                       />
                     </div>
                   )}
-                  {(!add || context === "zenika") && (
-                    <>
-                      <SearchBar setSearch={setSearch} value={search} />
-                      <div
-                        className={`my-4 z-10 ${
-                          editPanelOpened ? "cursor-pointer" : ""
-                        } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
-                          editPanelOpened ? "opacity-25" : ""
-                        }`}
-                        onClick={() =>
-                          editPanelOpened ? onModalCancel() : () => {}
-                        }
-                      >
-                        {skillsData?.length > 0 ? (
-                          skillsData
-                            ?.filter(
-                              (skill) =>
-                                (skill.skillLevel > 0 || skill.skillLevel) &&
-                                (skill.desireLevel > 0 || skill.desireLevel)
-                            )
-                            .map((skill) => (
-                              <SkillPanel
-                                key={skill.name}
-                                skill={skill}
-                                count={skill.userCount || undefined}
-                                context={context}
-                                categoryLabel={category.name}
-                                onEditClick={onModalClick}
-                              />
-                            ))
-                        ) : (
-                          <p>{t("skills.nothingHere")}</p>
-                        )}
-                      </div>
-                    </>
-                  )}
-                  <div
-                    className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-                      editPanelOpened ? "" : "hidden"
-                    }`}
-                  >
-                    {selectedSkill && (
-                      <div className="flex flex-row justify-center">
-                        <AddOrEditSkillModal
-                          skill={selectedSkill}
-                          cancel={onModalCancel}
-                          callback={(skill) => {
-                            editSkillAction({
-                              id: skill.id,
-                              name: skill.name,
-                              skillLevel: skill.skillLevel,
-                              desireLevel: skill.desireLevel,
-                              add: skill.add,
-                            });
-                            setEditPanelOpened(false);
-                            setSelectedSkill(null);
-                            setFadedPage(false);
-                            refetchSearch()
-                              .then()
-                              .catch(() =>
-                                useNotification(
-                                  t("skills.refreshSkillFailed"),
-                                  "red",
-                                  5000
-                                )
-                              );
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default PageWithSkillList;

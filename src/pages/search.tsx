@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -39,6 +39,7 @@ const Search = ({ pathName }) => {
         >
           <SearchBar
             initialValue={search}
+            value={search}
             setSearch={setSearch}
             placeholder={t("search.placeholder")}
           />
