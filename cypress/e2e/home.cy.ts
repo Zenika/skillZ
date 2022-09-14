@@ -4,6 +4,6 @@ describe("Home page", function () {
   });
 
   it("renders the home page", function () {
-    cy.get("[data-cy=content]").should("contain", "Home");
+    cy.should("contain", "Connexion");
   });
 });
