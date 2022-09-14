@@ -1,27 +1,38 @@
-import { i18nContext } from "../utils/i18nContext";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useContext } from "react";
+import CommonPage from "../components/CommonPage";
+import { i18nContext } from "../utils/i18nContext";
 
 export default function Custom404() {
   const { t } = useContext(i18nContext);
   return (
-    <div className="container mx-auto px-4">
-      <section className="py-8 px-4 text-center">
-        <div className="max-w-auto mx-auto">
-          <div className="md:max-w-lg mx-auto"></div>
-          <h2 className="mt-8 uppercase text-xl lg:text-5xl font-black">
-            {t("error.title404")}
-          </h2>
-          <p className="mt-6 uppercase text-sm lg:text-base text-gray-900">
-            {t("error.text404")}
-          </p>
-          <a
-            href="/"
-            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-light py-4 px-6 rounded-full inline-block uppercase shadow-md"
-          >
-            {t("error.button404")}
-          </a>
+    <CommonPage page={"404"} faded={false}>
+      <div className="container mx-auto pt-40">
+        <div className="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700">
+          <div className="max-w-md">
+            <div className="text-5xl font-dark font-bold">404</div>
+            <p className="text-2xl md:text-3xl font-light leading-normal">
+              {t("error.title404")}
+            </p>
+            <p className="mb-8">{t("error.text404")} </p>
+
+            <Link href={"/"}>
+              <button className="bg-light-panel dark:bg-dark-panel flex-grow-0 rounded-full py-3 px-6 mx-6">
+                {t("error.button404")}
+              </button>
+            </Link>
+          </div>
+          <div className="max-w-lg">
+            <Image
+              src={`/canard.png`}
+              width="200"
+              height="200"
+              className={"duck-404"}
+            />
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </CommonPage>
   );
 }
