@@ -18,6 +18,8 @@ import { useDarkMode } from "../../../../utils/darkMode";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { DELETE_USER_SKILL_MUTATION } from "../../../../graphql/mutations/userInfos";
+import SearchBar from "../../../../components/SearchBar";
+import { useDebounce } from "use-debounce";
 
 const ListSkills = () => {
   const router = useRouter();
@@ -43,10 +45,13 @@ const ListSkills = () => {
       ? agency
       : agency.join("")
     : undefined;
+
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
+  const [search, setSearch] = useState("");
+  const [debouncedSearchValue] = useDebounce(search, 500);
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
@@ -56,26 +61,35 @@ const ListSkills = () => {
       context,
       category,
       agency,
-      user.email
+      user.email,
+      debouncedSearchValue
     );
   useEffect(() => {
     setCategoryClicked(category);
-  }),
-    [category];
+  }, [category]);
+
+  // Filter skills that appears on the graph
   useEffect(() => {
-    if (!skillsData || skillsData.length <= 0) {
-      setRadarData([]);
-      return;
-    }
-    setRadarData(
-      skillsData.map((skill) => ({
-        x: skill.skillLevel,
-        y: skill.desireLevel,
-        weight: 65,
-        labels: [skill.name],
-        name: skill.name,
-      }))
-    );
+    if (skillsData && skillsData.length) {
+      setRadarData(
+        skillsData
+          .filter(
+            (skill) =>
+              (skill.skillLevel > 0 || skill.skillLevel) &&
+              (skill.desireLevel > 0 || skill.desireLevel)
+          )
+          .map((skill) => ({
+            x: skill.skillLevel,
+            y: skill.desireLevel,
+            weight: 65,
+            labels: [skill.name],
+            name: skill.name,
+          }))
+      );
+    } else setRadarData([]);
+  }, [search, !loading]);
+
+  useEffect(() => {
     setFilterByAgency({
       name: "Agency",
       values: agencies || [],
@@ -202,25 +216,32 @@ const ListSkills = () => {
         data={radarData}
         color={color}
       >
+        {context === "mine" && <SearchBar setSearch={setSearch} />}
         <div
-          className={`z-10 ${modalOpened ? "cursor-pointer" : ""} ${
+          className={`my-4 z-10 ${modalOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
           } ${editPanelOpened || modalOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
           {skillsData?.length > 0 ? (
-            skillsData?.map((skill) => (
-              <SkillPanel
-                key={skill.name}
-                skill={skill}
-                count={skill.userCount || undefined}
-                context={
-                  typeof context === "string" ? context : context.join("")
-                }
-                categoryLabel={categoryClicked}
-                onEditClick={onEditClick}
-              />
-            ))
+            skillsData
+              .filter(
+                (skill) =>
+                  (skill.skillLevel > 0 || skill.skillLevel) &&
+                  (skill.desireLevel > 0 || skill.desireLevel)
+              )
+              .map((skill) => (
+                <SkillPanel
+                  key={skill.name}
+                  skill={skill}
+                  count={skill.userCount || undefined}
+                  context={
+                    typeof context === "string" ? context : context.join("")
+                  }
+                  categoryLabel={categoryClicked}
+                  onEditClick={onEditClick}
+                />
+              ))
           ) : (
             <p>{t("skills.nothingHere")}</p>
           )}

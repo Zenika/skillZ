@@ -39,6 +39,13 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
           count
         }
       }
+      UsersCurrentSkillsAndDesires {
+        desireLevel
+        skillLevel
+      }
+      Category {
+        color
+      }
     }
     didYouMeanSearch: Skill(
       where: {
