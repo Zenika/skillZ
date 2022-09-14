@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { RiDeleteBinFill } from "react-icons/ri";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import { RiDeleteBinFill } from "react-icons/ri";
 
 type AddOrEditSkillModalProps = {
   skill?: FetchedSkill;
@@ -30,16 +30,6 @@ const AddOrEditSkillModal = ({
     callback({ ...skill, add: false });
   };
 
-  useEffect(() => {
-    if (
-      skillLevel === 0 ||
-      desireLevel === skill?.desireLevel ||
-      desireLevel === 0
-    ) {
-      return;
-    }
-    onAddButtonClick();
-  }, [desireLevel]);
   return (
     <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <div className="flex flex-row place-content-between">
@@ -47,7 +37,12 @@ const AddOrEditSkillModal = ({
           {skill?.name}
         </h1>
         <button
-          disabled={skillLevel === 0 || desireLevel === 0}
+          disabled={
+            skillLevel === 0 ||
+            desireLevel === 0 ||
+            !skill.desireLevel ||
+            !skill.skillLevel
+          }
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
           onClick={onDeleteButtonClick}
         >
