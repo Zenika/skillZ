@@ -39,7 +39,9 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
           count
         }
       }
-      UsersCurrentSkillsAndDesires {
+      UsersCurrentSkillsAndDesires(
+        where: { User: { email: { _eq: $email } } }
+      ) {
         desireLevel
         skillLevel
       }
