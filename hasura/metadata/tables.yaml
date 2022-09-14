@@ -84,6 +84,22 @@
         allow_aggregations: true
 - table:
     schema: public
+    name: Certification
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - verified
+          - id
+          - certBody
+          - name
+        filter: {}
+        allow_aggregations: true
+- table:
+    schema: public
+    name: CertificationSkill
+- table:
+    schema: public
     name: Skill
   object_relationships:
     - name: Category
@@ -141,6 +157,13 @@
 - table:
     schema: public
     name: Tag
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - id
+          - name
+        filter: {}
 - table:
     schema: public
     name: Topic
@@ -307,6 +330,57 @@
           userEmail:
             _eq: x-hasura-user-email
         check:
+          userEmail:
+            _eq: x-hasura-user-email
+- table:
+    schema: public
+    name: UserCertification
+  object_relationships:
+    - name: Certification
+      using:
+        foreign_key_constraint_on: certId
+  insert_permissions:
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns:
+          - obtained
+          - from
+          - to
+          - certId
+          - url
+          - userEmail
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - certId
+          - from
+          - to
+          - url
+          - obtained
+        filter: {}
+        allow_aggregations: true
+  update_permissions:
+    - role: world
+      permission:
+        columns:
+          - from
+          - obtained
+          - to
+          - url
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check: null
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter:
           userEmail:
             _eq: x-hasura-user-email
 - table:

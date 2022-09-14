@@ -49,3 +49,6 @@ yarn.lock
 # Generated typings
 /src/generated/
 graphql.schema.json
+
+# IntelliJ
+.idea

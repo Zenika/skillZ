@@ -1,27 +1,33 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {
-  choices: string[];
-  selectedChoice?: string;
+  choices: any[];
+  keyFn: (x: any) => string;
+  labelFn: (x: any) => string;
+  selectedChoice?: any;
   placeholder: string;
-  onChange: (choice: string) => void;
+  readOnly?: boolean;
+  onChange: (choice: any) => void;
 };
 
 const CustomSelect = ({
+  keyFn,
+  labelFn,
   choices,
   selectedChoice,
   placeholder,
+  readOnly = false,
   onChange,
 }: CustomSelectProps) => {
   const [opened, setOpened] = useState(false);
   const { darkMode } = useDarkMode();
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(undefined);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
   useEffect(() => {
-    setSelected(selectedChoice || placeholder);
+    setSelected(selectedChoice);
   }, [selectedChoice]);
   const onItemClick = (value: string) => {
     setSelected(value);
@@ -41,29 +47,33 @@ const CustomSelect = ({
         style={{ width: size.width, height: size.height }}
       >
         <div
-          className={`bg-light-light dark:bg-dark-light w-full cursor-pointer rounded${
-            opened ? "-t-lg" : "-lg"
-          } p-4 appearance-none bg-rightDropdown ${
-            darkMode ? styles.selectDark : styles.selectLight
-          }`}
+          className={`bg-light-light dark:bg-dark-light w-full rounded${
+            !readOnly && opened ? "-t-lg" : "-lg"
+          } p-4 appearance-none ${
+            readOnly ? "" : "cursor-pointer bg-rightDropdown "
+          }${
+            readOnly ? "" : darkMode ? styles.selectDark : styles.selectLight
+          } max-h-16 text-ellipsis overflow-hidden`}
           onClick={() => setOpened(!opened)}
         >
-          {selected}
+          <span className="">
+            {selected !== undefined ? labelFn(selected) : placeholder}
+          </span>
         </div>
         <div
           className={`flex flex-row justify-center w-full ${
             opened ? "" : "h-0"
           } duration-500`}
         >
-          {opened ? (
-            <div className="flex rounded-b-lg w-full flex-col bg-light-light dark:bg-dark-light">
+          {!readOnly && opened ? (
+            <div className="flex rounded-b-lg w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96">
               {choices.map((choice) => (
                 <span
-                  key={choice}
+                  key={keyFn(choice)}
                   className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
                   onClick={() => onItemClick(choice)}
                 >
-                  {choice}
+                  {labelFn(choice)}
                 </span>
               ))}
             </div>

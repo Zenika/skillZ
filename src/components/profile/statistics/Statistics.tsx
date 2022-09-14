@@ -37,13 +37,9 @@ export const Statistics = ({
         themeToCompare="practices"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t(
-          "statistics.subobjectivesTitles.LanguageAndFrameworks"
-        )}
+        titleSubobjective={t("statistics.subobjectivesTitles.Practices")}
         descriptionSubobjective={
-          myStatistics
-            ? t("statistics.subobjectivesLegends.LanguageAndFrameworks")
-            : ""
+          myStatistics ? t("statistics.subobjectivesLegends.Practices") : ""
         }
         countSkills={filterCountSkills("practices")}
       />
@@ -51,9 +47,9 @@ export const Statistics = ({
         themeToCompare="activities"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Plateform")}
+        titleSubobjective={t("statistics.subobjectivesTitles.Activities")}
         descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Plateform") : ""
+          myStatistics ? t("statistics.subobjectivesLegends.Activities") : ""
         }
         countSkills={filterCountSkills("activities")}
       />
@@ -61,9 +57,9 @@ export const Statistics = ({
         themeToCompare="knowledge"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Tools")}
+        titleSubobjective={t("statistics.subobjectivesTitles.Knowledge")}
         descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Tools") : ""
+          myStatistics ? t("statistics.subobjectivesLegends.Knowledge") : ""
         }
         countSkills={filterCountSkills("knowledge")}
       />
@@ -71,13 +67,9 @@ export const Statistics = ({
         themeToCompare="behaviors"
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t(
-          "statistics.subobjectivesTitles.TechnicsAndMethod"
-        )}
+        titleSubobjective={t("statistics.subobjectivesTitles.Behaviors")}
         descriptionSubobjective={
-          myStatistics
-            ? t("statistics.subobjectivesLegends.TechnicsAndMethod")
-            : ""
+          myStatistics ? t("statistics.subobjectivesLegends.Behaviors") : ""
         }
         countSkills={filterCountSkills("behaviors")}
       />

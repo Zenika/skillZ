@@ -33,7 +33,6 @@ const Home = ({ pathName }) => {
   if (userData?.User.length <= 0) {
     push(link);
   }
-
   const { data: skillsData, error } =
     useQuery<GetCurrentUserSkillsAndDesiresQuery>(
       GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,

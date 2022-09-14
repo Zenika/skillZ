@@ -1,0 +1,1 @@
+CREATE TABLE "public"."CertificationSkill" ("certId" integer NOT NULL, "skillId" uuid NOT NULL, PRIMARY KEY ("certId","skillId") , FOREIGN KEY ("certId") REFERENCES "public"."Certification"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("skillId") REFERENCES "public"."Skill"("id") ON UPDATE restrict ON DELETE restrict);

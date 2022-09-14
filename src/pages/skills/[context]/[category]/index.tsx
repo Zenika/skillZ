@@ -8,7 +8,7 @@ import PageWithSkillList from "../../../../components/PageWithSkillList";
 import { useMutation } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../../../../components/Loading";
-import AddOrEditSkillModale from "../../../../components/AddOrEditSkillModale";
+import AddOrEditSkillModal from "../../../../components/AddOrEditSkillModal";
 import CommonPage from "../../../../components/CommonPage";
 import { RadarData } from "../../../../components/Radar";
 import { useNotification } from "../../../../utils/useNotification";
@@ -47,7 +47,7 @@ const ListSkills = () => {
     : undefined;
 
   const [editPanelOpened, setEditPanelOpened] = useState(false);
-  const [modaleOpened, setModaleOpened] = useState(false);
+  const [modalOpened, setModalOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill>(undefined);
   const [categoryClicked, setCategoryClicked] = useState(undefined);
   const [search, setSearch] = useState("");
@@ -66,11 +66,10 @@ const ListSkills = () => {
     );
   useEffect(() => {
     setCategoryClicked(category);
-  }),
-    [category];
+  }, [category]);
 
   useEffect(() => {
-    if (skillsData) {
+    if (skillsData && skillsData.length) {
       setRadarData(
         skillsData
           .filter(
@@ -86,16 +85,10 @@ const ListSkills = () => {
             name: skill.name,
           }))
       );
-    }
-  }),
-    [search];
+    } else setRadarData([]);
+  }, [search, !loading]);
 
   useEffect(() => {
-    if (!skillsData || skillsData.length <= 0) {
-      setRadarData([]);
-      return;
-    }
-
     setFilterByAgency({
       name: "Agency",
       values: agencies || [],
@@ -124,7 +117,7 @@ const ListSkills = () => {
           "green",
           5000
         );
-        setModaleOpened(false);
+        setModalOpened(false);
         setSelectedSkill(undefined);
       },
     }
@@ -146,14 +139,14 @@ const ListSkills = () => {
           "green",
           5000
         );
-        setModaleOpened(false);
+        setModalOpened(false);
         setSelectedSkill(undefined);
       },
     }
   );
   const onEditClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
-    openModale();
+    openModal();
   };
 
   const onEditCancel = () => {
@@ -161,8 +154,8 @@ const ListSkills = () => {
     setEditPanelOpened(false);
   };
 
-  const openModale = () => {
-    setModaleOpened(true);
+  const openModal = () => {
+    setModalOpened(true);
     setEditPanelOpened(false);
   };
 
@@ -195,7 +188,7 @@ const ListSkills = () => {
     return <Loading />;
   }
   return (
-    <CommonPage page={category} faded={modaleOpened} context={context}>
+    <CommonPage page={category} faded={modalOpened} context={context}>
       <PageWithSkillList
         context={context}
         category={category}
@@ -218,15 +211,15 @@ const ListSkills = () => {
               ]
             : undefined
         }
-        faded={editPanelOpened || modaleOpened}
+        faded={editPanelOpened || modalOpened}
         data={radarData}
         color={color}
       >
         {context === "mine" && <SearchBar setSearch={setSearch} />}
         <div
-          className={`my-4 z-10 ${modaleOpened ? "cursor-pointer" : ""} ${
+          className={`my-4 z-10 ${modalOpened ? "cursor-pointer" : ""} ${
             isDesktop ? "h-radar overflow-y-auto" : ""
-          } ${editPanelOpened || modaleOpened ? "opacity-25" : ""}`}
+          } ${editPanelOpened || modalOpened ? "opacity-25" : ""}`}
           onClick={() => (editPanelOpened ? onEditCancel() : () => {})}
         >
           {skillsData?.length > 0 ? (
@@ -262,7 +255,7 @@ const ListSkills = () => {
             <div className="flex flex-col h-full mt-8 justify-around ml-2">
               <button
                 className="flex flex-row flex-start p-1 my-2"
-                onClick={() => openModale()}
+                onClick={() => openModal()}
               >
                 <Image
                   src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
@@ -287,14 +280,14 @@ const ListSkills = () => {
         </div>
         <div
           className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            modaleOpened ? "" : "hidden"
+            modalOpened ? "" : "hidden"
           }`}
         >
           {selectedSkill ? (
             <div className="flex flex-row justify-center">
-              <AddOrEditSkillModale
+              <AddOrEditSkillModal
                 skill={selectedSkill}
-                cancel={() => setModaleOpened(false)}
+                cancel={() => setModalOpened(false)}
                 callback={editAction}
               />
             </div>

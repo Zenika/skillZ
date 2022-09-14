@@ -33,6 +33,24 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
         created_at
       }
     }
+    Certification {
+      id
+      name
+      verified
+      certBody
+    }
+    UserCertification(where: { userEmail: { _eq: $email } }) {
+      to
+      url
+      obtained
+      from
+      Certification {
+        id
+        name
+        verified
+        certBody
+      }
+    }
     UserAchievements(where: { userEmail: { _eq: $email } }) {
       additionalInfo
       created_at
