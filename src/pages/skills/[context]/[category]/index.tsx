@@ -9,7 +9,7 @@ import PageWithSkillList from "../../../../components/PageWithSkillList";
 import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../../../../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../../../../graphql/mutations/userInfos";
-import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categorie";
+import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../../../../utils/i18nContext";
 import { useComputeFilterUrl } from "../../../../utils/useComputeFilterUrl";

@@ -9,6 +9,7 @@ import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
+import { useNotification } from "../utils/useNotification";
 import AddOrEditSkillModal from "./AddOrEditSkillModal";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel, { Filter } from "./FilterByPanel";
@@ -107,15 +108,13 @@ const PageWithSkillList = ({
     <div className="flex flex-row justify-center mt-4 mb-20">
       <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
         <div className="flex flex-col w-full">
-          {filters ? (
+          {filters && (
             <div className="mx-4">
               <FilterByPanel filters={filters} />
             </div>
-          ) : (
-            <></>
           )}
           <div className="flex flex-row justify-center w-full">
-            {isDesktop && data && color ? (
+            {isDesktop && data && color && (
               <div className="flex flex-col h-2/3 w-2/3 px-2">
                 <Radar
                   data={data?.map((skill) => ({
@@ -132,13 +131,11 @@ const PageWithSkillList = ({
                   faded={editPanelOpened}
                 />
               </div>
-            ) : (
-              <></>
             )}
             <div
               className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
             >
-              {context !== "zenika" ? (
+              {context !== "zenika" && (
                 <div
                   className={`flex flex-row justify-around px-2 py-1 ${
                     editPanelOpened ? "opacity-25" : ""
@@ -172,8 +169,6 @@ const PageWithSkillList = ({
                     </button>
                   </Link>
                 </div>
-              ) : (
-                <></>
               )}
               <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
                 {add && context != "zenika" && (
@@ -240,7 +235,7 @@ const PageWithSkillList = ({
                     editPanelOpened ? "" : "hidden"
                   }`}
                 >
-                  {selectedSkill ? (
+                  {selectedSkill && (
                     <div className="flex flex-row justify-center">
                       <AddOrEditSkillModal
                         skill={selectedSkill}
@@ -256,11 +251,18 @@ const PageWithSkillList = ({
                           setEditPanelOpened(false);
                           setSelectedSkill(null);
                           setFadedPage(false);
+                          refetchSearch()
+                            .then()
+                            .catch(() =>
+                              useNotification(
+                                t("skills.refreshSkillFailed"),
+                                "red",
+                                5000
+                              )
+                            );
                         }}
                       />
                     </div>
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
