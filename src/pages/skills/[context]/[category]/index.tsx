@@ -68,6 +68,7 @@ const ListSkills = () => {
     setCategoryClicked(category);
   }, [category]);
 
+  // Filter skills that appears on the graph
   useEffect(() => {
     if (skillsData && skillsData.length) {
       setRadarData(

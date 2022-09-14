@@ -18,6 +18,7 @@ const fetchMySkills = (
   category: string,
   debouncedSearchValue: string
 ) => {
+  //Compare all char by the search var and the skill name with upper and lower case
   const computeDidYouMeanSearchString = (search: string) => {
     const searches: string[] = [];
     for (let i = 0; i < Math.floor(search.length / 2); ++i) {
@@ -128,6 +129,8 @@ const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
     loading,
   };
 };
+
+//Redirect fetch by the context
 export const useFetchSkillsByContextCategoryAndAgency = (
   context: string,
   category: string,
