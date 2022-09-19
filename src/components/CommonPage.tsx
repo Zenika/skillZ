@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { useMediaQuery } from "react-responsive";
-import { i18nContext } from "../utils/i18nContext";
-import Topbar from "./Topbar";
-import Notification from "./Notification";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useDarkMode } from "../utils/darkMode";
+import { i18nContext } from "../utils/i18nContext";
+import Notification from "./Notification";
+import Topbar from "./Topbar";
 
 type CommonPageProps = {
   children: any;
@@ -35,26 +34,10 @@ const CommonPage = ({
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const router = useRouter();
-  const { agency } = router.query;
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
 
-  const backUrl = new URL(
-    `${NEXT_PUBLIC_BASE_URL}${
-      context === "zenika"
-        ? skill && category
-          ? `/skills/zenika/${category}`
-          : "/zenika"
-        : "/"
-    }`
-  );
-  if (agency) {
-    backUrl.searchParams.append(
-      "agency",
-      typeof agency === "string" ? agency : agency.join("")
-    );
-  }
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
@@ -73,17 +56,13 @@ const CommonPage = ({
                   faded ? "opacity-25" : ""
                 }`}
               >
-                <Link href={backUrl.toString()}>
-                  <div className="p-1 cursor-pointer">
-                    <Image
-                      src={`/icons/${
-                        darkMode ? "dark" : "light"
-                      }/back-arrow.svg`}
-                      width="16"
-                      height="16"
-                    />
-                  </div>
-                </Link>
+                <button onClick={() => router.back()}>
+                  <Image
+                    src={`/icons/${darkMode ? "dark" : "light"}/back-arrow.svg`}
+                    width="16"
+                    height="16"
+                  />
+                </button>
                 <h1 className="ml-10 text-xl">
                   {t(`commonPageNav.${page}`) || page}
                 </h1>
