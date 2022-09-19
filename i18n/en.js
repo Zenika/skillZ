@@ -111,6 +111,9 @@ export default {
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
     deleteSkillSuccess: "Skill %skill% was deleted successfully",
+    refreshSkillFailed: "Error while refreshing skills",
+    updateSkillFailed: "Error while updating %skill%.",
+    deleteSkillFailed: "Error while deleting %skill%.",
   },
   myProfile: {
     onboarding:

@@ -1,12 +1,12 @@
-import { useContext } from "react";
-import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
-import { useRouter } from "next/router";
-import { useDarkMode } from "../utils/darkMode";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) {
@@ -44,17 +44,7 @@ const HomePanel = ({
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-  const link = new URL(
-    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${name}${
-      data.length <= 0 ? "/add" : ""
-    }`
-  );
-  if (agency) {
-    link.searchParams.append(
-      "agency",
-      typeof agency === "string" ? agency : agency.join("")
-    );
-  }
+
   const roundTable = {
     top: {
       left: "rounded-tl-2xl",
@@ -91,7 +81,12 @@ const HomePanel = ({
   };
 
   return (
-    <Link href={link.toString()}>
+    <Link
+      href={{
+        pathname: `/skills/${context}/${name}`,
+        query: !data.length && { add: true },
+      }}
+    >
       <div
         className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel ${
           !isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"
