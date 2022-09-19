@@ -9,6 +9,7 @@ import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../graphql/queries/skills";
+import zenika from "../pages/zenika";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
@@ -68,7 +69,9 @@ const PageWithSkillList = ({
   const [editPanelOpened, setEditPanelOpened] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | null>(null);
   const [search, setSearch] = useState("");
+  const [searchFilter, setSearchFilter] = useState("");
   const [debouncedSearchValue] = useDebounce(search, 500);
+  const [debouncedSearchFilterValue] = useDebounce(searchFilter, 500);
 
   /*
    * QUERIES
@@ -99,7 +102,7 @@ const PageWithSkillList = ({
     category.name,
     agency,
     user.email,
-    debouncedSearchValue
+    `%${debouncedSearchFilterValue}%`
   );
 
   /*
@@ -278,9 +281,10 @@ const PageWithSkillList = ({
                 </>
               )}
               <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
-                {context != "zenika" && (
-                  <SearchBar setSearch={setSearch} value={search} />
-                )}
+                <SearchBar
+                  setSearch={add ? setSearch : setSearchFilter}
+                  value={add ? search : searchFilter}
+                />
                 {add && context != "zenika" && (
                   <div
                     className={`flex flex-col ${

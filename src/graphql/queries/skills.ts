@@ -91,11 +91,15 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
 `;
 
 export const GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY = gql`
-  query getZenikaAverageCurrentSkillsAndDesiresByCategory($category: String!) {
+  query getZenikaAverageCurrentSkillsAndDesiresByCategory(
+    $category: String!
+    $search: String!
+  ) {
     Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
       color
       ZenikasAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
+        where: { name: { _ilike: $search } }
       ) {
         skillId
         name
@@ -114,12 +118,13 @@ export const GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY =
   query getAgenciesAverageCurrentSkillsAndDesiresByCategory(
     $category: String!
     $agency: String!
+    $search: String!
   ) {
     Category(order_by: { index: asc }, where: { label: { _eq: $category } }) {
       color
       AgenciesAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
-        where: { agency: { _eq: $agency } }
+        where: { agency: { _eq: $agency }, name: { _ilike: $search } }
       ) {
         skillId
         name
