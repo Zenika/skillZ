@@ -9,21 +9,8 @@ import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { of } from "await-of";
 import { useEffect, useState } from "react";
+import { config } from "../env";
 import Loading from "./Loading";
-
-const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
-if (!GRAPHQL_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_GRAPHQL_URL isn't defined"
-  );
-}
-
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
 
 const GraphQLProvider = ({ children }) => {
   const {
@@ -46,7 +33,7 @@ const GraphQLProvider = ({ children }) => {
         error.message === "Consent required"
       ) {
         loginWithRedirect({
-          redirect_uri: NEXT_PUBLIC_BASE_URL,
+          redirect_uri: config.nextPublicBaseUrl,
           prompt: "login",
         });
         return;
@@ -56,19 +43,22 @@ const GraphQLProvider = ({ children }) => {
       }
     }
     if (!isAuthenticated) {
-      loginWithRedirect({ redirect_uri: NEXT_PUBLIC_BASE_URL, prompt: "none" });
+      loginWithRedirect({
+        redirect_uri: config.nextPublicBaseUrl,
+        prompt: "none",
+      });
       return;
     }
     (async () => {
       const [token, err] = await of(
-        getAccessTokenSilently({ redirect_uri: NEXT_PUBLIC_BASE_URL })
+        getAccessTokenSilently({ redirect_uri: config.nextPublicBaseUrl })
       );
       if (err) {
         console.error(err);
         return;
       }
       const httpLink = createHttpLink({
-        uri: GRAPHQL_URL,
+        uri: config.nextPublicGraphqlUrl,
       });
 
       const cache = new InMemoryCache();

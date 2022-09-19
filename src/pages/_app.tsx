@@ -1,19 +1,13 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import Head from "next/head";
-import { usei18n } from "../utils/usei18n";
 import { useRouter } from "next/router";
-import { i18nContext } from "../utils/i18nContext";
 import { useEffect, useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
+import { config } from "../env";
 import "../styles/globals.css";
 import { DarkModeProvider } from "../utils/darkMode";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
+import { i18nContext } from "../utils/i18nContext";
+import { usei18n } from "../utils/usei18n";
 
 const App = ({ Component, pageProps }) => {
   const { push, pathname: pathName, asPath, locale } = useRouter();
@@ -62,7 +56,7 @@ const App = ({ Component, pageProps }) => {
       clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
       audience="https://zenika.eu.auth0.com/api/v2/"
       scope="read:current_user"
-      redirectUri={BASE_URL}
+      redirectUri={config.nextPublicBaseUrl}
       useRefreshTokens={true}
       connection="google-oauth2"
     >
