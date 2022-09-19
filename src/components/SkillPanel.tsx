@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import { AiFillEye } from "react-icons/ai";
+import { VscSettings } from "react-icons/vsc";
 import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
@@ -37,6 +39,7 @@ const SkillPanel = ({
         ? agency
         : agency.join("")
       : undefined;
+
   const link = new URL(
     `${config.nextPublicBaseUrl}/skills/${context}/${categoryLabel}/${skill.name}`
   );
@@ -47,33 +50,26 @@ const SkillPanel = ({
   const certif = false;
   return (
     <div
-      className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg ${
-        context === "zenika" ? "cursor-pointer" : ""
-      }`}
-      onClick={() => (context === "zenika" ? push(link) : () => {})}
+      className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
     >
       <div
         className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
       >
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
-          {count || certif ? (
+          {(count || certif) && (
             <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
               <div className="flex flex-col justify-center">
                 <span>{count}</span>
               </div>
-              {certif ? (
+              {certif && (
                 <Image
                   src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
                   height="30"
                   width="30"
                 />
-              ) : (
-                <></>
               )}
             </div>
-          ) : (
-            <></>
           )}
         </div>
         <div className="flex flex-row justify-around">
@@ -89,27 +85,21 @@ const SkillPanel = ({
           </div>
         </div>
       </div>
-      {onEditClick ? (
+      {onEditClick && (
         <div
           className="flex w-1/6 justify-end cursor-pointer"
-          onClick={() => (context === "zenika" ? () => {} : onEditClick(skill))}
+          onClick={() => onEditClick(skill)}
         >
-          {context === "zenika" ? (
-            <Image
-              src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
-              width="8"
-              height="12"
-            />
-          ) : (
-            <Image
-              src={`/icons/${darkMode ? "dark" : "light"}/preferences.svg`}
-              width="24"
-              height="24"
-            />
-          )}
+          <VscSettings size={20} />
         </div>
-      ) : (
-        <></>
+      )}
+      {context === "zenika" && (
+        <div
+          className="flex w-1/6 justify-end cursor-pointer"
+          onClick={() => push(link)}
+        >
+          <AiFillEye size={20} />
+        </div>
       )}
     </div>
   );

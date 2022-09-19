@@ -333,7 +333,9 @@ const PageWithSkillList = ({
                             count={skill.userCount || undefined}
                             context={context}
                             categoryLabel={category.name}
-                            onEditClick={onModalClick}
+                            {...(context != "zenika" && {
+                              onEditClick: onModalClick,
+                            })}
                           />
                         ))
                     ) : (
