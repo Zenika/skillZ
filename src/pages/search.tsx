@@ -32,36 +32,48 @@ const Search = ({ pathName }) => {
   const profiles = data?.profiles;
 
   return (
-    <PageWithNavAndPanel pathName={pathName} context={""}>
-      <div className="flex justify-center mb-16">
-        <div
-          className={`flex ${isDesktop ? "w-2/3" : "w-full"}  flex-col mx-4 `}
-        >
-          <SearchBar
-            initialValue={search}
-            value={search}
-            setSearch={setSearch}
-            placeholder={t("search.placeholder")}
-          />
-          {search && search !== "" ? (
-            <>
-              <div className="flex flex-col my-2 py-2">
-                <h1 className="text-xl">{t("search.skills")}</h1>
-                {skills?.length > 0 ? (
-                  skills.map((skill) => (
-                    <SkillPanel
-                      key={skill.name}
-                      skill={skill}
-                      categoryLabel={skill.Category?.label}
-                      context={"zenika"}
-                    />
-                  ))
-                ) : (
-                  <span className="text-sm">{t("search.noSkill")}</span>
-                )}
-              </div>
+    <>
+      <div className="bg-dark-dark">
+        <PageWithNavAndPanel pathName={pathName} context={""}>
+          <></>
+        </PageWithNavAndPanel>
+        <div className="w-full flex justify-center mb-8 ">
+          <div className={`${isDesktop ? "w-2/3" : "w-full"} flex-col mx-4 `}>
+            <SearchBar
+              initialValue={search}
+              value={search}
+              setSearch={setSearch}
+              placeholder={t("search.placeholder")}
+            />
+          </div>
+        </div>
+
+        <div className="flex w-full bg-dark-med justify-center">
+          <div
+            className={`flex ${
+              isDesktop ? "w-2/3" : "w-full"
+            } w-full flex-col mx-4 `}
+          >
+            {/* {search && search !== "" ? (
+            <> */}
+            <div className=" flex flex-col my-8 py-2">
+              <h1 className="text-xl mb-8">{t("search.skills")}</h1>
+              {skills?.length > 0 ? (
+                skills.map((skill) => (
+                  <SkillPanel
+                    key={skill.name}
+                    skill={skill}
+                    categoryLabel={skill.Category?.label}
+                    context={"zenika"}
+                  />
+                ))
+              ) : (
+                <span className="text-sm">{t("search.noSkill")}</span>
+              )}
+            </div>
+            {search && search !== "" && (
               <div className="flex flex-col my-2">
-                <h1 className="text-xl">{t("search.profiles")}</h1>
+                <h1 className="text-xl mb-8">{t("search.profiles")}</h1>
                 {profiles?.length > 0 ? (
                   profiles.map((profile) => (
                     <UserPanel
@@ -76,15 +88,18 @@ const Search = ({ pathName }) => {
                   ))
                 ) : (
                   <span className="text-sm">{t("search.noProfile")}</span>
-                )}
+                )}{" "}
               </div>
-            </>
+            )}
+
+            {/* </>
           ) : (
             <></>
-          )}
+          )} */}
+          </div>
         </div>
       </div>
-    </PageWithNavAndPanel>
+    </>
   );
 };
 
