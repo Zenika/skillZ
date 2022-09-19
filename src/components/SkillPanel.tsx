@@ -1,16 +1,10 @@
-import { useContext } from "react";
 import Image from "next/image";
-import LevelBar from "./LevelBar";
-import { i18nContext } from "../utils/i18nContext";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
-
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
+import { i18nContext } from "../utils/i18nContext";
+import LevelBar from "./LevelBar";
 
 type Skill = {
   name?: string | null | undefined;
@@ -44,7 +38,7 @@ const SkillPanel = ({
         : agency.join("")
       : undefined;
   const link = new URL(
-    `${NEXT_PUBLIC_BASE_URL}/skills/${context}/${categoryLabel}/${skill.name}`
+    `${config.nextPublicBaseUrl}/skills/${context}/${categoryLabel}/${skill.name}`
   );
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);

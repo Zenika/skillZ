@@ -8,13 +8,6 @@ import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
 
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
-
 type HomePanelProps = {
   props: {
     x: string;

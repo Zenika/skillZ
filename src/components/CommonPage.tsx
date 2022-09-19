@@ -16,13 +16,6 @@ type CommonPageProps = {
   skill?: string;
 };
 
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
-
 const CommonPage = ({
   children,
   page,

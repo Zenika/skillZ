@@ -1,24 +1,18 @@
+import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { useRouter } from "next/router";
 import HomePanel from "../components/HomePanel";
 import Loading from "../components/Loading";
-import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
-import {
-  GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
-  GET_USER_QUERY,
-} from "../graphql/queries/userInfos";
+import { config } from "../env";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
 } from "../generated/graphql";
-
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-if (!NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
-}
+import {
+  GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
+  GET_USER_QUERY,
+} from "../graphql/queries/userInfos";
 
 const Home = ({ pathName }) => {
   const { push, query } = useRouter();
@@ -29,7 +23,7 @@ const Home = ({ pathName }) => {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
-  const link = new URL(`${NEXT_PUBLIC_BASE_URL}/profile`);
+  const link = new URL(`${config.nextPublicBaseUrl}/profile`);
   if (userData?.User.length <= 0) {
     push(link);
   }
