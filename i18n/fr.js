@@ -185,8 +185,12 @@ export default {
     placeholder: "Rechercher une compétence",
     skills: "Compétences",
     profiles: "Profils",
+    placeHolderFilterSelect: "Ordre alphabétique",
+    trends: "Les mieux notés",
+    alphabetical: "Ordre alphabétique",
     noSkill: "Aucune compétence trouvée",
     noProfile: "Aucun profil trouvé",
+    mostNoted: "Les plus notés",
   },
   statistics: {
     myTitleSection: "Mes statistiques",

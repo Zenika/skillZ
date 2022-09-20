@@ -14,6 +14,7 @@ type Skill = {
   id?: any | null | undefined;
   skillLevel?: any | null | undefined;
   desireLevel?: any | null | undefined;
+  UserSkillDesires?: any | null;
 };
 
 const SkillPanel = ({
@@ -79,11 +80,29 @@ const SkillPanel = ({
             <p className="text-xs text-center my-2">
               {t("skills.desireLevel")}
             </p>
-            <LevelBar color="red" level={skill.desireLevel} />
+            <LevelBar
+              color="red"
+              level={
+                skill.desireLevel
+                  ? skill.desireLevel
+                  : skill.UserSkillDesires?.length > 0
+                  ? skill.UserSkillDesires[0].desireLevel
+                  : 0
+              }
+            />
           </div>
           <div className="flex flex-col">
             <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
-            <LevelBar color="yellow" level={skill.skillLevel} />
+            <LevelBar
+              color="yellow"
+              level={
+                skill.skillLevel
+                  ? skill.skillLevel
+                  : skill.UserSkillDesires?.length > 0
+                  ? skill.UserSkillDesires[0].skillLevel
+                  : 0
+              }
+            />
           </div>
         </div>
       </div>

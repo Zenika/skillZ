@@ -26,20 +26,24 @@ const CustomSelect = ({
   const [selected, setSelected] = useState(undefined);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
+
   useEffect(() => {
     setSelected(selectedChoice);
   }, [selectedChoice]);
+
   const onItemClick = (value: string) => {
     setSelected(value);
     onChange(value);
     setOpened(false);
   };
+
   useEffect(() => {
     setSize({
       width: ref.current.offsetWidth,
       height: ref.current.offsetHeight,
     });
   }, [ref]);
+
   return (
     <div ref={ref} className="w-full h-20">
       <div
