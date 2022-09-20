@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
@@ -32,6 +32,7 @@ const Search = ({ pathName }) => {
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(choicesSorter[0]);
+  const [skillsToDisplay, setSkillsToDisplay] = useState([]);
 
   const { data, error } = useQuery<SearchSkillsAndProfilesQuery>(
     SEARCH_SKILLS_AND_PROFILES_QUERY,
@@ -93,86 +94,85 @@ const Search = ({ pathName }) => {
           return skills;
       }
     } else {
-      return [""];
+      return [];
     }
   };
 
-  return (
-    <>
-      <div className="bg-light-med dark:bg-dark-dark">
-        <PageWithNavAndPanel pathName={pathName} context={""}>
-          <></>
-        </PageWithNavAndPanel>
-        <div className="w-full flex justify-center mb-8 ">
-          <div className={`${isDesktop ? "w-2/3" : "w-full"} flex-col mx-4 `}>
-            <SearchBar
-              initialValue={search}
-              value={search}
-              setSearch={setSearch}
-              placeholder={t("search.placeholder")}
-            />
-          </div>
-        </div>
+  useEffect(() => {
+    setSkillsToDisplay(sortedSkills());
+  }),
+    [skillsDetails, skills];
 
-        <div className="flex w-full bg-light-ultrawhite dark:bg-dark-med justify-center">
-          <div
-            className={`flex ${
-              isDesktop ? "w-2/3" : "w-full"
-            } w-full flex-col mx-4 `}
-          >
-            <div className="flex flex-col my-8 py-2">
-              <div className="flex flex-row justify-between">
-                <h1 className="text-xl mb-8">{t("search.skills")}</h1>
-                <div style={{ width: `300px` }}>
-                  <CustomSelect
-                    labelFn={(x) => x.value}
-                    keyFn={(x) => x.label}
-                    choices={choicesSorter.filter(
-                      ({ label }) => label !== filter.label
-                    )}
-                    placeholder={filter.value}
-                    selectedChoice={filter}
-                    onChange={(x) => setFilter(x)}
-                  ></CustomSelect>
-                </div>
+  return (
+    <PageWithNavAndPanel pathName={pathName} context={""}>
+      <div className="w-full flex justify-center mb-8 ">
+        <div className={`${isDesktop ? "w-2/3" : "w-full"} flex-col mx-4 `}>
+          <SearchBar
+            initialValue={search}
+            value={search}
+            setSearch={setSearch}
+            placeholder={t("search.placeholder")}
+          />
+        </div>
+      </div>
+      <div className="flex w-full bg-light-ultrawhite dark:bg-dark-med justify-center">
+        <div
+          className={`flex ${
+            isDesktop ? "w-2/3" : "w-full"
+          } w-full flex-col mx-4 `}
+        >
+          <div className="flex flex-col my-8 py-2">
+            <div className="flex flex-row justify-between">
+              <h1 className="text-xl mb-8">{t("search.skills")}</h1>
+              <div style={{ width: `300px` }}>
+                <CustomSelect
+                  labelFn={(x) => x.value}
+                  keyFn={(x) => x.label}
+                  choices={choicesSorter.filter(
+                    ({ label }) => label !== filter.label
+                  )}
+                  placeholder={filter.value}
+                  selectedChoice={filter}
+                  onChange={(x) => setFilter(x)}
+                ></CustomSelect>
               </div>
-              {sortedSkills().length > 0 ? (
-                sortedSkills().map((skill) => (
-                  <SkillPanel
-                    key={skill.name}
-                    skill={skill}
-                    categoryLabel={skill.Category?.label}
-                    context={"zenika"}
+            </div>
+            {skillsToDisplay.length > 0 ? (
+              skillsToDisplay.map((skill) => (
+                <SkillPanel
+                  key={skill.name}
+                  skill={skill}
+                  categoryLabel={skill.Category?.label}
+                  context={"zenika"}
+                />
+              ))
+            ) : (
+              <span className="text-sm">{t("search.noSkill")}</span>
+            )}
+          </div>
+          {search && search !== "" && (
+            <div className="flex flex-col my-2">
+              <h1 className="text-xl mb-8">{t("search.profiles")}</h1>
+              {profiles?.length > 0 ? (
+                profiles.map((profile) => (
+                  <UserPanel
+                    context=""
+                    user={{
+                      name: profile.name,
+                      agency: profile.UserLatestAgency?.agency,
+                      picture: profile.picture,
+                      email: profile.email,
+                    }}
                   />
                 ))
               ) : (
-                <span className="text-sm">{t("search.noSkill")}</span>
+                <span className="text-sm">{t("search.noProfile")}</span>
               )}
             </div>
-            {search && search !== "" && (
-              <div className="flex flex-col my-2">
-                <h1 className="text-xl mb-8">{t("search.profiles")}</h1>
-                {profiles?.length > 0 ? (
-                  profiles.map((profile) => (
-                    <UserPanel
-                      context=""
-                      user={{
-                        name: profile.name,
-                        agency: profile.UserLatestAgency?.agency,
-                        picture: profile.picture,
-                        email: profile.email,
-                      }}
-                    />
-                  ))
-                ) : (
-                  <span className="text-sm">{t("search.noProfile")}</span>
-                )}{" "}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
-    </>
+    </PageWithNavAndPanel>
   );
 };
 
