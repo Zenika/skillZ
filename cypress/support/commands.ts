@@ -35,3 +35,21 @@
 //     }
 //   }
 // }
+
+declare namespace Cypress {
+  interface Chainable {
+    login(): Chainable<Element>;
+    logout(): Chainable<Element>;
+  }
+}
+
+Cypress.Commands.add("login", () => {
+  cy.visit("/");
+  cy.get('input[name="email"]').type(Cypress.env("test_username"));
+  cy.get('input[name="password"]').type(Cypress.env("test_password"));
+  cy.get(".auth0-lock-widget").submit({ timeout: 3000 }).wait(3000);
+});
+
+Cypress.Commands.add("logout", () => {
+  cy.visit("/fr/logout");
+});
