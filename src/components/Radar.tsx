@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./Radar.module.css";
 
@@ -12,14 +12,26 @@ export type RadarData = {
 };
 
 const Circle = ({ data, color }: { data: RadarData; color: string }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   return (
     <div
       style={{
-        bottom: `${data.y - data.weight / 2}px`,
-        left: `${data.x - data.weight / 2}px`,
-        width: `${data.weight}px`,
-        height: `${data.weight}px`,
+        bottom: `${data.y - (isHovering ? 200 : data.weight) / 2}px`,
+        left: `${data.x - (isHovering ? 200 : data.weight) / 2}px`,
+        width: `${isHovering ? 200 : data.weight}px`,
+        height: `${isHovering ? 200 : data.weight}px`,
       }}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       className={`${styles.circle} flex flex-col justify-center absolute rounded-full text-center text-xs gradient-${color}`}
     >
       <div className="flex flex-row justify-center">
@@ -28,7 +40,8 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
             data.weight > 30 ? "p-1" : ""
           }`}
         >
-          {data.labels.join(", ")}
+          {isHovering && data.labels.join(", ")}
+          {!isHovering && "4  compétences"}
         </span>
       </div>
     </div>
