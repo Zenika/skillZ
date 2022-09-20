@@ -15,7 +15,7 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
-    setIsHovering(true);
+    if (data.weight > 60) setIsHovering(true);
   };
 
   const handleMouseOut = () => {
@@ -25,10 +25,10 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
   return (
     <div
       style={{
-        bottom: `${data.y - (isHovering ? 200 : data.weight) / 2}px`,
-        left: `${data.x - (isHovering ? 200 : data.weight) / 2}px`,
-        width: `${isHovering ? 200 : data.weight}px`,
-        height: `${isHovering ? 200 : data.weight}px`,
+        bottom: `${data.y - (isHovering ? data.weight + 70 : 50) / 2}px`,
+        left: `${data.x - (isHovering ? data.weight + 70 : 50) / 2}px`,
+        width: `${isHovering ? data.weight + 70 : 50}px`,
+        height: `${isHovering ? data.weight + 70 : 50}px`,
       }}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
@@ -37,11 +37,11 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
       <div className="flex flex-row justify-center">
         <span
           className={`text-light-greytext dark:text-dark-med overflow-clip ${
-            data.weight > 30 ? "p-1" : ""
+            data.weight > 30 ? "p-4" : ""
           }`}
         >
+          {!isHovering && `${data.labels.length}`}
           {isHovering && data.labels.join(", ")}
-          {!isHovering && "4  compétences"}
         </span>
       </div>
     </div>
@@ -57,7 +57,7 @@ const RadarCell = ({
 }) => {
   const { t } = useContext(i18nContext);
   return (
-    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid ">
+    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid">
       {first && isFullSize ? (
         <span className="rotated">{t("radar.desire")}</span>
       ) : (
@@ -162,6 +162,7 @@ const Radar = ({
         }))
     );
   }, [radar, data, resized]);
+  console.log("title !== ", title);
   return (
     <div
       className={`flex ${
