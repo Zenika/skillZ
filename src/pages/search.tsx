@@ -100,8 +100,7 @@ const Search = ({ pathName }) => {
 
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
-  }),
-    [skillsDetails, skills];
+  }, [skillsDetails, skills, filter]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
