@@ -20,7 +20,7 @@ const SearchBar = ({
       value={value ?? initialValue}
       placeholder={placeholder ?? t("skills.searchPlaceholder")}
       onChange={(e) => setSearch(e?.target?.value || "")}
-      className={`bg-light-light dark:bg-dark-light w-full rounded-full p-4 bg-right ${styles.search}`}
+      className={`bg-light-ultrawhite dark:bg-dark-light w-full rounded-full p-4 bg-right ${styles.search}`}
     />
   );
 };
