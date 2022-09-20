@@ -41,7 +41,9 @@ const SkillPanel = ({
       : undefined;
 
   const link = new URL(
-    `${config.nextPublicBaseUrl}/skills/${context}/${categoryLabel}/${skill.name}`
+    `${config.nextPublicBaseUrl}/skills/${encodeURIComponent(
+      context
+    )}/${encodeURIComponent(categoryLabel)}/${encodeURIComponent(skill.name)}/`
   );
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
