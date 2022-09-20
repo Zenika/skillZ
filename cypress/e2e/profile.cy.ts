@@ -12,6 +12,11 @@ describe("login", () => {
     );
   });
 
+  it("should successfully update agency", () => {
+    cy.visit("/fr/profile");
+    cy.get(".test").click();
+  });
+
   after(() => {
     cy.logout();
   });

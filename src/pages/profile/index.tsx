@@ -28,13 +28,14 @@ const Profile = () => {
   const { context } = router.query;
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const { data, error, refetch } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
-    GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
-    {
-      variables: { email: user?.email },
-      fetchPolicy: "network-only",
-    }
-  );
+  const { data, error, refetch, loading } =
+    useQuery<GetUserAgencyAndAllAgenciesQuery>(
+      GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY,
+      {
+        variables: { email: user?.email },
+        fetchPolicy: "network-only",
+      }
+    );
   const [userInserted, setUserInserted] = useState(false);
   const [insertUser] = useMutation(INSERT_USER_MUTATION);
   const insertUserIfNeeded = () => {
@@ -135,6 +136,8 @@ const Profile = () => {
       });
     });
   };
+
+  if (loading) return <></>;
 
   return (
     <CommonPage page={"profile"} faded={certModalOpened} context={context}>
