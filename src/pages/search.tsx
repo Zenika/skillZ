@@ -41,7 +41,9 @@ const Search = ({ pathName }) => {
   );
 
   const { data: responseSkillsDetails, error: skillsDetailsError } =
-    useQuery<GetUserDesireOnEachSkillQuery>(GET_USER_DESIRE_ON_EACH_SKILL);
+    useQuery<GetUserDesireOnEachSkillQuery>(GET_USER_DESIRE_ON_EACH_SKILL, {
+      variables: { search: `%${search}%` },
+    });
 
   if (error) console.error(error);
 
@@ -50,10 +52,6 @@ const Search = ({ pathName }) => {
   const skills = data?.skills;
   const skillsDetails = responseSkillsDetails?.Skill;
   const profiles = data?.profiles;
-
-  function onSelectSort(x) {
-    setFilter(x);
-  }
 
   const sortedSkills = () => {
     if (skills && skillsDetails) {
@@ -81,12 +79,13 @@ const Search = ({ pathName }) => {
               Number(a.desireLevel + a.skillLevel) / 2
           );
         case "mostNoted":
-          console.log(
-            "sorted",
-            skillsDetailsSorted.sort(
-              (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
-            )
-          );
+          if (search === "") {
+            return skillsDetailsSorted
+              .sort(
+                (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
+              )
+              .slice(0, 10);
+          }
           return skillsDetailsSorted.sort(
             (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
           );
@@ -133,7 +132,7 @@ const Search = ({ pathName }) => {
                     )}
                     placeholder={filter.value}
                     selectedChoice={filter}
-                    onChange={(x) => onSelectSort(x)}
+                    onChange={(x) => setFilter(x)}
                   ></CustomSelect>
                 </div>
               </div>

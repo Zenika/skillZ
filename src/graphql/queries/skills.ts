@@ -264,8 +264,8 @@ export const GET_SKILL_ID_BY_NAME = gql`
 `;
 
 export const GET_USER_DESIRE_ON_EACH_SKILL = gql`
-  query getUserDesireOnEachSkill {
-    Skill {
+  query getUserDesireOnEachSkill($search: String!) {
+    Skill(where: { name: { _ilike: $search } }) {
       UserSkillDesires {
         userEmail
         desireLevel
