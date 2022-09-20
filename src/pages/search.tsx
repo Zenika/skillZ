@@ -5,8 +5,15 @@ import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
-import { SearchSkillsAndProfilesQuery, Skill } from "../generated/graphql";
-import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
+import {
+  GetUserDesireOnEachSkillQuery,
+  SearchSkillsAndProfilesQuery,
+  Skill,
+} from "../generated/graphql";
+import {
+  GET_USER_DESIRE_ON_EACH_SKILL,
+  SEARCH_SKILLS_AND_PROFILES_QUERY,
+} from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
 import CustomSelect from "../components/CustomSelect";
 
@@ -20,6 +27,7 @@ const Search = ({ pathName }) => {
   const choicesSorter = [
     { label: "trendsAsc", value: `${t("search.trends")}` },
     { label: "default", value: `${t("search.alphabetical")}` },
+    { label: "mostNoted", value: `${t("search.mostNoted")}` },
   ];
 
   const [search, setSearch] = useState("");
@@ -31,10 +39,16 @@ const Search = ({ pathName }) => {
       variables: { search: `%${search}%` },
     }
   );
-  if (error) {
-    console.error(error);
-  }
+
+  const { data: responseSkillsDetails, error: skillsDetailsError } =
+    useQuery<GetUserDesireOnEachSkillQuery>(GET_USER_DESIRE_ON_EACH_SKILL);
+
+  if (error) console.error(error);
+
+  if (skillsDetailsError) console.error(skillsDetailsError);
+
   const skills = data?.skills;
+  const skillsDetails = responseSkillsDetails?.Skill;
   const profiles = data?.profiles;
 
   function onSelectSort(x) {
@@ -42,8 +56,9 @@ const Search = ({ pathName }) => {
   }
 
   const sortedSkills = () => {
-    if (skills) {
+    if (skills && skillsDetails) {
       const xSkills = [...skills];
+      const skillsDetailsSorted = [...skillsDetails];
       switch (filter.label) {
         case "default":
           if (search === "") {
@@ -65,11 +80,21 @@ const Search = ({ pathName }) => {
               Number(b.desireLevel + b.skillLevel) / 2 -
               Number(a.desireLevel + a.skillLevel) / 2
           );
+        case "mostNoted":
+          console.log(
+            "sorted",
+            skillsDetailsSorted.sort(
+              (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
+            )
+          );
+          return skillsDetailsSorted.sort(
+            (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
+          );
         default:
           return skills;
       }
     } else {
-      return skills;
+      return [""];
     }
   };
 
@@ -112,7 +137,7 @@ const Search = ({ pathName }) => {
                   ></CustomSelect>
                 </div>
               </div>
-              {skills && sortedSkills().length > 0 ? (
+              {sortedSkills().length > 0 ? (
                 sortedSkills().map((skill) => (
                   <SkillPanel
                     key={skill.name}

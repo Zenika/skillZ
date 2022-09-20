@@ -185,6 +185,7 @@ export default {
     profiles: "Profiles",
     noSkill: "No skill found",
     noProfile: "No profile found",
+    mostNoted: "Most noted",
   },
   statistics: {
     myTitleSection: "My statistics",

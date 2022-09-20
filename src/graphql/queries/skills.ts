@@ -262,3 +262,21 @@ export const GET_SKILL_ID_BY_NAME = gql`
     }
   }
 `;
+
+export const GET_USER_DESIRE_ON_EACH_SKILL = gql`
+  query getUserDesireOnEachSkill {
+    Skill {
+      UserSkillDesires {
+        userEmail
+        desireLevel
+        skillLevel
+        skillId
+      }
+      name
+      categoryId
+      Category {
+        label
+      }
+    }
+  }
+`;

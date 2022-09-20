@@ -190,6 +190,7 @@ export default {
     alphabetical: "Ordre alphabétique",
     noSkill: "Aucune compétence trouvée",
     noProfile: "Aucun profil trouvé",
+    mostNoted: "Les plus notés",
   },
   statistics: {
     myTitleSection: "Mes statistiques",
