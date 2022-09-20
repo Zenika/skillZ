@@ -46,8 +46,20 @@ const Search = ({ pathName }) => {
       const xSkills = [...skills];
       switch (filter.label) {
         case "default":
+          if (search === "") {
+            return xSkills.slice(0, 10);
+          }
           return skills;
         case "trendsAsc":
+          if (search === "") {
+            return xSkills
+              .sort(
+                (a, b) =>
+                  Number(b.desireLevel + b.skillLevel) / 2 -
+                  Number(a.desireLevel + a.skillLevel) / 2
+              )
+              .slice(0, 10);
+          }
           return xSkills.sort(
             (a, b) =>
               Number(b.desireLevel + b.skillLevel) / 2 -
