@@ -93,7 +93,7 @@ const AddOrEditSkillModal = ({
                 <span className="shrink-0 my-0.5">
                   <Image
                     src={`/icons/${darkMode ? "dark" : "light"}/${
-                      desireLevel === index ? "full" : "empty"
+                      skillLevel === index ? "full" : "empty"
                     }-select.svg`}
                     height={32}
                     width={32}
