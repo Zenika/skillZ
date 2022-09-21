@@ -40,7 +40,8 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
             data.weight > 30 ? "p-4" : ""
           }`}
         >
-          {!isHovering && `${data.labels.length}`}
+          {!isHovering && data.weight > 60 && `${data.labels.length}`}
+          {!isHovering && data.weight < 60 && data.labels.join(", ")}
           {isHovering && data.labels.join(", ")}
         </span>
       </div>
