@@ -1,15 +1,13 @@
 import { useQuery } from "@apollo/client";
 import {
   GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery,
-  GetSkillsAndDesiresByCategoryQuery,
   GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery,
   SearchSkillsByCategoryQuery,
 } from "../../generated/graphql";
 import {
   GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
-  GET_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
-  SEARCH_SKILLS_BY_CATEGORY_QUERY,
   GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
+  SEARCH_SKILLS_BY_CATEGORY_QUERY,
 } from "../../graphql/queries/skills";
 import { FetchedSkill } from "../types";
 
@@ -69,13 +67,14 @@ const fetchMySkills = (
   };
 };
 
-const fetchZenikasSkills = (category: string) => {
+const fetchZenikasSkills = (category: string, search: string) => {
   const { data, refetch, loading } =
     useQuery<GetZenikaAverageCurrentSkillsAndDesiresByCategoryQuery>(
       GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
       {
         variables: {
           category,
+          search,
         },
       }
     );
@@ -98,7 +97,11 @@ const fetchZenikasSkills = (category: string) => {
     loading,
   };
 };
-const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
+const fetchZenikasSkillsByAgency = (
+  category: string,
+  agency: string,
+  search: string
+) => {
   const { data, refetch, loading } =
     useQuery<GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery>(
       GET_AGENCIES_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY,
@@ -106,6 +109,7 @@ const fetchZenikasSkillsByAgency = (category: string, agency: string) => {
         variables: {
           category,
           agency,
+          search,
         },
       }
     );
@@ -141,5 +145,5 @@ export const useFetchSkillsByContextCategoryAndAgency = (
   context !== "zenika"
     ? fetchMySkills(email, category, debouncedSearchValue)
     : agency && agency !== "World"
-    ? fetchZenikasSkillsByAgency(category, agency)
-    : fetchZenikasSkills(category);
+    ? fetchZenikasSkillsByAgency(category, agency, debouncedSearchValue)
+    : fetchZenikasSkills(category, debouncedSearchValue);
