@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./Radar.module.css";
 
@@ -12,23 +12,37 @@ export type RadarData = {
 };
 
 const Circle = ({ data, color }: { data: RadarData; color: string }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    if (data.weight > 60) setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   return (
     <div
       style={{
-        bottom: `${data.y - data.weight / 2}px`,
-        left: `${data.x - data.weight / 2}px`,
-        width: `${data.weight}px`,
-        height: `${data.weight}px`,
+        bottom: `${data.y - (isHovering ? data.weight + 70 : 50) / 2}px`,
+        left: `${data.x - (isHovering ? data.weight + 70 : 50) / 2}px`,
+        width: `${isHovering ? data.weight + 70 : 50}px`,
+        height: `${isHovering ? data.weight + 70 : 50}px`,
       }}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       className={`${styles.circle} flex flex-col justify-center absolute rounded-full text-center text-xs gradient-${color}`}
     >
       <div className="flex flex-row justify-center">
         <span
           className={`text-light-greytext dark:text-dark-med overflow-clip ${
-            data.weight > 30 ? "p-1" : ""
+            data.weight > 30 ? "p-4" : ""
           }`}
         >
-          {data.labels.join(", ")}
+          {!isHovering && data.weight > 60 && `${data.labels.length}`}
+          {!isHovering && data.weight < 60 && data.labels.join(", ")}
+          {isHovering && data.labels.join(", ")}
         </span>
       </div>
     </div>
@@ -44,7 +58,7 @@ const RadarCell = ({
 }) => {
   const { t } = useContext(i18nContext);
   return (
-    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid ">
+    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid">
       {first && isFullSize ? (
         <span className="rotated">{t("radar.desire")}</span>
       ) : (
@@ -131,17 +145,14 @@ const Radar = ({
                 (prev.weight > 50 ? curr.weight / 10 : curr.weight / 3),
             }));
         })
-        .reduce(
-          (unique, item) =>
-            unique.find(
-              (arrayRow) =>
-                Math.abs(arrayRow.x - item.x) + Math.abs(arrayRow.y - item.y) <=
-                arrayRow.weight / 100
-            )
-              ? unique
-              : [...unique, item],
-          []
-        )
+        // As far as I understand, this reduce function aims to group skill on the same levels into one circles. So I suggest doing this comparing their x and y
+        .reduce((unique, item) => {
+          return unique.find(
+            (arrayRow) => arrayRow.x === item.x && arrayRow.y === item.y
+          )
+            ? unique
+            : [...unique, item];
+        }, [])
         .map((circle) => ({
           ...circle,
           x: radar.current.offsetWidth * (circle.x / 6),
