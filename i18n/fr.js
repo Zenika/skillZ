@@ -7,6 +7,7 @@ export default {
     insertSkillError:
       "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
+    refetch: "Réessayer",
   },
   nav: {
     mySkills: "Compétences",

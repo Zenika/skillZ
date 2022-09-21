@@ -7,6 +7,7 @@ export default {
     insertSkillError:
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
+    refetch: "Retry",
   },
   nav: {
     mySkills: "My skills",
