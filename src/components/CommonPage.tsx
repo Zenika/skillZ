@@ -11,7 +11,7 @@ type CommonPageProps = {
   children: any;
   page: string | string[];
   faded: boolean;
-  context: string | string[];
+  context?: string | string[];
   category?: string | string[];
   skill?: string;
 };

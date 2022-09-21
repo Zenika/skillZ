@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import { config } from "../env";
+import "../styles/404.css";
 import "../styles/globals.css";
 import { DarkModeProvider } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
