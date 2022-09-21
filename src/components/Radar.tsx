@@ -144,17 +144,14 @@ const Radar = ({
                 (prev.weight > 50 ? curr.weight / 10 : curr.weight / 3),
             }));
         })
-        .reduce(
-          (unique, item) =>
-            unique.find(
-              (arrayRow) =>
-                Math.abs(arrayRow.x - item.x) + Math.abs(arrayRow.y - item.y) <=
-                arrayRow.weight / 100
-            )
-              ? unique
-              : [...unique, item],
-          []
-        )
+        // As far as I understand, this reduce function aims to group skill on the same levels into one circles. So I suggest doing this comparing their x and y
+        .reduce((unique, item) => {
+          return unique.find(
+            (arrayRow) => arrayRow.x === item.x && arrayRow.y === item.y
+          )
+            ? unique
+            : [...unique, item];
+        }, [])
         .map((circle) => ({
           ...circle,
           x: radar.current.offsetWidth * (circle.x / 6),
@@ -162,7 +159,6 @@ const Radar = ({
         }))
     );
   }, [radar, data, resized]);
-  console.log("title !== ", title);
   return (
     <div
       className={`flex ${
