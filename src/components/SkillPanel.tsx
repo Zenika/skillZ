@@ -77,6 +77,19 @@ const SkillPanel = ({
         </div>
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
+            <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
+            <LevelBar
+              color="yellow"
+              level={
+                skill.skillLevel
+                  ? skill.skillLevel
+                  : skill.UserSkillDesires?.length > 0
+                  ? skill.UserSkillDesires[0].skillLevel
+                  : 0
+              }
+            />
+          </div>
+          <div className="flex flex-col">
             <p className="text-xs text-center my-2">
               {t("skills.desireLevel")}
             </p>
@@ -87,19 +100,6 @@ const SkillPanel = ({
                   ? skill.desireLevel
                   : skill.UserSkillDesires?.length > 0
                   ? skill.UserSkillDesires[0].desireLevel
-                  : 0
-              }
-            />
-          </div>
-          <div className="flex flex-col">
-            <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
-            <LevelBar
-              color="yellow"
-              level={
-                skill.skillLevel
-                  ? skill.skillLevel
-                  : skill.UserSkillDesires?.length > 0
-                  ? skill.UserSkillDesires[0].skillLevel
                   : 0
               }
             />
