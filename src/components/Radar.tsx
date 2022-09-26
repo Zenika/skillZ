@@ -15,7 +15,7 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
-    if (data.weight > 60) setIsHovering(true);
+    if (data.weight > 50) setIsHovering(true);
   };
 
   const handleMouseOut = () => {
@@ -29,6 +29,7 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
         left: `${data.x - (isHovering ? data.weight + 70 : 50) / 2}px`,
         width: `${isHovering ? data.weight + 70 : 50}px`,
         height: `${isHovering ? data.weight + 70 : 50}px`,
+        zIndex: `${isHovering ? "999" : "1"}`,
       }}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
@@ -40,8 +41,8 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
             data.weight > 30 ? "p-4" : ""
           }`}
         >
-          {!isHovering && data.weight > 60 && `${data.labels.length}`}
-          {!isHovering && data.weight < 60 && data.labels.join(", ")}
+          {!isHovering && data.weight > 50 && `+${data.labels.length}`}
+          {!isHovering && data.weight < 50 && data.labels.join(", ")}
           {isHovering && data.labels.join(", ")}
         </span>
       </div>
@@ -59,16 +60,10 @@ const RadarCell = ({
   const { t } = useContext(i18nContext);
   return (
     <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid">
-      {first && isFullSize ? (
+      {first && isFullSize && (
         <span className="rotated">{t("radar.desire")}</span>
-      ) : (
-        <></>
       )}
-      {first && isFullSize ? (
-        <span className="ml-2">{t("radar.level")}</span>
-      ) : (
-        <></>
-      )}
+      {first && isFullSize && <span className="ml-2">{t("radar.level")}</span>}
     </div>
   );
 };
