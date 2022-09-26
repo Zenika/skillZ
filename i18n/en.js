@@ -102,8 +102,8 @@ export default {
     addButton: "Add %skill%",
     didYouMean: "Did you mean:",
     modal: {
-      knowledge: "Knowledge",
-      desire: "Desire",
+      knowledge: "Skill level",
+      desire: "Desire level",
       cancel: "CANCEL",
       addSkill: "ADD SKILL",
       delete: "Delete",
@@ -173,8 +173,8 @@ export default {
     },
   },
   radar: {
-    desire: "Desire",
-    level: "Level",
+    desire: "Desire level",
+    level: "Skill level",
   },
   search: {
     placeholder: "Search for a skill",

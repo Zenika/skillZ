@@ -93,11 +93,11 @@ export default {
     nothingHere: "Il n'y a rien ici, essayez d'ajouter une compétence",
     editSkill: "Modifier cette compétence",
     cancelAction: "Annuler l'action",
-    mySkills: "COMPÉTENCES",
+    mySkills: "MES COMPÉTENCES",
     addSkill: "AJOUTER",
     add: "AJOUTER",
-    desireLevel: "Appétence",
-    skillLevel: "Compétence",
+    desireLevel: "Niveau d'appétence",
+    skillLevel: "Niveau de compétence",
     searchPlaceholder: "Rechercher une compétence",
     noMatchingSkills:
       "Il n'y a pas de compétences correspondants à votre recherche",
@@ -105,8 +105,8 @@ export default {
     addNewSkill: "Ajoutez %skill% comme une nouvelle compétence",
     addButton: "Ajouter %skill%",
     modal: {
-      knowledge: "Connaissance",
-      desire: "Appétence",
+      knowledge: "Niveau de connaissance",
+      desire: "Niveau d'appétence",
       cancel: "ANNULER",
       addSkill: "AJOUTER",
       delete: "Supprimer",
@@ -178,8 +178,8 @@ export default {
     },
   },
   radar: {
-    desire: "Désir",
-    level: "Niveau",
+    desire: "Niveau d'appétence",
+    level: "Niveau de compétence",
   },
   search: {
     placeholder: "Rechercher une compétence",
