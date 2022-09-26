@@ -106,7 +106,7 @@ jobs:
           command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
       - run:
           name: Create .env.local file
-          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
+          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
       - run:
           name: build
           command: npm run build:local

@@ -10,6 +10,7 @@ type CustomSelectProps = {
   placeholder: string;
   readOnly?: boolean;
   onChange: (choice: any) => void;
+  id?: string;
 };
 
 const CustomSelect = ({
@@ -20,6 +21,7 @@ const CustomSelect = ({
   placeholder,
   readOnly = false,
   onChange,
+  id,
 }: CustomSelectProps) => {
   const [opened, setOpened] = useState(false);
   const { darkMode } = useDarkMode();
@@ -45,7 +47,7 @@ const CustomSelect = ({
   }, [ref]);
 
   return (
-    <div ref={ref} className="w-full h-20 test">
+    <div ref={ref} className="w-full h-20" id={id}>
       <div
         className="z-20 absolute"
         style={{ width: size.width, height: size.height }}

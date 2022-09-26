@@ -208,6 +208,7 @@ const Profile = () => {
                 selectedChoice={userAgency}
                 placeholder={t("myProfile.selectPlaceholder")}
                 onChange={(value: string) => updateAgency(value)}
+                id={"profile-select-agency"}
               />
             </div>
             <PreferedTopics

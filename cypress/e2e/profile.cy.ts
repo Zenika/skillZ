@@ -1,23 +1,28 @@
-describe("login", () => {
+describe("profile", () => {
   before(() => {
-    cy.login();
+    cy.session("profile", () => {
+      cy.login();
+    });
   });
 
   it("should successfully view profile", () => {
-    cy.visit("/fr/profile");
+    cy.session("profile");
+    cy.visit("http://localhost:3000/profile");
     cy.contains("Profile");
     cy.contains(Cypress.env("test_username"));
-    cy.contains(
-      "Welcome to SkillZ ! We recommend you set your agency and prefered topics so your profile is complete"
-    );
   });
 
   it("should successfully update agency", () => {
-    cy.visit("/fr/profile");
-    cy.get(".test").click();
+    cy.session("profile");
+    cy.visit("http://localhost:3000/profile");
+    cy.lengthCustomSelect("profile-select-agency", 15);
+    cy.selectCustomSelect("profile-select-agency", 3);
+    cy.reload();
+    cy.contains("Brest");
   });
 
   after(() => {
     cy.logout();
+    Cypress.session.clearAllSavedSessions();
   });
 });
