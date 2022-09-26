@@ -10,10 +10,7 @@ import {
   SearchSkillsAndProfilesQuery,
   Skill,
 } from "../generated/graphql";
-import {
-  GET_USER_DESIRE_ON_EACH_SKILL,
-  SEARCH_SKILLS_AND_PROFILES_QUERY,
-} from "../graphql/queries/skills";
+import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
 import CustomSelect from "../components/CustomSelect";
 
@@ -41,23 +38,14 @@ const Search = ({ pathName }) => {
     }
   );
 
-  const { data: responseSkillsDetails, error: skillsDetailsError } =
-    useQuery<GetUserDesireOnEachSkillQuery>(GET_USER_DESIRE_ON_EACH_SKILL, {
-      variables: { search: `%${search}%` },
-    });
-
   if (error) console.error(error);
 
-  if (skillsDetailsError) console.error(skillsDetailsError);
-
   const skills = data?.skills;
-  const skillsDetails = responseSkillsDetails?.Skill;
   const profiles = data?.profiles;
 
   const sortedSkills = () => {
-    if (skills && skillsDetails) {
+    if (skills) {
       const xSkills = [...skills];
-      const skillsDetailsSorted = [...skillsDetails];
       switch (filter.label) {
         case "default":
           if (search === "") {
@@ -81,15 +69,11 @@ const Search = ({ pathName }) => {
           );
         case "mostNoted":
           if (search === "") {
-            return skillsDetailsSorted
-              .sort(
-                (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
-              )
+            return xSkills
+              .sort((a, b) => b.userCount - a.userCount)
               .slice(0, 10);
           }
-          return skillsDetailsSorted.sort(
-            (a, b) => b.UserSkillDesires.length - a.UserSkillDesires.length
-          );
+          return xSkills.sort((a, b) => b.userCount - a.userCount);
         default:
           return skills;
       }
@@ -100,7 +84,7 @@ const Search = ({ pathName }) => {
 
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
-  }, [skillsDetails, skills, filter]);
+  }, [skills, filter]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
@@ -122,7 +106,14 @@ const Search = ({ pathName }) => {
         >
           <div className="flex flex-col my-8 py-2">
             <div className="flex flex-row justify-between">
-              <h1 className="text-xl mb-8">{t("search.skills")}</h1>
+              <div className="flex flex-col mb-8">
+                <h1 className="text-xl">{t("search.skills")}</h1>
+                {skillsToDisplay.length > 0 && (
+                  <p className="opacity-50">
+                    {skillsToDisplay.length} {t("search.result")}
+                  </p>
+                )}
+              </div>
               <div style={{ width: `300px` }}>
                 <CustomSelect
                   labelFn={(x) => x.value}
@@ -140,6 +131,7 @@ const Search = ({ pathName }) => {
               skillsToDisplay.map((skill) => (
                 <SkillPanel
                   key={skill.name}
+                  count={skill.userCount}
                   skill={skill}
                   categoryLabel={skill.Category?.label}
                   context={"zenika"}
@@ -151,7 +143,14 @@ const Search = ({ pathName }) => {
           </div>
           {search && search !== "" && (
             <div className="flex flex-col my-2">
-              <h1 className="text-xl mb-8">{t("search.profiles")}</h1>
+              <div className="flex flex-col mb-8">
+                <h1 className="text-xl">{t("search.profiles")}</h1>
+                {profiles?.length > 0 && (
+                  <p className="opacity-50">
+                    {profiles.length} {t("search.result")}
+                  </p>
+                )}
+              </div>
               {profiles?.length > 0 ? (
                 profiles.map((profile) => (
                   <UserPanel
