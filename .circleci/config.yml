@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cypress: cypress-io/cypress@2.2.0
+  cypress: cypress-io/cypress@1
 
 executors:
   node:
@@ -55,19 +55,6 @@ jobs:
           command: npm run prettier:check
   unit-test:
     executor: node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
-            - v4-packaging-dependencies-
-      - run:
-          name: unit-test
-          command: npm run test:unit
-  e2e:
-    executor: node
-    environment:
-      NODE_ENV: test
     steps:
       - checkout
       - restore_cache:
@@ -223,24 +210,24 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
-      - hasura-test-apply-migrations:
-         requires:
-           - install-dependencies
-      - cypress/install:
-         cache-key: >-
-           v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      - cypress/run:
-         name: chrome-cypress-run
-         requires:
-           - cypress/install
-         cache-key: >-
-           v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-         start: npm run dev
-         wait-on: "http://localhost:3000"
-         executor: cypress/browsers-chrome78-ff70
-         browser: chrome
-         parallel: true
-         parallelism: 2
+      # - hasura-test-apply-migrations:
+      #     requires:
+      #       - install-dependencies
+      # - cypress/install:
+      #     cache-key: >-
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      # - cypress/run:
+      #     name: chrome-cypress-run
+      #     requires:
+      #       - cypress/install
+      #     cache-key: >-
+      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
+      #     start: npm run dev
+      #     wait-on: "http://localhost:3000"
+      #     executor: cypress/browsers-chrome78-ff70
+      #     browser: chrome
+      #     parallel: true
+      #     parallelism: 2
       # - cypress/run:
       #     name: firefox-cypress-run
       #     requires:
