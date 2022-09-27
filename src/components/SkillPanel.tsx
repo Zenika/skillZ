@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { VscSettings } from "react-icons/vsc";
+import { BsFillPersonCheckFill } from "react-icons/bs";
 import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
@@ -62,8 +63,9 @@ const SkillPanel = ({
           <h2 className="text-xl">{skill.name}</h2>
           {(count || certif) && (
             <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col">
                 <span>{count}</span>
+                <BsFillPersonCheckFill />
               </div>
               {certif && (
                 <Image

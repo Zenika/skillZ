@@ -5,11 +5,7 @@ import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
-import {
-  GetUserDesireOnEachSkillQuery,
-  SearchSkillsAndProfilesQuery,
-  Skill,
-} from "../generated/graphql";
+import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
 import CustomSelect from "../components/CustomSelect";
