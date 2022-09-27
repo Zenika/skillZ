@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { UserCertification } from "../../../utils/types";
@@ -27,6 +27,7 @@ const CertificationsList = ({
           ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
           : "bg-light dark:bg-dark-dark my-2 p-2"
       }`}
+      id={"certifications"}
     >
       <span className="text-xl p-2">{t("userProfile.certifications")}</span>
       <div className="flex flex-row flex-wrap justify-around">
@@ -55,6 +56,7 @@ const CertificationsList = ({
             className="rounded-full m-2 gradient-red w-10 h-15"
             title={t("userProfile.addCert")}
             onClick={() => onUserCertificationAdd()}
+            id={"add-certification"}
           >
             <span className="px-1 py-1 text-white font-bold text-xl">+</span>
           </button>
