@@ -185,7 +185,7 @@ const HomePanel = ({
             </div>
           </div>
 
-          {isDesktop ? (
+          {isDesktop && (
             <div className={`flex flex-auto flex-col w-3/5 h-full`}>
               <Radar
                 x={x}
@@ -195,8 +195,6 @@ const HomePanel = ({
                 title={t(`home.${name}`)}
               />
             </div>
-          ) : (
-            <></>
           )}
         </div>
 
