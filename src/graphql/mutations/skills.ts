@@ -23,3 +23,14 @@ export const ADD_USER_SKILL_MUTATION = gql`
     }
   }
 `;
+
+export const INSERT_SKILL_MUTATION = gql`
+  mutation insertSkillMutation($name: String!, $categoryId: uuid!) {
+    insert_Skill(objects: { name: $name, categoryId: $categoryId }) {
+      returning {
+        id
+        name
+      }
+    }
+  }
+`;
