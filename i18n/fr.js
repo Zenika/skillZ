@@ -191,6 +191,7 @@ export default {
     noSkill: "Aucune compétence trouvée",
     noProfile: "Aucun profil trouvé",
     mostNoted: "Les plus notés",
+    result: "résultats",
   },
   statistics: {
     myTitleSection: "Mes statistiques",
