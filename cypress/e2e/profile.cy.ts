@@ -7,14 +7,14 @@ describe("profile", () => {
 
   it("should successfully view profile", () => {
     cy.session("profile");
-    cy.visit("http://localhost:3000/profile");
+    cy.visit("/profile");
     cy.contains("Profile");
     cy.contains(Cypress.env("test_username"));
   });
 
   it("should successfully update agency", () => {
     cy.session("profile");
-    cy.visit("http://localhost:3000/profile");
+    cy.visit("/profile");
     cy.lengthCustomSelect("profile-select-agency", 15);
     cy.selectCustomSelect("profile-select-agency", 3);
     cy.reload();
@@ -23,7 +23,7 @@ describe("profile", () => {
 
   it("should successfully update preferred topics", () => {
     cy.session("profile");
-    cy.visit("http://localhost:3000/profile");
+    cy.visit("/profile");
 
     // Check that all topics are displayed.
     cy.get("#prefered-topics button").should("have.length", 22);
@@ -40,7 +40,7 @@ describe("profile", () => {
 
   it("should successfully add a certification", () => {
     cy.session("profile");
-    cy.visit("http://localhost:3000/profile");
+    cy.visit("/profile");
 
     // Check that certifications section exists
     cy.contains("Certifications");
@@ -65,7 +65,7 @@ describe("profile", () => {
 
   it("should successfully delete a certification", () => {
     cy.session("profile");
-    cy.visit("http://localhost:3000/profile");
+    cy.visit("/profile");
 
     // Check that certifications section exists
     cy.contains("Certifications");
