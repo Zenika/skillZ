@@ -62,11 +62,9 @@ const SkillPanel = ({
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
           {(count || certif) && (
-            <div className="flex flex-row justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
-              <div className="flex flex-col">
-                <span>{count}</span>
-                <BsFillPersonCheckFill />
-              </div>
+            <div className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
+              <span>{count}</span>
+              <BsFillPersonCheckFill />
               {certif && (
                 <Image
                   src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
