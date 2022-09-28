@@ -9,7 +9,6 @@ import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries
 import ViewAgency from "../../../components/profile/ViewAgency";
 import PreferedTopics from "../../../components/profile/PreferedTopics";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
-import { UserCertification } from "../../../utils/types";
 import Custom404 from "../../404";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
@@ -18,7 +17,6 @@ import { GoGraph } from "react-icons/go";
 
 const Profile = () => {
   const router = useRouter();
-  const { t } = useContext(i18nContext);
   const { context, email: userEmail } = router.query;
   const { push } = useRouter();
   const { data, error, loading } = useQuery<GetUserAgencyAndAllAgenciesQuery>(
@@ -52,7 +50,6 @@ const Profile = () => {
   const linkRadar = new URL(
     `${config.nextPublicBaseUrl}/profile/${infoUser?.email}/radars`
   );
-  console.log("infoUser", infoUser);
 
   return (
     <div>

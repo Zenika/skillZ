@@ -55,6 +55,7 @@ const Home = ({ pathName }) => {
     ...row,
     data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
+  console.log("pathName", pathName);
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
