@@ -171,7 +171,7 @@ const Topbar = ({
               />
             </button>
           ) : (
-            <div className="z-20">
+            <div className="z-50">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex flex-row px-2 py-4 justify-between bg-light-ultrawhite dark:bg-dark-ultradark h-full"
@@ -193,7 +193,7 @@ const Topbar = ({
                 />
               </button>
               <div
-                className={`bg-light-ultrawhite dark:bg-dark-ultradark py-2 ${
+                className={`bg-light-ultrawhite dark:bg-dark-ultradark py-2 z-50 ${
                   !openMenu ? "hidden" : ""
                 }`}
               >
