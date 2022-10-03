@@ -62,7 +62,7 @@ const Home = ({ pathName }) => {
       replace("/");
     }
   }, []);
-  
+
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
