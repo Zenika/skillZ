@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import HomePanel from "../components/HomePanel";
 import Loading from "../components/Loading";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
@@ -15,7 +16,7 @@ import {
 } from "../graphql/queries/userInfos";
 
 const Home = ({ pathName }) => {
-  const { push, query } = useRouter();
+  const { push, query, replace } = useRouter();
   const { context } = query;
   const { user, isLoading } = useAuth0();
 
@@ -55,6 +56,13 @@ const Home = ({ pathName }) => {
     ...row,
     data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
+
+  useEffect(() => {
+    if (!window.history.state.url) {
+      replace("/");
+    }
+  }, []);
+
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
