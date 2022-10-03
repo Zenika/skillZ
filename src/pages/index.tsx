@@ -58,7 +58,7 @@ const Home = ({ pathName }) => {
   }));
 
   useEffect(() => {
-    if (!Object.hasOwn(window.history.state, "url")) {
+    if (!window.history.state.url) {
       replace("/");
     }
   }, []);
