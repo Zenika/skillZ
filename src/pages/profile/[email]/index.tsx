@@ -48,7 +48,7 @@ const Profile = () => {
     error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
 
   const linkRadar = new URL(
-    `${config.nextPublicBaseUrl}/profile/${infoUser?.email}/radars`
+    `${config.nextPublicBaseUrl}/profile/${infoUser?.email}/graphs`
   );
 
   return (

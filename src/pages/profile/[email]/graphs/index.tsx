@@ -11,7 +11,7 @@ import {
   GET_USER_QUERY,
 } from "../../../../graphql/queries/userInfos";
 import Loading from "../../../../components/Loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
 
 type HomePanelProps = {
@@ -46,6 +46,11 @@ const HomePanelByUser = ({ pathName }) => {
         fetchPolicy: "network-only",
       }
     );
+  const { data: userInfosDatas, error: errorUserInfos } =
+    useQuery<GetUserQuery>(GET_USER_QUERY, {
+      variables: { email: query?.email },
+      fetchPolicy: "network-only",
+    });
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
@@ -66,13 +71,28 @@ const HomePanelByUser = ({ pathName }) => {
     ...row,
     data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
+  const [userInfos, setUserInfos] = useState(null);
 
   useEffect(() => {
-    console.log("datas", skillsData);
-  }, [skillsData]);
+    if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
+    console.log("userInfos", userInfos);
+  }, [userInfosDatas]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
+      {userInfos?.picture && console.log("picture", userInfos.picture)}
+      <div className="flex flex-row mb-4 p-2 w-full gradient-red  rounded">
+        <img
+          className="w-16 h-16 rounded-full"
+          height="64"
+          width="64"
+          src={userInfos?.picture}
+        />
+        <div className="flex flex-col mx-4 justify-center">
+          <p className="opacity-70">Page of the Skillz graph of</p>
+          <p className="uppercase">{userInfos?.name}</p>
+        </div>
+      </div>
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         {homePanelData ? (
           homePanelData.map((computedDataSkill) => (
