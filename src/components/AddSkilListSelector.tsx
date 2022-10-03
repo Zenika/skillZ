@@ -56,19 +56,23 @@ const AddSkillListSelector = ({
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
       {skills && skills.length > 0 && (
-        <div>
+        <div className="flex flex-col gap-y-2">
           {skills.map((skill) => (
             <div
               key={skill.id}
-              className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
+              className={
+                "flex flex-col justify-center items-center p-4 mx-0.5 bg-light-light dark:bg-dark-light rounded-lg"
+              }
             >
-              <span className="text-l">{skill.name}</span>
-              <button
-                onClick={() => action(skill)}
-                className="rounded-full border px-2 text-light-red dark:text-dark-red"
-              >
-                {t("skills.add")}
-              </button>
+              <div className="flex flex-row justify-between w-full">
+                <span className="text-l">{skill.name}</span>
+                <button
+                  onClick={() => action(skill)}
+                  className="rounded-full border px-2 text-light-red dark:text-dark-red h-8"
+                >
+                  {t("skills.add")}
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -91,7 +95,7 @@ const AddSkillListSelector = ({
                   <span className="text-l">{skill.name}</span>
                   <button
                     onClick={() => action(skill)}
-                    className="rounded-full border px-2 text-light-red dark:text-dark-red"
+                    className="rounded-full border px-2 text-light-red dark:text-dark-red h-6"
                   >
                     {t("skills.add")}
                   </button>
