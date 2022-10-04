@@ -126,10 +126,12 @@ export default {
     onboarding:
       "Bienvenue sur SkillZ ! Nous vous recommandons de renseigner votre agence et vos sujets préférés pour que votre profil soit complet",
     agency: "Mon agence",
+    selectPlaceholder: "Sélectionner mon agence",
     contact: "Ma méthode de contact préférée",
     topics: "Mes sujets préférés",
     certifications: "Mes certifications",
-    selectPlaceholder: "Mon agence",
+    addCertification: "Ajouter une certification",
+    removeCertification: "Supprimer cette certification",
     confirm: "CONFIRMER LE PROFIL",
     validFrom: "valide depuis",
     targeting: "ciblée pour le",

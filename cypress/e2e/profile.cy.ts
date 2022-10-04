@@ -18,88 +18,86 @@ describe("profile", () => {
   it("should successfully update agency", () => {
     cy.session("profile");
     cy.visit("/profile");
-    cy.lengthCustomSelect("profile-select-agency", 15);
-    cy.selectCustomSelect("profile-select-agency", 3);
+    cy.findByText("Select my agency").click();
+    cy.findByText("Brest").click();
     cy.reload();
     cy.contains("Brest");
+    cy.contains("Zenika Brest");
   });
 
-  it("should successfully update preferred topics", () => {
+  it("should successfully add preferred topics", () => {
     cy.session("profile");
     cy.visit("/profile");
 
-    // Check that all topics are displayed.
-    cy.findByTestId("prefered-topics").within(() => {
-      cy.findAllByRole("button").should("have.length", 22);
-    });
-
-    // Add a topic
-    cy.findByTestId("prefered-topics").within(() => {
-      cy.findAllByRole("button").eq(2).click();
-    });
+    // Add topics
+    cy.findByText("Infrastructure / Ops").click();
+    cy.findByText("Business").click();
+    cy.findByText("Quality assurance").click();
 
     // Check that topic is correctly registered
     cy.reload();
-    cy.findByTestId("prefered-topics").within(() => {
-      cy.get(".gradient-red span").first().contains("Infrastructure / Ops");
-    });
+
+    cy.findByText("Infrastructure / Ops")
+      .parent()
+      .should("have.class", "gradient-red");
+    cy.findByText("Business").parent().should("have.class", "gradient-red");
+    cy.findByText("Quality assurance")
+      .parent()
+      .should("have.class", "gradient-red");
+  });
+
+  it("should successfully remove preferred topics", () => {
+    cy.session("profile");
+    cy.visit("/profile");
+
+    // Add topics
+    cy.findByText("Infrastructure / Ops").click();
+    cy.findByText("Business").click();
+    cy.findByText("Quality assurance").click();
+
+    cy.findByText("Infrastructure / Ops")
+      .parent()
+      .should("not.have.class", "gradient-red");
+    cy.findByText("Business").parent().should("not.have.class", "gradient-red");
+    cy.findByText("Quality assurance")
+      .parent()
+      .should("not.have.class", "gradient-red");
   });
 
   it("should successfully add a certification", () => {
     cy.session("profile");
     cy.visit("/profile");
 
-    // Check that certifications section exists
-    cy.contains("Certifications");
-    cy.findByTestId("certifications").within(() => {
-      cy.findAllByRole("button").should("have.length", 1);
-    });
-
-    // Open modal
-    cy.findByTestId("certifications").within(() => {
-      cy.findByRole("button", { name: "+" }).click();
-    });
-
-    cy.findByTestId("certification-modal").contains("Add Cert");
-
     // Select a certification
-    cy.findByTestId("certification-modal").within(() => {
-      cy.findAllByRole("button").first().click();
-      cy.selectCustomSelect("select-certification", 33);
-      cy.get("input[type='date']").first().type("2022-09-22");
-      cy.findByTestId("certification-confirm-button").click();
-    });
+    cy.findByRole("button", { name: "Add a certification" }).click();
+    cy.contains("Add Cert");
 
-    // Check successfully registered
+    cy.findByRole("button", { name: "I have it!" }).click();
+    cy.findByText("Select a cert").click();
+    cy.findByText("Google - Professional Cloud Developer").click();
+    cy.findByPlaceholderText("Select a date").type("2022-09-22");
+
+    cy.findByRole("button", { name: "Confirm" }).click();
+
+    // Check successfully saved
     cy.contains("Certifications were successfully updated");
-    cy.findByTestId("certifications").within(() => {
-      cy.findAllByRole("button").should("have.length", 2);
-    });
   });
 
-  it("should successfully delete a certification", () => {
+  it("should successfully remove a certification", () => {
     cy.session("profile");
     cy.visit("/profile");
 
     // Check that certifications section exists
     cy.contains("Certifications");
-    cy.findByTestId("certifications").within(() => {
-      cy.findAllByRole("button").should("have.length", 2);
-    });
 
     // Open certification
-    cy.findByTestId("certifications").within(() => {
-      cy.findAllByRole("button").first().click();
-    });
+    cy.findByText("Google - Professional Cloud Developer").parent().click();
 
     // Delete it
-    cy.findByTestId("certification-delete-button").click();
+    cy.findByRole("button", { name: "Remove this certification" }).click();
 
     // Check successfully deleted
     cy.contains("Certification was successfully deleted");
-    cy.findByTestId("certifications").within(() => {
-      cy.findAllByRole("button").should("have.length", 1);
-    });
   });
 
   after(() => {

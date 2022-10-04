@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { RiDeleteBinFill } from "react-icons/ri";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { Certification, UserCertification } from "../../../utils/types";
@@ -34,10 +33,7 @@ const CertificationModal = ({
   );
 
   return (
-    <div
-      className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50"
-      data-testid={"certification-modal"}
-    >
+    <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <div className="mb-4 flex flex-row place-content-between">
         <h1 className="flex-start px-2 my-4 text-xl text-bold">
           {editMode
@@ -51,10 +47,9 @@ const CertificationModal = ({
             className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
             onClick={() => onDelete(userCertificationRef)}
             title={t("userProfile.certModal.orDelete")}
-            data-testid={"certification-delete-button"}
           >
             <div className="grid justify-items-center">
-              <RiDeleteBinFill />
+              {t("myProfile.removeCertification")}
             </div>
           </button>
         ) : (
@@ -102,7 +97,6 @@ const CertificationModal = ({
                   Certification: certification,
                 });
               }}
-              id={"select-certification"}
             />
             <div className="relative form-floating mb-3 xl:w-96">
               <label htmlFor="floatingInput" className="ml-2 mt-1 text-base">
@@ -193,7 +187,6 @@ const CertificationModal = ({
             })
           }
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
-          data-testid={"certification-confirm-button"}
         >
           {t("userProfile.certModal.confirm")}
         </button>
