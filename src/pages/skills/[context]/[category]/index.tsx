@@ -14,14 +14,14 @@ import { GET_USER_QUERY } from "../../../../graphql/queries/userInfos";
 import { i18nContext } from "../../../../utils/i18nContext";
 import { useContext } from "react";
 
-const ListSkillsPage = ({ pathName }) => {
+const ListSkillsPage = () => {
   /*
    * HOOKS
    */
   const { user, isLoading } = useAuth0();
   const router = useRouter();
   const { t } = useContext(i18nContext);
-
+  
   /*
    * CONTEXT
    */
@@ -49,12 +49,10 @@ const ListSkillsPage = ({ pathName }) => {
       name: category,
     },
   });
-  const { data: userInfosDatas, error: errorUserInfos } =
-    useQuery<GetUserQuery>(GET_USER_QUERY, {
-      variables: { email: context?.toString() },
-      fetchPolicy: "network-only",
-    });
-  console.log("context", context);
+  const { data: userInfosDatas } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: context?.toString() },
+    fetchPolicy: "network-only",
+  });
   const [userInfos, setUserInfos] = useState(null);
 
   useEffect(() => {
@@ -70,15 +68,17 @@ const ListSkillsPage = ({ pathName }) => {
     }
     return (
       <>
-        <UserInfosTopBar
-          userEmail={user?.email}
-          userName={userInfos?.name}
-          userPicture={userInfos?.picture}
-          sentence={t("skills.topBar.title").replace(
-            "%category%",
-            category as string
-          )}
-        />
+        {context != "mine" && context != "zenika" && (
+          <UserInfosTopBar
+            userEmail={user?.email}
+            userName={userInfos?.name}
+            userPicture={userInfos?.picture}
+            sentence={t("skills.topBar.title").replace(
+              "%category%",
+              category as string
+            )}
+          />
+        )}
         <PageWithSkillList
           userEmail={context === "mine" ? user?.email : context.toString()}
           context={context as string}

@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { User } from "@auth0/auth0-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
@@ -337,7 +336,7 @@ const PageWithSkillList = ({
                             count={skill.userCount || undefined}
                             context={context}
                             categoryLabel={category.name}
-                            {...(context != "zenika" && {
+                            {...(context === "mine" && {
                               onEditClick: onModalClick,
                             })}
                           />

@@ -16,25 +16,6 @@ import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
 import { i18nContext } from "../../../../utils/i18nContext";
 import UserInfosTopBar from "../../../../components/UserInfosTopBar";
 
-type HomePanelProps = {
-  props: {
-    x: string;
-    y: string;
-    context: string;
-    color: string;
-    name: string;
-    count: number;
-    data: {
-      x: number;
-      y: number;
-      weight: number;
-      labels: string[];
-      name: string;
-    }[];
-    certifs: number;
-  };
-};
-
 const HomePanelByUser = ({ pathName }) => {
   const { query } = useRouter();
   const { context } = query;
@@ -48,11 +29,10 @@ const HomePanelByUser = ({ pathName }) => {
         fetchPolicy: "network-only",
       }
     );
-  const { data: userInfosDatas, error: errorUserInfos } =
-    useQuery<GetUserQuery>(GET_USER_QUERY, {
-      variables: { email: query?.email },
-      fetchPolicy: "network-only",
-    });
+  const { data: userInfosDatas } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: query?.email },
+    fetchPolicy: "network-only",
+  });
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
