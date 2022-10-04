@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import CommonPage from "../../components/CommonPage";
@@ -235,15 +234,6 @@ const Profile = () => {
                 myStatistics={true}
               />
             )}
-            <div className="flex flex-col justify-center my-2 p-2">
-              <div className="flex flex-row justify-center">
-                <Link href={"/"}>
-                  <span className="p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-                    {t("myProfile.confirm")}
-                  </span>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
         <div
