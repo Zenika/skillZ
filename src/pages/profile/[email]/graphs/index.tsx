@@ -14,21 +14,29 @@ import { useEffect, useState, useContext } from "react";
 import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
 import { i18nContext } from "../../../../utils/i18nContext";
 import UserInfosTopBar from "../../../../components/UserInfosTopBar";
+import Custom404 from "../../../404";
 
 const HomePanelByUser = ({ pathName }) => {
   const { query } = useRouter();
   const { context } = query;
   const { t } = useContext(i18nContext);
 
-  const { data: skillsData, error } =
-    useQuery<GetCurrentUserSkillsAndDesiresQuery>(
-      GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
-      {
-        variables: { email: query?.email },
-        fetchPolicy: "network-only",
-      }
-    );
-  const { data: userInfosDatas } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+  const {
+    data: skillsData,
+    error: errorSkillsData,
+    loading: loadingSkillsDatas,
+  } = useQuery<GetCurrentUserSkillsAndDesiresQuery>(
+    GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
+    {
+      variables: { email: query?.email },
+      fetchPolicy: "network-only",
+    }
+  );
+  const {
+    data: userInfosDatas,
+    error: errorUserInfosDatas,
+    loading: loadingUserInfosDatas,
+  } = useQuery<GetUserQuery>(GET_USER_QUERY, {
     variables: { email: query?.email },
     fetchPolicy: "network-only",
   });
@@ -59,28 +67,40 @@ const HomePanelByUser = ({ pathName }) => {
   }, [userInfosDatas]);
 
   return (
-    <PageWithNavAndPanel pathName={pathName} context={context}>
-      <UserInfosTopBar
-        userEmail={userInfos?.email}
-        userName={userInfos?.name}
-        userPicture={userInfos?.picture}
-        sentence={t("search.pageSkillzGraphs.title")}
-      />
-      <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-        {homePanelData ? (
-          homePanelData.map((computedDataSkill) => (
-            <HomePanel
-              props={computedDataSkill}
-              key={`home-panel-${computedDataSkill.name}`}
-            />
-          ))
-        ) : error ? (
-          <p>{`Error: ${error.name}, Message: ${error.message}`}</p>
-        ) : (
-          <Loading />
-        )}
-      </div>
-    </PageWithNavAndPanel>
+    <div>
+      {loadingSkillsDatas || loadingUserInfosDatas ? (
+        <Loading />
+      ) : (
+        <div>
+          {userInfos != null || userInfos != undefined ? (
+            <PageWithNavAndPanel pathName={pathName} context={context}>
+              <UserInfosTopBar
+                userEmail={userInfos?.email}
+                userName={userInfos?.name}
+                userPicture={userInfos?.picture}
+                sentence={t("search.pageSkillzGraphs.title")}
+              />
+              <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
+                {homePanelData ? (
+                  homePanelData.map((computedDataSkill) => (
+                    <HomePanel
+                      props={computedDataSkill}
+                      key={`home-panel-${computedDataSkill.name}`}
+                    />
+                  ))
+                ) : errorSkillsData ? (
+                  <p>{`Error: ${errorSkillsData.name}, Message: ${errorSkillsData.message}`}</p>
+                ) : (
+                  <Loading />
+                )}
+              </div>
+            </PageWithNavAndPanel>
+          ) : (
+            <Custom404 />
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

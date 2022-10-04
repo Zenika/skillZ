@@ -252,7 +252,7 @@ const PageWithSkillList = ({
                     <Link href={`/skills/${context}/${category.name}`}>
                       <button
                         className={`${
-                          add && context === "mine"
+                          add
                             ? `bg-light-light dark:bg-dark-light`
                             : `gradient-red`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
@@ -268,7 +268,7 @@ const PageWithSkillList = ({
                     >
                       <button
                         className={`${
-                          add && context === "mine"
+                          add
                             ? `gradient-red`
                             : `bg-light-light dark:bg-dark-light`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
