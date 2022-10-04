@@ -14,6 +14,7 @@ export default {
     search: "Rechercher",
     darkmode: "Sombre",
     classic: "Classique",
+    preferences: "Préférences",
   },
   sidepanel: {
     profile: "Profil",
