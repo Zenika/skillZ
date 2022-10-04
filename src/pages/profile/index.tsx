@@ -1,27 +1,26 @@
-import React, { useContext, useState } from "react";
-import { i18nContext } from "../../utils/i18nContext";
+import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
-import { useMutation, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
-import { useDarkMode } from "../../utils/darkMode";
-import { useNotification } from "../../utils/useNotification";
-import { Statistics } from "../../components/profile/statistics/Statistics";
-import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
-import PreferedTopics from "../../components/profile/PreferedTopics";
-import CertificationsList from "../../components/profile/certifications/CertificationsList";
 import CertificationModal from "../../components/profile/certifications/CertificationModal";
-import { UserCertification } from "../../utils/types";
+import CertificationsList from "../../components/profile/certifications/CertificationsList";
+import PreferedTopics from "../../components/profile/PreferedTopics";
+import { Statistics } from "../../components/profile/statistics/Statistics";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 import {
+  DELETE_USER_CERTIFICATION_MUTATION,
   INSERT_USER_MUTATION,
   UPSERT_USER_AGENCY_MUTATION,
   UPSERT_USER_CERTIFICATION_MUTATION,
-  DELETE_USER_CERTIFICATION_MUTATION,
 } from "../../graphql/mutations/userInfos";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
+import { useDarkMode } from "../../utils/darkMode";
+import { i18nContext } from "../../utils/i18nContext";
+import { UserCertification } from "../../utils/types";
+import { useNotification } from "../../utils/useNotification";
 
 const Profile = () => {
   const { user } = useAuth0();
@@ -218,15 +217,6 @@ const Profile = () => {
           ) : (
             <></>
           )}
-          <div className="flex flex-col justify-center my-2 p-2">
-            <div className="flex flex-row justify-center">
-              <Link href={"/"}>
-                <span className="p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-                  {t("myProfile.confirm")}
-                </span>
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
       <div

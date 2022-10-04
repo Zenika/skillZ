@@ -77,6 +77,7 @@ const HomePanel = ({
     <Link
       href={{
         pathname: `/skills/${context}/${name}`,
+        query: !data.length && context === "mine" && { add: true },
       }}
     >
       <div
@@ -117,7 +118,7 @@ const HomePanel = ({
                   y === "bot" ? "order-11" : "order-1"
                 }`}
               >
-                {context === "zenika" ? (
+                {context !== "mine" ? (
                   <div style={{ width: 48, height: 48 }}></div>
                 ) : (
                   <Image
@@ -161,9 +162,7 @@ const HomePanel = ({
             ) : (
               <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
                 <p className="text-center">
-                  {context === "zenika"
-                    ? t("home.noSkill")
-                    : t("home.addSkill")}
+                  {context !== "mine" ? t("home.noSkill") : t("home.addSkill")}
                 </p>
               </div>
             )}
