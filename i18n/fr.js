@@ -65,7 +65,7 @@ export default {
   },
   createProfile: {
     title: "Créez votre profil !",
-    profileCreated: "Bravo, votre profil à été créé !",
+    profileCreated: "Bravo, votre profil a été créé !",
     homepage: "Retour à l'accueil",
     agency: "Premièrement, dans quelle agence travaillez vous ?",
     topics:
@@ -111,8 +111,8 @@ export default {
       addSkill: "AJOUTER",
       delete: "Supprimer",
     },
-    addSkillSuccess: "La compétence %skill% à été ajoutée avec succès",
-    updateSkillSuccess: "La compétence %skill% à été modifiée avec succès",
+    addSkillSuccess: "La compétence %skill% a été ajoutée avec succès",
+    updateSkillSuccess: "La compétence %skill% a été modifiée avec succès",
     deleteSkillSuccess: "La compétence %skill% a été supprimée avec succès",
     refreshSkillFailed: "Erreur lors de la récupération des compétences",
     updateSkillFailed:
@@ -197,6 +197,7 @@ export default {
     pageSkillzGraphs: {
       title: "Ce sont les graphiques Skillz de ",
     },
+    result: "résultats",
   },
   statistics: {
     myTitleSection: "Mes statistiques",

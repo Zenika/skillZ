@@ -78,6 +78,7 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       Category {
         label
       }
+      userCount
     }
     profiles: User(where: { name: { _ilike: $search } }) {
       email
@@ -264,24 +265,6 @@ export const GET_SKILL_ID_BY_NAME = gql`
   query getSkillCategoryAndIDByName($name: String!) {
     Skill(where: { name: { _eq: $name } }) {
       id
-    }
-  }
-`;
-
-export const GET_USER_DESIRE_ON_EACH_SKILL = gql`
-  query getUserDesireOnEachSkill($search: String!) {
-    Skill(where: { name: { _ilike: $search } }) {
-      UserSkillDesires {
-        userEmail
-        desireLevel
-        skillLevel
-        skillId
-      }
-      name
-      categoryId
-      Category {
-        label
-      }
     }
   }
 `;

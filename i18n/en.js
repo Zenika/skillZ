@@ -192,6 +192,7 @@ export default {
     pageSkillzGraphs: {
       title: "These are the Skillz graphs of ",
     },
+    result: "results",
   },
   statistics: {
     myTitleSection: "My statistics",
