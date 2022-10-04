@@ -21,7 +21,7 @@ const ListSkillsPage = () => {
   const { user, isLoading } = useAuth0();
   const router = useRouter();
   const { t } = useContext(i18nContext);
-  
+
   /*
    * CONTEXT
    */
