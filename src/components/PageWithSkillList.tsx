@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { User } from "@auth0/auth0-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
@@ -23,7 +22,7 @@ import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
 
 type PageWithSkillListProps = {
-  user: User;
+  userEmail: string;
   context: string;
   agency: string;
   category: { name: string; id: string };
@@ -43,7 +42,7 @@ const computeDidYouMeanSearchString = (search: string) => {
 };
 
 const PageWithSkillList = ({
-  user,
+  userEmail,
   context,
   agency,
   category,
@@ -85,7 +84,7 @@ const PageWithSkillList = ({
     variables: {
       category: category.name,
       search: `%${debouncedSearchValue}%`,
-      email: user?.email,
+      email: userEmail,
       didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
     },
     fetchPolicy: "network-only",
@@ -101,7 +100,7 @@ const PageWithSkillList = ({
     context,
     category.name,
     agency,
-    user.email,
+    userEmail,
     `%${debouncedSearchFilterValue}%`
   );
 
@@ -120,7 +119,7 @@ const PageWithSkillList = ({
       addSkill({
         variables: {
           skillId: id,
-          email: user?.email,
+          email: userEmail,
           skillLevel,
           desireLevel,
         },
@@ -148,7 +147,7 @@ const PageWithSkillList = ({
     } else {
       deleteSkill({
         variables: {
-          email: user?.email,
+          email: userEmail,
           skillId: id,
         },
       })
@@ -187,7 +186,7 @@ const PageWithSkillList = ({
   };
 
   const filters =
-    context !== "mine"
+    context === "zenika"
       ? [
           {
             name: "Agency",
@@ -243,7 +242,7 @@ const PageWithSkillList = ({
             <div
               className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
             >
-              {context !== "zenika" && (
+              {context === "mine" && (
                 <>
                   <div
                     className={`flex flex-row justify-around px-2 py-1 ${
@@ -253,7 +252,7 @@ const PageWithSkillList = ({
                     <Link href={`/skills/${context}/${category.name}`}>
                       <button
                         className={`${
-                          add && context != "zenika"
+                          add
                             ? `bg-light-light dark:bg-dark-light`
                             : `gradient-red`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
@@ -269,7 +268,7 @@ const PageWithSkillList = ({
                     >
                       <button
                         className={`${
-                          add && context != "zenika"
+                          add
                             ? `gradient-red`
                             : `bg-light-light dark:bg-dark-light`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
@@ -337,7 +336,7 @@ const PageWithSkillList = ({
                             count={skill.userCount || undefined}
                             context={context}
                             categoryLabel={category.name}
-                            {...(context != "zenika" && {
+                            {...(context === "mine" && {
                               onEditClick: onModalClick,
                             })}
                           />

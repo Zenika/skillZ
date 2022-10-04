@@ -115,6 +115,9 @@ export default {
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
     deleteSkillFailed: "Error while deleting %skill%.",
+    topBar: {
+      title: "Here is the graph of %category% from",
+    },
   },
   myProfile: {
     onboarding:
@@ -187,6 +190,9 @@ export default {
     noSkill: "No skill found",
     noProfile: "No profile found",
     mostNoted: "Most noted",
+    pageSkillzGraphs: {
+      title: "These are the Skillz graphs of ",
+    },
     result: "results",
   },
   statistics: {

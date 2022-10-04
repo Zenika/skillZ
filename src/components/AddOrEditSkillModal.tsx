@@ -43,7 +43,7 @@ const AddOrEditSkillModal = ({
             !skill.desireLevel ||
             !skill.skillLevel
           }
-          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
+          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
           onClick={onDeleteButtonClick}
         >
           <div className="grid justify-items-center">

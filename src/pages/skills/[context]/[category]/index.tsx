@@ -1,13 +1,18 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommonPage from "../../../../components/CommonPage";
 import ErrorPage from "../../../../components/ErrorPage";
 import Loading from "../../../../components/Loading";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
 import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
 import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
+import UserInfosTopBar from "../../../../components/UserInfosTopBar";
+import { GetUserQuery } from "../../../../generated/graphql";
+import { GET_USER_QUERY } from "../../../../graphql/queries/userInfos";
+import { i18nContext } from "../../../../utils/i18nContext";
+import { useContext } from "react";
 
 const ListSkillsPage = () => {
   /*
@@ -15,6 +20,7 @@ const ListSkillsPage = () => {
    */
   const { user, isLoading } = useAuth0();
   const router = useRouter();
+  const { t } = useContext(i18nContext);
 
   /*
    * CONTEXT
@@ -43,6 +49,15 @@ const ListSkillsPage = () => {
       name: category,
     },
   });
+  const { data: userInfosDatas } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: context?.toString() },
+    fetchPolicy: "network-only",
+  });
+  const [userInfos, setUserInfos] = useState(null);
+
+  useEffect(() => {
+    if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
+  }, [userInfosDatas]);
 
   const renderResult = () => {
     if (isLoading || categoryLoading) {
@@ -52,16 +67,29 @@ const ListSkillsPage = () => {
       return <ErrorPage />;
     }
     return (
-      <PageWithSkillList
-        user={user}
-        context={context as string}
-        agency={agency as string}
-        category={{
-          name: category as string,
-          id: categoryData.Category[0].id,
-        }}
-        setFadedPage={setModalOpened}
-      />
+      <>
+        {context != "mine" && context != "zenika" && (
+          <UserInfosTopBar
+            userEmail={user?.email}
+            userName={userInfos?.name}
+            userPicture={userInfos?.picture}
+            sentence={t("skills.topBar.title").replace(
+              "%category%",
+              category as string
+            )}
+          />
+        )}
+        <PageWithSkillList
+          userEmail={context === "mine" ? user?.email : context.toString()}
+          context={context as string}
+          agency={agency as string}
+          category={{
+            name: category as string,
+            id: categoryData.Category[0].id,
+          }}
+          setFadedPage={setModalOpened}
+        />
+      </>
     );
   };
   return (
