@@ -187,7 +187,7 @@ const PageWithSkillList = ({
   };
 
   const filters =
-    context !== "mine"
+    context === "zenika"
       ? [
           {
             name: "Agency",
@@ -243,7 +243,7 @@ const PageWithSkillList = ({
             <div
               className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
             >
-              {context !== "zenika" && (
+              {context === "mine" && (
                 <>
                   <div
                     className={`flex flex-row justify-around px-2 py-1 ${
@@ -253,7 +253,7 @@ const PageWithSkillList = ({
                     <Link href={`/skills/${context}/${category.name}`}>
                       <button
                         className={`${
-                          add && context != "zenika"
+                          add && context === "mine"
                             ? `bg-light-light dark:bg-dark-light`
                             : `gradient-red`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
@@ -269,7 +269,7 @@ const PageWithSkillList = ({
                     >
                       <button
                         className={`${
-                          add && context != "zenika"
+                          add && context === "mine"
                             ? `gradient-red`
                             : `bg-light-light dark:bg-dark-light`
                         } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}

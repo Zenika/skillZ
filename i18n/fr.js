@@ -119,6 +119,9 @@ export default {
       "Erreur lors de la modification de la compétence %skill%.",
     deleteSkillFailed:
       "Erreur lors de la suppression de la compétence %skill%.",
+    topBar: {
+      title: "Voici le graphique %category% de",
+    },
   },
   myProfile: {
     onboarding:

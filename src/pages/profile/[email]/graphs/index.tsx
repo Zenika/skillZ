@@ -14,6 +14,7 @@ import Loading from "../../../../components/Loading";
 import { useEffect, useState, useContext } from "react";
 import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
 import { i18nContext } from "../../../../utils/i18nContext";
+import UserInfosTopBar from "../../../../components/UserInfosTopBar";
 
 type HomePanelProps = {
   props: {
@@ -76,24 +77,16 @@ const HomePanelByUser = ({ pathName }) => {
 
   useEffect(() => {
     if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
-    console.log("userInfos", userInfos);
   }, [userInfosDatas]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>
-      {userInfos?.picture && console.log("picture", userInfos.picture)}
-      <div className="flex flex-row mb-4 p-2 w-full gradient-red  rounded">
-        <img
-          className="w-16 h-16 rounded-full"
-          height="64"
-          width="64"
-          src={userInfos?.picture}
-        />
-        <div className="flex flex-col mx-4 justify-center">
-          <p className="opacity-70">{t("search.pageSkillzGraphs.title")}</p>
-          <p className="uppercase">{userInfos?.name}</p>
-        </div>
-      </div>
+      <UserInfosTopBar
+        userEmail={userInfos?.email}
+        userName={userInfos?.name}
+        userPicture={userInfos?.picture}
+        sentence={t("search.pageSkillzGraphs.title")}
+      />
       <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
         {homePanelData ? (
           homePanelData.map((computedDataSkill) => (

@@ -32,7 +32,7 @@ export default {
   },
   commonPageNav: {
     addSkill: "Add skill",
-    practices: "Practice",
+    practices: "Practices",
     activities: "Activity",
     knowledge: "Knowledge",
     behaviors: "Behavior",
@@ -114,6 +114,9 @@ export default {
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
     deleteSkillFailed: "Error while deleting %skill%.",
+    topBar: {
+      title: "Here is the graph of %category% from",
+    },
   },
   myProfile: {
     onboarding:

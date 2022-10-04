@@ -1,13 +1,18 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommonPage from "../../../../components/CommonPage";
 import ErrorPage from "../../../../components/ErrorPage";
 import Loading from "../../../../components/Loading";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
 import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
 import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
+import UserInfosTopBar from "../../../../components/UserInfosTopBar";
+import { GetUserQuery } from "../../../../generated/graphql";
+import { GET_USER_QUERY } from "../../../../graphql/queries/userInfos";
+import { i18nContext } from "../../../../utils/i18nContext";
+import { useContext } from "react";
 
 const ListSkillsPage = ({ pathName }) => {
   /*
@@ -15,6 +20,7 @@ const ListSkillsPage = ({ pathName }) => {
    */
   const { user, isLoading } = useAuth0();
   const router = useRouter();
+  const { t } = useContext(i18nContext);
 
   /*
    * CONTEXT
@@ -43,6 +49,17 @@ const ListSkillsPage = ({ pathName }) => {
       name: category,
     },
   });
+  const { data: userInfosDatas, error: errorUserInfos } =
+    useQuery<GetUserQuery>(GET_USER_QUERY, {
+      variables: { email: context?.toString() },
+      fetchPolicy: "network-only",
+    });
+  console.log("context", context);
+  const [userInfos, setUserInfos] = useState(null);
+
+  useEffect(() => {
+    if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
+  }, [userInfosDatas]);
 
   const renderResult = () => {
     if (isLoading || categoryLoading) {
@@ -51,18 +68,28 @@ const ListSkillsPage = ({ pathName }) => {
     if (categoryError) {
       return <ErrorPage />;
     }
-    console.log("context", context);
     return (
-      <PageWithSkillList
-        userEmail={context === "mine" ? user?.email : context.toString()}
-        context={context as string}
-        agency={agency as string}
-        category={{
-          name: category as string,
-          id: categoryData.Category[0].id,
-        }}
-        setFadedPage={setModalOpened}
-      />
+      <>
+        <UserInfosTopBar
+          userEmail={user?.email}
+          userName={userInfos?.name}
+          userPicture={userInfos?.picture}
+          sentence={t("skills.topBar.title").replace(
+            "%category%",
+            category as string
+          )}
+        />
+        <PageWithSkillList
+          userEmail={context === "mine" ? user?.email : context.toString()}
+          context={context as string}
+          agency={agency as string}
+          category={{
+            name: category as string,
+            id: categoryData.Category[0].id,
+          }}
+          setFadedPage={setModalOpened}
+        />
+      </>
     );
   };
   return (
