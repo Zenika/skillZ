@@ -9,7 +9,7 @@ import PageWithSkillList from "../../../../components/PageWithSkillList";
 import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
 import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
 
-const ListSkillsPage = () => {
+const ListSkillsPage = ({ pathName }) => {
   /*
    * HOOKS
    */
@@ -51,9 +51,10 @@ const ListSkillsPage = () => {
     if (categoryError) {
       return <ErrorPage />;
     }
+    console.log("context", context);
     return (
       <PageWithSkillList
-        user={user}
+        userEmail={context === "mine" ? user?.email : context.toString()}
         context={context as string}
         agency={agency as string}
         category={{

@@ -38,6 +38,8 @@ const HomePanel = ({
     query: "(min-device-width: 1280px)",
   });
 
+  console.log("props", data);
+
   const roundTable = {
     top: {
       left: "rounded-tl-2xl",
@@ -77,7 +79,7 @@ const HomePanel = ({
     <Link
       href={{
         pathname: `/skills/${context}/${name}`,
-        query: !data.length && { add: true },
+        // query: !data.length && { add: true }, faire tests
       }}
     >
       <div

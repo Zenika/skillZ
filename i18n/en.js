@@ -186,6 +186,9 @@ export default {
     noSkill: "No skill found",
     noProfile: "No profile found",
     mostNoted: "Most noted",
+    pageSkillzGraphs: {
+      title: "These are the Skillz graphs of ",
+    },
   },
   statistics: {
     myTitleSection: "My statistics",

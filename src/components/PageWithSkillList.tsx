@@ -23,7 +23,7 @@ import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
 
 type PageWithSkillListProps = {
-  user: User;
+  userEmail: string;
   context: string;
   agency: string;
   category: { name: string; id: string };
@@ -43,7 +43,7 @@ const computeDidYouMeanSearchString = (search: string) => {
 };
 
 const PageWithSkillList = ({
-  user,
+  userEmail,
   context,
   agency,
   category,
@@ -85,7 +85,7 @@ const PageWithSkillList = ({
     variables: {
       category: category.name,
       search: `%${debouncedSearchValue}%`,
-      email: user?.email,
+      email: userEmail,
       didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
     },
     fetchPolicy: "network-only",
@@ -101,7 +101,7 @@ const PageWithSkillList = ({
     context,
     category.name,
     agency,
-    user.email,
+    userEmail,
     `%${debouncedSearchFilterValue}%`
   );
 
@@ -120,7 +120,7 @@ const PageWithSkillList = ({
       addSkill({
         variables: {
           skillId: id,
-          email: user?.email,
+          email: userEmail,
           skillLevel,
           desireLevel,
         },
@@ -148,7 +148,7 @@ const PageWithSkillList = ({
     } else {
       deleteSkill({
         variables: {
-          email: user?.email,
+          email: userEmail,
           skillId: id,
         },
       })

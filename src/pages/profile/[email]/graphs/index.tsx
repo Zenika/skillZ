@@ -11,8 +11,9 @@ import {
   GET_USER_QUERY,
 } from "../../../../graphql/queries/userInfos";
 import Loading from "../../../../components/Loading";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
+import { i18nContext } from "../../../../utils/i18nContext";
 
 type HomePanelProps = {
   props: {
@@ -36,8 +37,8 @@ type HomePanelProps = {
 const HomePanelByUser = ({ pathName }) => {
   const { query } = useRouter();
   const { context } = query;
+  const { t } = useContext(i18nContext);
 
-  console.log("pathName in radars", pathName);
   const { data: skillsData, error } =
     useQuery<GetCurrentUserSkillsAndDesiresQuery>(
       GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
@@ -89,7 +90,7 @@ const HomePanelByUser = ({ pathName }) => {
           src={userInfos?.picture}
         />
         <div className="flex flex-col mx-4 justify-center">
-          <p className="opacity-70">Page of the Skillz graph of</p>
+          <p className="opacity-70">{t("search.pageSkillzGraphs.title")}</p>
           <p className="uppercase">{userInfos?.name}</p>
         </div>
       </div>
