@@ -27,7 +27,7 @@ const CertificationsList = ({
           ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
           : "bg-light dark:bg-dark-dark my-2 p-2"
       }`}
-      id={"certifications"}
+      data-testid={"certifications"}
     >
       <span className="text-xl p-2">{t("userProfile.certifications")}</span>
       <div className="flex flex-row flex-wrap justify-around">

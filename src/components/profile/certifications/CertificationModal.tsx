@@ -36,7 +36,7 @@ const CertificationModal = ({
   return (
     <div
       className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50"
-      id={"certification-modal"}
+      data-testid={"certification-modal"}
     >
       <div className="mb-4 flex flex-row place-content-between">
         <h1 className="flex-start px-2 my-4 text-xl text-bold">
@@ -51,7 +51,7 @@ const CertificationModal = ({
             className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
             onClick={() => onDelete(userCertificationRef)}
             title={t("userProfile.certModal.orDelete")}
-            id={"certification-delete-button"}
+            data-testid={"certification-delete-button"}
           >
             <div className="grid justify-items-center">
               <RiDeleteBinFill />
@@ -193,7 +193,7 @@ const CertificationModal = ({
             })
           }
           className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
-          id={"certification-confirm-button"}
+          data-testid={"certification-confirm-button"}
         >
           {t("userProfile.certModal.confirm")}
         </button>
