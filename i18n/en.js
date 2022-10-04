@@ -32,7 +32,7 @@ export default {
   },
   commonPageNav: {
     addSkill: "Add skill",
-    practices: "Practices",
+    practices: "Practice",
     activities: "Activity",
     knowledge: "Knowledge",
     behaviors: "Behavior",

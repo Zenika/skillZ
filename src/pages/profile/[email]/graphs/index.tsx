@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "@apollo/client";
 import HomePanel from "../../../../components/HomePanel";
 import { useRouter } from "next/router";
