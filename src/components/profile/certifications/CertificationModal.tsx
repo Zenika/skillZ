@@ -44,11 +44,11 @@ const CertificationModal = ({
         </h1>
         {editMode ? (
           <button
-            className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
+            className="mx-1 px-2 gradient-red rounded-full disabled:opacity-25 "
             onClick={() => onDelete(userCertificationRef)}
             title={t("userProfile.certModal.orDelete")}
           >
-            <div className="grid justify-items-center">
+            <div className="grid justify-items-center text-sm">
               {t("myProfile.removeCertification")}
             </div>
           </button>

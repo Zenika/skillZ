@@ -171,11 +171,13 @@ const Topbar = ({
               >
                 <div className="flex flex-col px-2 justify-center">
                   <span className="font-bold">{user?.name}</span>
-                  <span>
-                    {`Zenika ${t(
-                      `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
-                    )}`}
-                  </span>
+                  {userAgencyResult?.UserLatestAgency[0]?.agency && (
+                    <span>
+                      {`Zenika ${t(
+                        `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
+                      )}`}
+                    </span>
+                  )}
                 </div>
                 <Image
                   className="rounded-full"

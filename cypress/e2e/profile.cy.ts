@@ -11,8 +11,7 @@ describe("profile", () => {
   it("should successfully view profile", () => {
     cy.session("profile");
     cy.visit("/profile");
-    cy.contains("Profile");
-    cy.contains(Cypress.env("test_username"));
+    cy.findAllByText(Cypress.env("test_username")).should("have.length", 2);
   });
 
   it("should successfully update agency", () => {
@@ -21,8 +20,8 @@ describe("profile", () => {
     cy.findByText("Select my agency").click();
     cy.findByText("Brest").click();
     cy.reload();
-    cy.contains("Brest");
-    cy.contains("Zenika Brest");
+    cy.findByText("Brest").should("exist");
+    cy.findByText("Zenika Brest").should("exist");
   });
 
   it("should successfully add preferred topics", () => {
@@ -70,7 +69,7 @@ describe("profile", () => {
 
     // Select a certification
     cy.findByRole("button", { name: "Add a certification" }).click();
-    cy.contains("Add Cert");
+    cy.findByText("Add Cert").should("exist");
 
     cy.findByRole("button", { name: "I have it!" }).click();
     cy.findByText("Select a cert").click();
@@ -80,7 +79,7 @@ describe("profile", () => {
     cy.findByRole("button", { name: "Confirm" }).click();
 
     // Check successfully saved
-    cy.contains("Certifications were successfully updated");
+    cy.findByText("Certifications were successfully updated").should("exist");
   });
 
   it("should successfully remove a certification", () => {
@@ -88,7 +87,7 @@ describe("profile", () => {
     cy.visit("/profile");
 
     // Check that certifications section exists
-    cy.contains("Certifications");
+    cy.findByText("Certifications").should("exist");
 
     // Open certification
     cy.findByText("Google - Professional Cloud Developer").parent().click();
@@ -97,7 +96,7 @@ describe("profile", () => {
     cy.findByRole("button", { name: "Remove this certification" }).click();
 
     // Check successfully deleted
-    cy.contains("Certification was successfully deleted");
+    cy.findByText("Certification was successfully deleted").should("exist");
   });
 
   after(() => {
