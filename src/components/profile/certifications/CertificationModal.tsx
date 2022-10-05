@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
 import { useDarkMode } from "../../../utils/darkMode";
-import { UserCertification, Certification } from "../../../utils/types";
-import { RiDeleteBinFill } from "react-icons/ri";
+import { i18nContext } from "../../../utils/i18nContext";
+import { Certification, UserCertification } from "../../../utils/types";
 import CustomSelect from "../../CustomSelect";
 
 type CertificationModalProps = {
@@ -45,12 +44,12 @@ const CertificationModal = ({
         </h1>
         {editMode ? (
           <button
-            className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25 "
+            className="mx-1 px-2 gradient-red rounded-full disabled:opacity-25 "
             onClick={() => onDelete(userCertificationRef)}
             title={t("userProfile.certModal.orDelete")}
           >
-            <div className="grid justify-items-center">
-              <RiDeleteBinFill />
+            <div className="grid justify-items-center text-sm">
+              {t("myProfile.removeCertification")}
             </div>
           </button>
         ) : (

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { UserCertification } from "../../../utils/types";
@@ -52,11 +52,13 @@ const CertificationsList = ({
         ))}
         {!readOnly ? (
           <button
-            className="rounded-full m-2 gradient-red w-10 h-15"
+            className="rounded-full m-2 gradient-red"
             title={t("userProfile.addCert")}
             onClick={() => onUserCertificationAdd()}
           >
-            <span className="px-1 py-1 text-white font-bold text-xl">+</span>
+            <span className="px-4 py-4 text-light-ultrawhite font-bold text-m">
+              {t("myProfile.addCertification")}
+            </span>
           </button>
         ) : (
           ""
