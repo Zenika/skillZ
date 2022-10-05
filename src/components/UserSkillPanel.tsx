@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import Image from "next/image";
-import LevelBar from "./LevelBar";
-import { i18nContext } from "../utils/i18nContext";
-import { useRouter } from "next/router";
-import { useDarkMode } from "../utils/darkMode";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import { useDarkMode } from "../utils/darkMode";
+import { i18nContext } from "../utils/i18nContext";
+import LevelBar from "./LevelBar";
 
 const UserSkillPanel = ({
   skill,
@@ -44,6 +44,7 @@ const UserSkillPanel = ({
               height="64"
               width="64"
               src={skill.user.picture || ""}
+              alt={skill.user.name}
             />
             <div className="flex flex-col ml-4">
               <div className="flex flex-row">
@@ -51,6 +52,7 @@ const UserSkillPanel = ({
                 {certif ? (
                   <Image
                     src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
+                    alt={"Certifications"}
                     height="30"
                     width="30"
                   />
@@ -81,6 +83,7 @@ const UserSkillPanel = ({
         <div className="flex w-1/6 justify-end">
           <Image
             src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`}
+            alt={"See"}
             width="8"
             height="12"
           />

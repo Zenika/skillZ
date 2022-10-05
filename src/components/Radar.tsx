@@ -112,7 +112,7 @@ const Radar = ({
       return;
     }
     window.addEventListener("resize", () => setResized(true));
-  }, [window]);
+  }, []);
   useEffect(() => {
     setResized(false);
     if (!radar.current) {

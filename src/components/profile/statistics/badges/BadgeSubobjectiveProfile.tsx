@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
@@ -44,7 +43,13 @@ export const BadgeSubojectivesProfileCompletion = ({
       }`}
     >
       <div className="flex flex-row items-stretch ">
-        <Image className={badgeFilterCss} src={src} width="45" height="45" />
+        <Image
+          className={badgeFilterCss}
+          src={src}
+          alt={"Filter"}
+          width="45"
+          height="45"
+        />
         <div className="p-2 pl-4 text-l">
           <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
           <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
@@ -57,6 +62,7 @@ export const BadgeSubojectivesProfileCompletion = ({
           <Image
             className="pl-2"
             src="/img/badges/check.svg"
+            alt={"Check"}
             width="20"
             height="20"
           />

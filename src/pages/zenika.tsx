@@ -1,13 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import HomePanel from "../components/HomePanel";
-import Loading from "../components/Loading";
-import { gql, useQuery } from "@apollo/client";
-import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FilterData } from "../utils/types";
-import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
+import HomePanel from "../components/HomePanel";
+import Loading from "../components/Loading";
+import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
+import { computeFilterUrl } from "../utils/computeFilterUrl";
 import { useFetchZenikaPageData } from "../utils/fetchers/useFetchZenikaPageData";
+import { FilterData } from "../utils/types";
 
 const Zenika = ({ pathName }) => {
   const { user, isLoading } = useAuth0();
@@ -31,7 +30,7 @@ const Zenika = ({ pathName }) => {
       values: agencies?.map((agency) => agency.name) || [],
       selected: computedAgency,
     });
-  }, [agency, agencies]);
+  }, [agency, agencies, computedAgency]);
 
   return (
     <PageWithNavAndPanel
@@ -46,7 +45,7 @@ const Zenika = ({ pathName }) => {
                 selected: filterByAgency.selected,
                 callback: (value) =>
                   push(
-                    useComputeFilterUrl(
+                    computeFilterUrl(
                       `${window.location}`,
                       value ? [{ name: "agency", value: `${value}` }] : []
                     )

@@ -52,6 +52,7 @@ const CommonPage = ({
                 <button onClick={() => router.back()}>
                   <Image
                     src={`/icons/${darkMode ? "dark" : "light"}/back-arrow.svg`}
+                    alt={"back"}
                     width="16"
                     height="16"
                   />

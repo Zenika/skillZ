@@ -46,7 +46,8 @@ const App = ({ Component, pageProps }) => {
     } else if (locale !== storedLocaleString) {
       changeLocale(storedLocaleString);
     }
-  }, [storedLocaleString]);
+  }, [storedLocaleString, changeLocale, locale]);
+
   useEffect(() => {
     document.body.classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
     document.body.style["color-scheme"] = darkMode ? "dark" : "light";

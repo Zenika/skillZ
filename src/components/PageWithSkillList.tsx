@@ -9,11 +9,11 @@ import { ADD_USER_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../graphql/queries/skills";
 import zenika from "../pages/zenika";
+import { computeFilterUrl } from "../utils/computeFilterUrl";
+import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import { useComputeFilterUrl } from "../utils/useComputeFilterUrl";
-import { useNotification } from "../utils/useNotification";
 import AddOrEditSkillModal from "./AddOrEditSkillModal";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel from "./FilterByPanel";
@@ -127,18 +127,18 @@ const PageWithSkillList = ({
         .then(() => {
           SkillsRefetch()
             .then(() => {
-              useNotification(
+              displayNotification(
                 t("skills.updateSkillSuccess").replace("%skill%", name),
                 "green",
                 5000
               );
             })
             .catch(() =>
-              useNotification(t("skills.refreshSkillFailed"), "red", 5000)
+              displayNotification(t("skills.refreshSkillFailed"), "red", 5000)
             );
         })
         .catch(() => {
-          useNotification(
+          displayNotification(
             t("skills.updateSkillFailed").replace("%skill%", name),
             "red",
             5000
@@ -154,18 +154,18 @@ const PageWithSkillList = ({
         .then(() => {
           SkillsRefetch()
             .then(() => {
-              useNotification(
+              displayNotification(
                 t("skills.deleteSkillSuccess").replace("%skill%", name),
                 "green",
                 5000
               );
             })
             .catch(() =>
-              useNotification(t("skills.refreshSkillFailed"), "red", 5000)
+              displayNotification(t("skills.refreshSkillFailed"), "red", 5000)
             );
         })
         .catch(() => {
-          useNotification(t("skills.deleteSkillFailed"), "red", 5000);
+          displayNotification(t("skills.deleteSkillFailed"), "red", 5000);
         });
     }
   };
@@ -194,7 +194,7 @@ const PageWithSkillList = ({
             selected: agency ?? "World",
             callback: (value) =>
               router.push(
-                useComputeFilterUrl(
+                computeFilterUrl(
                   `${window.location}`,
                   value ? [{ name: "agency", value: `${value}` }] : []
                 )

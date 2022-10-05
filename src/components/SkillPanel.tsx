@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { VscSettings } from "react-icons/vsc";
 import { BsFillPersonCheckFill } from "react-icons/bs";
+import { VscSettings } from "react-icons/vsc";
 import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
@@ -68,6 +68,7 @@ const SkillPanel = ({
               {certif && (
                 <Image
                   src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
+                  alt={"Certifications"}
                   height="30"
                   width="30"
                 />

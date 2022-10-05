@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import CustomSelect from "../components/CustomSelect";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
@@ -8,7 +9,6 @@ import UserPanel from "../components/UserPanel";
 import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
-import CustomSelect from "../components/CustomSelect";
 
 const Search = ({ pathName }) => {
   const { t } = useContext(i18nContext);
@@ -148,8 +148,9 @@ const Search = ({ pathName }) => {
                 )}
               </div>
               {profiles?.length > 0 ? (
-                profiles.map((profile) => (
+                profiles.map((profile, index) => (
                   <UserPanel
+                    key={index}
                     context=""
                     user={{
                       name: profile.name,

@@ -28,6 +28,7 @@ const SidePanel = () => {
         <Image
           className="rounded-full"
           src={user?.picture || ""}
+          alt={user?.name}
           width="64"
           height="64"
         />
@@ -41,6 +42,7 @@ const SidePanel = () => {
             <div className="flex flex-row cursor-pointer">
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/profile.svg`}
+                alt={"Profile"}
                 width="16"
                 height="16"
               />
@@ -53,6 +55,7 @@ const SidePanel = () => {
             <div className="flex flex-row cursor-pointer">
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/logout.svg`}
+                alt={"Sign out"}
                 width="18"
                 height="18"
               />
