@@ -61,6 +61,7 @@ const Onboarding = () => {
         </Link>
         <Image
           src={onboardingPages[cardNumber].image}
+          alt={"Onboarding"}
           layout="responsive"
           width="auto"
           height="auto"
@@ -76,6 +77,7 @@ const Onboarding = () => {
                 src={`/icons/${darkMode ? "dark" : "light"}/onboarding-dot${
                   i === cardNumber ? "-full" : ""
                 }.svg`}
+                alt={"Onboarding"}
                 width="15"
                 height="15"
               />
