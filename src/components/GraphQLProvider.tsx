@@ -79,7 +79,14 @@ const GraphQLProvider = ({ children }) => {
         })
       );
     })();
-  }, [isLoading, isAuthenticated]);
+  }, [
+    isLoading,
+    isAuthenticated,
+    error,
+    getAccessTokenSilently,
+    loginWithRedirect,
+  ]);
+
   if (client) {
     return <ApolloProvider client={client}>{children}</ApolloProvider>;
   }

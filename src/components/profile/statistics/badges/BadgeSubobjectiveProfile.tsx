@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
@@ -19,21 +19,26 @@ export const BadgeSubojectivesProfileCompletion = ({
   );
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
-  useEffect(() => {
-    if (countTopics > 3) countTopics = 3;
-    setPoints(countTopics + (userAgency === undefined ? 0 : 1));
-    setpercentageBarValue((points / 4) * 100);
-  }, [countTopics, userAgency, points, displayCheckLogo]);
-  useEffect(() => {
-    setFilterBadgesLevel();
-    if (points >= 4) setDisplayCheckLogo(true);
-  }, [points]);
-
-  const setFilterBadgesLevel = () => {
+  const setFilterBadgesLevel = useCallback(() => {
     if (points === 1) setBadgeFilterCss(`${styles.filterSilver}`);
     if (points === 2) setBadgeFilterCss(`${styles.filterGold}`);
     if (points >= 3) setBadgeFilterCss(`${styles.filterDiamond}`);
-  };
+  }, [points]);
+
+  useEffect(() => {
+    if (countTopics > 3) {
+      setPoints(3 + (userAgency === undefined ? 0 : 1));
+    } else {
+      setPoints(countTopics + (userAgency === undefined ? 0 : 1));
+    }
+    setpercentageBarValue((points / 4) * 100);
+  }, [countTopics, userAgency, points, displayCheckLogo]);
+
+  useEffect(() => {
+    setFilterBadgesLevel();
+    if (points >= 4) setDisplayCheckLogo(true);
+  }, [points, setFilterBadgesLevel]);
+
   return (
     <div
       className={`${

@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import CustomSelect from "../components/CustomSelect";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
@@ -39,7 +39,7 @@ const Search = ({ pathName }) => {
   const skills = data?.skills;
   const profiles = data?.profiles;
 
-  const sortedSkills = () => {
+  const sortedSkills = useCallback(() => {
     if (skills) {
       const xSkills = [...skills];
       switch (filter.label) {
@@ -76,11 +76,11 @@ const Search = ({ pathName }) => {
     } else {
       return [];
     }
-  };
+  }, [filter.label, search, skills]);
 
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
-  }, [skills, filter]);
+  }, [skills, filter, sortedSkills]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>

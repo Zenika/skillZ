@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
@@ -22,23 +22,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
   );
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
-  useEffect(() => {
-    setSkillsNumber(countSkills);
-    if (countSkills >= 40) setDisplayCheckLogo(true);
-  }, [countSkills]);
-  useEffect(() => {
-    getStepsByCategory();
-  }, [countSkills]);
-
-  useEffect(() => {
-    const maxVerif = Math.max(...step) + 5;
-    if (isFinite(maxVerif)) {
-      setMax(maxVerif);
-      setpercentageBarValue((skillsNumber / max) * 100);
-    } else setpercentageBarValue((skillsNumber / max) * 100);
-    setFilterBadgesLevel();
-  }, [max, skillsNumber]);
-  const getStepsByCategory = () => {
+  const getStepsByCategory = useCallback(() => {
     if (datas) {
       setStep((step) => [
         ...step,
@@ -52,15 +36,33 @@ export const BadgeSubojectivesCategoryCompletion = ({
       ]);
     }
     return;
-  };
+  }, [datas, themeToCompare]);
 
-  const setFilterBadgesLevel = () => {
+  const setFilterBadgesLevel = useCallback(() => {
     if (skillsNumber >= 10 && skillsNumber < 20)
       setBadgeFilterCss(`${styles.filterSilver}`);
     if (skillsNumber >= 20 && skillsNumber < 30)
       setBadgeFilterCss(`${styles.filterGold}`);
     if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
-  };
+  }, [skillsNumber]);
+
+  useEffect(() => {
+    setSkillsNumber(countSkills);
+    if (countSkills >= 40) setDisplayCheckLogo(true);
+  }, [countSkills]);
+
+  useEffect(() => {
+    getStepsByCategory();
+  }, [countSkills, getStepsByCategory]);
+
+  useEffect(() => {
+    const maxVerif = Math.max(...step) + 5;
+    if (isFinite(maxVerif)) {
+      setMax(maxVerif);
+      setpercentageBarValue((skillsNumber / max) * 100);
+    } else setpercentageBarValue((skillsNumber / max) * 100);
+    setFilterBadgesLevel();
+  }, [max, skillsNumber, setFilterBadgesLevel, step]);
 
   return (
     <div

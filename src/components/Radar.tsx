@@ -154,7 +154,8 @@ const Radar = ({
           y: radar.current.offsetHeight * (circle.y / 6),
         }))
     );
-  }, [radar, data, resized]);
+  }, [radar, data, resized, title]);
+
   return (
     <div
       className={`flex ${
