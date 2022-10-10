@@ -121,8 +121,9 @@ export default {
       "Erreur lors de la suppression de la compétence %skill%.",
   },
   myProfile: {
+    onboardingButton: "C'est parti !",
     onboarding:
-      "Bienvenue sur SkillZ ! Nous vous recommandons de renseigner votre agence et vos sujets préférés pour que votre profil soit complet",
+      "Bienvenue sur SkillZ ! 🎉 Nous vous recommandons de renseigner vos sujets préférés et vos certifications pour que votre profil soit complet. Mais commençons par votre agence.",
     agency: "Mon agence",
     contact: "Ma méthode de contact préférée",
     topics: "Mes sujets préférés",

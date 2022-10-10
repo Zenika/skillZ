@@ -191,42 +191,49 @@ const Profile = () => {
               placeholder={t("myProfile.selectPlaceholder")}
               onChange={(value: string) => updateAgency(value)}
             />
+            {onboarding && (
+              <div className="flex justify-center">
+                <button
+                  className="rounded-full gradient-red text-white py-2 px-10 mb-4"
+                  onClick={() => userInserted && !userAgency && router.reload()}
+                >
+                  {t("myProfile.onboardingButton")}
+                </button>
+              </div>
+            )}
           </div>
-          <PreferedTopics
-            topics={topics}
-            refetch={refetch}
-            user={data?.User[0]}
-            readOnly={false}
-          ></PreferedTopics>
-          <CertificationsList
-            userCertifications={userCertifications}
-            onUserCertificationSelect={(userCert) => {
-              setCertModalOpened(true);
-              setSelectedUserCert(userCert);
-            }}
-            onUserCertificationAdd={() => setCertModalOpened(true)}
-            readOnly={false}
-          ></CertificationsList>
-          {skillsDatas ? (
-            <Statistics
-              userAchievements={userAchievements}
-              skillsDatas={skillsDatas}
-              countTopics={data?.UserTopic_aggregate.aggregate.count}
-              userAgency={userAgency}
-              myStatistics={true}
-            />
-          ) : (
-            <></>
-          )}
-          <div className="flex flex-col justify-center my-2 p-2">
-            <div className="flex flex-row justify-center">
-              <Link href={"/"}>
-                <span className="p-2 px-4 gradient-red rounded-full text-white cursor-pointer">
-                  {t("myProfile.confirm")}
-                </span>
-              </Link>
-            </div>
-          </div>
+
+          {userInserted ||
+            (userAgency && (
+              <div>
+                <PreferedTopics
+                  topics={topics}
+                  refetch={refetch}
+                  user={data?.User[0]}
+                  readOnly={false}
+                ></PreferedTopics>
+                <CertificationsList
+                  userCertifications={userCertifications}
+                  onUserCertificationSelect={(userCert) => {
+                    setCertModalOpened(true);
+                    setSelectedUserCert(userCert);
+                  }}
+                  onUserCertificationAdd={() => setCertModalOpened(true)}
+                  readOnly={false}
+                ></CertificationsList>
+                {skillsDatas ? (
+                  <Statistics
+                    userAchievements={userAchievements}
+                    skillsDatas={skillsDatas}
+                    countTopics={data?.UserTopic_aggregate.aggregate.count}
+                    userAgency={userAgency}
+                    myStatistics={true}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+            ))}
         </div>
       </div>
       <div
