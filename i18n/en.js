@@ -121,8 +121,9 @@ export default {
     },
   },
   myProfile: {
+    onboardingButton: "Let's go !",
     onboarding:
-      "Welcome to SkillZ ! We recommend you set your agency and prefered topics so your profile is complete",
+      "Welcome to SkillZ ! 🎉 We recommend you set your prefered topics, and your certifications so your profile is complete. But let's start with your agency.",
     agency: "My agency",
     selectPlaceholder: "Select my agency",
     contact: "My prefered method of contact",

@@ -79,7 +79,6 @@ Then move it to `hasura/local_seeds/Skill.json`
 You can now run `npm run seeds:generate`
 And `npm run seeds:apply` to apply the random data to the database
 
-
 ## Tests
 
 ### E2E with Cypress
