@@ -95,6 +95,7 @@ const AddOrEditSkillModal = ({
                     src={`/icons/${darkMode ? "dark" : "light"}/${
                       skillLevel === index ? "full" : "empty"
                     }-select.svg`}
+                    alt={"level"}
                     height={32}
                     width={32}
                     layout="fixed"
@@ -120,6 +121,7 @@ const AddOrEditSkillModal = ({
                     src={`/icons/${darkMode ? "dark" : "light"}/${
                       desireLevel === index ? "full" : "empty"
                     }-select.svg`}
+                    alt={"level"}
                     height={32}
                     width={32}
                     layout="fixed"

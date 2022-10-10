@@ -10,8 +10,8 @@ export type Filter = {
 const FilterByPanel = ({ filters }: { filters: Filter[] }) => {
   return (
     <div className="flex flex-row flex-wrap-1">
-      {filters.map(({ name, values, selected, callback }) => (
-        <div style={{ width: `300px` }}>
+      {filters.map(({ name, values, selected, callback }, index) => (
+        <div style={{ width: `300px` }} key={index}>
           <CustomSelect
             labelFn={(x) => x}
             keyFn={(x) => x}

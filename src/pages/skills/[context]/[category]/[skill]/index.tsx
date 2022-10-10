@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
 import CommonPage from "../../../../../components/CommonPage";
 import UserSkillPanel from "../../../../../components/UserSkillPanel";
+import { displayNotification } from "../../../../../utils/displayNotification";
 import { useFetchUsersForSkill } from "../../../../../utils/fetchers/useFetchUsersForSkill";
-import { useNotification } from "../../../../../utils/useNotification";
 
 const SkillPage = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const SkillPage = () => {
     agency
   );
   if (error) {
-    useNotification(`Error: ${error.message}`, "red", 5000);
+    displayNotification(`Error: ${error.message}`, "red", 5000);
   }
   return (
     <CommonPage

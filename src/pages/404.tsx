@@ -25,6 +25,7 @@ export default function Custom404() {
           </div>
           <div className="max-w-lg">
             <Image
+              alt={"Zenika Duck"}
               src={`/canard.png`}
               width="200"
               height="200"

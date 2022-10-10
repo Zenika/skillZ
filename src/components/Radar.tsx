@@ -112,7 +112,7 @@ const Radar = ({
       return;
     }
     window.addEventListener("resize", () => setResized(true));
-  }, [window]);
+  }, []);
   useEffect(() => {
     setResized(false);
     if (!radar.current) {
@@ -154,7 +154,8 @@ const Radar = ({
           y: radar.current.offsetHeight * (circle.y / 6),
         }))
     );
-  }, [radar, data, resized]);
+  }, [radar, data, resized, title]);
+
   return (
     <div
       className={`flex ${

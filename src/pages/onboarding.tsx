@@ -1,18 +1,19 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import { useContext, useState } from "react";
 import Image from "next/image";
-import { i18nContext } from "../utils/i18nContext";
-import Topbar from "../components/Topbar";
 import Link from "next/link";
-import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
-import styles from "./onboarding.module.css";
+import { useContext, useState } from "react";
+import { useSwipeable } from "react-swipeable";
+import Topbar from "../components/Topbar";
 import { useDarkMode } from "../utils/darkMode";
+import { i18nContext } from "../utils/i18nContext";
+import styles from "./onboarding.module.css";
 
 const onboardingPages = [
   {
     image: "/img/onboarding-addSkills.svg",
     name: "addSkillsDescription",
+    alt: "Ajout d'un skill",
   },
   {
     image: "/img/onboarding-discoverZenikaSkills.svg",
@@ -60,6 +61,7 @@ const Onboarding = () => {
         </Link>
         <Image
           src={onboardingPages[cardNumber].image}
+          alt={"Onboarding"}
           layout="responsive"
           width="auto"
           height="auto"
@@ -75,6 +77,7 @@ const Onboarding = () => {
                 src={`/icons/${darkMode ? "dark" : "light"}/onboarding-dot${
                   i === cardNumber ? "-full" : ""
                 }.svg`}
+                alt={"Onboarding"}
                 width="15"
                 height="15"
               />

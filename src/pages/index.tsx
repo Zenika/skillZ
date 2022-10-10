@@ -61,7 +61,7 @@ const Home = ({ pathName }) => {
     if (!window.history.state.url) {
       replace("/");
     }
-  }, []);
+  }, [replace]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={context}>

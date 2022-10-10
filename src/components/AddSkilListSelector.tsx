@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../graphql/mutations/skills";
+import { displayNotification } from "../utils/displayNotification";
 import { i18nContext } from "../utils/i18nContext";
-import { useNotification } from "../utils/useNotification";
 
 const AddSkillListSelector = ({
   skills,
@@ -44,9 +44,9 @@ const AddSkillListSelector = ({
       })
       .catch(({ graphQLErrors }) => {
         if (graphQLErrors) {
-          useNotification(`${t("error.insertSkillError")}`, "red", 5000);
+          displayNotification(`${t("error.insertSkillError")}`, "red", 5000);
         } else {
-          useNotification(`${t("error.unknown")}`, "red", 5000);
+          displayNotification(`${t("error.unknown")}`, "red", 5000);
         }
       });
   };

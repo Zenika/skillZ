@@ -1,7 +1,7 @@
-import { useContext } from "react";
 import Image from "next/image";
-import { i18nContext } from "../utils/i18nContext";
 import Link from "next/link";
+import { useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
 
 type User = { name: string; picture: string; agency: string; email: string };
 const UserPanel = ({ user, context }: { user: User; context: string }) => {
@@ -22,6 +22,7 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
               height="64"
               width="64"
               src={picture || ""}
+              alt={name}
             />
             <div className="flex flex-col ml-4">
               <div className="flex flex-row">

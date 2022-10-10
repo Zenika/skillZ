@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
-import { withAuthenticationRequired } from "@auth0/auth0-react";
-import CommonPage from "../../../components/CommonPage";
 import { useMutation, useQuery } from "@apollo/client";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { Statistics } from "../../../components/profile/statistics/Statistics";
-import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
-import ViewAgency from "../../../components/profile/ViewAgency";
-import PreferedTopics from "../../../components/profile/PreferedTopics";
+import React from "react";
+import { GoGraph } from "react-icons/go";
+import CommonPage from "../../../components/CommonPage";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
-import Custom404 from "../../404";
+import PreferedTopics from "../../../components/profile/PreferedTopics";
+import { Statistics } from "../../../components/profile/statistics/Statistics";
+import ViewAgency from "../../../components/profile/ViewAgency";
+import { config } from "../../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { INSERT_USER_MUTATION } from "../../../graphql/mutations/userInfos";
-import { config } from "../../../env";
-import { GoGraph } from "react-icons/go";
+import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
+import Custom404 from "../../404";
 
 const Profile = () => {
   const router = useRouter();
@@ -59,7 +59,8 @@ const Profile = () => {
             <div className="flex flex-col justify-center max-w-screen-md w-full p-4">
               <div className="flex flex-row place-content-between mb-2">
                 <div className="flex flex-row justify-start">
-                  <img
+                  <Image
+                    alt={infoUser?.name}
                     className="w-16 h-16 rounded-full"
                     height="64"
                     width="64"

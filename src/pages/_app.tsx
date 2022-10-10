@@ -1,7 +1,7 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GraphQLProvider from "../components/GraphQLProvider";
 import { config } from "../env";
 import "../styles/404.css";
@@ -28,12 +28,17 @@ const App = ({ Component, pageProps }) => {
     }
     document.body.style["color-scheme"] = darkMode ? "dark" : "light";
   };
-  const changeLocale = (locale: string) => {
-    push(pathName, asPath, { locale });
-    if (process.browser) {
-      window.localStorage.setItem("locale", locale);
-    }
-  };
+
+  const changeLocale = useCallback(
+    (locale: string) => {
+      push(pathName, asPath, { locale });
+      if (process.browser) {
+        window.localStorage.setItem("locale", locale);
+      }
+    },
+    [asPath, pathName, push]
+  );
+
   const t = usei18n(locale);
   useEffect(() => {
     if (!storedDarkModeString || storedDarkModeString === "null") {
@@ -46,7 +51,8 @@ const App = ({ Component, pageProps }) => {
     } else if (locale !== storedLocaleString) {
       changeLocale(storedLocaleString);
     }
-  }, [storedLocaleString]);
+  }, [storedLocaleString, changeLocale, locale]);
+
   useEffect(() => {
     document.body.classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
     document.body.style["color-scheme"] = darkMode ? "dark" : "light";

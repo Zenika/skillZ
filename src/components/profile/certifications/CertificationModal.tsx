@@ -73,6 +73,7 @@ const CertificationModal = ({
                   src={`/icons/${darkMode ? "dark" : "light"}/${
                     userCertification?.obtained ? "full" : "empty"
                   }-select.svg`}
+                  alt={"Certifications"}
                   height={32}
                   width={32}
                   layout="fixed"
@@ -129,6 +130,7 @@ const CertificationModal = ({
                     src={`/icons/${darkMode ? "dark" : "light"}/${
                       hasExpiryDate ? "full" : "empty"
                     }-select.svg`}
+                    alt={"Certifications"}
                     height={32}
                     width={32}
                     layout="fixed"
