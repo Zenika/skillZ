@@ -7,6 +7,7 @@ export default {
     insertSkillError:
       "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
+    refetch: "Réessayer",
   },
   nav: {
     mySkills: "Compétences",
@@ -14,6 +15,7 @@ export default {
     search: "Rechercher",
     darkmode: "Sombre",
     classic: "Classique",
+    preferences: "Préférences",
   },
   sidepanel: {
     profile: "Profil",
@@ -119,16 +121,21 @@ export default {
       "Erreur lors de la modification de la compétence %skill%.",
     deleteSkillFailed:
       "Erreur lors de la suppression de la compétence %skill%.",
+    topBar: {
+      title: "Voici le graphique %category% de",
+    },
   },
   myProfile: {
     onboardingButton: "C'est parti !",
     onboarding:
       "Bienvenue sur SkillZ ! 🎉 Nous vous recommandons de renseigner vos sujets préférés et vos certifications pour que votre profil soit complet. Mais commençons par votre agence.",
     agency: "Mon agence",
+    selectPlaceholder: "Sélectionner mon agence",
     contact: "Ma méthode de contact préférée",
     topics: "Mes sujets préférés",
     certifications: "Mes certifications",
-    selectPlaceholder: "Mon agence",
+    addCertification: "Ajouter une certification",
+    removeCertification: "Supprimer cette certification",
     confirm: "CONFIRMER LE PROFIL",
     validFrom: "valide depuis",
     targeting: "ciblée pour le",
@@ -192,6 +199,9 @@ export default {
     noSkill: "Aucune compétence trouvée",
     noProfile: "Aucun profil trouvé",
     mostNoted: "Les plus notés",
+    pageSkillzGraphs: {
+      title: "Ce sont les graphiques Skillz de ",
+    },
     result: "résultats",
   },
   statistics: {

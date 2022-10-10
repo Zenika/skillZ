@@ -1,11 +1,11 @@
-import { useContext } from "react";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
 import { useMutation } from "@apollo/client";
+import { useContext } from "react";
 import {
   DELETE_USER_TOPIC_MUTATION,
   INSERT_USER_TOPIC_MUTATION,
 } from "../../graphql/mutations/userInfos";
+import { useDarkMode } from "../../utils/darkMode";
+import { i18nContext } from "../../utils/i18nContext";
 
 type PreferedTopicsProps = {
   topics: { id: string; name: string; UserTopics: { created_at: string }[] }[];

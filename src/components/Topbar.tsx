@@ -1,18 +1,17 @@
-import React, { useContext, useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import { i18nContext } from "../utils/i18nContext";
-import { gql } from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
-import { LocaleSelector } from "./LocaleSelector";
-import { DarkModeSelector } from "./DarkModeSelector";
-import { useDarkMode } from "../utils/darkMode";
 import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { GetUserAgencyQuery } from "../generated/graphql";
 import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
+import { useDarkMode } from "../utils/darkMode";
+import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
+import { DarkModeSelector } from "./DarkModeSelector";
+import { LocaleSelector } from "./LocaleSelector";
 
 const Topbar = ({
   path,
@@ -55,9 +54,9 @@ const Topbar = ({
   }
 
   return (
-    <div className="flex flex-row justify-center h-24 bg-red-800 bg-light-med dark:bg-dark-dark">
+    <div className="flex flex-row justify-center h-24">
       <div
-        className={`flex flex-auto flex-row flex-grow-1 justify-between text-white max-w-screen-xl ${
+        className={`flex flex-auto flex-row flex-grow-1 justify-between max-w-screen-xl ${
           !isDesktop ? "p-4" : ""
         }`}
       >
@@ -71,7 +70,7 @@ const Topbar = ({
           </Link>
         </div>
         <div className="flex justify-center w-1/3">
-          {isDesktop && path !== undefined ? (
+          {isDesktop && path !== undefined && (
             <div className="flex flex-col justify-center p-4">
               <div className="flex flex-row justify-around">
                 <div className="w-36">
@@ -90,13 +89,12 @@ const Topbar = ({
                         className="p-1"
                       />
                       <span className="text-center">{t("nav.mySkills")}</span>
-                      {context === "mine" || path === "/" ? (
-                        <div className="flex flex-row justify-center w-full h-0.5">
-                          <div className="w-3/4 h-full gradient-red" />
-                        </div>
-                      ) : (
-                        <div className="h-px" />
-                      )}
+                      {context === "mine" ||
+                        (path === "/" && (
+                          <div className="flex flex-row justify-center w-full h-0.5">
+                            <div className="w-3/4 h-full gradient-red" />
+                          </div>
+                        ))}
                     </div>
                   </Link>
                 </div>
@@ -118,13 +116,12 @@ const Topbar = ({
                       <span className="text-center">
                         {t("nav.zenikaSkills")}
                       </span>
-                      {context === "zenika" || path === "/zenika" ? (
-                        <div className="flex flex-row justify-center w-full h-0.5">
-                          <div className="w-3/4 h-full gradient-red" />
-                        </div>
-                      ) : (
-                        <div className="h-px" />
-                      )}
+                      {context === "zenika" ||
+                        (path === "/zenika" && (
+                          <div className="flex flex-row justify-center w-full h-0.5">
+                            <div className="w-3/4 h-full gradient-red" />
+                          </div>
+                        ))}
                     </div>
                   </Link>
                 </div>
@@ -144,20 +141,16 @@ const Topbar = ({
                         className="p-1"
                       />
                       <span className="text-center">{t("nav.search")}</span>
-                      {path === "/search" ? (
+                      {path === "/search" && (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>
-                      ) : (
-                        <div className="h-px" />
                       )}
                     </div>
                   </Link>
                 </div>
               </div>
             </div>
-          ) : (
-            <></>
           )}
         </div>
         <div className="flex justify-end w-1/3">
@@ -171,19 +164,20 @@ const Topbar = ({
               />
             </button>
           ) : (
-            <div className="z-50">
+            <div className="z-50 divide-y divide-dark-radargrid divide-light-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
-                className="flex flex-row px-2 py-4 justify-between bg-light-ultrawhite dark:bg-dark-ultradark h-full"
+                className="flex flex-row items-center px-2 py-4 justify-between h-full"
               >
                 <div className="flex flex-col px-2 justify-center">
                   <span className="font-bold">{user?.name}</span>
-                  <span>
-                    Zenika{" "}
-                    {t(
-                      `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
-                    )}
-                  </span>
+                  {userAgencyResult?.UserLatestAgency[0]?.agency && (
+                    <span>
+                      {`Zenika ${t(
+                        `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
+                      )}`}
+                    </span>
+                  )}
                 </div>
                 <Image
                   className="rounded-full"
@@ -193,14 +187,14 @@ const Topbar = ({
                 />
               </button>
               <div
-                className={`bg-light-ultrawhite dark:bg-dark-ultradark py-2 z-50 ${
+                className={`bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded z-50 ${
                   !openMenu ? "hidden" : ""
                 }`}
               >
-                <ul className="flex flex-col justify-around h-full pl-2">
-                  <li className="p-2">
+                <ul className="flex flex-col justify-around h-full p-2">
+                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
                     <Link href={`/profile`}>
-                      <div className="flex flex-row pl-4 cursor-pointer">
+                      <div className="flex flex-row cursor-pointer">
                         <Image
                           src={`/icons/${
                             darkMode ? "dark" : "light"
@@ -212,6 +206,29 @@ const Topbar = ({
                       </div>
                     </Link>
                   </li>
+                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
+                    <Link href="/logout">
+                      <div className="flex flex-row cursor-pointer">
+                        <Image
+                          src={`/icons/${
+                            darkMode ? "dark" : "light"
+                          }/logout.svg`}
+                          width="18"
+                          height="18"
+                        />
+                        <p className="pl-4">{t("sidepanel.logout")}</p>
+                      </div>
+                    </Link>
+                  </li>
+                  {/*Separator*/}
+                  <div className="flex items-center py-2">
+                    <div className="flex-grow h-px dark:bg-dark-radargrid bg-light-radargrid"></div>
+                    <span className="flex-shrink text-xs dark:text-dark-graytext text-light-graytext px-4 italic font-light">
+                      {t("nav.preferences")}
+                    </span>
+                    <div className="flex-grow h-px dark:bg-dark-radargrid bg-light-radargrid"></div>
+                  </div>
+                  {/*Seperator*/}
                   <li className="p-2">
                     <LocaleSelector
                       locale={locale}
@@ -228,20 +245,6 @@ const Topbar = ({
                   </li>
                   <li className="p-2">
                     <BotNotifications t={t}></BotNotifications>
-                  </li>
-                  <li className="p-2">
-                    <Link href="/logout">
-                      <div className="flex flex-row pl-4 cursor-pointer">
-                        <Image
-                          src={`/icons/${
-                            darkMode ? "dark" : "light"
-                          }/logout.svg`}
-                          width="18"
-                          height="18"
-                        />
-                        <p className="pl-4">{t("sidepanel.logout")}</p>
-                      </div>
-                    </Link>
                   </li>
                 </ul>
               </div>

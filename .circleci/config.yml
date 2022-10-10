@@ -106,7 +106,7 @@ jobs:
           command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
       - run:
           name: Create .env.local file
-          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
+          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
       - run:
           name: build
           command: npm run build:local
@@ -167,6 +167,8 @@ jobs:
         type: string
       base-url:
         type: string
+      auth0-connection:
+        type: string
       hasura-admin-secret:
         type: string
     steps:
@@ -177,7 +179,7 @@ jobs:
             - v4-packaging-dependencies-
       - run:
           name: build
-          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> HASURA_ADMIN_SECRET=<< parameters.hasura-admin-secret >> npm run build:prod
+          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> NEXT_PUBLIC_AUTH0_CONNECTION=<< parameters.auth0-connection >> HASURA_ADMIN_SECRET=<< parameters.hasura-admin-secret >> npm run build:prod
       - run:
           name: Package
           command: |
@@ -268,6 +270,7 @@ workflows:
           requires:
             - run-migrations-staging
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
+          auth0-connection: $NEXT_STAGING_PUBLIC_AUTH0_CONNECTION
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
           base-url: $NEXT_STAGING_BASE_URL
           clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
@@ -317,6 +320,7 @@ workflows:
           requires:
             - run-migrations
           graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_URL
+          auth0-connection: $NEXT_PROD_PUBLIC_AUTH0_CONNECTION
           hasura-admin-secret: $HASURA_ADMIN_SECRET_PROD
           base-url: $NEXT_PROD_BASE_URL
           clever-app-id: $CLEVER_APP_ID_PROD

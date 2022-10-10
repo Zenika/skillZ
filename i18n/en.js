@@ -7,6 +7,7 @@ export default {
     insertSkillError:
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
+    refetch: "Retry",
   },
   nav: {
     mySkills: "My skills",
@@ -14,6 +15,7 @@ export default {
     search: "Search",
     darkmode: "Dark",
     classic: "Classic",
+    preferences: "Preferences",
   },
   sidepanel: {
     profile: "Profile",
@@ -114,16 +116,21 @@ export default {
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
     deleteSkillFailed: "Error while deleting %skill%.",
+    topBar: {
+      title: "Here is the graph of %category% from",
+    },
   },
   myProfile: {
     onboardingButton: "Let's go !",
     onboarding:
       "Welcome to SkillZ ! 🎉 We recommend you set your prefered topics, and your certifications so your profile is complete. But let's start with your agency.",
     agency: "My agency",
+    selectPlaceholder: "Select my agency",
     contact: "My prefered method of contact",
     topics: "My prefered topics",
     certifications: "My certifications",
-    selectPlaceholder: "My agency",
+    addCertification: "Add a certification",
+    removeCertification: "Remove this certification",
     confirm: "CONFIRM PROFILE",
     validFrom: "valid from",
     targeting: "aiming for",
@@ -187,6 +194,9 @@ export default {
     noSkill: "No skill found",
     noProfile: "No profile found",
     mostNoted: "Most noted",
+    pageSkillzGraphs: {
+      title: "These are the Skillz graphs of ",
+    },
     result: "results",
   },
   statistics: {

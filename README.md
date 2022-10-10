@@ -23,6 +23,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
+NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
 ```
 
 ```
@@ -32,6 +33,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
+NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
 ```
 
 ### Run postgres and hasura locally with docker
@@ -76,3 +78,36 @@ If you want to generate random seed data, you can use the hasura console to expo
 Then move it to `hasura/local_seeds/Skill.json`
 You can now run `npm run seeds:generate`
 And `npm run seeds:apply` to apply the random data to the database
+
+## Tests
+
+### E2E with Cypress
+
+Create a file named `.env.test`, with the same content as the .env.local.
+Replace the value of the variable `NEXT_PUBLIC_AUTH0_CONNECTION` with `Username-Password-Authentication`
+
+Create a file named `cypress.env.json` at the root of the project with the following content :
+
+```json
+{
+  "test_username": "",
+  "test_password": ""
+}
+```
+
+In order to run all tests :
+
+```
+# start the webapp
+npm run build:e2e
+npm run start:e2e
+## or
+NODE_ENV=test npm run dev
+
+# start cypress tests
+npm run cypress:run
+## or with ui
+npm run cypress:open
+```
+
+Before running cypress tests, all data from the test user should be deleted.
