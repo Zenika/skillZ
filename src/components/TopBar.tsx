@@ -15,15 +15,14 @@ import { LocaleSelector } from "./LocaleSelector";
 
 export type TopBarProps = {
   togglePanel: () => void;
-  path?: string;
 };
 
-const TopBar = ({ path, togglePanel }: TopBarProps) => {
+const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
-  const { locale, query } = useRouter();
-  const { context } = query;
+  const { locale, query, pathname } = useRouter();
+  let { context } = query;
 
   /*
    * STATES
@@ -84,7 +83,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
           </Link>
         </div>
         <div className="flex justify-center w-1/3">
-          {isDesktop && path !== undefined && (
+          {isDesktop && (
             <div className="flex flex-col justify-center p-4">
               <div className="flex flex-row justify-around">
                 <div className="w-36">
@@ -92,7 +91,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          context === "mine" || path === "/"
+                          context === "mine" || pathname === "/"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/skills-selected.svg`
@@ -105,7 +104,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                       />
                       <span className="text-center">{t("nav.mySkills")}</span>
                       {context === "mine" ||
-                        (path === "/" && (
+                        (pathname === "/" && (
                           <div className="flex flex-row justify-center w-full h-0.5">
                             <div className="w-3/4 h-full gradient-red" />
                           </div>
@@ -118,7 +117,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          context === "zenika" || path === "/zenika"
+                          context === "zenika" || pathname === "/zenika"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/zenika-selected.svg`
@@ -133,7 +132,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                         {t("nav.zenikaSkills")}
                       </span>
                       {context === "zenika" ||
-                        (path === "/zenika" && (
+                        (pathname === "/zenika" && (
                           <div className="flex flex-row justify-center w-full h-0.5">
                             <div className="w-3/4 h-full gradient-red" />
                           </div>
@@ -146,7 +145,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          path === "/search"
+                          pathname === "/search"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/search-selected.svg`
@@ -158,7 +157,7 @@ const TopBar = ({ path, togglePanel }: TopBarProps) => {
                         className="p-1"
                       />
                       <span className="text-center">{t("nav.search")}</span>
-                      {path === "/search" && (
+                      {pathname === "/search" && (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>

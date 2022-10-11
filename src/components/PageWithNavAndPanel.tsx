@@ -37,7 +37,7 @@ const PageWithNavAndPanel = ({
         }`}
         onClick={() => closePanelIfOpened()}
       >
-        <TopBar path={pathName} togglePanel={togglePanel} />
+        <TopBar togglePanel={togglePanel} />
         <div className="flex flex-row justify-center mt-6">
           <div className="flex flex-col w-full max-w-screen-xl">
             <div className="mx-4">

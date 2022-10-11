@@ -26,7 +26,7 @@ const CommonPage = ({ children, page, faded = false }: CommonPageProps) => {
       <div className="flex flex-col w-full">
         {isDesktop && (
           <div className={faded ? "opacity-25" : ""}>
-            <TopBar path={""} togglePanel={() => {}} />
+            <TopBar togglePanel={() => {}} />
           </div>
         )}
         <div className="flex flex-row justify-center">
