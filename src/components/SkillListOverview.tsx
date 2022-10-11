@@ -21,7 +21,7 @@ import Radar from "./Radar";
 import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
 
-type PageWithSkillListProps = {
+type SkillListOverviewProps = {
   userEmail: string;
   context: string;
   agency: string;
@@ -41,13 +41,13 @@ const computeDidYouMeanSearchString = (search: string) => {
   return `%(${searches.join("|")})%`;
 };
 
-const PageWithSkillList = ({
+const SkillListOverview = ({
   userEmail,
   context,
   agency,
   category,
   setFadedPage,
-}: PageWithSkillListProps) => {
+}: SkillListOverviewProps) => {
   /*
    * HOOKS
    */
@@ -208,7 +208,7 @@ const PageWithSkillList = ({
       <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
         <div className="flex flex-col w-full">
           {filters && (
-            <div className="mx-4">
+            <div className="mx-4 mb-5">
               <FilterByPanel filters={filters} />
             </div>
           )}
@@ -381,4 +381,4 @@ const PageWithSkillList = ({
   );
 };
 
-export default PageWithSkillList;
+export default SkillListOverview;

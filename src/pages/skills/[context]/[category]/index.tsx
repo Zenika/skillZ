@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CommonPage from "../../../../components/CommonPage";
 import ErrorPage from "../../../../components/ErrorPage";
 import Loading from "../../../../components/Loading";
-import PageWithSkillList from "../../../../components/PageWithSkillList";
+import SkillListOverview from "../../../../components/SkillListOverview";
 import UserInfosTopBar from "../../../../components/UserInfosTopBar";
 import {
   GetCategoryIdByNameQuery,
@@ -19,7 +19,7 @@ const ListSkillsPage = () => {
   /*
    * HOOKS
    */
-  const { user, isLoading } = useAuth0();
+  const { user, isLoading: authLoading, error: authError } = useAuth0();
   const router = useRouter();
   const { t } = useContext(i18nContext);
 
@@ -50,52 +50,48 @@ const ListSkillsPage = () => {
       name: category,
     },
   });
-  const { data: userInfosDatas } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+
+  const {
+    data: userInfosDatas,
+    loading: userLoading,
+    error: userError,
+  } = useQuery<GetUserQuery>(GET_USER_QUERY, {
     variables: { email: context?.toString() },
     fetchPolicy: "network-only",
   });
-  const [userInfos, setUserInfos] = useState(null);
 
-  useEffect(() => {
-    if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
-  }, [userInfosDatas]);
+  if (authLoading || userLoading || categoryLoading) {
+    return <Loading />;
+  }
+  if (authError || userError || categoryError) {
+    return <ErrorPage />;
+  }
 
-  const renderResult = () => {
-    if (isLoading || categoryLoading) {
-      return <Loading />;
-    }
-    if (categoryError) {
-      return <ErrorPage />;
-    }
-    return (
-      <>
-        {context != "mine" && context != "zenika" && (
+  return (
+    <CommonPage page={category} faded={modalOpened}>
+      {context != "mine" &&
+        context != "zenika" &&
+        userInfosDatas.User.length && (
           <UserInfosTopBar
             userEmail={user?.email}
-            userName={userInfos?.name}
-            userPicture={userInfos?.picture}
+            userName={userInfosDatas.User[0].name}
+            userPicture={userInfosDatas.User[0].picture}
             sentence={t("skills.topBar.title").replace(
               "%category%",
               category as string
             )}
           />
         )}
-        <PageWithSkillList
-          userEmail={context === "mine" ? user?.email : context.toString()}
-          context={context as string}
-          agency={agency as string}
-          category={{
-            name: category as string,
-            id: categoryData.Category[0].id,
-          }}
-          setFadedPage={setModalOpened}
-        />
-      </>
-    );
-  };
-  return (
-    <CommonPage page={category} faded={modalOpened}>
-      {renderResult()}
+      <SkillListOverview
+        userEmail={context === "mine" ? user?.email : context.toString()}
+        context={context as string}
+        agency={agency as string}
+        category={{
+          name: category as string,
+          id: categoryData.Category[0].id,
+        }}
+        setFadedPage={setModalOpened}
+      />
     </CommonPage>
   );
 };

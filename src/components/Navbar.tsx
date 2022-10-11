@@ -11,7 +11,7 @@ const Navbar = () => {
   const { pathname } = useRouter();
 
   return (
-    <header className="flex flex-auto flex-row justify-around h-16 bg-red-800 bg-light-light dark:bg-dark-dark text-light-graytext dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
+    <header className="z-50 flex flex-auto flex-row justify-around h-16 bg-red-800 bg-light-light dark:bg-dark-dark text-light-graytext dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
       <div className="w-1/3">
         <Link href="/">
           <div className="flex flex-initial flex-col justify-between cursor-pointer">
