@@ -39,6 +39,8 @@ const Search = ({ pathName }) => {
   const skills = data?.skills;
   const profiles = data?.profiles;
 
+  // MG_TRENDING_SKILL_LIMIT
+  // Sort skills as Trends, Most noted, and Alphabetical order
   const sortedSkills = useCallback(() => {
     if (skills) {
       const xSkills = [...skills];
