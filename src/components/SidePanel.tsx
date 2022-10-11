@@ -23,7 +23,7 @@ const SidePanel = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between h-1/3 p-6">
+    <div className="flex flex-col justify-between h-1/3 p-6 z-50">
       <div className="flex flex-row">
         <Image
           className="rounded-full"

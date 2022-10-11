@@ -52,7 +52,7 @@ const PageWithNavAndPanel = ({
             <div className="max-w-screen-xl">{children}</div>
           </div>
         </div>
-        {!isDesktop ? <Navbar path={pathName} /> : <></>}
+        {!isDesktop && <Navbar />}
       </div>
       <div
         className={`z-20 fixed inset-y-0 right-0 h-screen ${
