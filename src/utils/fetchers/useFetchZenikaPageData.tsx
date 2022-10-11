@@ -4,18 +4,21 @@ import {
   GetSkillsAndDesiresQuery,
 } from "../../generated/graphql";
 import {
-  GET_SKILLS_AND_DESIRES_QUERY,
   GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
+  GET_SKILLS_AND_DESIRES_QUERY,
 } from "../../graphql/queries/skills";
 
 const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
-  const { data: skillsData, error } =
-    useQuery<GetSkillsAndDesiresByAgencyQuery>(
-      GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
-      {
-        variables: { agency },
-      }
-    );
+  const {
+    data: skillsData,
+    error,
+    loading,
+  } = useQuery<GetSkillsAndDesiresByAgencyQuery>(
+    GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY,
+    {
+      variables: { agency },
+    }
+  );
   const homePanelData = skillsData?.Category?.map((data) => ({
     x: data?.x,
     y: data?.y,
@@ -40,12 +43,14 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
       labels: [`${i + 1}`],
     })),
   }));
-  return { homePanelData, agencies: skillsData?.Agency, error };
+  return { homePanelData, agencies: skillsData?.Agency, error, loading };
 };
 const fetchZenikaPageData = (email: string) => {
-  const { data: skillsData, error } = useQuery<GetSkillsAndDesiresQuery>(
-    GET_SKILLS_AND_DESIRES_QUERY
-  );
+  const {
+    data: skillsData,
+    error,
+    loading,
+  } = useQuery<GetSkillsAndDesiresQuery>(GET_SKILLS_AND_DESIRES_QUERY);
   const homePanelData = skillsData?.Category?.map((data) => ({
     x: data?.x,
     y: data?.y,
@@ -67,7 +72,7 @@ const fetchZenikaPageData = (email: string) => {
     ...row,
     data: row.data?.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
-  return { homePanelData, agencies: skillsData?.Agency, error };
+  return { homePanelData, agencies: skillsData?.Agency, error, loading };
 };
 
 export const useFetchZenikaPageData = (

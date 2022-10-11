@@ -132,7 +132,7 @@ const HomePanel = ({
             )}
             {data.length > 0 ? (
               <div
-                className={`flex flex-auto flex-col justify-around py-4 order-6 h-1/3`}
+                className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
               >
                 {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
                   <div

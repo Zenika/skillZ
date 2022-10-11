@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import CommonPage from "../components/CommonPage";
 import CustomSelect from "../components/CustomSelect";
-import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
+import ErrorPage from "../components/ErrorPage";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
 import UserPanel from "../components/UserPanel";
@@ -10,9 +11,11 @@ import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
 
-const Search = ({ pathName }) => {
+const Search = () => {
+  /*
+   * HOOKS
+   */
   const { t } = useContext(i18nContext);
-
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -23,18 +26,23 @@ const Search = ({ pathName }) => {
     { label: "mostNoted", value: `${t("search.mostNoted")}` },
   ];
 
+  /*
+   * STATES
+   */
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(choicesSorter[0]);
   const [skillsToDisplay, setSkillsToDisplay] = useState([]);
 
-  const { data, error } = useQuery<SearchSkillsAndProfilesQuery>(
-    SEARCH_SKILLS_AND_PROFILES_QUERY,
-    {
-      variables: { search: `%${search}%` },
-    }
-  );
-
-  if (error) console.error(error);
+  /*
+   * QUERIES
+   */
+  const {
+    data,
+    error: profilesError,
+    loading: profilesLoading,
+  } = useQuery<SearchSkillsAndProfilesQuery>(SEARCH_SKILLS_AND_PROFILES_QUERY, {
+    variables: { search: `%${search}%` },
+  });
 
   const skills = data?.skills;
   const profiles = data?.profiles;
@@ -82,47 +90,43 @@ const Search = ({ pathName }) => {
     setSkillsToDisplay(sortedSkills());
   }, [skills, filter, sortedSkills]);
 
+  if (profilesError) {
+    return <ErrorPage />;
+  }
+
   return (
-    <PageWithNavAndPanel pathName={pathName} context={""}>
-      <div className="w-full flex justify-center mb-8 ">
-        <div className={`${isDesktop ? "w-2/3" : "w-full"} flex-col mx-4 `}>
+    <CommonPage page={"search"} backBar={false}>
+      <div className={"flex justify-center"}>
+        <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
             initialValue={search}
             value={search}
             setSearch={setSearch}
             placeholder={t("search.placeholder")}
           />
-        </div>
-      </div>
-      <div className="flex w-full bg-light-ultrawhite dark:bg-dark-med justify-center">
-        <div
-          className={`flex ${
-            isDesktop ? "w-2/3" : "w-full"
-          } w-full flex-col mx-4 `}
-        >
-          <div className="flex flex-col my-8 py-2">
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-col mb-8">
-                <h1 className="text-xl">{t("search.skills")}</h1>
-                {skillsToDisplay.length > 0 && (
-                  <p className="opacity-50">
-                    {skillsToDisplay.length} {t("search.result")}
-                  </p>
-                )}
-              </div>
-              <div style={{ width: `300px` }}>
-                <CustomSelect
-                  labelFn={(x) => x.value}
-                  keyFn={(x) => x.label}
-                  choices={choicesSorter.filter(
-                    ({ label }) => label !== filter.label
-                  )}
-                  placeholder={filter.value}
-                  selectedChoice={filter}
-                  onChange={(x) => setFilter(x)}
-                ></CustomSelect>
-              </div>
+          <div className="flex flex-row justify-between mt-10">
+            <div className="flex flex-col mb-8">
+              <h1 className="text-xl">{t("search.skills")}</h1>
+              {skillsToDisplay.length > 0 && (
+                <p className="opacity-50">
+                  {skillsToDisplay.length} {t("search.result")}
+                </p>
+              )}
             </div>
+            <div className={"w-80"}>
+              <CustomSelect
+                labelFn={(x) => x.value}
+                keyFn={(x) => x.label}
+                choices={choicesSorter.filter(
+                  ({ label }) => label !== filter.label
+                )}
+                placeholder={filter.value}
+                selectedChoice={filter}
+                onChange={(x) => setFilter(x)}
+              ></CustomSelect>
+            </div>
+          </div>
+          <div className={"mt-5"}>
             {skillsToDisplay.length > 0 ? (
               skillsToDisplay.map((skill) => (
                 <SkillPanel
@@ -137,37 +141,39 @@ const Search = ({ pathName }) => {
               <span className="text-sm">{t("search.noSkill")}</span>
             )}
           </div>
-          {search && search !== "" && (
-            <div className="flex flex-col my-2">
-              <div className="flex flex-col mb-8">
-                <h1 className="text-xl">{t("search.profiles")}</h1>
-                {profiles?.length > 0 && (
-                  <p className="opacity-50">
-                    {profiles.length} {t("search.result")}
-                  </p>
+          <div className={"mt-20"}>
+            {search && search !== "" && (
+              <div>
+                <div className="flex flex-col mb-8">
+                  <h1 className="text-xl">{t("search.profiles")}</h1>
+                  {profiles?.length > 0 && (
+                    <p className="opacity-50">
+                      {profiles.length} {t("search.result")}
+                    </p>
+                  )}
+                </div>
+                {profiles?.length > 0 ? (
+                  profiles.map((profile, index) => (
+                    <UserPanel
+                      key={index}
+                      context=""
+                      user={{
+                        name: profile.name,
+                        agency: profile.UserLatestAgency?.agency,
+                        picture: profile.picture,
+                        email: profile.email,
+                      }}
+                    />
+                  ))
+                ) : (
+                  <span className="text-sm">{t("search.noProfile")}</span>
                 )}
               </div>
-              {profiles?.length > 0 ? (
-                profiles.map((profile, index) => (
-                  <UserPanel
-                    key={index}
-                    context=""
-                    user={{
-                      name: profile.name,
-                      agency: profile.UserLatestAgency?.agency,
-                      picture: profile.picture,
-                      email: profile.email,
-                    }}
-                  />
-                ))
-              ) : (
-                <span className="text-sm">{t("search.noProfile")}</span>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </PageWithNavAndPanel>
+    </CommonPage>
   );
 };
 

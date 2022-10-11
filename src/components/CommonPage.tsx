@@ -12,10 +12,16 @@ import TopBar from "./TopBar";
 type CommonPageProps = {
   children: any;
   page: string;
+  backBar?: boolean;
   faded?: boolean;
 };
 
-const CommonPage = ({ children, page, faded = false }: CommonPageProps) => {
+const CommonPage = ({
+  children,
+  page,
+  faded = false,
+  backBar = true,
+}: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const router = useRouter();
@@ -31,46 +37,57 @@ const CommonPage = ({ children, page, faded = false }: CommonPageProps) => {
   });
 
   return (
-    <div className="flex flex-row justify-center w-full overflow-y-hidden">
-      <div className="flex flex-col w-full">
-        <div className={faded ? "opacity-25" : ""}>
-          <TopBar togglePanel={togglePanel} />
-        </div>
+    <div className="flex flex-row justify-center w-full">
+      <div
+        className={`z-10 w-full  ${
+          panelOpened ? "opacity-25 cursor-pointer" : ""
+        }`}
+        onClick={() => closePanelIfOpened()}
+      >
+        <TopBar togglePanel={togglePanel} />
         <div
-          className={`z-50 fixed inset-y-0 right-0 h-screen ${
-            panelOpened ? "w-3/4" : "w-0"
-          } bg-light-panel dark:bg-dark-panel duration-500`}
-        >
-          <SidePanel />
-        </div>
-        {!isDesktop && <Navbar />}
-        <div
-          className="flex flex-row justify-center"
+          className="flex flex-row justify-center mb-5"
           onClick={() => closePanelIfOpened()}
         >
           <div className="flex flex-col justify-center bg-light-med dark:bg-dark-med w-full">
-            <div className="flex flex-row justify-center w-full my-1 bg-light-light dark:bg-dark-dark">
-              <div
-                className={`flex flex-row max-w-screen-xl w-full p-6 ${
-                  faded ? "opacity-25" : ""
-                }`}
-              >
-                <button onClick={() => router.back()}>
-                  <Image
-                    src={`/icons/${darkMode ? "dark" : "light"}/back-arrow.svg`}
-                    alt={"back"}
-                    width="16"
-                    height="16"
-                  />
-                </button>
-                <h1 className="ml-10 text-xl">
-                  {t(`commonPageNav.${page}`) || page}
-                </h1>
+            {backBar && (
+              <div className="flex flex-row justify-center w-full my-1 bg-light-light dark:bg-dark-dark">
+                <div
+                  className={`flex flex-row max-w-screen-xl w-full p-6 ${
+                    faded ? "opacity-25" : ""
+                  }`}
+                >
+                  <button onClick={() => router.back()}>
+                    <Image
+                      src={`/icons/${
+                        darkMode ? "dark" : "light"
+                      }/back-arrow.svg`}
+                      alt={"back"}
+                      width="16"
+                      height="16"
+                    />
+                  </button>
+                  <h1 className="ml-10 text-xl">
+                    {t(`commonPageNav.${page}`) || page}
+                  </h1>
+                </div>
               </div>
-            </div>
-            {children}
+            )}
           </div>
         </div>
+        <div className="flex flex-row justify-center mt-6">
+          <div className="flex flex-col w-full max-w-screen-xl">
+            <div className="max-w-screen-xl">{children}</div>
+          </div>
+        </div>
+        {!isDesktop && <Navbar />}
+      </div>
+      <div
+        className={`z-20 fixed inset-y-0 right-0 h-screen ${
+          panelOpened ? "w-3/4" : "w-0"
+        } bg-light-panel dark:bg-dark-panel duration-500`}
+      >
+        <SidePanel />
       </div>
       <Notification />
     </div>

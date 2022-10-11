@@ -2,9 +2,10 @@ import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import CommonPage from "../components/CommonPage";
+import ErrorPage from "../components/ErrorPage";
 import HomePanel from "../components/HomePanel";
 import Loading from "../components/Loading";
-import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { config } from "../env";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
@@ -15,27 +16,47 @@ import {
   GET_USER_QUERY,
 } from "../graphql/queries/userInfos";
 
-const Home = ({ pathName }) => {
-  const { push, query, replace } = useRouter();
-  const { context } = query;
-  const { user, isLoading } = useAuth0();
+const Home = () => {
+  /*
+   * HOOKS
+   */
+  const { push, replace } = useRouter();
+  const { user, isLoading: authLoading, error: authError } = useAuth0();
+  const link = new URL(`${config.nextPublicBaseUrl}/profile`);
 
-  const { data: userData } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+  useEffect(() => {
+    if (!window.history.state.url) {
+      replace("/");
+    }
+  }, [replace]);
+
+  /*
+   * QUERIES
+   */
+  const {
+    data: userData,
+    loading: userLoading,
+    error: userError,
+  } = useQuery<GetUserQuery>(GET_USER_QUERY, {
     variables: { email: user.email },
     fetchPolicy: "network-only",
   });
-  const link = new URL(`${config.nextPublicBaseUrl}/profile`);
+
+  const {
+    data: skillsData,
+    error: dataError,
+    loading: dataLoading,
+  } = useQuery<GetCurrentUserSkillsAndDesiresQuery>(
+    GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
+    {
+      variables: { email: user.email },
+      fetchPolicy: "network-only",
+    }
+  );
+
   if (userData?.User.length <= 0) {
     push(link);
   }
-  const { data: skillsData, error } =
-    useQuery<GetCurrentUserSkillsAndDesiresQuery>(
-      GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
-      {
-        variables: { email: user.email },
-        fetchPolicy: "network-only",
-      }
-    );
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
@@ -57,29 +78,23 @@ const Home = ({ pathName }) => {
     data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
 
-  useEffect(() => {
-    if (!window.history.state.url) {
-      replace("/");
-    }
-  }, [replace]);
-
+  if (authLoading || userLoading || dataLoading) {
+    return <Loading />;
+  } else if (authError || userError || dataError) {
+    return <ErrorPage />;
+  }
   return (
-    <PageWithNavAndPanel pathName={pathName} context={context}>
-      <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-        {homePanelData ? (
+    <CommonPage page={"Home"} backBar={false}>
+      <div className="flex flex-row mx-4 flex-wrap mb-20">
+        {homePanelData &&
           homePanelData.map((computedDataSkill) => (
             <HomePanel
               props={computedDataSkill}
               key={`home-panel-${computedDataSkill.name}`}
             />
-          ))
-        ) : error ? (
-          <p>{`Error: ${error.name}, Message: ${error.message}`}</p>
-        ) : (
-          <Loading />
-        )}
+          ))}
       </div>
-    </PageWithNavAndPanel>
+    </CommonPage>
   );
 };
 
