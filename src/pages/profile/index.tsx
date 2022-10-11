@@ -32,7 +32,6 @@ const Profile = () => {
 
   // CONTEXT
   const router = useRouter();
-  const { context } = router.query;
 
   // STATES
   const [userInserted, setUserInserted] = useState(false);
@@ -170,7 +169,7 @@ const Profile = () => {
     return <ErrorPage />;
   } else {
     return (
-      <CommonPage page={"profile"} faded={certModalOpened} context={context}>
+      <CommonPage page={"profile"} faded={certModalOpened}>
         <div
           className={`flex flex-row justify-center mt-4 mb-20 ${
             certModalOpened ? "opacity-25" : ""

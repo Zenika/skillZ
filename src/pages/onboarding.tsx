@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { useSwipeable } from "react-swipeable";
-import Topbar from "../components/Topbar";
+import TopBar from "../components/TopBar";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./onboarding.module.css";
@@ -47,7 +47,7 @@ const Onboarding = () => {
   });
   return (
     <>
-      <Topbar togglePanel={() => {}} context={""} />
+      <TopBar togglePanel={() => {}} />
       <div
         className="flex flex-auto flex-col justify-between p-4"
         {...swipeHandlers}

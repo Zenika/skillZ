@@ -1,18 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import CommonPage from "../../../../components/CommonPage";
 import ErrorPage from "../../../../components/ErrorPage";
 import Loading from "../../../../components/Loading";
 import PageWithSkillList from "../../../../components/PageWithSkillList";
-import { GetCategoryIdByNameQuery } from "../../../../generated/graphql";
-import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
 import UserInfosTopBar from "../../../../components/UserInfosTopBar";
-import { GetUserQuery } from "../../../../generated/graphql";
+import {
+  GetCategoryIdByNameQuery,
+  GetUserQuery,
+} from "../../../../generated/graphql";
+import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
 import { GET_USER_QUERY } from "../../../../graphql/queries/userInfos";
 import { i18nContext } from "../../../../utils/i18nContext";
-import { useContext } from "react";
 
 const ListSkillsPage = () => {
   /*
@@ -93,7 +94,7 @@ const ListSkillsPage = () => {
     );
   };
   return (
-    <CommonPage page={category} faded={modalOpened} context={context}>
+    <CommonPage page={category} faded={modalOpened}>
       {renderResult()}
     </CommonPage>
   );

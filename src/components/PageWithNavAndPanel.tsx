@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import Topbar from "./Topbar";
-import Navbar from "./Navbar";
-import SidePanel from "./SidePanel";
-import Notification from "./Notification";
 import FilterByPanel, { Filter } from "./FilterByPanel";
+import Navbar from "./Navbar";
+import Notification from "./Notification";
+import SidePanel from "./SidePanel";
+import TopBar from "./TopBar";
 
 const PageWithNavAndPanel = ({
   children,
@@ -37,7 +37,7 @@ const PageWithNavAndPanel = ({
         }`}
         onClick={() => closePanelIfOpened()}
       >
-        <Topbar path={pathName} context={context} togglePanel={togglePanel} />
+        <TopBar path={pathName} togglePanel={togglePanel} />
         <div className="flex flex-row justify-center mt-6">
           <div className="flex flex-col w-full max-w-screen-xl">
             <div className="mx-4">

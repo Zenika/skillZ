@@ -7,7 +7,7 @@ import { i18nContext } from "../utils/i18nContext";
 export default function Custom404() {
   const { t } = useContext(i18nContext);
   return (
-    <CommonPage page={"404"} faded={false}>
+    <CommonPage page={"404"}>
       <div className="container mx-auto pt-40">
         <div className="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700">
           <div className="max-w-md">

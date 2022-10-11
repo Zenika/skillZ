@@ -43,13 +43,7 @@ const SkillPage = () => {
     displayNotification(`Error: ${error.message}`, "red", 5000);
   }
   return (
-    <CommonPage
-      page={skill}
-      faded={false}
-      context={context}
-      category={category}
-      skill={skill}
-    >
+    <CommonPage page={skill}>
       <div className="flex flex-row justify-center mt-4 mb-20">
         <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
           <div className="flex flex-col w-full">

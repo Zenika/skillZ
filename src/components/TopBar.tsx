@@ -13,27 +13,26 @@ import { BotNotifications } from "./BotNotifications";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { LocaleSelector } from "./LocaleSelector";
 
-const Topbar = ({
-  path,
-  context,
-  togglePanel,
-}: {
-  path?: string;
-  context: string | string[];
+export type TopBarProps = {
   togglePanel: () => void;
-}) => {
-  const { locale } = useRouter();
+  path?: string;
+};
+
+const TopBar = ({ path, togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
+  const { locale, query } = useRouter();
+  const { context } = query;
+
+  /*
+   * STATES
+   */
   const [openMenu, setOpenMenu] = useState(false);
-  const onPictureClick = () => {
-    if (!isAuthenticated) {
-      loginWithRedirect();
-      return;
-    }
-    togglePanel();
-  };
+
+  /*
+   * QUERIES
+   */
   const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
@@ -42,6 +41,20 @@ const Topbar = ({
     }
   );
 
+  /*
+   * CALLBACKS
+   */
+  const onPictureClick = () => {
+    if (!isAuthenticated) {
+      loginWithRedirect();
+      return;
+    }
+    togglePanel();
+  };
+
+  /*
+   * HOOKS
+   */
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -50,7 +63,7 @@ const Topbar = ({
     console.error(
       `Something bad happened while authenticating user: ${error.message}`
     );
-    return;
+    return <></>;
   }
 
   return (
@@ -158,7 +171,7 @@ const Topbar = ({
           )}
         </div>
         <div className="flex justify-end w-1/3">
-          {!isDesktop ? (
+          {!isDesktop && (
             <button onClick={() => onPictureClick()}>
               <Image
                 src={user?.picture || ""}
@@ -168,7 +181,8 @@ const Topbar = ({
                 width="64"
               />
             </button>
-          ) : (
+          )}
+          {isDesktop && (
             <div className="z-50 divide-y divide-dark-radargrid divide-light-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
@@ -264,4 +278,4 @@ const Topbar = ({
   );
 };
 
-export default Topbar;
+export default TopBar;

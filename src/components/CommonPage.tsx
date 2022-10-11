@@ -5,25 +5,15 @@ import { useMediaQuery } from "react-responsive";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import Notification from "./Notification";
-import Topbar from "./Topbar";
+import TopBar from "./TopBar";
 
 type CommonPageProps = {
   children: any;
-  page: string | string[];
-  faded: boolean;
-  context?: string | string[];
-  category?: string | string[];
-  skill?: string;
+  page: string;
+  faded?: boolean;
 };
 
-const CommonPage = ({
-  children,
-  page,
-  faded,
-  category,
-  skill,
-  context,
-}: CommonPageProps) => {
+const CommonPage = ({ children, page, faded = false }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const router = useRouter();
@@ -34,12 +24,10 @@ const CommonPage = ({
   return (
     <div className="flex flex-row justify-center w-full overflow-y-hidden">
       <div className="flex flex-col w-full">
-        {isDesktop ? (
+        {isDesktop && (
           <div className={faded ? "opacity-25" : ""}>
-            <Topbar path={""} togglePanel={() => {}} context={context} />
+            <TopBar path={""} togglePanel={() => {}} />
           </div>
-        ) : (
-          <></>
         )}
         <div className="flex flex-row justify-center">
           <div className="flex flex-col justify-center bg-light-med dark:bg-dark-med w-full">
