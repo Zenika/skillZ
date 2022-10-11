@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext } from "react";
 import { useDarkMode } from "../utils/darkMode";
+import { i18nContext } from "../utils/i18nContext";
 
 const Navbar = ({ path }: { path: string }) => {
   const { isLoading, error } = useAuth0();
@@ -23,6 +23,7 @@ const Navbar = ({ path }: { path: string }) => {
             {path === "/" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
+                alt={"Line"}
                 width="25"
                 height="2"
               />
@@ -35,6 +36,7 @@ const Navbar = ({ path }: { path: string }) => {
                   ? `/icons/${darkMode ? "dark" : "light"}/skills-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
               }
+              alt={"Line"}
               width="25"
               height="25"
               className="p-1"
@@ -49,6 +51,7 @@ const Navbar = ({ path }: { path: string }) => {
             {path === "/zenika" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
+                alt={"Line"}
                 width="25"
                 height="2"
               />
@@ -61,6 +64,7 @@ const Navbar = ({ path }: { path: string }) => {
                   ? `/icons/${darkMode ? "dark" : "light"}/zenika-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
               }
+              alt={"Line"}
               width="25"
               height="25"
               className="p-1"
@@ -75,6 +79,7 @@ const Navbar = ({ path }: { path: string }) => {
             {path === "/search" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
+                alt={"Line"}
                 width="25"
                 height="2"
               />
@@ -87,6 +92,7 @@ const Navbar = ({ path }: { path: string }) => {
                   ? `/icons/${darkMode ? "dark" : "light"}/search-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/search.svg`
               }
+              alt={"Line"}
               width="25"
               height="25"
               className="p-1"

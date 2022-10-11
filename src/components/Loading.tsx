@@ -16,6 +16,7 @@ const Loading = () => {
       <div className="bg-dark-red w-28 h-28 absolute animate-pulse rounded-full shadow-xl"></div>
       <Image
         src={`/icons/${darkMode ? "dark" : "light"}/logo.svg`}
+        alt={"Logo"}
         height="35"
         width="105"
       />

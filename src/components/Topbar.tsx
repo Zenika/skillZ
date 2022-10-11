@@ -64,6 +64,7 @@ const Topbar = ({
           <Link href="/">
             <Image
               src={`/icons/${darkMode ? "dark" : "light"}/logo.svg`}
+              alt={"Logo"}
               height="35"
               width="105"
             />
@@ -84,6 +85,7 @@ const Topbar = ({
                               }/skills-selected.svg`
                             : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
                         }
+                        alt={"Skill"}
                         width="25"
                         height="25"
                         className="p-1"
@@ -109,6 +111,7 @@ const Topbar = ({
                               }/zenika-selected.svg`
                             : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
                         }
+                        alt={"Zenika"}
                         width="25"
                         height="25"
                         className="p-1"
@@ -136,6 +139,7 @@ const Topbar = ({
                               }/search-selected.svg`
                             : `/icons/${darkMode ? "dark" : "light"}/search.svg`
                         }
+                        alt={"Search"}
                         width="25"
                         height="25"
                         className="p-1"
@@ -157,10 +161,11 @@ const Topbar = ({
           {!isDesktop ? (
             <button onClick={() => onPictureClick()}>
               <Image
+                src={user?.picture || ""}
                 className="rounded-full"
+                alt={user?.name}
                 height="64"
                 width="64"
-                src={user?.picture || ""}
               />
             </button>
           ) : (
@@ -180,10 +185,11 @@ const Topbar = ({
                   )}
                 </div>
                 <Image
+                  src={user?.picture || ""}
+                  alt={user?.name}
                   className="rounded-full"
                   height="64"
                   width="64"
-                  src={user?.picture || ""}
                 />
               </button>
               <div
@@ -199,6 +205,7 @@ const Topbar = ({
                           src={`/icons/${
                             darkMode ? "dark" : "light"
                           }/profile.svg`}
+                          alt={"Profile"}
                           width="16"
                           height="16"
                         />
@@ -213,6 +220,7 @@ const Topbar = ({
                           src={`/icons/${
                             darkMode ? "dark" : "light"
                           }/logout.svg`}
+                          alt={"Sign out"}
                           width="18"
                           height="18"
                         />

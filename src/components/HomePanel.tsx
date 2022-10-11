@@ -123,6 +123,7 @@ const HomePanel = ({
                 ) : (
                   <Image
                     src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
+                    alt={"add"}
                     width="48"
                     height="48"
                   />

@@ -5,6 +5,7 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
         if (level >= i + 1) {
           return (
             <div
+              key={i}
               className={`gradient-${color} w-4 h-2 ml-1 rounded opacity-100`}
             />
           );
@@ -12,9 +13,11 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
           return (
             <>
               <div
+                key={i}
                 className={`gradient-${color} w-1 h-2 ml-1 rounded-l opacity-100`}
               />
               <div
+                key={i}
                 className={`gradient-${color} w-3 h-2 rounded-r opacity-25`}
               />
             </>
@@ -23,9 +26,11 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
           return (
             <>
               <div
+                key={i}
                 className={`gradient-${color} w-2 h-2 ml-1 rounded-l opacity-100`}
               />
               <div
+                key={i}
                 className={`gradient-${color} w-2 h-2 rounded-r opacity-25`}
               />
             </>
@@ -34,9 +39,11 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
           return (
             <>
               <div
+                key={i}
                 className={`gradient-${color} w-3 h-2 ml-1 rounded-l opacity-100`}
               />
               <div
+                key={i}
                 className={`gradient-${color} w-1 h-2 rounded-r opacity-25`}
               />
             </>
@@ -44,6 +51,7 @@ const LevelBar = ({ color, level }: { color: string; level: number }) => {
         } else {
           return (
             <div
+              key={i}
               className={`gradient-${color} w-4 h-2 ml-1 rounded opacity-25`}
             />
           );

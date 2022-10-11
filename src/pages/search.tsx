@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import CustomSelect from "../components/CustomSelect";
 import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import SearchBar from "../components/SearchBar";
 import SkillPanel from "../components/SkillPanel";
@@ -8,7 +9,6 @@ import UserPanel from "../components/UserPanel";
 import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
-import CustomSelect from "../components/CustomSelect";
 
 const Search = ({ pathName }) => {
   const { t } = useContext(i18nContext);
@@ -41,7 +41,7 @@ const Search = ({ pathName }) => {
 
   // MG_TRENDING_SKILL_LIMIT
   // Sort skills as Trends, Most noted, and Alphabetical order
-  const sortedSkills = () => {
+  const sortedSkills = useCallback(() => {
     if (skills) {
       const xSkills = [...skills];
       switch (filter.label) {
@@ -78,11 +78,11 @@ const Search = ({ pathName }) => {
     } else {
       return [];
     }
-  };
+  }, [filter.label, search, skills]);
 
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
-  }, [skills, filter]);
+  }, [skills, filter, sortedSkills]);
 
   return (
     <PageWithNavAndPanel pathName={pathName} context={""}>
@@ -150,8 +150,9 @@ const Search = ({ pathName }) => {
                 )}
               </div>
               {profiles?.length > 0 ? (
-                profiles.map((profile) => (
+                profiles.map((profile, index) => (
                   <UserPanel
+                    key={index}
                     context=""
                     user={{
                       name: profile.name,

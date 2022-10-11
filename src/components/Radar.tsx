@@ -112,7 +112,7 @@ const Radar = ({
       return;
     }
     window.addEventListener("resize", () => setResized(true));
-  }, [window]);
+  }, []);
   useEffect(() => {
     setResized(false);
     if (!radar.current) {
@@ -154,7 +154,8 @@ const Radar = ({
           y: radar.current.offsetHeight * (circle.y / 6),
         }))
     );
-  }, [radar, data, resized]);
+  }, [radar, data, resized, title]);
+
   return (
     <div
       className={`flex ${
@@ -166,9 +167,7 @@ const Radar = ({
           ref={radar}
           className={`${
             title === "" ? "w-radar h-radar" : "w-11/12 h-5/6"
-          } m-3 max-w-radar max-h-radar border-b-2 ${
-            x === "left" ? "border-r-2" : "border-l-2"
-          } border-dark-red border-dashed`}
+          } m-3 max-w-radar max-h-radar`}
         >
           {oneToSix.map((i) => (
             <RadarRow key={i} i={i} isFullSize={isFullSize} />

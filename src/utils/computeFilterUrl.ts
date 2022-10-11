@@ -1,4 +1,4 @@
-export const useComputeFilterUrl = (
+export const computeFilterUrl = (
   baseUrl: string,
   params: { name: string; value: string }[]
 ) => {

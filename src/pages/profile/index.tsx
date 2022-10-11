@@ -20,9 +20,9 @@ import {
 } from "../../graphql/mutations/userInfos";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import { useDarkMode } from "../../utils/darkMode";
+import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { UserCertification } from "../../utils/types";
-import { useNotification } from "../../utils/useNotification";
 
 const Profile = () => {
   // HOOKS
@@ -94,13 +94,21 @@ const Profile = () => {
         },
       })
         .then(() => {
-          useNotification(t("myProfile.updateUserCertSuccess"), "green", 5000);
+          displayNotification(
+            t("myProfile.updateUserCertSuccess"),
+            "green",
+            5000
+          );
           refetch();
           setCertModalOpened(false);
           setSelectedUserCert(undefined);
         })
         .catch(() => {
-          useNotification(`${t("myProfile.updateUserCertError")}`, "red", 5000);
+          displayNotification(
+            `${t("myProfile.updateUserCertError")}`,
+            "red",
+            5000
+          );
         });
     });
   };
@@ -115,13 +123,21 @@ const Profile = () => {
         },
       })
         .then(() => {
-          useNotification(t("myProfile.deleteUserCertSuccess"), "green", 5000);
+          displayNotification(
+            t("myProfile.deleteUserCertSuccess"),
+            "green",
+            5000
+          );
           refetch();
           setCertModalOpened(false);
           setSelectedUserCert(undefined);
         })
         .catch(() => {
-          useNotification(`${t("myProfile.deleteUserCertError")}`, "red", 5000);
+          displayNotification(
+            `${t("myProfile.deleteUserCertError")}`,
+            "red",
+            5000
+          );
         });
     });
   };
@@ -172,6 +188,7 @@ const Profile = () => {
             )}
             <div className="flex flex-row justify-start">
               <Image
+                alt={user?.name}
                 className="w-16 h-16 rounded-full"
                 height="64"
                 width="64"
