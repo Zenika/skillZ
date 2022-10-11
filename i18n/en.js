@@ -212,20 +212,8 @@ export default {
     platin: "Platin",
     diamond: "Diamond",
     numberCompetencies: "Number of competences",
-    subobjectivesTitles: {
-      ProfileCompletion: "Category Profile Completion",
-      Practices: "Category Practices",
-      Activities: "Category Activities",
-      Knowledge: "Category Knowledge",
-      Behaviors: "Category Behaviors",
-    },
-    subobjectivesLegends: {
-      ProfileCompletion: "Add your prefered topics and your agency",
-      Practices: "Add skills in the Practices grid",
-      Activities: "Add skills in the Activities grid",
-      Knowledge: "Add skills in the Knowledge grid",
-      Behaviors: "Add skills in the Behaviors grid",
-      Profile: "Complete profile informations",
-    },
+    ProfileCompDesc: "Complete your profile page",
+    ProfileCompTitle: "Profile page",
+    subobjectivesLegends: "Add more skills to increase your level !",
   },
 };

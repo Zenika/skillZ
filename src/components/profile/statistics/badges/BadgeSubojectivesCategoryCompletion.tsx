@@ -1,15 +1,14 @@
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
+import { i18nContext } from "../../../../utils/i18nContext";
 
 export const BadgeSubojectivesCategoryCompletion = ({
-  themeToCompare,
+  label,
   datas,
   src,
-  titleSubobjective,
-  descriptionSubobjective,
   countSkills,
 }) => {
   const [step, setStep] = useState([0]);
@@ -17,11 +16,13 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [max, setMax] = useState(5);
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
+  const { t } = useContext(i18nContext);
   const [badgeFilterCss, setBadgeFilterCss] = useState(
     `${styles.filterBronze}`
   );
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
+  console.log("label", label);
   const getStepsByCategory = useCallback(() => {
     if (datas) {
       setStep((step) => [
@@ -29,14 +30,13 @@ export const BadgeSubojectivesCategoryCompletion = ({
         ...datas
           .filter(
             (d) =>
-              d.label === "categoryCompletion" &&
-              d.additionalInfo === themeToCompare
+              d.label === "categoryCompletion" && d.additionalInfo === label
           )
           .map((s) => s.step),
       ]);
     }
     return;
-  }, [datas, themeToCompare]);
+  }, [datas, label]);
 
   const setFilterBadgesLevel = useCallback(() => {
     if (skillsNumber >= 10 && skillsNumber < 20)
@@ -81,8 +81,8 @@ export const BadgeSubojectivesCategoryCompletion = ({
           height="45"
         />
         <div className="p-2 pl-4 text-l">
-          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
-          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+          <p className="font-extrabold text-xl mt-2">{label}</p>
+          <p className="mt-1.5 mb-2">{t("statistics.subobjectivesLegends")}</p>
         </div>
       </div>
       <div className="flex flex-row">

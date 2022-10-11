@@ -217,20 +217,9 @@ export default {
     platin: "Platine",
     diamond: "Diamant",
     numberCompetencies: "Compétences ajoutées",
-    subobjectivesTitles: {
-      ProfileCompletion: "Categorie Profile",
-      Practices: "Catégorie Pratiques",
-      Activities: "Catégorie Activités",
-      Knowledge: "Catégorie Connaissances",
-      Behaviors: "Catégorie Postures",
-    },
-    subobjectivesLegends: {
-      ProfileCompletion: "Ajoute tes sujets préférés et ton agence",
-      Practices: "Ajoute des compétences dans la grille Pratiques",
-      Activities: "Ajoute des compétences dans la grille Activités",
-      Knowledge: "Ajoute des compétences dans la grille Connaissances",
-      Behaviors: "Ajoute des compétences dans la grille Postures",
-      Profile: "Compléter son profil",
-    },
+    ProfileCompDesc: "Complète ta page de profil",
+    ProfileCompTitle: "Page de profil",
+    subobjectivesLegends:
+      "Ajoute et note plus de compétences pour améliorer ton score !",
   },
 };

@@ -16,10 +16,11 @@ export const Statistics = ({
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 
-  const filterCountSkills = (themeToCompare) =>
-    skillsDatas.find((c) => c.label === themeToCompare)
-      .CurrentSkillsAndDesires_aggregate.aggregate.count;
+  const filterCountSkills = (label) =>
+    skillsDatas.find((c) => c.label === label).CurrentSkillsAndDesires_aggregate
+      .aggregate.count;
 
+  console.log("userAchievements", userAchievements);
   return (
     <div
       className={`${
@@ -34,57 +35,33 @@ export const Statistics = ({
           : t("statistics.titleSection")}
       </h2>
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="practices"
+        label={skillsDatas?.find((skill) => skill.label === "practices").label}
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Practices")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Practices") : ""
-        }
         countSkills={filterCountSkills("practices")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="activities"
+        label={skillsDatas?.find((skill) => skill.label === "activities").label}
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Activities")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Activities") : ""
-        }
         countSkills={filterCountSkills("activities")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="knowledge"
+        label={skillsDatas?.find((skill) => skill.label === "knowledge").label}
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Knowledge")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Knowledge") : ""
-        }
         countSkills={filterCountSkills("knowledge")}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="behaviors"
+        label={skillsDatas?.find((skill) => skill.label === "behaviors").label}
         datas={userAchievements}
         src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Behaviors")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Behaviors") : ""
-        }
         countSkills={filterCountSkills("behaviors")}
       />
       <BadgeSubojectivesProfileCompletion
         src="/img/badges/badge.svg"
         countTopics={countTopics}
         userAgency={userAgency}
-        titleSubobjective={t(
-          "statistics.subobjectivesTitles.ProfileCompletion"
-        )}
-        descriptionSubobjective={
-          myStatistics
-            ? t("statistics.subobjectivesLegends.ProfileCompletion")
-            : ""
-        }
       />
     </div>
   );

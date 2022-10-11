@@ -1,24 +1,23 @@
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useDarkMode } from "../../../../utils/darkMode";
 import { ProgressBar } from "../progressBar/ProgressBar";
+import { i18nContext } from "../../../../utils/i18nContext";
 import styles from "./badgeLevels.module.css";
 
 export const BadgeSubojectivesProfileCompletion = ({
   src,
   countTopics,
   userAgency,
-  titleSubobjective,
-  descriptionSubobjective,
 }) => {
   const [percentageBarValue, setpercentageBarValue] = useState(0);
   const { darkMode } = useDarkMode();
   const [points, setPoints] = useState(0);
+  const { t } = useContext(i18nContext);
   const [badgeFilterCss, setBadgeFilterCss] = useState(
     `${styles.filterBronze}`
   );
   const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
-
   const setFilterBadgesLevel = useCallback(() => {
     if (points === 1) setBadgeFilterCss(`${styles.filterSilver}`);
     if (points === 2) setBadgeFilterCss(`${styles.filterGold}`);
@@ -56,8 +55,10 @@ export const BadgeSubojectivesProfileCompletion = ({
           height="45"
         />
         <div className="p-2 pl-4 text-l">
-          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
-          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+          <p className="font-extrabold text-xl mt-2">
+            {t("statistics.ProfileCompTitle")}
+          </p>
+          <p className="mt-1.5 mb-2">{t("statistics.ProfileCompDesc")}</p>
         </div>
       </div>
       <div className="flex flex-row">
