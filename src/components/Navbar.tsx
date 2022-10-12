@@ -1,26 +1,21 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 
-const Navbar = ({ path }: { path: string }) => {
-  const { isLoading, error } = useAuth0();
+const Navbar = () => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  if (error) {
-    console.error(
-      `Something bad happened while authenticating user: ${error.message}`
-    );
-    return;
-  }
+  const { pathname } = useRouter();
+
   return (
-    <header className="flex flex-auto flex-row justify-around h-16 bg-red-800 bg-light-light dark:bg-dark-dark text-light-graytext dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
+    <header className="z-50 flex flex-auto flex-row justify-around h-16 bg-red-800 bg-light-light dark:bg-dark-dark text-light-graytext dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
       <div className="w-1/3">
         <Link href="/">
           <div className="flex flex-initial flex-col justify-between cursor-pointer">
-            {path === "/" ? (
+            {pathname === "/" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
                 alt={"Line"}
@@ -32,7 +27,7 @@ const Navbar = ({ path }: { path: string }) => {
             )}
             <Image
               src={
-                path === "/"
+                pathname === "/"
                   ? `/icons/${darkMode ? "dark" : "light"}/skills-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
               }
@@ -48,7 +43,7 @@ const Navbar = ({ path }: { path: string }) => {
       <div className="w-1/3">
         <Link href="/zenika">
           <div className="flex flex-initial flex-col justify-between cursor-pointer">
-            {path === "/zenika" ? (
+            {pathname === "/zenika" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
                 alt={"Line"}
@@ -60,7 +55,7 @@ const Navbar = ({ path }: { path: string }) => {
             )}
             <Image
               src={
-                path === "/zenika"
+                pathname === "/zenika"
                   ? `/icons/${darkMode ? "dark" : "light"}/zenika-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
               }
@@ -76,7 +71,7 @@ const Navbar = ({ path }: { path: string }) => {
       <div className="w-1/3">
         <Link href="/search">
           <div className="flex flex-initial flex-col justify-between cursor-pointer">
-            {path === "/search" ? (
+            {pathname === "/search" ? (
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
                 alt={"Line"}
@@ -88,7 +83,7 @@ const Navbar = ({ path }: { path: string }) => {
             )}
             <Image
               src={
-                path === "/search"
+                pathname === "/search"
                   ? `/icons/${darkMode ? "dark" : "light"}/search-selected.svg`
                   : `/icons/${darkMode ? "dark" : "light"}/search.svg`
               }

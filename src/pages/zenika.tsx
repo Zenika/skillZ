@@ -1,17 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import CommonPage from "../components/CommonPage";
+import ErrorPage from "../components/ErrorPage";
+import FilterByPanel from "../components/FilterByPanel";
 import HomePanel from "../components/HomePanel";
 import Loading from "../components/Loading";
-import PageWithNavAndPanel from "../components/PageWithNavAndPanel";
 import { computeFilterUrl } from "../utils/computeFilterUrl";
 import { useFetchZenikaPageData } from "../utils/fetchers/useFetchZenikaPageData";
 import { FilterData } from "../utils/types";
 
-const Zenika = ({ pathName }) => {
-  const { user, isLoading } = useAuth0();
+const Zenika = () => {
+  const { user, isLoading: userLoading, error: userError } = useAuth0();
   const { query, push } = useRouter();
-  const { context, agency } = query;
+  const { agency } = query;
   const computedAgency = agency
     ? typeof agency === "string"
       ? agency
@@ -20,10 +22,14 @@ const Zenika = ({ pathName }) => {
   const [filterByAgency, setFilterByAgency] = useState<
     FilterData<string> | undefined
   >(undefined);
-  const { homePanelData, agencies, error } = useFetchZenikaPageData(
-    user.email || "",
-    computedAgency
-  );
+
+  const {
+    homePanelData,
+    agencies,
+    error: dataError,
+    loading: dataLoading,
+  } = useFetchZenikaPageData(user.email || "", computedAgency);
+
   useEffect(() => {
     setFilterByAgency({
       name: "Agency",
@@ -32,13 +38,17 @@ const Zenika = ({ pathName }) => {
     });
   }, [agency, agencies, computedAgency]);
 
+  if (userLoading || dataLoading) {
+    return <Loading />;
+  } else if (dataError || userError) {
+    return <ErrorPage />;
+  }
   return (
-    <PageWithNavAndPanel
-      pathName={pathName}
-      context={context}
-      filters={
-        filterByAgency
-          ? [
+    <CommonPage page={"Zenika"}>
+      {filterByAgency && (
+        <div className="m-4">
+          <FilterByPanel
+            filters={[
               {
                 name: filterByAgency.name,
                 values: ["World", ...filterByAgency.values],
@@ -51,25 +61,20 @@ const Zenika = ({ pathName }) => {
                     )
                   ),
               },
-            ]
-          : undefined
-      }
-    >
-      <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-        {homePanelData ? (
+            ]}
+          />
+        </div>
+      )}
+      <div className="flex flex-row mx-4 flex-wrap mb-20">
+        {homePanelData &&
           homePanelData.map((computedDataSkill) => (
             <HomePanel
               props={computedDataSkill}
               key={`home-panel-${computedDataSkill.name}`}
             />
-          ))
-        ) : error ? (
-          <p>{`Error: ${error.name}, Message: ${error.message}`}</p>
-        ) : (
-          <Loading />
-        )}
+          ))}
       </div>
-    </PageWithNavAndPanel>
+    </CommonPage>
   );
 };
 
