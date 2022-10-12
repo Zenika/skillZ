@@ -237,6 +237,7 @@ const Profile = () => {
                 </div>
               )}
             </div>
+            {/* ### MG_NEW_USER */}
             {userInserted ||
               (userAgency && (
                 <div>

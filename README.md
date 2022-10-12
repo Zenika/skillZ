@@ -54,9 +54,6 @@ In order to initialize / update the database run :
 
 Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the correct port (to keep track of schema changes in the hasura/migrations folder)).
 
-Browse to the `Data` tab in the console and select the `User` table.
-Create your own Zenika user (its email should match your login email).
-
 ### Develop with hasura
 
 For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine and console.
@@ -111,6 +108,10 @@ npm run cypress:open
 ```
 
 Before running cypress tests, all data from the test user should be deleted.
+
+### Management rules
+
+See all rules in `doc/rg.md`. You can find the part of the code corresponding to each rule in the comments of the code.
 
 # Slackbot
 
