@@ -54,3 +54,10 @@ graphql.schema.json
 
 # IntelliJ
 .idea
+
+## SLACK-BOT
+/bot-slack/node_modules
+/bot-slack/.env
+/bot-slack/ngrok
+/bot-slack/.DS_Store
+/bot-slack/coverage

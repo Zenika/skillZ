@@ -1,0 +1,8 @@
+# dependencies
+/node_modules
+ngrok
+/coverage
+.DS_Store
+
+# local env files
+.env
