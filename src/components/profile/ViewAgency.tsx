@@ -19,12 +19,12 @@ const ViewAgency = ({ agency }: ViewAgencyProps) => {
   }, [ref]);
   return (
     <div
-      className={`flex flex-col justify-around rounded-lg ${
-        darkMode ? "bg-dark-dark my-2 p-2" : "bg-lidht-med my-2 p-2"
+      className={`flex flex-col justify-around rounded-lg pb-8 my-2 p-2 ${
+        darkMode ? "bg-dark-dark" : "bg-light-med"
       }`}
     >
       <div className="p-2 text-xl">{t("userProfile.agency")}</div>
-      <div ref={ref} className="w-full h-20">
+      <div ref={ref} className="w-full h-10">
         <div
           className="z-20 absolute"
           style={{ width: size.width, height: size.height }}
