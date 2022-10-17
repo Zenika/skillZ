@@ -66,17 +66,17 @@
 
 .filterSilver {
   filter: invert(86%) sepia(0%) saturate(1183%) hue-rotate(233deg)
-    brightness(86%) contrast(104%);
+    brightness(86%) contrast(104%) drop-shadow(0 0 0.15rem black);
 }
 
 .filterBronze {
   filter: invert(68%) sepia(16%) saturate(3475%) hue-rotate(339deg)
-    brightness(86%) contrast(83%);
+    brightness(86%) contrast(83%) drop-shadow(0 0 0.15rem black);
 }
 
 .filterGold {
   filter: invert(92%) sepia(83%) saturate(7156%) hue-rotate(324deg)
-    brightness(86%) contrast(92%);
+    brightness(86%) contrast(92%) drop-shadow(0 0 0.15rem black);
 }
 
 .filterDiamond {
@@ -84,6 +84,7 @@
   animation-name: bright;
   animation-duration: 3s;
   animation-iteration-count: infinite;
+  filter: drop-shadow(0 0 0.15rem black);
 }
 
 @keyframes bright {
