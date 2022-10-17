@@ -80,7 +80,11 @@ export const BadgeSubojectivesCategoryCompletion = ({
       <div className="flex flex-row place-content-between">
         <div className="p-2 pl-4 text-l">
           <p className="font-extrabold text-xl mt-2">Graph {label}</p>
-          <p className="mt-1.5 mb-2">{t("statistics.subobjectivesLegends")}</p>
+          {myStatistics && (
+            <p className="mt-1.5 mb-2">
+              {t("statistics.subobjectivesLegends")}
+            </p>
+          )}
         </div>
         <div className="flex mr-4 relative text-center">
           <Image
@@ -100,7 +104,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
         <p className="pl-4">
           {skillsNumber}/{max}
         </p>
-        {displayCheckLogo ? (
+        {/* {displayCheckLogo ? (
           <Image
             className="pl-2"
             src="/img/badges/check.svg"
@@ -110,7 +114,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
           />
         ) : (
           ""
-        )}
+        )} */}
       </div>
 
       {myStatistics && (

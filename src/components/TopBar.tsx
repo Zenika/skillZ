@@ -13,27 +13,25 @@ import { BotNotifications } from "./BotNotifications";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { LocaleSelector } from "./LocaleSelector";
 
-const Topbar = ({
-  path,
-  context,
-  togglePanel,
-}: {
-  path?: string;
-  context: string | string[];
+export type TopBarProps = {
   togglePanel: () => void;
-}) => {
-  const { locale } = useRouter();
+};
+
+const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
+  const { locale, query, pathname } = useRouter();
+  let { context } = query;
+
+  /*
+   * STATES
+   */
   const [openMenu, setOpenMenu] = useState(false);
-  const onPictureClick = () => {
-    if (!isAuthenticated) {
-      loginWithRedirect();
-      return;
-    }
-    togglePanel();
-  };
+
+  /*
+   * QUERIES
+   */
   const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
@@ -42,6 +40,20 @@ const Topbar = ({
     }
   );
 
+  /*
+   * CALLBACKS
+   */
+  const onPictureClick = () => {
+    if (!isAuthenticated) {
+      loginWithRedirect();
+      return;
+    }
+    togglePanel();
+  };
+
+  /*
+   * HOOKS
+   */
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -50,7 +62,7 @@ const Topbar = ({
     console.error(
       `Something bad happened while authenticating user: ${error.message}`
     );
-    return;
+    return <></>;
   }
 
   return (
@@ -71,7 +83,7 @@ const Topbar = ({
           </Link>
         </div>
         <div className="flex justify-center w-1/3">
-          {isDesktop && path !== undefined && (
+          {isDesktop && (
             <div className="flex flex-col justify-center p-4">
               <div className="flex flex-row justify-around">
                 <div className="w-36">
@@ -79,7 +91,7 @@ const Topbar = ({
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          context === "mine" || path === "/"
+                          context === "mine" || pathname === "/"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/skills-selected.svg`
@@ -92,7 +104,7 @@ const Topbar = ({
                       />
                       <span className="text-center">{t("nav.mySkills")}</span>
                       {context === "mine" ||
-                        (path === "/" && (
+                        (pathname === "/" && (
                           <div className="flex flex-row justify-center w-full h-0.5">
                             <div className="w-3/4 h-full gradient-red" />
                           </div>
@@ -105,7 +117,7 @@ const Topbar = ({
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          context === "zenika" || path === "/zenika"
+                          context === "zenika" || pathname === "/zenika"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/zenika-selected.svg`
@@ -120,7 +132,7 @@ const Topbar = ({
                         {t("nav.zenikaSkills")}
                       </span>
                       {context === "zenika" ||
-                        (path === "/zenika" && (
+                        (pathname === "/zenika" && (
                           <div className="flex flex-row justify-center w-full h-0.5">
                             <div className="w-3/4 h-full gradient-red" />
                           </div>
@@ -133,7 +145,7 @@ const Topbar = ({
                     <div className="flex flex-initial flex-col justify-between cursor-pointer">
                       <Image
                         src={
-                          path === "/search"
+                          pathname === "/search"
                             ? `/icons/${
                                 darkMode ? "dark" : "light"
                               }/search-selected.svg`
@@ -145,7 +157,7 @@ const Topbar = ({
                         className="p-1"
                       />
                       <span className="text-center">{t("nav.search")}</span>
-                      {path === "/search" && (
+                      {pathname === "/search" && (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>
@@ -158,7 +170,7 @@ const Topbar = ({
           )}
         </div>
         <div className="flex justify-end w-1/3">
-          {!isDesktop ? (
+          {!isDesktop && (
             <button onClick={() => onPictureClick()}>
               <Image
                 src={user?.picture || ""}
@@ -168,7 +180,8 @@ const Topbar = ({
                 width="64"
               />
             </button>
-          ) : (
+          )}
+          {isDesktop && (
             <div className="z-50 divide-y divide-dark-radargrid divide-light-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
@@ -264,4 +277,4 @@ const Topbar = ({
   );
 };
 
-export default Topbar;
+export default TopBar;

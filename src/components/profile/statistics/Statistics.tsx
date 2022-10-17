@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { useDarkMode } from "../../../utils/darkMode";
-import {
-  BadgeSubojectivesCategoryCompletion,
-  BadgeSubojectivesProfileCompletion,
-} from "./badges";
+import { BadgeSubojectivesCategoryCompletion } from "./badges";
 
 export const Statistics = ({
   userAchievements,
@@ -60,11 +57,6 @@ export const Statistics = ({
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("behaviors")}
         myStatistics={myStatistics}
-      />
-      <BadgeSubojectivesProfileCompletion
-        src="/img/badges/hexagone.svg"
-        countTopics={countTopics}
-        userAgency={userAgency}
       />
     </div>
   );

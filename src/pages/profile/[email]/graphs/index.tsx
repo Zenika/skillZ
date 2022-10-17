@@ -1,6 +1,11 @@
 import { useQuery } from "@apollo/client";
-import HomePanel from "../../../../components/HomePanel";
 import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import CommonPage from "../../../../components/CommonPage";
+import ErrorPage from "../../../../components/ErrorPage";
+import HomePanel from "../../../../components/HomePanel";
+import Loading from "../../../../components/Loading";
+import UserInfosTopBar from "../../../../components/UserInfosTopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -9,17 +14,29 @@ import {
   GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
   GET_USER_QUERY,
 } from "../../../../graphql/queries/userInfos";
-import Loading from "../../../../components/Loading";
-import { useEffect, useState, useContext } from "react";
-import PageWithNavAndPanel from "../../../../components/PageWithNavAndPanel";
 import { i18nContext } from "../../../../utils/i18nContext";
-import UserInfosTopBar from "../../../../components/UserInfosTopBar";
 import Custom404 from "../../../404";
 
-const HomePanelByUser = ({ pathName }) => {
+const HomePanelByUser = () => {
   const { query } = useRouter();
-  const { context } = query;
   const { t } = useContext(i18nContext);
+
+  /*
+   * STATES
+   */
+  const [userInfos, setUserInfos] = useState(null);
+
+  /*
+   * QUERIES
+   */
+  const {
+    data: userInfosDatas,
+    error: errorUserInfosDatas,
+    loading: loadingUserInfosDatas,
+  } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: query?.email },
+    fetchPolicy: "network-only",
+  });
 
   const {
     data: skillsData,
@@ -32,14 +49,6 @@ const HomePanelByUser = ({ pathName }) => {
       fetchPolicy: "network-only",
     }
   );
-  const {
-    data: userInfosDatas,
-    error: errorUserInfosDatas,
-    loading: loadingUserInfosDatas,
-  } = useQuery<GetUserQuery>(GET_USER_QUERY, {
-    variables: { email: query?.email },
-    fetchPolicy: "network-only",
-  });
 
   const homePanelData = skillsData?.Category.map((data) => ({
     x: data.x,
@@ -60,47 +69,37 @@ const HomePanelByUser = ({ pathName }) => {
     ...row,
     data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
-  const [userInfos, setUserInfos] = useState(null);
 
   useEffect(() => {
     if (userInfosDatas) setUserInfos(userInfosDatas.User[0]);
   }, [userInfosDatas]);
 
+  if (loadingUserInfosDatas || loadingSkillsDatas) {
+    return <Loading />;
+  } else if (errorUserInfosDatas || errorSkillsData) {
+    return <ErrorPage />;
+  } else if (!userInfos) {
+    return <Custom404 />;
+  }
+
   return (
-    <div>
-      {loadingSkillsDatas || loadingUserInfosDatas ? (
-        <Loading />
-      ) : (
-        <div>
-          {userInfos != null || userInfos != undefined ? (
-            <PageWithNavAndPanel pathName={pathName} context={context}>
-              <UserInfosTopBar
-                userEmail={userInfos?.email}
-                userName={userInfos?.name}
-                userPicture={userInfos?.picture}
-                sentence={t("search.pageSkillzGraphs.title")}
-              />
-              <div className="flex flex-auto flex-row mx-4 flex-wrap mb-20">
-                {homePanelData ? (
-                  homePanelData.map((computedDataSkill) => (
-                    <HomePanel
-                      props={computedDataSkill}
-                      key={`home-panel-${computedDataSkill.name}`}
-                    />
-                  ))
-                ) : errorSkillsData ? (
-                  <p>{`Error: ${errorSkillsData.name}, Message: ${errorSkillsData.message}`}</p>
-                ) : (
-                  <Loading />
-                )}
-              </div>
-            </PageWithNavAndPanel>
-          ) : (
-            <Custom404 />
-          )}
-        </div>
-      )}
-    </div>
+    <CommonPage page={userInfos.email} backBar={false}>
+      <UserInfosTopBar
+        userEmail={userInfos?.email}
+        userName={userInfos?.name}
+        userPicture={userInfos?.picture}
+        sentence={t("search.pageSkillzGraphs.title")}
+      />
+      <div className="flex flex-row mx-4 flex-wrap mb-20">
+        {homePanelData &&
+          homePanelData.map((computedDataSkill) => (
+            <HomePanel
+              props={computedDataSkill}
+              key={`home-panel-${computedDataSkill.name}`}
+            />
+          ))}
+      </div>
+    </CommonPage>
   );
 };
 
