@@ -205,6 +205,7 @@ export default {
     monthStreak: "Months Streak",
     sentenceRankIncodming1: "Still ",
     sentenceRankIncodming2: "xp to be promoted",
+    add: "Add %label%",
     league: "League",
     bronze: "Bronze",
     silver: "Silver",

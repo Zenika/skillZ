@@ -98,7 +98,7 @@ const Profile = () => {
                 userCertifications={userCertifications}
                 readOnly={true}
               ></CertificationsList>
-              {skillsDatas ? (
+              {skillsDatas && (
                 <Statistics
                   userAchievements={userAchievements}
                   skillsDatas={skillsDatas}
@@ -106,8 +106,6 @@ const Profile = () => {
                   userAgency={userAgency}
                   myStatistics={false}
                 />
-              ) : (
-                <></>
               )}
             </div>
           </div>

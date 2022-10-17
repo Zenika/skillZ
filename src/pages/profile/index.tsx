@@ -257,7 +257,7 @@ const Profile = () => {
                     onUserCertificationAdd={() => setCertModalOpened(true)}
                     readOnly={false}
                   ></CertificationsList>
-                  {skillsDatas ? (
+                  {skillsDatas && (
                     <Statistics
                       userAchievements={userAchievements}
                       skillsDatas={skillsDatas}
@@ -265,8 +265,6 @@ const Profile = () => {
                       userAgency={userAgency}
                       myStatistics={true}
                     />
-                  ) : (
-                    <></>
                   )}
                 </div>
               ))}

@@ -20,7 +20,6 @@ export const Statistics = ({
     skillsDatas.find((c) => c.label === label).CurrentSkillsAndDesires_aggregate
       .aggregate.count;
 
-  console.log("userAchievements", userAchievements);
   return (
     <div
       className={`${
@@ -37,29 +36,33 @@ export const Statistics = ({
       <BadgeSubojectivesCategoryCompletion
         label={skillsDatas?.find((skill) => skill.label === "practices").label}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("practices")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
         label={skillsDatas?.find((skill) => skill.label === "activities").label}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("activities")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
         label={skillsDatas?.find((skill) => skill.label === "knowledge").label}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("knowledge")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
         label={skillsDatas?.find((skill) => skill.label === "behaviors").label}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("behaviors")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesProfileCompletion
-        src="/img/badges/badge.svg"
+        src="/img/badges/hexagone.svg"
         countTopics={countTopics}
         userAgency={userAgency}
       />
