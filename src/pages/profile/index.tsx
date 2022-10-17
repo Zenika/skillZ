@@ -77,8 +77,8 @@ const Profile = () => {
   const updateAgency = (agency: string) => {
     insertUserIfNeeded().then(() => {
       upsertAgency({ variables: { email: user?.email, agency } });
+      if (!onboarding) router.reload();
     });
-    if (!onboarding) router.reload();
   };
 
   const updateCertification = (userCert: UserCertification) => {
