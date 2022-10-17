@@ -1,13 +1,47 @@
-.progressTrackerDark {
-  width: 50%;
+.progressTrackerBronze {
+  width: 15%;
   height: 20px;
-  background: #4b4b4b;
+  background: #000000;
   border-radius: 10px;
   box-shadow: inset 0 0 5px #000;
+  filter: invert(68%) sepia(16%) saturate(3475%) hue-rotate(339deg)
+    brightness(86%) contrast(83%);
+}
+
+.progressTrackerSilver {
+  width: 15%;
+  height: 20px;
+  background: #000000;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #000;
+  filter: invert(86%) sepia(0%) saturate(1183%) hue-rotate(233deg)
+    brightness(86%) contrast(104%);
+}
+
+.progressTrackerGold {
+  width: 15%;
+  height: 20px;
+  background: #000000;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #000;
+  filter: invert(92%) sepia(83%) saturate(7156%) hue-rotate(324deg)
+    brightness(86%) contrast(92%);
+}
+
+.progressTrackerDiamond {
+  width: 15%;
+  height: 20px;
+  background: #000000;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #000;
+  border: outset, black;
+  animation-name: bright;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
 }
 
 .progresseTrackerBackgroundDark {
-  width: 50%;
+  width: 15%;
   height: 20px;
   background: rgb(34, 34, 34);
   border-radius: 8px;
@@ -15,7 +49,7 @@
 }
 
 .progressTrackerLight {
-  width: 50%;
+  width: 15%;
   height: 20px;
   background: #dfe4ea;
   border-radius: 10px;
@@ -23,9 +57,58 @@
 }
 
 .progresseTrackerBackgroundLight {
-  width: 50%;
+  width: 15%;
   height: 20px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: inset 0 0 5px #000;
+}
+
+.filterSilver {
+  filter: invert(86%) sepia(0%) saturate(1183%) hue-rotate(233deg)
+    brightness(86%) contrast(104%);
+}
+
+.filterBronze {
+  filter: invert(68%) sepia(16%) saturate(3475%) hue-rotate(339deg)
+    brightness(86%) contrast(83%);
+}
+
+.filterGold {
+  filter: invert(92%) sepia(83%) saturate(7156%) hue-rotate(324deg)
+    brightness(86%) contrast(92%);
+}
+
+.filterDiamond {
+  border: outset, black;
+  animation-name: bright;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bright {
+  0% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(102%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+  }
+  50% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(40%) contrast(123%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(72%) contrast(169%);
+  }
+  100% {
+    filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+    -webkit-filter: invert(96%) sepia(82%) saturate(6462%) hue-rotate(170deg)
+      brightness(90%) contrast(103%);
+  }
 }

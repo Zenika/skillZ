@@ -3,13 +3,7 @@ import { i18nContext } from "../../../utils/i18nContext";
 import { useDarkMode } from "../../../utils/darkMode";
 import { BadgeSubojectivesCategoryCompletion } from "./badges";
 
-export const Statistics = ({
-  userAchievements,
-  skillsDatas,
-  countTopics,
-  userAgency,
-  myStatistics,
-}) => {
+export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 

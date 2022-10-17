@@ -6,7 +6,6 @@ import styles from "./badgeLevels.module.css";
 import { useRouter } from "next/router";
 import { i18nContext } from "../../../../utils/i18nContext";
 import { config } from "../../../../env";
-import { Transform } from "stream";
 
 export const BadgeSubojectivesCategoryCompletion = ({
   label,
@@ -17,15 +16,16 @@ export const BadgeSubojectivesCategoryCompletion = ({
 }) => {
   const [step, setStep] = useState([0]);
   const [skillsNumber, setSkillsNumber] = useState(0);
-  const [max, setMax] = useState(5);
   const { push } = useRouter();
-  const [percentageBarValue, setpercentageBarValue] = useState(0);
+  const [percentageBarBronze, setPercentageBarBronze] = useState(0);
+  const [percentageBarSilver, setPercentageBarSilver] = useState(0);
+  const [percentageBarGold, setPercentageBarGold] = useState(0);
+  const [percentageBarDiamond, setPercentageBarDiamond] = useState(0);
   const { darkMode } = useDarkMode();
   const { t } = useContext(i18nContext);
   const [badgeFilterCss, setBadgeFilterCss] = useState(
     `${styles.filterBronze}`
   );
-  const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
   const getStepsByCategory = useCallback(() => {
     if (datas) {
@@ -44,16 +44,28 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const link = new URL(`${config.nextPublicBaseUrl}/skills/mine/${label}`);
 
   const setFilterBadgesLevel = useCallback(() => {
-    if (skillsNumber >= 10 && skillsNumber < 20)
+    if (skillsNumber >= 10 && skillsNumber < 20) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver((skillsNumber - 10) * 10);
       setBadgeFilterCss(`${styles.filterSilver}`);
-    if (skillsNumber >= 20 && skillsNumber < 30)
+    }
+    if (skillsNumber >= 20 && skillsNumber < 30) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver(100);
+      setPercentageBarGold((skillsNumber - 20) * 10);
       setBadgeFilterCss(`${styles.filterGold}`);
-    if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
+    }
+    if (skillsNumber >= 30) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver(100);
+      setPercentageBarGold(100);
+      setPercentageBarDiamond((skillsNumber - 30) * 10);
+      setBadgeFilterCss(`${styles.filterDiamond}`);
+    } else setPercentageBarBronze(skillsNumber * 10);
   }, [skillsNumber]);
 
   useEffect(() => {
     setSkillsNumber(countSkills);
-    if (countSkills >= 40) setDisplayCheckLogo(true);
   }, [countSkills]);
 
   useEffect(() => {
@@ -61,13 +73,8 @@ export const BadgeSubojectivesCategoryCompletion = ({
   }, [countSkills, getStepsByCategory]);
 
   useEffect(() => {
-    const maxVerif = Math.max(...step) + 5;
-    if (isFinite(maxVerif)) {
-      setMax(maxVerif);
-      setpercentageBarValue((skillsNumber / max) * 100);
-    } else setpercentageBarValue((skillsNumber / max) * 100);
     setFilterBadgesLevel();
-  }, [max, skillsNumber, setFilterBadgesLevel, step]);
+  }, [skillsNumber, setFilterBadgesLevel, step]);
 
   return (
     <div
@@ -100,21 +107,26 @@ export const BadgeSubojectivesCategoryCompletion = ({
         </div>
       </div>
       <div className="flex flex-row">
-        <ProgressBar percentage={percentageBarValue} />
-        <p className="pl-4">
-          {skillsNumber}/{max}
-        </p>
-        {/* {displayCheckLogo ? (
-          <Image
-            className="pl-2"
-            src="/img/badges/check.svg"
-            alt={"Badge"}
-            width="20"
-            height="20"
-          />
-        ) : (
-          ""
-        )} */}
+        <ProgressBar
+          percentage={percentageBarBronze}
+          type="bronze"
+          validateSrc={src}
+        />
+        <ProgressBar
+          percentage={percentageBarSilver}
+          type="silver"
+          validateSrc={src}
+        />
+        <ProgressBar
+          percentage={percentageBarGold}
+          type="gold"
+          validateSrc={src}
+        />
+        <ProgressBar
+          percentage={percentageBarDiamond}
+          type="diamond"
+          validateSrc={src}
+        />
       </div>
 
       {myStatistics && (
