@@ -39,7 +39,7 @@ export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
         myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
-        label={skillsDatas?.find((skill) => skill.label === "knowledge").label}
+        label={"knowledge"}
         datas={userAchievements}
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("knowledge")}
