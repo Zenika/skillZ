@@ -80,12 +80,12 @@ export const BadgeSubojectivesCategoryCompletion = ({
     <div
       className={`${
         darkMode
-          ? "bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0"
-          : "bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0"
+          ? "bg-dark-light p-4 mt-2 mb-4 rounded-md"
+          : "bg-light-light p-4 mt-2 mb-4 rounded-md"
       }`}
     >
       <div className="flex flex-row place-content-between">
-        <div className="p-2 pl-4 text-l">
+        <div className="p-1 text-l">
           <p className="font-extrabold text-xl mt-2">Graph {label}</p>
           {myStatistics && (
             <p className="mt-1.5 mb-2">
@@ -130,14 +130,16 @@ export const BadgeSubojectivesCategoryCompletion = ({
       </div>
 
       {myStatistics && (
-        <button
-          className="rounded mt-4 ml-2 gradient-red"
-          onClick={() => push(link)}
-        >
-          <span className="px-4 py-4 text-light-ultrawhite text-m">
-            {t("statistics.add").replace("%label%", label)}
-          </span>
-        </button>
+        <div className="flex flex-row-reverse">
+          <button
+            className="rounded mt-4 ml-2 gradient-red"
+            onClick={() => push(link)}
+          >
+            <span className="px-4 py-4 text-light-ultrawhite text-m">
+              {t("statistics.add").replace("%label%", label)}
+            </span>
+          </button>
+        </div>
       )}
     </div>
   );

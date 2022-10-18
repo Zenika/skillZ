@@ -15,8 +15,8 @@ export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
     <div
       className={`${
         darkMode
-          ? "bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded-lg"
-          : "bg-light pb-4 pl-4 pr-4 mt-4 flex-col rounded-lg"
+          ? "bg-dark-dark pb-4 pl-4 pr-4 mt-2 flex-col rounded-lg"
+          : "bg-light pb-4 pl-4 pr-4 mt-2 flex-col rounded-lg"
       }`}
     >
       <h2 className="pb-2 pr-2 pt-6 text-2xl">
