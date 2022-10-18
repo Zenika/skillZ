@@ -210,7 +210,7 @@ export default {
     monthStreak: "Mois d'affilés",
     sentenceRankIncodming1: "Il te reste ",
     sentenceRankIncodming2: "xp à avoir pour être promu",
-    add: "Add %label%",
+    add: "Ajouter des %label%",
     league: "Classement général",
     bronze: "Bronze",
     silver: "Argent",
