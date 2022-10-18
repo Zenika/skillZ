@@ -136,7 +136,7 @@ const Search = () => {
                   count={skill.userCount}
                   skill={skill}
                   categoryLabel={skill.Category?.label}
-                  context={"zenika"}
+                  context={"search"}
                 />
               ))
             ) : (
