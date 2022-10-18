@@ -7,8 +7,17 @@ export const INSERT_USER_MUTATION = gql`
     $picture: String!
   ) {
     insert_User(
-      objects: { email: $email, name: $name, picture: $picture }
-      on_conflict: { constraint: User_pkey, update_columns: [name, picture] }
+      objects: {
+        email: $email
+        name: $name
+        picture: $picture
+        active: true
+        deleted_at: null
+      }
+      on_conflict: {
+        constraint: User_pkey
+        update_columns: [name, picture, active, deleted_at]
+      }
     ) {
       affected_rows
     }

@@ -225,8 +225,10 @@
           email:
             _eq: x-hasura-user-email
         columns:
-          - email
+          - active
           - botNotifications
+          - deleted_at
+          - email
           - name
           - picture
   select_permissions:
@@ -237,13 +239,17 @@
           - botNotifications
           - name
           - picture
-        filter: {}
+        filter:
+          deleted_at:
+            _is_null: true
         allow_aggregations: true
   update_permissions:
     - role: world
       permission:
         columns:
+          - active
           - botNotifications
+          - deleted_at
           - email
           - name
           - picture
@@ -278,7 +284,10 @@
           - points
           - step
           - userEmail
-        filter: {}
+        filter:
+          User:
+            deleted_at:
+              _is_null: true
         allow_aggregations: true
   update_permissions:
     - role: world
@@ -317,7 +326,10 @@
           - created_at
           - agency
           - userEmail
-        filter: {}
+        filter:
+          User:
+            deleted_at:
+              _is_null: true
         allow_aggregations: true
   update_permissions:
     - role: world
@@ -426,7 +438,10 @@
           - skillLevel
           - desireLevel
           - created_at
-        filter: {}
+        filter:
+          User:
+            deleted_at:
+              _is_null: true
         allow_aggregations: true
   update_permissions:
     - role: world
@@ -455,7 +470,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: "*"
+          columns: '*'
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -491,7 +506,10 @@
           - created_at
           - userEmail
           - topicId
-        filter: {}
+        filter:
+          User:
+            deleted_at:
+              _is_null: true
         allow_aggregations: true
   update_permissions:
     - role: world
@@ -518,7 +536,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: "*"
+          columns: '*'
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -551,7 +569,10 @@
           - skillLevel
           - desireLevel
           - created_at
-        filter: {}
+        filter:
+          User:
+            deleted_at:
+              _is_null: true
         allow_aggregations: true
 - table:
     schema: public

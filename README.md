@@ -24,6 +24,11 @@ HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
 NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
+
+# only for api route /api/accounts
+GOOGLE_AUTH_EMAIL=
+GOOGLE_AUTH_CLIENT_ID=
+GOOGLE_AUTH_PRIVATE_KEY=
 ```
 
 ```
@@ -34,6 +39,11 @@ HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
+
+# only for api route /api/accounts
+GOOGLE_AUTH_EMAIL=
+GOOGLE_AUTH_CLIENT_ID=
+GOOGLE_AUTH_PRIVATE_KEY=
 ```
 
 ### Run postgres and hasura locally with docker
