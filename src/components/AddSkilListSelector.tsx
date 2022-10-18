@@ -1,10 +1,16 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
-import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
+import {
+  GetAllVerifiedSkillsQuery,
+  InsertSkillMutationMutation,
+  Skill,
+} from "../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { displayNotification } from "../utils/displayNotification";
 import { i18nContext } from "../utils/i18nContext";
+import { GET_ALL_SKILLS } from "../graphql/queries/skills";
+import Loading from "./Loading";
 
 const AddSkillListSelector = ({
   skills,
@@ -31,8 +37,28 @@ const AddSkillListSelector = ({
     INSERT_SKILL_MUTATION
   );
 
+  /*
+   * QUERIES
+   */
+  const {
+    data: verifiedSkills,
+    loading: loadingVerifiedSkills,
+    error: errorVerifiedSkills,
+  } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_SKILLS, {
+    fetchPolicy: "network-only",
+  });
+
+  //MG_DUPPLICATED_SKILL
   const addSkillButtonClick = async () => {
     if (!categoryId || !search || search === "") {
+      return;
+    }
+    const findDuplicatedSkill = verifiedSkills?.Skill.find(
+      (skill) => skill.name.toUpperCase() === search.toUpperCase()
+    );
+
+    if (findDuplicatedSkill) {
+      displayNotification(`${t("error.insertSkillError")}`, "red", 5000);
       return;
     }
     await insertSkill({ variables: { name: search, categoryId } })
@@ -51,7 +77,7 @@ const AddSkillListSelector = ({
       });
   };
 
-  if (!skills) return <></>;
+  if (!skills || loadingVerifiedSkills) return <Loading></Loading>;
 
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
