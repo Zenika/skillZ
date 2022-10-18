@@ -106,9 +106,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  // if (req.method != "POST") {
-  //   res.status(404).json({});
-  // }
+  if (req.method != "POST") {
+    return res.status(404).json({ message: "Method not allowed." });
+  }
 
   if (
     !process.env.NEXT_PUBLIC_GRAPHQL_URL ||
@@ -121,9 +121,9 @@ export default async function handler(
     return res.status(500).json({ message: "Missing environment variables" });
   }
 
-  // if (req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN) {
-  //   res.status(403).json({});
-  // }
+  if (req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN) {
+    return res.status(401).json({ message: "Missing bearer token." });
+  }
 
   try {
     const zenikaUsers = await getCurrentZenikaUsers();
