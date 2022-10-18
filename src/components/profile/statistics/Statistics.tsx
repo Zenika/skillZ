@@ -1,31 +1,22 @@
 import React, { useContext } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import { useDarkMode } from "../../../utils/darkMode";
-import {
-  BadgeSubojectivesCategoryCompletion,
-  BadgeSubojectivesProfileCompletion,
-} from "./badges";
+import { BadgeSubojectivesCategoryCompletion } from "./badges";
 
-export const Statistics = ({
-  userAchievements,
-  skillsDatas,
-  countTopics,
-  userAgency,
-  myStatistics,
-}) => {
+export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
 
-  const filterCountSkills = (themeToCompare) =>
-    skillsDatas.find((c) => c.label === themeToCompare)
-      .CurrentSkillsAndDesires_aggregate.aggregate.count;
+  const filterCountSkills = (label) =>
+    skillsDatas.find((c) => c.label === label).CurrentSkillsAndDesires_aggregate
+      .aggregate.count;
 
   return (
     <div
       className={`${
         darkMode
-          ? "bg-dark-dark pb-4 pl-4 pr-4 mt-4 flex-col rounded-lg"
-          : "bg-light pb-4 pl-4 pr-4 mt-4 flex-col rounded-lg"
+          ? "bg-dark-dark pb-4 pl-4 pr-4 mt-2 flex-col rounded-lg"
+          : "bg-light pb-4 pl-4 pr-4 mt-2 flex-col rounded-lg"
       }`}
     >
       <h2 className="pb-2 pr-2 pt-6 text-2xl">
@@ -34,57 +25,32 @@ export const Statistics = ({
           : t("statistics.titleSection")}
       </h2>
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="practices"
+        label={"practices"}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Practices")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Practices") : ""
-        }
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("practices")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="activities"
+        label={"activities"}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Activities")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Activities") : ""
-        }
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("activities")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="knowledge"
+        label={"knowledge"}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Knowledge")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Knowledge") : ""
-        }
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("knowledge")}
+        myStatistics={myStatistics}
       />
       <BadgeSubojectivesCategoryCompletion
-        themeToCompare="behaviors"
+        label={"behaviors"}
         datas={userAchievements}
-        src="/img/badges/badge.svg"
-        titleSubobjective={t("statistics.subobjectivesTitles.Behaviors")}
-        descriptionSubobjective={
-          myStatistics ? t("statistics.subobjectivesLegends.Behaviors") : ""
-        }
+        src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("behaviors")}
-      />
-      <BadgeSubojectivesProfileCompletion
-        src="/img/badges/badge.svg"
-        countTopics={countTopics}
-        userAgency={userAgency}
-        titleSubobjective={t(
-          "statistics.subobjectivesTitles.ProfileCompletion"
-        )}
-        descriptionSubobjective={
-          myStatistics
-            ? t("statistics.subobjectivesLegends.ProfileCompletion")
-            : ""
-        }
+        myStatistics={myStatistics}
       />
     </div>
   );
