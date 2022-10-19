@@ -103,8 +103,8 @@ export default {
     searchPlaceholder: "Rechercher une compétence",
     noMatchingSkills:
       "Il n'y a pas de compétences correspondants à votre recherche",
-    didYouMean: "Vouliez-vous dire:",
-    addNewSkill: "Ajoutez %skill% comme une nouvelle compétence",
+    didYouMean: "Vouliez-vous dire :",
+    addNewSkill: "Ajoutez %skill% comme nouvelle compétence",
     addButton: "Ajouter %skill%",
     modal: {
       knowledge: "Niveau de connaissance",

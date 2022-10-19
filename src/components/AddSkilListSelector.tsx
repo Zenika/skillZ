@@ -77,37 +77,14 @@ const AddSkillListSelector = ({
           ))}
         </div>
       )}
-      {skills && !skills.length && (
-        <div className="flex flex-col justify-around">
-          <span className="flex flex-row justify-center my-2">
-            {t("skills.noMatchingSkills")}
-          </span>
-          {didYouMeanSkills && didYouMeanSkills.length > 0 && (
-            <>
-              <div className="flex flex-row justify-center my-2">
-                <span>{t("skills.didYouMean")}</span>
-              </div>
-              {didYouMeanSkills?.map((skill) => (
-                <div
-                  key={skill.id}
-                  className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
-                >
-                  <span className="text-l">{skill.name}</span>
-                  <button
-                    onClick={() => action(skill)}
-                    className="rounded-full border px-2 text-light-red dark:text-dark-red h-6"
-                  >
-                    {t("skills.add")}
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      )}
-      {search.length > 0 && !skills.length && (
+      {search.length > 0 && skills.length === 0 && (
         <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
-          <span className="p-2 text-center">
+          <div className="flex flex-col justify-around">
+            <span className="text-center my-2">
+              {t("skills.noMatchingSkills")}
+            </span>
+          </div>
+          <span className="p-2 text-center font-bold">
             {t("skills.addNewSkill").replace("%skill%", search)}
           </span>
           <button
@@ -117,6 +94,27 @@ const AddSkillListSelector = ({
             {t("skills.addButton").replace("%skill%", search)}
           </button>
         </div>
+      )}
+      {didYouMeanSkills && didYouMeanSkills.length > 0 && (
+        <>
+          <div className="flex flex-row justify-center my-2">
+            <span>{t("skills.didYouMean")}</span>
+          </div>
+          {didYouMeanSkills?.map((skill) => (
+            <div
+              key={skill.id}
+              className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
+            >
+              <span className="text-l">{skill.name}</span>
+              <button
+                onClick={() => action(skill)}
+                className="rounded-full border px-2 text-light-red dark:text-dark-red h-6"
+              >
+                {t("skills.add")}
+              </button>
+            </div>
+          ))}
+        </>
       )}
     </div>
   );
