@@ -102,7 +102,7 @@ export default {
     noMatchingSkills: "There is no skill matching your search",
     addNewSkill: "Add %skill% as a new skill",
     addButton: "Add %skill%",
-    didYouMean: "Did you mean:",
+    didYouMean: "Did you mean :",
     modal: {
       knowledge: "Skill level",
       desire: "Desire level",
