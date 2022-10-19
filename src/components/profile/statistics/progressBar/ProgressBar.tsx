@@ -3,7 +3,7 @@ import styles from "./ProgressBar.module.css";
 import Image from "next/image";
 import { useDarkMode } from "../../../../utils/darkMode";
 
-export const ProgressBar = ({ percentage, type, validateSrc }) => {
+export const ProgressBar = ({ percentage, type }) => {
   const { darkMode } = useDarkMode();
   const [percentageValueVerif, setPercentageValueVerif] = useState(percentage);
   const [trackerCss, setTrackerCss] = useState(

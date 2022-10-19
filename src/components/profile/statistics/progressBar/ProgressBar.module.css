@@ -34,7 +34,6 @@
   background: #000000;
   border-radius: 10px;
   box-shadow: inset 0 0 5px #000;
-  border: outset, black;
   animation-name: bright;
   animation-duration: 3s;
   animation-iteration-count: infinite;

@@ -44,24 +44,29 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const link = new URL(`${config.nextPublicBaseUrl}/skills/mine/${label}`);
 
   const setFilterBadgesLevel = useCallback(() => {
+    //Silver
     if (skillsNumber >= 10 && skillsNumber < 20) {
       setPercentageBarBronze(100);
       setPercentageBarSilver((skillsNumber - 10) * 10);
       setBadgeFilterCss(`${styles.filterSilver}`);
     }
-    if (skillsNumber >= 20 && skillsNumber < 30) {
+    //Gold
+    else if (skillsNumber >= 20 && skillsNumber < 30) {
       setPercentageBarBronze(100);
       setPercentageBarSilver(100);
       setPercentageBarGold((skillsNumber - 20) * 10);
       setBadgeFilterCss(`${styles.filterGold}`);
     }
-    if (skillsNumber >= 30) {
+    //Diamond
+    else if (skillsNumber >= 30) {
       setPercentageBarBronze(100);
       setPercentageBarSilver(100);
       setPercentageBarGold(100);
       setPercentageBarDiamond((skillsNumber - 30) * 10);
       setBadgeFilterCss(`${styles.filterDiamond}`);
-    } else setPercentageBarBronze(skillsNumber * 10);
+    }
+    //Bronze
+    else setPercentageBarBronze(skillsNumber * 10);
   }, [skillsNumber]);
 
   useEffect(() => {
@@ -107,26 +112,10 @@ export const BadgeSubojectivesCategoryCompletion = ({
         </div>
       </div>
       <div className="flex flex-row">
-        <ProgressBar
-          percentage={percentageBarBronze}
-          type="bronze"
-          validateSrc={src}
-        />
-        <ProgressBar
-          percentage={percentageBarSilver}
-          type="silver"
-          validateSrc={src}
-        />
-        <ProgressBar
-          percentage={percentageBarGold}
-          type="gold"
-          validateSrc={src}
-        />
-        <ProgressBar
-          percentage={percentageBarDiamond}
-          type="diamond"
-          validateSrc={src}
-        />
+        <ProgressBar percentage={percentageBarBronze} type="bronze" />
+        <ProgressBar percentage={percentageBarSilver} type="silver" />
+        <ProgressBar percentage={percentageBarGold} type="gold" />
+        <ProgressBar percentage={percentageBarDiamond} type="diamond" />
       </div>
 
       {myStatistics && (
