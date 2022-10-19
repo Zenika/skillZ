@@ -105,7 +105,7 @@ const AddSkillListSelector = ({
           )}
         </div>
       )}
-      {search.length > 0 && (
+      {search.length > 0 && !skills.length && (
         <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
           <span className="p-2 text-center">
             {t("skills.addNewSkill").replace("%skill%", search)}
