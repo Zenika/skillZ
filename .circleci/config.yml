@@ -192,6 +192,8 @@ jobs:
             mkdir deploy
             cp -r .next deploy
             cp -r public deploy
+            cp -r clevercloud deploy
+            cp -r crons deploy
             cp package.json deploy
             cp package-lock.json deploy
             cp next.config.js deploy
