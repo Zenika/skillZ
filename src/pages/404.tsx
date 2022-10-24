@@ -1,11 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
+import Button from "../components/Button";
 import CommonPage from "../components/CommonPage";
 import { i18nContext } from "../utils/i18nContext";
 
 export default function Custom404() {
   const { t } = useContext(i18nContext);
+  const { push } = useRouter();
+
   return (
     <CommonPage page={"404"}>
       <div className="container mx-auto pt-40">
@@ -16,12 +19,11 @@ export default function Custom404() {
               {t("error.title404")}
             </p>
             <p className="mb-8">{t("error.text404")} </p>
-
-            <Link href={"/"}>
-              <button className="bg-light-panel dark:bg-dark-panel flex-grow-0 rounded-full py-3 px-6 mx-6">
-                {t("error.button404")}
-              </button>
-            </Link>
+            <Button
+              text={t("error.button404")}
+              type={"secondary"}
+              callback={() => push("/")}
+            />
           </div>
           <div className="max-w-lg">
             <Image
