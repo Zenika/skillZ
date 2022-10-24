@@ -7,19 +7,23 @@ import { useMediaQuery } from "react-responsive";
 import NotificationPanel from "../components/NotificationPanel";
 import { GetAllVerifiedSkillsQuery } from "../generated/graphql";
 import { GET_ALL_VERIFIED_SKILL } from "../graphql/queries/skills";
+import Loading from "../components/Loading";
 
 export default function AdminPage() {
   const {
     data: skills,
     loading,
     error,
-  } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL);
+  } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL, {
+    fetchPolicy: "network-only",
+  });
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
   const { t } = useContext(i18nContext);
 
-  console.log("skills", skills);
+  if (loading) return <Loading></Loading>;
+  
   return (
     <CommonPage page={"Admin"} backBar={false}>
       <div className={"flex justify-center"}>

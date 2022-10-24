@@ -129,6 +129,7 @@
         columns:
           - categoryId
           - id
+          - verified
           - name
   select_permissions:
     - role: world
@@ -136,6 +137,7 @@
         columns:
           - categoryId
           - id
+          - verified
           - name
         filter: {}
         allow_aggregations: true
