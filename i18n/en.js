@@ -130,7 +130,7 @@ export default {
     topics: "My prefered topics",
     certifications: "My certifications",
     addCertification: "Add a certification",
-    removeCertification: "Remove this certification",
+    removeCertification: "Delete",
     confirm: "CONFIRM PROFILE",
     validFrom: "valid from",
     targeting: "aiming for",

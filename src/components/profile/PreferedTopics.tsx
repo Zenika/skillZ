@@ -69,8 +69,9 @@ const PreferedTopics = ({
       <span className="text-xl p-2">{t("userProfile.topics")}</span>
       <div className="flex flex-row flex-wrap justify-around">
         {topics?.map((topic) => (
+          // TODO: Custom component
           <button
-            disabled={readOnly ? true : false}
+            disabled={readOnly}
             key={topic.name}
             className={`rounded-full m-2 ${
               topic.UserTopics.length <= 0

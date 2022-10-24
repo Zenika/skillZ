@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { Certification, UserCertification } from "../../../utils/types";
+import Button from "../../Button";
 import CustomSelect from "../../CustomSelect";
 
 type CertificationModalProps = {
@@ -42,23 +43,11 @@ const CertificationModal = ({
               }`
             : t("userProfile.certModal.addCert")}
         </h1>
-        {editMode ? (
-          <button
-            className="mx-1 px-2 gradient-red rounded-full disabled:opacity-25 "
-            onClick={() => onDelete(userCertificationRef)}
-            title={t("userProfile.certModal.orDelete")}
-          >
-            <div className="grid justify-items-center text-sm">
-              {t("myProfile.removeCertification")}
-            </div>
-          </button>
-        ) : (
-          <></>
-        )}
       </div>
       <div className="flex flex-col bg-light-med dark:bg-dark-med">
         <div className="m-4">
           <div className="flex flex-col">
+            {/* TODO: Custom component for selector*/}
             <button
               onClick={() => {
                 setUserCertification({
@@ -168,30 +157,43 @@ const CertificationModal = ({
         </div>
       </div>
       <div className="mt-6 flex flex-row justify-between">
-        <button
-          onClick={() => onCancel()}
-          className="mx-1 px-5 py-2 bg-light-graybutton dark:bg-dark-graybutton rounded-full"
+        <Button
+          type={"secondary"}
+          style={"contained"}
+          callback={() => onCancel()}
         >
           {t("userProfile.certModal.cancel")}
-        </button>
-        <button
-          disabled={
-            !userCertification?.Certification?.id || !userCertification?.from
-          }
-          onClick={() =>
-            onConfirm({
-              ...userCertification,
-              obtained: !!userCertification.obtained,
-              to:
-                hasExpiryDate && !!userCertification.obtained
-                  ? userCertification.to
-                  : null,
-            })
-          }
-          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
-        >
-          {t("userProfile.certModal.confirm")}
-        </button>
+        </Button>
+        <div className={"flex flex-row gap-4"}>
+          {editMode && (
+            <Button
+              type={"primary"}
+              style={"outlined"}
+              callback={() => onDelete(userCertificationRef)}
+            >
+              {t("myProfile.removeCertification")}
+            </Button>
+          )}
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={() =>
+              onConfirm({
+                ...userCertification,
+                obtained: !!userCertification.obtained,
+                to:
+                  hasExpiryDate && !!userCertification.obtained
+                    ? userCertification.to
+                    : null,
+              })
+            }
+            disabled={
+              !userCertification?.Certification?.id || !userCertification?.from
+            }
+          >
+            {t("userProfile.certModal.confirm")}
+          </Button>
+        </div>
       </div>
     </div>
   );

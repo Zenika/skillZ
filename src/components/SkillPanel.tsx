@@ -73,6 +73,7 @@ const SkillPanel = ({
           <div className="flex flex-col">
             <h2 className="text-xl">{skill.name}</h2>
             {context === "search" && (
+              // TODO: Custom component for category tag
               <button
                 onClick={() => push(linkToCategory)}
                 className={`rounded-full opacity-80 gradient-${skill.Category.color} text-white text-xs mt-2 p-2 max-w-xs w-20`}

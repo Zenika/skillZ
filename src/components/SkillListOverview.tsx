@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@apollo/client";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -16,6 +15,7 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import AddOrEditSkillModal from "./AddOrEditSkillModal";
 import AddSkillListSelector from "./AddSkilListSelector";
+import Button from "./Button";
 import FilterByPanel from "./FilterByPanel";
 import Radar from "./Radar";
 import SearchBar from "./SearchBar";
@@ -249,33 +249,27 @@ const SkillListOverview = ({
                       editPanelOpened ? "opacity-25" : ""
                     }`}
                   >
-                    <Link href={`/skills/${context}/${category.name}`}>
-                      <button
-                        className={`${
-                          add
-                            ? `bg-light-light dark:bg-dark-light`
-                            : `gradient-red`
-                        } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
-                      >
-                        {t("skills.mySkills")}
-                      </button>
-                    </Link>
-                    <Link
-                      href={{
-                        pathname: `/skills/${context}/${category.name}`,
-                        query: { add: true },
-                      }}
+                    <Button
+                      type={add ? "secondary" : "primary"}
+                      style={"contained"}
+                      callback={() =>
+                        router.push(`/skills/${context}/${category.name}`)
+                      }
                     >
-                      <button
-                        className={`${
-                          add
-                            ? `gradient-red`
-                            : `bg-light-light dark:bg-dark-light`
-                        } flex-grow-0 rounded-full mx-2 py-4 px-6 cursor-pointer`}
-                      >
-                        {t("skills.addSkill")}
-                      </button>
-                    </Link>
+                      {t("skills.mySkills")}
+                    </Button>
+                    <Button
+                      type={add ? "primary" : "secondary"}
+                      style={"contained"}
+                      callback={() =>
+                        router.push({
+                          pathname: `/skills/${context}/${category.name}`,
+                          search: "?add=true",
+                        })
+                      }
+                    >
+                      {t("skills.addSkill")}
+                    </Button>
                   </div>
                 </>
               )}
