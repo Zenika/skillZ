@@ -178,10 +178,10 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                             pathname === "/admin"
                               ? `/icons/${
                                   darkMode ? "dark" : "light"
-                                }/search-selected.svg`
+                                }/zenika-selected.svg`
                               : `/icons/${
                                   darkMode ? "dark" : "light"
-                                }/search.svg`
+                                }/zenika.svg`
                           }
                           alt={"admin"}
                           width="25"
