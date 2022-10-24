@@ -11,16 +11,26 @@ import { i18nContext } from "../utils/i18nContext";
 import { usei18n } from "../utils/usei18n";
 
 const App = ({ Component, pageProps }) => {
+  /*
+   * HOOKS
+   */
   const { push, pathname: pathName, asPath, locale } = useRouter();
-  const storedDarkModeString = process.browser
+  const t = usei18n(locale);
+
+  /*
+   * STATES
+   */
+  const [mounted, setMounted] = useState(false);
+
+  const storedDarkMode = process.browser
     ? window.localStorage.getItem("darkMode")
-    : true;
+    : "false";
   const storedLocaleString = process.browser
     ? window.localStorage.getItem("locale")
     : locale;
 
-  const storedDarkMode = storedDarkModeString === "true";
-  const [darkMode, setDarkMode] = useState(storedDarkMode);
+  const [darkMode, setDarkMode] = useState(storedDarkMode === "true");
+
   const changeDarkMode = (darkMode: boolean) => {
     setDarkMode(darkMode);
     if (process.browser) {
@@ -39,12 +49,6 @@ const App = ({ Component, pageProps }) => {
     [asPath, pathName, push]
   );
 
-  const t = usei18n(locale);
-  useEffect(() => {
-    if (!storedDarkModeString || storedDarkModeString === "null") {
-      changeDarkMode(false);
-    }
-  });
   useEffect(() => {
     if (!storedLocaleString || storedLocaleString === "null") {
       changeLocale(locale);
@@ -57,6 +61,11 @@ const App = ({ Component, pageProps }) => {
     document.body.classList.add(darkMode ? "bg-dark-med" : "bg-light-med");
     document.body.style["color-scheme"] = darkMode ? "dark" : "light";
   });
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
   return (
     <Auth0Provider
       domain="zenika.eu.auth0.com"
