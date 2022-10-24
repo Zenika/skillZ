@@ -11,7 +11,9 @@ const ErrorPage = () => {
     <div className="flex h-screen">
       <div className="m-auto flex flex-col">
         <h3>{t("error.unknown")}</h3>
-        <Button text={t("error.refetch")} type={"primary"} callback={reload} />
+        <Button type={"primary"} style={"contained"} callback={reload}>
+          {t("error.refetch")}
+        </Button>
       </div>
     </div>
   );

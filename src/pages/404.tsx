@@ -20,10 +20,12 @@ export default function Custom404() {
             </p>
             <p className="mb-8">{t("error.text404")} </p>
             <Button
-              text={t("error.button404")}
               type={"secondary"}
+              style={"contained"}
               callback={() => push("/")}
-            />
+            >
+              {t("error.button404")}
+            </Button>
           </div>
           <div className="max-w-lg">
             <Image

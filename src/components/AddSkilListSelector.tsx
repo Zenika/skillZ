@@ -5,6 +5,7 @@ import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { displayNotification } from "../utils/displayNotification";
 import { i18nContext } from "../utils/i18nContext";
+import Button from "./Button";
 
 const AddSkillListSelector = ({
   skills,
@@ -66,12 +67,13 @@ const AddSkillListSelector = ({
             >
               <div className="flex flex-row justify-between w-full items-center">
                 <span className="text-l">{skill.name}</span>
-                <button
-                  onClick={() => action(skill)}
-                  className="rounded-full border px-2 text-light-red dark:text-dark-red h-8"
+                <Button
+                  type={"primary"}
+                  style={"outlined"}
+                  callback={() => action(skill)}
                 >
                   {t("skills.add")}
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -87,12 +89,14 @@ const AddSkillListSelector = ({
           <span className="p-2 text-center font-bold">
             {t("skills.addNewSkill").replace("%skill%", search)}
           </span>
-          <button
-            className="rounded-full gradient-red text-white py-2"
-            onClick={() => addSkillButtonClick()}
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={addSkillButtonClick}
+            uppercase={false}
           >
             {t("skills.addButton").replace("%skill%", search)}
-          </button>
+          </Button>
         </div>
       )}
       {didYouMeanSkills && didYouMeanSkills.length > 0 && (
@@ -100,20 +104,27 @@ const AddSkillListSelector = ({
           <div className="flex flex-row justify-center my-2">
             <span>{t("skills.didYouMean")}</span>
           </div>
-          {didYouMeanSkills?.map((skill) => (
-            <div
-              key={skill.id}
-              className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
-            >
-              <span className="text-l">{skill.name}</span>
-              <button
-                onClick={() => action(skill)}
-                className="rounded-full border px-2 text-light-red dark:text-dark-red h-6"
+          <div className="flex flex-col gap-y-2">
+            {didYouMeanSkills?.map((skill) => (
+              <div
+                key={skill.id}
+                className={
+                  "flex flex-col justify-center items-center p-4 mx-0.5 bg-light-light dark:bg-dark-light rounded-lg"
+                }
               >
-                {t("skills.add")}
-              </button>
-            </div>
-          ))}
+                <div className="flex flex-row justify-between w-full items-center">
+                  <span className="text-l">{skill.name}</span>
+                  <Button
+                    type={"primary"}
+                    style={"outlined"}
+                    callback={() => action(skill)}
+                  >
+                    {t("skills.add")}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
         </>
       )}
     </div>

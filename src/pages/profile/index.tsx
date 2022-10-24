@@ -3,6 +3,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
+import Button from "../../components/Button";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
 import ErrorPage from "../../components/ErrorPage";
@@ -226,15 +227,16 @@ const Profile = () => {
                 onChange={(value: string) => updateAgency(value)}
               />
               {onboarding && (
-                <div className="flex justify-center">
-                  <button
-                    className="rounded-full gradient-red text-white mt-8 p-2 px-10"
-                    onClick={() =>
+                <div className="flex justify-center mt-8">
+                  <Button
+                    type={"primary"}
+                    style={"contained"}
+                    callback={() =>
                       userInserted && !userAgency && router.reload()
                     }
                   >
                     {t("myProfile.onboardingButton")}
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>
