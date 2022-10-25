@@ -23,12 +23,21 @@ export default function AdminPage() {
   const { t } = useContext(i18nContext);
 
   if (loading) return <Loading></Loading>;
-  
+
   return (
     <CommonPage page={"Admin"} backBar={false}>
       <div className={"flex justify-center"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
-          <NotificationPanel></NotificationPanel>
+          {skills &&
+            skills.Skill.map((skill, index) => (
+              <NotificationPanel
+                key={index}
+                skill={{
+                  name: skill.name,
+                  verified: skill.verified,
+                }}
+              ></NotificationPanel>
+            ))}
         </div>
       </div>
     </CommonPage>

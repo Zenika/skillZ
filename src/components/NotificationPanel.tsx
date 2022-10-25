@@ -17,12 +17,13 @@ import LevelBar from "./LevelBar";
 //   desireLevel?: any | null | undefined;
 //   UserSkillDesires?: any | null;
 // };
+type Skill = { name: string; verified: boolean };
 
-const NotificationPanel = ({}: {}) => {
+const NotificationPanel = ({ skill }: { skill: Skill }) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
-  const { push, query } = useRouter();
-  const { agency } = query;
+  // const { darkMode } = useDarkMode();
+  // const { push, query } = useRouter();
+  // const { agency } = query;
 
   return (
     <div
@@ -30,7 +31,7 @@ const NotificationPanel = ({}: {}) => {
     >
       <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl">skill name</h2>
+          <h2 className="text-xl">{skill.name}</h2>
         </div>
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
