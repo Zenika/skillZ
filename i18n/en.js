@@ -48,22 +48,6 @@ export default {
   loading: {
     loadingText: "Loading...",
   },
-  agencies: {
-    Paris: "Paris",
-    Nantes: "Nantes",
-    Singapore: "Singapore",
-    Bordeaux: "Bordeaux",
-    Brest: "Brest",
-    Montreal: "Montreal",
-    Grenoble: "Grenoble",
-    Lyon: "Lyon",
-    Rennes: "Rennes",
-    Lille: "Lille",
-    Niort: "Niort",
-    "Clermont-Ferrand": "Clermont-Ferrand",
-    Toronto: "Toronto",
-    Casablanca: "Casablanca",
-  },
   createProfile: {
     title: "Let's create a profile !",
     profileCreated: "Congratulations your profile is now created !",
