@@ -63,6 +63,7 @@ export default {
     "Clermont-Ferrand": "Clermont-Ferrand",
     Toronto: "Toronto",
     Casablanca: "Casablanca",
+    "La Réunion": "La Réunion",
   },
   createProfile: {
     title: "Let's create a profile !",
