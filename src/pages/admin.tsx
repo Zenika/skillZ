@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useContext } from "react";
 import CommonPage from "../components/CommonPage";
 import { i18nContext } from "../utils/i18nContext";
@@ -28,7 +27,19 @@ export default function AdminPage() {
     <CommonPage page={"Admin"} backBar={false}>
       <div className={"flex justify-center"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
-          {skills &&
+          <div className="flex flex-col mb-8">
+            <h1 className="text-xl">{t("admin.skillsPending")}</h1>
+            {skills.Skill && (
+              <p className="opacity-50">
+                {
+                  skills.Skill.filter((field) => field.verified === false)
+                    .length
+                }{" "}
+                {t("search.result")}
+              </p>
+            )}
+          </div>
+          {skills.Skill.length > 0 &&
             skills.Skill.filter((field) => field.verified === false).map(
               (skill, index) => (
                 <NotificationPanel

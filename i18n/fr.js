@@ -12,6 +12,7 @@ export default {
   admin: {
     deleteSkill: "Supprimer de Skillz",
     approved: "Approuver",
+    skillsPending: "Compétences en attente de validation",
   },
   nav: {
     mySkills: "Compétences",

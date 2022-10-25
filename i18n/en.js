@@ -20,6 +20,7 @@ export default {
   admin: {
     deleteSkill: "Delete from Skillz",
     approved: "Approve",
+    skillsPending: "Skills that are pending validation",
   },
   sidepanel: {
     profile: "Profile",

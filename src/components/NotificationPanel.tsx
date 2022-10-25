@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useRouter } from "next/router";
 import { i18nContext } from "../utils/i18nContext";
 import Button from "./Button";
 import {
@@ -16,9 +17,7 @@ type Skill = { name: string; skillId: string; verified: boolean };
 
 const NotificationPanel = ({ skill }: { skill: Skill }) => {
   const { t } = useContext(i18nContext);
-  // const { darkMode } = useDarkMode();
-  // const { push, query } = useRouter();
-  // const { agency } = query;
+  const router = useRouter();
 
   /*
    * MUTATIONS
@@ -30,8 +29,8 @@ const NotificationPanel = ({ skill }: { skill: Skill }) => {
 
   const deleteSkillButtonClick = async () => {
     await deleteSkill({ variables: { skillId: skill.skillId } })
-      .then((response) => {
-        console.log("response", response);
+      .then(() => {
+        router.reload();
       })
       .catch(({}) => {
         displayNotification(`${t("error.unknown")}`, "red", 5000);
@@ -42,8 +41,8 @@ const NotificationPanel = ({ skill }: { skill: Skill }) => {
     await updateVerifiedSkill({
       variables: { skillId: skill.skillId, verified: true },
     })
-      .then((response) => {
-        console.log("response", response);
+      .then(() => {
+        router.reload();
       })
       .catch(({}) => {
         displayNotification(`${t("error.unknown")}`, "red", 5000);
