@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import { i18nContext } from "../utils/i18nContext";
 
 type User = { name: string; picture: string; agency: string; email: string };
 const UserPanel = ({ user, context }: { user: User; context: string }) => {
-  const { t } = useContext(i18nContext);
   const { name, picture, agency } = user;
 
   return (
@@ -28,7 +25,7 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
               <div className="flex flex-row">
                 <h2 className="text-xl">{name}</h2>
               </div>
-              <h3 className="text-md">Zenika {t(`agencies.${agency}`)}</h3>
+              <h3 className="text-md">{`Zenika ${agency}`}</h3>
             </div>
           </div>
         </div>

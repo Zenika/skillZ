@@ -191,9 +191,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   <span className="font-bold">{user?.name}</span>
                   {userAgencyResult?.UserLatestAgency[0]?.agency && (
                     <span>
-                      {`Zenika ${t(
-                        `agencies.${userAgencyResult?.UserLatestAgency[0]?.agency}`
-                      )}`}
+                      {`Zenika ${userAgencyResult?.UserLatestAgency[0]?.agency}`}
                     </span>
                   )}
                 </div>

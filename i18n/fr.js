@@ -49,23 +49,6 @@ export default {
   loading: {
     loadingText: "Chargement...",
   },
-  agencies: {
-    Paris: "Paris",
-    Nantes: "Nantes",
-    Singapore: "Singapour",
-    Bordeaux: "Bordeaux",
-    Brest: "Brest",
-    Montreal: "Montreal",
-    Grenoble: "Grenoble",
-    Lyon: "Lyon",
-    Rennes: "Rennes",
-    Lille: "Lille",
-    Niort: "Niort",
-    "Clermont-Ferrand": "Clermont-Ferrand",
-    Toronto: "Toronto",
-    Casablanca: "Casablanca",
-    "La Réunion": "La Réunion",
-  },
   createProfile: {
     title: "Créez votre profil !",
     profileCreated: "Bravo, votre profil a été créé !",
