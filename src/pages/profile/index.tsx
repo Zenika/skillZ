@@ -187,7 +187,7 @@ const Profile = () => {
                 </div>
               </div>
             )}
-            <div className="flex flex-row justify-start">
+            <div className="flex flex-row justify-start my-2">
               <Image
                 alt={user?.name}
                 className="w-16 h-16 rounded-full"
@@ -204,7 +204,7 @@ const Profile = () => {
                 darkMode
                   ? "flex flex-col justify-around rounded-lg bg-dark-dark pb-6 p-2"
                   : "flex flex-col justify-around rounded-lg bg-light-med pb-6 p-2"
-              }`}
+              } my-2`}
             >
               <div className="p-2 text-xl">{t("myProfile.agency")}</div>
               {!userAgency && (
