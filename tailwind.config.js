@@ -10,19 +10,6 @@ module.exports = {
       88: "88%",
     },
 
-    name: "contrast",
-    theme: {
-      81: "81%",
-    },
-    name: "saturate",
-    theme: {
-      1685: "1685%",
-    },
-    name: "sepia",
-    theme: {
-      20: "80%",
-    },
-
     colors: {
       dark: {
         light: "#292929",
@@ -35,9 +22,9 @@ module.exports = {
         panel: "#292929",
         yellow: "#F4C042",
         violet: "#D264EC",
-        cyan: "#00E3EC",
-        blue: "#52B9FF",
+        green: "#3bb78f",
         red: "#bf1d67",
+        blue: "#52B9FF",
       },
       light: {
         light: "#F9F9F9",
@@ -50,9 +37,9 @@ module.exports = {
         panel: "#FFFFFF",
         yellow: "#F4C042",
         violet: "#D264EC",
-        cyan: "#00E3EC",
-        blue: "#52B9FF",
+        green: "#3bb78f",
         red: "#bf1d67",
+        blue: "#52B9FF",
       },
     },
     backgroundPosition: {
