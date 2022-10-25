@@ -1,11 +1,12 @@
 import Image from "next/image";
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { config } from "../../../../env";
 import { useDarkMode } from "../../../../utils/darkMode";
+import { i18nContext } from "../../../../utils/i18nContext";
+import Button from "../../../Button";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
-import { useRouter } from "next/router";
-import { i18nContext } from "../../../../utils/i18nContext";
-import { config } from "../../../../env";
 
 export const BadgeSubojectivesCategoryCompletion = ({
   label,
@@ -120,14 +121,13 @@ export const BadgeSubojectivesCategoryCompletion = ({
 
       {myStatistics && (
         <div className="flex flex-row-reverse">
-          <button
-            className="rounded mt-4 ml-2 gradient-red"
-            onClick={() => push(link)}
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={() => push(link)}
           >
-            <span className="px-4 py-4 text-light-ultrawhite text-m">
-              {t("statistics.add").replace("%label%", label)}
-            </span>
-          </button>
+            {t("statistics.add").replace("%label%", label)}
+          </Button>
         </div>
       )}
     </div>
