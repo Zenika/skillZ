@@ -1,29 +1,54 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
 import { useContext } from "react";
-import { AiFillEye } from "react-icons/ai";
-import { BsFillPersonCheckFill } from "react-icons/bs";
-import { VscSettings } from "react-icons/vsc";
-import { config } from "../env";
-import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
-import LevelBar from "./LevelBar";
+import Button from "./Button";
+import {
+  DELETE_SKILL_MUTATION,
+  UPDATE_SKILL_VERIFIED_MUTATION,
+} from "../graphql/mutations/skills";
+import {
+  DeleteSkillMutation,
+  SetVerifiedSkillMutationMutationFn,
+} from "../generated/graphql";
+import { useMutation } from "@apollo/client";
+import { displayNotification } from "../utils/displayNotification";
 
-// type Skill = {
-//   name?: string | null | undefined;
-//   userCount?: any | null | undefined;
-//   id?: any | null | undefined;
-//   skillLevel?: any | null | undefined;
-//   desireLevel?: any | null | undefined;
-//   UserSkillDesires?: any | null;
-// };
-type Skill = { name: string; verified: boolean };
+type Skill = { name: string; skillId: string; verified: boolean };
 
 const NotificationPanel = ({ skill }: { skill: Skill }) => {
   const { t } = useContext(i18nContext);
   // const { darkMode } = useDarkMode();
   // const { push, query } = useRouter();
   // const { agency } = query;
+
+  /*
+   * MUTATIONS
+   */
+  const [deleteSkill] = useMutation<DeleteSkillMutation>(DELETE_SKILL_MUTATION);
+  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
+    UPDATE_SKILL_VERIFIED_MUTATION
+  );
+
+  const deleteSkillButtonClick = async () => {
+    await deleteSkill({ variables: { skillId: skill.skillId } })
+      .then((response) => {
+        console.log("response", response);
+      })
+      .catch(({}) => {
+        displayNotification(`${t("error.unknown")}`, "red", 5000);
+      });
+  };
+
+  const updateVerifiedSkillButtonClick = async () => {
+    await updateVerifiedSkill({
+      variables: { skillId: skill.skillId, verified: true },
+    })
+      .then((response) => {
+        console.log("response", response);
+      })
+      .catch(({}) => {
+        displayNotification(`${t("error.unknown")}`, "red", 5000);
+      });
+  };
 
   return (
     <div
@@ -35,12 +60,22 @@ const NotificationPanel = ({ skill }: { skill: Skill }) => {
         </div>
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
-            <p className="text-xs text-center my-2">{t("skills.skillLevel")}</p>
+            <Button
+              type={"primary"}
+              style={"outlined"}
+              callback={deleteSkillButtonClick}
+            >
+              {t("admin.deleteSkill")}
+            </Button>
           </div>
           <div className="flex flex-col">
-            <p className="text-xs text-center my-2">
-              {t("skills.desireLevel")}
-            </p>
+            <Button
+              type={"primary"}
+              style={"contained"}
+              callback={updateVerifiedSkillButtonClick}
+            >
+              {t("admin.approved")}
+            </Button>
           </div>
         </div>
       </div>

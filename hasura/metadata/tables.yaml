@@ -148,8 +148,14 @@
           - categoryId
           - id
           - name
+          - verified
         filter: {}
         check: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter: {}
 - table:
     schema: public
     name: SkillTag

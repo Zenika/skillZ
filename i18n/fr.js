@@ -9,6 +9,10 @@ export default {
     unknown: "Une erreur inconnue est survenue.",
     refetch: "Réessayer",
   },
+  admin: {
+    deleteSkill: "Supprimer de Skillz",
+    approved: "Approuver",
+  },
   nav: {
     mySkills: "Compétences",
     zenikaSkills: "Zenika",

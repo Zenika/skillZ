@@ -17,6 +17,10 @@ export default {
     classic: "Classic",
     preferences: "Preferences",
   },
+  admin: {
+    deleteSkill: "Delete from Skillz",
+    approved: "Approve",
+  },
   sidepanel: {
     profile: "Profile",
     preferedLanguage: "Prefered language",

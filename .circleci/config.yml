@@ -22,6 +22,8 @@ executors:
           HASURA_GRAPHQL_NO_OF_RETRIES: 30
           HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
           NEXT_API_BEARER_TOKEN: key
+          NEXT_PUBLIC_ADMINS: mai-ly.lehoux@zenika.com;benjamin.bourgeois@zenika.com;
+
   docker:
     docker:
       - image: docker:stable

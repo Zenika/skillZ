@@ -29,15 +29,18 @@ export default function AdminPage() {
       <div className={"flex justify-center"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           {skills &&
-            skills.Skill.map((skill, index) => (
-              <NotificationPanel
-                key={index}
-                skill={{
-                  name: skill.name,
-                  verified: skill.verified,
-                }}
-              ></NotificationPanel>
-            ))}
+            skills.Skill.filter((field) => field.verified === false).map(
+              (skill, index) => (
+                <NotificationPanel
+                  key={index}
+                  skill={{
+                    name: skill.name,
+                    skillId: skill.id,
+                    verified: skill.verified,
+                  }}
+                ></NotificationPanel>
+              )
+            )}
         </div>
       </div>
     </CommonPage>

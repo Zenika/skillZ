@@ -274,6 +274,7 @@ export const GET_ALL_VERIFIED_SKILL = gql`
   query getAllVerifiedSkills {
     Skill {
       name
+      id
       verified
     }
   }
