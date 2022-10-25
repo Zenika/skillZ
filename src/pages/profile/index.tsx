@@ -3,7 +3,6 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
-import Button from "../../components/Button";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
 import ErrorPage from "../../components/ErrorPage";
@@ -35,9 +34,9 @@ const Profile = () => {
   const router = useRouter();
 
   // STATES
-  const [userInserted, setUserInserted] = useState(false);
   const [certModalOpened, setCertModalOpened] = useState(false);
-  const [selectedUserCert, setSelectedUserCert] = useState<UserCertification>();
+  const [selectedUserCert, setSelectedUserCert] =
+    useState<UserCertification>(null);
 
   // QUERIES
   const { data, error, refetch, loading } =
@@ -59,111 +58,82 @@ const Profile = () => {
     DELETE_USER_CERTIFICATION_MUTATION
   );
 
-  // CALLBACKS
-  const insertUserIfNeeded = () => {
-    if (!userInserted) {
-      return insertUser({
-        variables: {
-          email: user?.email,
-          name: user?.name,
-          picture: user?.picture,
-        },
-      }).then(() => {
-        setUserInserted(true);
-      });
-    }
-    return Promise.resolve();
-  };
-
   const updateAgency = (agency: string) => {
-    insertUserIfNeeded().then(() => {
-      upsertAgency({ variables: { email: user?.email, agency } });
-      if (!onboarding) router.reload();
+    insertUser({
+      variables: {
+        email: user?.email,
+        name: user?.name,
+        picture: user?.picture,
+      },
+    }).then(() => {
+      upsertAgency({ variables: { email: user?.email, agency } }).then(() => {
+        router.reload();
+      });
     });
   };
 
   const updateCertification = (userCert: UserCertification) => {
-    insertUserIfNeeded().then(() => {
-      upsertCertificationMutation({
-        variables: {
-          email: user?.email,
-          certId: userCert.Certification.id,
-          obtained: userCert.obtained,
-          from: userCert.from,
-          to: userCert.to,
-          url: userCert.url,
-        },
+    upsertCertificationMutation({
+      variables: {
+        email: user?.email,
+        certId: userCert.Certification.id,
+        obtained: userCert.obtained,
+        from: userCert.from,
+        to: userCert.to,
+        url: userCert.url,
+      },
+    })
+      .then(() => {
+        displayNotification(
+          t("myProfile.updateUserCertSuccess"),
+          "green",
+          5000
+        );
+        setCertModalOpened(false);
+        setSelectedUserCert(undefined);
+        refetch();
       })
-        .then(() => {
-          displayNotification(
-            t("myProfile.updateUserCertSuccess"),
-            "green",
-            5000
-          );
-          refetch();
-          setCertModalOpened(false);
-          setSelectedUserCert(undefined);
-        })
-        .catch(() => {
-          displayNotification(
-            `${t("myProfile.updateUserCertError")}`,
-            "red",
-            5000
-          );
-        });
-    });
+      .catch(() => {
+        displayNotification(
+          `${t("myProfile.updateUserCertError")}`,
+          "red",
+          5000
+        );
+      });
   };
 
   const deleteCertification = (userCert: UserCertification) => {
-    insertUserIfNeeded().then(() => {
-      deleteCertificationMutation({
-        variables: {
-          email: user?.email,
-          certId: userCert.Certification.id,
-          from: userCert.from,
-        },
+    deleteCertificationMutation({
+      variables: {
+        email: user?.email,
+        certId: userCert.Certification.id,
+        from: userCert.from,
+      },
+    })
+      .then(() => {
+        displayNotification(
+          t("myProfile.deleteUserCertSuccess"),
+          "green",
+          5000
+        );
+        setCertModalOpened(false);
+        setSelectedUserCert(undefined);
+        refetch();
       })
-        .then(() => {
-          displayNotification(
-            t("myProfile.deleteUserCertSuccess"),
-            "green",
-            5000
-          );
-          refetch();
-          setCertModalOpened(false);
-          setSelectedUserCert(undefined);
-        })
-        .catch(() => {
-          displayNotification(
-            `${t("myProfile.deleteUserCertError")}`,
-            "red",
-            5000
-          );
-        });
-    });
+      .catch(() => {
+        displayNotification(
+          `${t("myProfile.deleteUserCertError")}`,
+          "red",
+          5000
+        );
+      });
   };
 
-  const userAgency =
-    error || !data?.User[0]?.UserLatestAgency?.agency
-      ? undefined
-      : data?.User[0]?.UserLatestAgency?.agency;
-  const agencies =
-    error || data?.Agency.length <= 0
-      ? []
-      : data?.Agency.map((agency) => agency.name);
-  const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
-  const certifications =
-    error || data?.Certification.length <= 0 ? [] : data?.Certification;
-  const userCertifications =
-    error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
   const onboarding =
+    !data ||
     data?.Topic.length <= 0 ||
     data?.Agency.length <= 0 ||
     !data?.User[0]?.UserLatestAgency?.agency;
-  const infoUser = data?.User[0];
-  const userAchievements =
-    data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
-  const skillsDatas = data?.Category;
 
   if (loading) {
     return <Loading />;
@@ -196,7 +166,7 @@ const Profile = () => {
                 src={user?.picture || ""}
               />
               <div className="flex flex-col mx-4 justify-center">
-                <span>{infoUser?.name}</span>
+                <span>{user?.name}</span>
               </div>
             </div>
             <div
@@ -207,7 +177,7 @@ const Profile = () => {
               }`}
             >
               <div className="p-2 text-xl">{t("myProfile.agency")}</div>
-              {!userAgency && (
+              {onboarding && (
                 <div
                   className="border-l-4 p-4 mb-4 border-dark-red"
                   role="alert"
@@ -221,53 +191,37 @@ const Profile = () => {
               <CustomSelect
                 labelFn={(x) => x}
                 keyFn={(x) => x}
-                choices={agencies}
-                selectedChoice={userAgency}
+                choices={data?.Agency.map((agency) => agency.name) ?? []}
+                selectedChoice={data?.User[0]?.UserLatestAgency?.agency}
                 placeholder={t("myProfile.selectPlaceholder")}
                 onChange={(value: string) => updateAgency(value)}
               />
-              {onboarding && (
-                <div className="flex justify-center mt-8">
-                  <Button
-                    type={"primary"}
-                    style={"contained"}
-                    callback={() =>
-                      userInserted && !userAgency && router.reload()
-                    }
-                  >
-                    {t("myProfile.onboardingButton")}
-                  </Button>
-                </div>
-              )}
             </div>
             {/* ### MG_NEW_USER */}
-            {userInserted ||
-              (userAgency && (
-                <div>
-                  <PreferedTopics
-                    topics={topics}
-                    refetch={refetch}
-                    user={data?.User[0]}
-                    readOnly={false}
-                  ></PreferedTopics>
-                  <CertificationsList
-                    userCertifications={userCertifications}
-                    onUserCertificationSelect={(userCert) => {
-                      setCertModalOpened(true);
-                      setSelectedUserCert(userCert);
-                    }}
-                    onUserCertificationAdd={() => setCertModalOpened(true)}
-                    readOnly={false}
-                  ></CertificationsList>
-                  {skillsDatas && (
-                    <Statistics
-                      userAchievements={userAchievements}
-                      skillsDatas={skillsDatas}
-                      myStatistics={true}
-                    />
-                  )}
-                </div>
-              ))}
+            {!onboarding && (
+              <div>
+                <PreferedTopics
+                  topics={data?.Topic ?? []}
+                  refetch={refetch}
+                  user={data?.User[0]}
+                  readOnly={false}
+                ></PreferedTopics>
+                <CertificationsList
+                  userCertifications={data?.UserCertification ?? []}
+                  onUserCertificationSelect={(userCert) => {
+                    setCertModalOpened(true);
+                    setSelectedUserCert(userCert);
+                  }}
+                  onUserCertificationAdd={() => setCertModalOpened(true)}
+                  readOnly={false}
+                ></CertificationsList>
+                <Statistics
+                  userAchievements={data?.UserAchievements ?? []}
+                  skillsDatas={data?.Category}
+                  myStatistics={true}
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -280,7 +234,7 @@ const Profile = () => {
             <div className="flex flex-row justify-center">
               <CertificationModal
                 userCertificationRef={selectedUserCert}
-                certificationsRef={certifications}
+                certificationsRef={data?.Certification ?? []}
                 onCancel={() => {
                   setCertModalOpened(false);
                   setSelectedUserCert(undefined);
