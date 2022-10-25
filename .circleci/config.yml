@@ -172,6 +172,8 @@ jobs:
         type: string
       hasura-admin-secret:
         type: string
+      public-admins:
+        type: string
     steps:
       - checkout
       - restore_cache:
