@@ -8,10 +8,12 @@ describe("profile", () => {
     });
   });
 
-  it("should successfully view profile", () => {
+  it("should successfully view profile onboarding", () => {
     cy.session("profile");
     cy.visit("/profile");
-    cy.findAllByText(Cypress.env("test_username")).should("have.length", 2);
+    cy.findAllByText(
+      "To fully utilize Skillz, please fill out your agency."
+    ).should("have.length", 1);
   });
 
   it("should successfully update agency", () => {
@@ -29,9 +31,9 @@ describe("profile", () => {
     cy.visit("/profile");
 
     // Add topics
-    cy.findByText("Infrastructure / Ops").click();
-    cy.findByText("Business").click();
-    cy.findByText("Quality assurance").click();
+    cy.findByText("Infrastructure / Ops").click({ force: true });
+    cy.findByText("Business").click({ force: true });
+    cy.findByText("Quality assurance").click({ force: true });
 
     // Check that topic is correctly registered
     cy.reload();
@@ -50,9 +52,9 @@ describe("profile", () => {
     cy.visit("/profile");
 
     // Add topics
-    cy.findByText("Infrastructure / Ops").click();
-    cy.findByText("Business").click();
-    cy.findByText("Quality assurance").click();
+    cy.findByText("Infrastructure / Ops").click({ force: true });
+    cy.findByText("Business").click({ force: true });
+    cy.findByText("Quality assurance").click({ force: true });
 
     cy.findByText("Infrastructure / Ops")
       .parent()
@@ -71,7 +73,7 @@ describe("profile", () => {
     cy.findByRole("button", { name: "Add a certification" }).click();
     cy.findByText("Add Cert").should("exist");
 
-    cy.findByRole("button", { name: "I have it!" }).click();
+    cy.findByRole("button", { name: "Certifications I have it!" }).click();
     cy.findByText("Select a cert").click();
     cy.findByText("Google - Professional Cloud Developer").click();
     cy.findByPlaceholderText("Select a date").type("2022-09-22");
@@ -93,7 +95,7 @@ describe("profile", () => {
     cy.findByText("Google - Professional Cloud Developer").parent().click();
 
     // Delete it
-    cy.findByRole("button", { name: "Remove this certification" }).click();
+    cy.findByRole("button", { name: "Delete" }).click();
 
     // Check successfully deleted
     cy.findByText("Certification was successfully deleted").should("exist");
