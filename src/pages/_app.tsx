@@ -31,6 +31,22 @@ const App = ({ Component, pageProps }) => {
 
   const [darkMode, setDarkMode] = useState(storedDarkMode === "true");
 
+  const onRedirectCallback = (appState) => {
+    console.log(appState.targetUrl);
+    console.log(pathName);
+
+    if (appState && appState.targetUrl) {
+      push(appState.targetUrl, appState.asPath);
+    } else {
+      push("/");
+    }
+    // push({pathname: }
+    //   appState && appState.targetUrl
+    //     ? appState.targetUrl
+    //     : window.location.pathname
+    // );
+  };
+
   const changeDarkMode = (darkMode: boolean) => {
     setDarkMode(darkMode);
     if (process.browser) {
@@ -75,6 +91,7 @@ const App = ({ Component, pageProps }) => {
       redirectUri={config.nextPublicBaseUrl}
       useRefreshTokens={true}
       connection={config.nextPublicAuth0Connection}
+      onRedirectCallback={onRedirectCallback}
     >
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>

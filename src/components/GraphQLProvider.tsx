@@ -8,6 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { of } from "await-of";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { config } from "../env";
 import Loading from "./Loading";
@@ -20,6 +21,11 @@ const GraphQLProvider = ({ children }) => {
     isLoading,
     error,
   } = useAuth0();
+
+  const { push, pathname: pathName, asPath, locale, query } = useRouter();
+
+  // console.log(asPath);
+
   const [client, setClient] = useState<ApolloClient<any> | undefined>(
     undefined
   );
@@ -33,8 +39,9 @@ const GraphQLProvider = ({ children }) => {
         error.message === "Consent required"
       ) {
         loginWithRedirect({
-          redirect_uri: config.nextPublicBaseUrl,
           prompt: "login",
+          redirect_uri: config.nextPublicBaseUrl,
+          //appState: { targetUrl: pathName, query, asPath },
         });
         return;
       } else {
@@ -46,6 +53,7 @@ const GraphQLProvider = ({ children }) => {
       loginWithRedirect({
         redirect_uri: config.nextPublicBaseUrl,
         prompt: "none",
+        appState: { targetUrl: pathName, query, asPath },
       });
       return;
     }
