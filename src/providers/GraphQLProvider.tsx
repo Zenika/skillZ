@@ -7,7 +7,9 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { ReactElement, ReactNode } from "react";
+import { of } from "await-of";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import Loading from "../components/Loading";
 import { config } from "../env";
 
 const GraphQLProvider = ({
@@ -15,33 +17,47 @@ const GraphQLProvider = ({
 }: {
   children: ReactNode;
 }): ReactElement => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isLoading, error } = useAuth0();
+  const [client, setClient] = useState<ApolloClient<any> | undefined>(
+    undefined
+  );
 
-  const client = React.useMemo(() => {
-    const httpLink = createHttpLink({
-      uri: config.nextPublicGraphqlUrl,
-    });
+  useEffect(() => {
+    if (isLoading || error) {
+      return;
+    }
+    (async () => {
+      const [token, err] = await of(getAccessTokenSilently());
 
-    const cache = new InMemoryCache();
+      const httpLink = createHttpLink({
+        uri: config.nextPublicGraphqlUrl,
+      });
 
-    const authLink = setContext(async (_, { headers }) => {
-      const token = await getAccessTokenSilently();
+      const cache = new InMemoryCache();
 
-      return {
-        headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : "",
-        },
-      };
-    });
+      const authLink = setContext((_, { headers }) => {
+        return {
+          headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : "",
+          },
+        };
+      });
 
-    return new ApolloClient<any>({
-      link: from([authLink, httpLink]),
-      cache,
-    });
-  }, []);
+      setClient(
+        new ApolloClient<any>({
+          link: from([authLink, httpLink]),
+          cache,
+        })
+      );
+    })();
+  }, [isLoading, error, getAccessTokenSilently]);
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  if (client) {
+    return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  } else {
+    return <Loading />;
+  }
 };
 
 export default GraphQLProvider;
