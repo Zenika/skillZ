@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CommonPage from "../components/CommonPage";
 import { i18nContext } from "../utils/i18nContext";
 import { gql, useQuery } from "@apollo/client";
@@ -7,21 +7,36 @@ import NotificationPanel from "../components/NotificationPanel";
 import { GetAllVerifiedSkillsQuery } from "../generated/graphql";
 import { GET_ALL_VERIFIED_SKILL } from "../graphql/queries/skills";
 import Loading from "../components/Loading";
+import { useAuth0 } from "@auth0/auth0-react";
+import { config } from "../env";
+import { useEffect } from "react";
+import Custom404 from "./404";
 
 export default function AdminPage() {
-  const {
-    data: skills,
-    loading,
-    error,
-  } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL, {
-    fetchPolicy: "network-only",
-  });
+  const { data: skills, loading } = useQuery<GetAllVerifiedSkillsQuery>(
+    GET_ALL_VERIFIED_SKILL,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
+  const [authorize, setAuthorize] = useState(false);
+  const { user } = useAuth0();
   const { t } = useContext(i18nContext);
 
-  if (loading) return <Loading></Loading>;
+  useEffect(() => {
+    if (
+      user.email ===
+      config.nextPublicAdmins.split(";").find((admin) => admin === user.email)
+    ) {
+      setAuthorize(true);
+    }
+  }, [user]);
+
+  if (authorize === false) return <Custom404 />;
+  if (loading) return <Loading />;
 
   return (
     <CommonPage page={"Admin"} backBar={false}>
