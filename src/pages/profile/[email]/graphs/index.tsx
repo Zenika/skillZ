@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import CommonPage from "../../../../components/CommonPage";
@@ -103,4 +104,4 @@ const HomePanelByUser = () => {
   );
 };
 
-export default HomePanelByUser;
+export default withAuthenticationRequired(HomePanelByUser);

@@ -106,7 +106,7 @@ jobs:
           command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
       - run:
           name: Create .env.local file
-          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
+          command: echo -e "NEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nNEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com\nNEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt\nNEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/\nNEXT_PUBLIC_AUTH0_CALLBACK=/auth\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
       - run:
           name: build
           command: npm run build:local
@@ -169,6 +169,14 @@ jobs:
         type: string
       auth0-connection:
         type: string
+      auth0-domain:
+        type: string
+      auth0-clientId:
+        type: string
+      auth0-audience:
+        type: string
+      auth0-callback:
+        type: string
       hasura-admin-secret:
         type: string
     steps:
@@ -179,7 +187,7 @@ jobs:
             - v4-packaging-dependencies-
       - run:
           name: build
-          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> NEXT_PUBLIC_AUTH0_CONNECTION=<< parameters.auth0-connection >> HASURA_ADMIN_SECRET=<< parameters.hasura-admin-secret >> npm run build:prod
+          command: NEXT_PUBLIC_BASE_URL=<< parameters.base-url >> NEXT_PUBLIC_GRAPHQL_URL=<< parameters.graphql-url >> NEXT_PUBLIC_AUTH0_CONNECTION=<< parameters.auth0-connection >> NEXT_PUBLIC_AUTH0_DOMAIN=<< parameters.auth0-domain >> NEXT_PUBLIC_AUTH0_CLIENT_ID=<< parameters.auth0-clientId >> NEXT_PUBLIC_AUTH0_AUDIENCE=<< parameters.auth0-audience >> NEXT_PUBLIC_AUTH0_CALLBACK=<< parameters.auth0-callback >> HASURA_ADMIN_SECRET=<< parameters.hasura-admin-secret >> npm run build:prod
       - run:
           name: Package
           command: |
@@ -271,6 +279,10 @@ workflows:
             - run-migrations-staging
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           auth0-connection: $NEXT_STAGING_PUBLIC_AUTH0_CONNECTION
+          auth0-domain: $NEXT_PUBLIC_AUTH0_DOMAIN
+          auth0-clientId: $NEXT_PUBLIC_AUTH0_CLIENT_ID
+          auth0-audience: $NEXT_PUBLIC_AUTH0_AUDIENCE
+          auth0-callback: $NEXT_PUBLIC_AUTH0_CALLBACK
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
           base-url: $NEXT_STAGING_BASE_URL
           clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
@@ -321,6 +333,10 @@ workflows:
             - run-migrations
           graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_URL
           auth0-connection: $NEXT_PROD_PUBLIC_AUTH0_CONNECTION
+          auth0-domain: $NEXT_PUBLIC_AUTH0_DOMAIN
+          auth0-clientId: $NEXT_PUBLIC_AUTH0_CLIENT_ID
+          auth0-audience: $NEXT_PUBLIC_AUTH0_AUDIENCE
+          auth0-callback: $NEXT_PUBLIC_AUTH0_CALLBACK
           hasura-admin-secret: $HASURA_ADMIN_SECRET_PROD
           base-url: $NEXT_PROD_BASE_URL
           clever-app-id: $CLEVER_APP_ID_PROD
