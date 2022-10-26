@@ -105,7 +105,7 @@ const Radar = ({
     green: "text-light-green dark:text-dark-green",
     red: "text-light-red dark:text-dark-red",
     blue: "text-light-blue dark:text-dark-blue",
-    cyan: "text-light-cyan dark:text-dark-cyan",
+    yellow: "text-light-yellow dark:text-dark-yellow",
   };
   useEffect(() => {
     if (!window) {

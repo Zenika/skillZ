@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { RiDeleteBinFill } from "react-icons/ri";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
+import Button from "./Button";
 
 type AddOrEditSkillModalProps = {
   skill?: FetchedSkill;
@@ -36,25 +36,11 @@ const AddOrEditSkillModal = ({
         <h1 className="flex-start px-2 my-4 text-xl text-bold">
           {skill?.name}
         </h1>
-        <button
-          disabled={
-            skillLevel === 0 ||
-            desireLevel === 0 ||
-            !skill.desireLevel ||
-            !skill.skillLevel
-          }
-          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
-          onClick={onDeleteButtonClick}
-        >
-          <div className="grid justify-items-center">
-            <RiDeleteBinFill />
-            {t("skills.modal.delete")}
-          </div>
-        </button>
       </div>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
+            {/* TOTO: Custom Component for navigation tab*/}
             <button className="p-2" onClick={() => setNavState("knowledge")}>
               {t("skills.modal.knowledge")}
             </button>
@@ -65,6 +51,7 @@ const AddOrEditSkillModal = ({
             />
           </div>
           <div className="flex flex-col">
+            {/* TOTO: Custom Component for navigation tab*/}
             <button className="p-2" onClick={() => setNavState("desire")}>
               {t("skills.modal.desire")}
             </button>
@@ -137,19 +124,32 @@ const AddOrEditSkillModal = ({
         </div>
       </div>
       <div className="flex flex-row justify-between">
-        <button
-          onClick={() => cancel()}
-          className="mx-1 px-5 py-2 bg-light-graybutton dark:bg-dark-graybutton rounded-full"
-        >
+        <Button type={"secondary"} style={"contained"} callback={cancel}>
           {t("skills.modal.cancel")}
-        </button>
-        <button
-          disabled={skillLevel === 0 || desireLevel === 0}
-          onClick={() => onAddButtonClick()}
-          className="mx-1 px-5 py-2 gradient-red rounded-full disabled:opacity-25"
-        >
-          {t("skills.modal.addSkill")}
-        </button>
+        </Button>
+        <div className={"flex flex-row gap-4"}>
+          <Button
+            type={"primary"}
+            style={"outlined"}
+            callback={onDeleteButtonClick}
+            disabled={
+              skillLevel === 0 ||
+              desireLevel === 0 ||
+              !skill.desireLevel ||
+              !skill.skillLevel
+            }
+          >
+            {t("skills.modal.delete")}
+          </Button>
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={onAddButtonClick}
+            disabled={skillLevel === 0 || desireLevel === 0}
+          >
+            {t("skills.modal.addSkill")}
+          </Button>
+        </div>
       </div>
     </div>
   );

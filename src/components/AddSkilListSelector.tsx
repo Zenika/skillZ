@@ -5,6 +5,7 @@ import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { displayNotification } from "../utils/displayNotification";
 import { i18nContext } from "../utils/i18nContext";
+import Button from "./Button";
 
 const AddSkillListSelector = ({
   skills,
@@ -66,57 +67,65 @@ const AddSkillListSelector = ({
             >
               <div className="flex flex-row justify-between w-full items-center">
                 <span className="text-l">{skill.name}</span>
-                <button
-                  onClick={() => action(skill)}
-                  className="rounded-full border px-2 text-light-red dark:text-dark-red h-8"
+                <Button
+                  type={"primary"}
+                  style={"outlined"}
+                  callback={() => action(skill)}
                 >
                   {t("skills.add")}
-                </button>
+                </Button>
               </div>
             </div>
           ))}
         </div>
       )}
-      {skills && !skills.length && (
-        <div className="flex flex-col justify-around">
-          <span className="flex flex-row justify-center my-2">
-            {t("skills.noMatchingSkills")}
-          </span>
-          {didYouMeanSkills && didYouMeanSkills.length > 0 && (
-            <>
-              <div className="flex flex-row justify-center my-2">
-                <span>{t("skills.didYouMean")}</span>
-              </div>
-              {didYouMeanSkills?.map((skill) => (
-                <div
-                  key={skill.id}
-                  className="flex flex-row justify-between bg-light-light dark:bg-dark-light p-4 my-2 rounded-lg"
-                >
-                  <span className="text-l">{skill.name}</span>
-                  <button
-                    onClick={() => action(skill)}
-                    className="rounded-full border px-2 text-light-red dark:text-dark-red h-6"
-                  >
-                    {t("skills.add")}
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      )}
-      {search.length > 0 && (
+      {search.length > 0 && skills.length === 0 && (
         <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
-          <span className="p-2 text-center">
+          <div className="flex flex-col justify-around">
+            <span className="text-center my-2">
+              {t("skills.noMatchingSkills")}
+            </span>
+          </div>
+          <span className="p-2 text-center font-bold">
             {t("skills.addNewSkill").replace("%skill%", search)}
           </span>
-          <button
-            className="rounded-full gradient-red text-white py-2"
-            onClick={() => addSkillButtonClick()}
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={addSkillButtonClick}
+            uppercase={false}
           >
             {t("skills.addButton").replace("%skill%", search)}
-          </button>
+          </Button>
         </div>
+      )}
+      {didYouMeanSkills && didYouMeanSkills.length > 0 && (
+        <>
+          <div className="flex flex-row justify-center my-2">
+            <span>{t("skills.didYouMean")}</span>
+          </div>
+          <div className="flex flex-col gap-y-2">
+            {didYouMeanSkills?.map((skill) => (
+              <div
+                key={skill.id}
+                className={
+                  "flex flex-col justify-center items-center p-4 mx-0.5 bg-light-light dark:bg-dark-light rounded-lg"
+                }
+              >
+                <div className="flex flex-row justify-between w-full items-center">
+                  <span className="text-l">{skill.name}</span>
+                  <Button
+                    type={"primary"}
+                    style={"outlined"}
+                    callback={() => action(skill)}
+                  >
+                    {t("skills.add")}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

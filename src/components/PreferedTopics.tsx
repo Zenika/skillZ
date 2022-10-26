@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { TopicSelectorQueryQuery } from "../generated/graphql";
+import Button from "./Button";
 
 type Topic = {
   id: string;
@@ -46,17 +47,18 @@ const TopicSelector = ({ email, topics, setTopics }) => {
     <div className="flex flex-auto flex-col">
       <div className="flex flex-auto flex-col text-center">
         {data?.Topic.map((topic) => (
-          <button
-            className={`flex-grow-0 rounded-full py-3 px-6 mx-6 my-2 ${
-              topics.filter((t) => t.Topic.id === topic.id).length > 0
-                ? "gradient-red"
-                : "bg-light-panel dark:bg-dark-panel"
-            }`}
+          <Button
+            type={"primary"}
             key={topic.id}
-            onClick={() => addTopic(topic)}
+            style={
+              topics.filter((t) => t.Topic.id === topic.id).length > 0
+                ? "contained"
+                : "outlined"
+            }
+            callback={() => addTopic(topic)}
           >
             {topic.name}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

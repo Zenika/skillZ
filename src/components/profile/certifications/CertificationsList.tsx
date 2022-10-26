@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { UserCertification } from "../../../utils/types";
+import Button from "../../Button";
 
 type CertificationsList = {
   userCertifications: UserCertification[];
@@ -18,7 +19,6 @@ const CertificationsList = ({
 }: CertificationsList) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const today = new Date();
 
   return (
     <div
@@ -30,9 +30,10 @@ const CertificationsList = ({
     >
       <span className="text-xl p-2">{t("userProfile.certifications")}</span>
       <div className="flex flex-row flex-wrap justify-around">
+        {/* TODO: Custom component for certification tag*/}
         {userCertifications?.map((userCert) => (
           <button
-            disabled={readOnly ? true : false}
+            disabled={readOnly}
             key={userCert.Certification.name + userCert.from}
             className={`rounded-md m-2 gradient-red${
               userCert.obtained ? "" : "-faded"
@@ -50,18 +51,16 @@ const CertificationsList = ({
             }`}</span>
           </button>
         ))}
-        {!readOnly ? (
-          <button
-            className="rounded-full m-2 gradient-red"
-            title={t("userProfile.addCert")}
-            onClick={() => onUserCertificationAdd()}
+      </div>
+      <div className={"flex flex-row justify-center mt-2 mb-2"}>
+        {!readOnly && (
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={onUserCertificationAdd}
           >
-            <span className="px-4 py-4 text-light-ultrawhite font-bold text-m">
-              {t("myProfile.addCertification")}
-            </span>
-          </button>
-        ) : (
-          ""
+            {t("myProfile.addCertification")}
+          </Button>
         )}
       </div>
     </div>

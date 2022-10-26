@@ -1,26 +1,32 @@
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { config } from "../../../../env";
 import { useDarkMode } from "../../../../utils/darkMode";
+import { i18nContext } from "../../../../utils/i18nContext";
+import Button from "../../../Button";
 import { ProgressBar } from "../progressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
 
 export const BadgeSubojectivesCategoryCompletion = ({
-  themeToCompare,
+  label,
   datas,
   src,
-  titleSubobjective,
-  descriptionSubobjective,
   countSkills,
+  myStatistics,
 }) => {
   const [step, setStep] = useState([0]);
   const [skillsNumber, setSkillsNumber] = useState(0);
-  const [max, setMax] = useState(5);
-  const [percentageBarValue, setpercentageBarValue] = useState(0);
+  const { push } = useRouter();
+  const [percentageBarBronze, setPercentageBarBronze] = useState(0);
+  const [percentageBarSilver, setPercentageBarSilver] = useState(0);
+  const [percentageBarGold, setPercentageBarGold] = useState(0);
+  const [percentageBarDiamond, setPercentageBarDiamond] = useState(0);
   const { darkMode } = useDarkMode();
+  const { t } = useContext(i18nContext);
   const [badgeFilterCss, setBadgeFilterCss] = useState(
     `${styles.filterBronze}`
   );
-  const [displayCheckLogo, setDisplayCheckLogo] = useState(false);
 
   const getStepsByCategory = useCallback(() => {
     if (datas) {
@@ -29,26 +35,43 @@ export const BadgeSubojectivesCategoryCompletion = ({
         ...datas
           .filter(
             (d) =>
-              d.label === "categoryCompletion" &&
-              d.additionalInfo === themeToCompare
+              d.label === "categoryCompletion" && d.additionalInfo === label
           )
           .map((s) => s.step),
       ]);
     }
     return;
-  }, [datas, themeToCompare]);
+  }, [datas, label]);
+  const link = new URL(`${config.nextPublicBaseUrl}/skills/mine/${label}`);
 
   const setFilterBadgesLevel = useCallback(() => {
-    if (skillsNumber >= 10 && skillsNumber < 20)
+    //Silver
+    if (skillsNumber >= 10 && skillsNumber < 20) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver((skillsNumber - 10) * 10);
       setBadgeFilterCss(`${styles.filterSilver}`);
-    if (skillsNumber >= 20 && skillsNumber < 30)
+    }
+    //Gold
+    else if (skillsNumber >= 20 && skillsNumber < 30) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver(100);
+      setPercentageBarGold((skillsNumber - 20) * 10);
       setBadgeFilterCss(`${styles.filterGold}`);
-    if (skillsNumber >= 30) setBadgeFilterCss(`${styles.filterDiamond}`);
+    }
+    //Diamond
+    else if (skillsNumber >= 30) {
+      setPercentageBarBronze(100);
+      setPercentageBarSilver(100);
+      setPercentageBarGold(100);
+      setPercentageBarDiamond((skillsNumber - 30) * 10);
+      setBadgeFilterCss(`${styles.filterDiamond}`);
+    }
+    //Bronze
+    else setPercentageBarBronze(skillsNumber * 10);
   }, [skillsNumber]);
 
   useEffect(() => {
     setSkillsNumber(countSkills);
-    if (countSkills >= 40) setDisplayCheckLogo(true);
   }, [countSkills]);
 
   useEffect(() => {
@@ -56,52 +79,57 @@ export const BadgeSubojectivesCategoryCompletion = ({
   }, [countSkills, getStepsByCategory]);
 
   useEffect(() => {
-    const maxVerif = Math.max(...step) + 5;
-    if (isFinite(maxVerif)) {
-      setMax(maxVerif);
-      setpercentageBarValue((skillsNumber / max) * 100);
-    } else setpercentageBarValue((skillsNumber / max) * 100);
     setFilterBadgesLevel();
-  }, [max, skillsNumber, setFilterBadgesLevel, step]);
+  }, [skillsNumber, setFilterBadgesLevel, step]);
 
   return (
     <div
       className={`${
         darkMode
-          ? "bg-dark-light p-4 mt-4 -mr-4 -ml-4 mb-0"
-          : "bg-light-light p-4 mt-4 -mr-4 -ml-4 mb-0"
+          ? "bg-dark-light p-4 mt-2 mb-4 rounded-md"
+          : "bg-light-light p-4 mt-2 mb-4 rounded-md"
       }`}
     >
-      <div className="flex flex-row items-stretch">
-        <Image
-          className={badgeFilterCss}
-          src={src}
-          alt={"Filter"}
-          width="45"
-          height="45"
-        />
-        <div className="p-2 pl-4 text-l">
-          <p className="font-extrabold text-xl mt-2">{titleSubobjective}</p>
-          <p className="mt-1.5 mb-2">{descriptionSubobjective}</p>
+      <div className="flex flex-row place-content-between">
+        <div className="p-1 text-l">
+          <p className="font-extrabold text-xl mt-2">Graph {label}</p>
+          {myStatistics && (
+            <p className="mt-1.5 mb-2">
+              {t("statistics.subobjectivesLegends")}
+            </p>
+          )}
+        </div>
+        <div className="flex mr-4 relative text-center">
+          <Image
+            className={badgeFilterCss}
+            src={src}
+            alt={"Filter"}
+            width="60"
+            height="60"
+          />
+          <p className="absolute left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4 font-bold text-black">
+            {skillsNumber}
+          </p>
         </div>
       </div>
       <div className="flex flex-row">
-        <ProgressBar percentage={percentageBarValue} />
-        <p className="pl-4">
-          {skillsNumber}/{max}
-        </p>
-        {displayCheckLogo ? (
-          <Image
-            className="pl-2"
-            src="/img/badges/check.svg"
-            alt={"Badge"}
-            width="20"
-            height="20"
-          />
-        ) : (
-          ""
-        )}
+        <ProgressBar percentage={percentageBarBronze} type="bronze" />
+        <ProgressBar percentage={percentageBarSilver} type="silver" />
+        <ProgressBar percentage={percentageBarGold} type="gold" />
+        <ProgressBar percentage={percentageBarDiamond} type="diamond" />
       </div>
+
+      {myStatistics && (
+        <div className="flex flex-row-reverse">
+          <Button
+            type={"primary"}
+            style={"contained"}
+            callback={() => push(link)}
+          >
+            {t("statistics.add").replace("%label%", label)}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

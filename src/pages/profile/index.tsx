@@ -3,6 +3,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
+import Button from "../../components/Button";
 import CommonPage from "../../components/CommonPage";
 import CustomSelect from "../../components/CustomSelect";
 import ErrorPage from "../../components/ErrorPage";
@@ -77,6 +78,7 @@ const Profile = () => {
   const updateAgency = (agency: string) => {
     insertUserIfNeeded().then(() => {
       upsertAgency({ variables: { email: user?.email, agency } });
+      if (!onboarding) router.reload();
     });
   };
 
@@ -200,8 +202,8 @@ const Profile = () => {
             <div
               className={`${
                 darkMode
-                  ? "flex flex-col justify-around rounded-lg bg-dark-dark my-2 p-2"
-                  : "flex flex-col justify-around rounded-lg bg-lidht-med my-2 p-2"
+                  ? "flex flex-col justify-around rounded-lg bg-dark-dark pb-6 p-2"
+                  : "flex flex-col justify-around rounded-lg bg-light-med pb-6 p-2"
               }`}
             >
               <div className="p-2 text-xl">{t("myProfile.agency")}</div>
@@ -225,15 +227,16 @@ const Profile = () => {
                 onChange={(value: string) => updateAgency(value)}
               />
               {onboarding && (
-                <div className="flex justify-center">
-                  <button
-                    className="rounded-full gradient-red text-white py-2 px-10 mb-4"
-                    onClick={() =>
+                <div className="flex justify-center mt-8">
+                  <Button
+                    type={"primary"}
+                    style={"contained"}
+                    callback={() =>
                       userInserted && !userAgency && router.reload()
                     }
                   >
                     {t("myProfile.onboardingButton")}
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>
@@ -256,16 +259,12 @@ const Profile = () => {
                     onUserCertificationAdd={() => setCertModalOpened(true)}
                     readOnly={false}
                   ></CertificationsList>
-                  {skillsDatas ? (
+                  {skillsDatas && (
                     <Statistics
                       userAchievements={userAchievements}
                       skillsDatas={skillsDatas}
-                      countTopics={data?.UserTopic_aggregate.aggregate.count}
-                      userAgency={userAgency}
                       myStatistics={true}
                     />
-                  ) : (
-                    <></>
                   )}
                 </div>
               ))}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { GoGraph } from "react-icons/go";
+import Button from "../../../components/Button";
 import CommonPage from "../../../components/CommonPage";
 import Loading from "../../../components/Loading";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
@@ -68,15 +69,14 @@ const Profile = () => {
                 <span>{infoUser?.name}</span>
               </div>
             </div>
-            <button
-              className="px-5 gradient-red rounded-full disabled:opacity-25"
-              onClick={() => push(linkRadar)}
+            <Button
+              type={"primary"}
+              style={"contained"}
+              callback={() => push(linkRadar)}
+              icon={<GoGraph />}
             >
-              <div className="grid justify-items-center">
-                <GoGraph></GoGraph>
-                See radars
-              </div>
-            </button>
+              See radars
+            </Button>
           </div>
           {infoUser?.UserLatestAgency?.agency && (
             <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
@@ -95,8 +95,6 @@ const Profile = () => {
             <Statistics
               userAchievements={userAchievements}
               skillsDatas={skillsDatas}
-              countTopics={data?.UserTopic_aggregate.aggregate.count}
-              userAgency={userAgency}
               myStatistics={false}
             />
           )}

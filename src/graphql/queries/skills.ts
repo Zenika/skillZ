@@ -77,6 +77,7 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       desireLevel: averageDesireLevel
       Category {
         label
+        color
       }
       userCount
     }

@@ -16,6 +16,7 @@ type Skill = {
   skillLevel?: any | null | undefined;
   desireLevel?: any | null | undefined;
   UserSkillDesires?: any | null;
+  Category?: any | null;
 };
 
 const SkillPanel = ({
@@ -47,6 +48,13 @@ const SkillPanel = ({
       context
     )}/${encodeURIComponent(categoryLabel)}/${encodeURIComponent(skill.name)}/`
   );
+
+  const linkToCategory = new URL(
+    `${config.nextPublicBaseUrl}/skills/mine/${encodeURIComponent(
+      categoryLabel
+    )}`
+  );
+
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }
@@ -57,12 +65,25 @@ const SkillPanel = ({
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
     >
       <div
-        className={`flex flex-col ${context !== "zenika" ? "w-5/6" : "w-full"}`}
+        className={`flex flex-col ${
+          context !== "zenika" && context !== "search" ? "w-5/6" : "w-full"
+        }`}
       >
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl">{skill.name}</h2>
+          <div className="flex flex-col">
+            <h2 className="text-xl">{skill.name}</h2>
+            {context === "search" && (
+              // TODO: Custom component for category tag
+              <button
+                onClick={() => push(linkToCategory)}
+                className={`rounded-full opacity-80 gradient-${skill.Category.color} text-white text-xs mt-2 p-2 max-w-xs w-20`}
+              >
+                {skill.Category.label}
+              </button>
+            )}
+          </div>
           {(count || certif) && (
-            <div className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med">
+            <div className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med h-8">
               <span>{count}</span>
               <BsFillPersonCheckFill />
               {certif && (
@@ -115,7 +136,7 @@ const SkillPanel = ({
           <VscSettings size={20} />
         </div>
       )}
-      {context === "zenika" && (
+      {(context === "zenika" || context === "search") && (
         <div
           className="flex w-1/6 justify-end cursor-pointer"
           onClick={() => push(link)}
