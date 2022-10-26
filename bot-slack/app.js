@@ -8,13 +8,13 @@ const { getAllTopics } = require("./src/lib/requestsHasura/getAllTopics");
 const { postingWebhooks } = require("./src/postingWebhooks");
 
 const receiver = new ExpressReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  signingSecret: process.env.BOT_SLACK_SIGNING_SECRET,
   logLevel: LogLevel.INFO,
 });
 
 // Create the Bolt App, using the receiver
 const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
+  token: process.env.BOT_SLACK_BOT_TOKEN,
   logLevel: LogLevel.INFO,
   receiver,
 });
@@ -37,10 +37,8 @@ app.event("message", async ({ event, client }) => {
   actionsHandler(app);
   commandsHandler(app);
   viewHandler(app);
-  //getAllAgencies()
   getAllTopics();
-  await app.start({ port: process.env.PORT });
+  await app.start({ port: process.env.BOT_PORT });
   await monthlyCron(app);
-  //arrayOfDelayedSkillsByUsers(app, "mai-ly.lehoux@zenika.com")
   console.log("⚡️ Skillz-Bot started");
 })();

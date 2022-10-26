@@ -5,7 +5,7 @@ module.exports = {
     app.event("app_home_opened", async ({ event, client, body }) => {
       try {
         const user = body["event"]["user"];
-        const collaborators = process.env.COLLABORATORS.split(";");
+        const collaborators = process.env.BOT_COLLABORATORS.split(";");
         let itsACollaborator = false;
         const botUsers = await getBotUsers();
         const email = await getUserEmail(user, app, app.token);

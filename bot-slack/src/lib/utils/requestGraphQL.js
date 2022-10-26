@@ -18,11 +18,11 @@ async function request(query, variables) {
   let hasura_admin_key = "";
   let url = "";
 
-  if (process.env.ENV) {
+  if (process.env.BOT_ENV) {
     hasura_admin_key = process.env.HASURA_ADMIN_SECRET;
     url = process.env.HASURA_GRAPHQL_URL;
   } else {
-    console.log("Need an ENV variable in .env");
+    console.log("Need an BOT_ENV variable in .env");
   }
   const options = {
     headers: {
