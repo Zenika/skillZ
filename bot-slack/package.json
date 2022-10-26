@@ -1,0 +1,49 @@
+{
+  "name": "skillz-bot",
+  "version": "1.1.1",
+  "description": "basic bot for Skillz app",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node -r dotenv/config app.js",
+    "start": "node app.js",
+    "test": "jest",
+    "coverage": "coverage app.js",
+    "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
+    "prettier:check": "npm run prettier -- --check",
+    "prettier:write": "npm run prettier -- --write"
+  },
+  "dependencies": {
+    "@octokit/auth-oauth-device": "^3.1.2",
+    "@octokit/core": "^3.5.1",
+    "@octokit/plugin-create-or-update-text-file": "^1.0.4",
+    "@octokit/request": "^5.6.2",
+    "@octokit/rest": "^19.0.4",
+    "@slack/bolt": "^3.8.1",
+    "body-parser": "^1.19.1",
+    "coverage": "0.4.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "lib": "^4.3.3",
+    "node-cron": "^3.0.0",
+    "node-fetch": "2.6",
+    "octokit": "^2.0.7",
+    "parse-link-header": "^1.0.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/bolt-app-template"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "prettier": "2.5.1"
+  }
+}
