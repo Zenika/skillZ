@@ -15,10 +15,13 @@ import { config } from "../../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
 import Custom404 from "../../404";
+import { useContext } from "react";
+import { i18nContext } from "../../../utils/i18nContext";
 
 const Profile = () => {
   const { push, query } = useRouter();
   const { email: userEmail } = query;
+  const { t } = useContext(i18nContext);
 
   /*
    * QUERIES
@@ -75,7 +78,7 @@ const Profile = () => {
               callback={() => push(linkRadar)}
               icon={<GoGraph />}
             >
-              See radars
+              {t("userProfile.seeRadars")}
             </Button>
           </div>
           {infoUser?.UserLatestAgency?.agency && (

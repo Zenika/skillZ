@@ -21,6 +21,8 @@ export default {
     deleteSkill: "Delete from Skillz",
     approved: "Approve",
     skillsPending: "Skills that are pending validation",
+    allSkills: "All skills",
+    modify: "Modify",
   },
   sidepanel: {
     profile: "Profile",
@@ -154,6 +156,7 @@ export default {
     targeting: "aiming for",
     validTo: "to",
     addCert: "Add Cert",
+    seeRadars: "See graphs",
     certModal: {
       confirm: "Confirm",
       cancel: "Cancel",
