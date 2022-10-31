@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   cypress: cypress-io/cypress@1
+  node: circleci/node@5.0.2
 
 executors:
   node:
@@ -161,6 +162,7 @@ jobs:
           working_directory: hasura
           command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
   deploy:
+    executor: clever-cloud-deployer
     docker:
       - image: circleci/node:lts
     parameters:
