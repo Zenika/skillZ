@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import CommonPage from "../components/CommonPage";
@@ -179,4 +180,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default withAuthenticationRequired(Search);
