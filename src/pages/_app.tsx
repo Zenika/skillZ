@@ -1,9 +1,8 @@
-import { Auth0Provider } from "@auth0/auth0-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import GraphQLProvider from "../components/GraphQLProvider";
-import { config } from "../env";
+import AuthProvider from "../providers/AuthProvider";
+import GraphQLProvider from "../providers/GraphQLProvider";
 import "../styles/404.css";
 import "../styles/globals.css";
 import { DarkModeProvider } from "../utils/darkMode";
@@ -67,15 +66,7 @@ const App = ({ Component, pageProps }) => {
   if (!mounted) return null;
 
   return (
-    <Auth0Provider
-      domain="zenika.eu.auth0.com"
-      clientId="DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt"
-      audience="https://zenika.eu.auth0.com/api/v2/"
-      scope="read:current_user"
-      redirectUri={config.nextPublicBaseUrl}
-      useRefreshTokens={true}
-      connection={config.nextPublicAuth0Connection}
-    >
+    <AuthProvider>
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>
           <GraphQLProvider>
@@ -94,7 +85,7 @@ const App = ({ Component, pageProps }) => {
           </GraphQLProvider>
         </i18nContext.Provider>
       </DarkModeProvider>
-    </Auth0Provider>
+    </AuthProvider>
   );
 };
 

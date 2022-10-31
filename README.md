@@ -23,7 +23,12 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
+
 NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
+NEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com
+NEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt
+NEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/
+NEXT_PUBLIC_AUTH0_CALLBACK=/auth
 ```
 
 ```
@@ -33,7 +38,12 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
+
 NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
+NEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com
+NEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt
+NEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/
+NEXT_PUBLIC_AUTH0_CALLBACK=/auth
 ```
 
 ### Run postgres and hasura locally with docker
