@@ -269,3 +269,13 @@ export const GET_SKILL_ID_BY_NAME = gql`
     }
   }
 `;
+
+export const GET_ALL_VERIFIED_SKILL = gql`
+  query getAllVerifiedSkills {
+    Skill {
+      name
+      id
+      verified
+    }
+  }
+`;

@@ -12,6 +12,7 @@ import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { LocaleSelector } from "./LocaleSelector";
+import { config } from "../env";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -165,6 +166,38 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
+                {user.email ===
+                  config.nextPublicAdmins
+                    .split(";")
+                    .find((admin) => admin === user.email) && (
+                  <div className="w-36">
+                    <Link href="/admin">
+                      <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                        <Image
+                          src={
+                            pathname === "/admin"
+                              ? `/icons/${
+                                  darkMode ? "dark" : "light"
+                                }/zenika-selected.svg`
+                              : `/icons/${
+                                  darkMode ? "dark" : "light"
+                                }/zenika.svg`
+                          }
+                          alt={"admin"}
+                          width="25"
+                          height="25"
+                          className="p-1"
+                        />
+                        <span className="text-center">Admin</span>
+                        {pathname === "/admin" && (
+                          <div className="flex flex-row justify-center w-full h-0.5">
+                            <div className="w-3/4 h-full gradient-red" />
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           )}

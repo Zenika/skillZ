@@ -34,3 +34,22 @@ export const INSERT_SKILL_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_SKILL_MUTATION = gql`
+  mutation DeleteSkill($skillId: uuid!) {
+    delete_Skill(where: { id: { _eq: $skillId } }) {
+      affected_rows
+    }
+  }
+`;
+
+export const UPDATE_SKILL_VERIFIED_MUTATION = gql`
+  mutation setVerifiedSkillMutation($skillId: uuid!, $verified: Boolean!) {
+    update_Skill(
+      where: { id: { _eq: $skillId } }
+      _set: { verified: $verified }
+    ) {
+      affected_rows
+    }
+  }
+`;
