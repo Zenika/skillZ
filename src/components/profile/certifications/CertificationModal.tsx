@@ -55,40 +55,40 @@ const CertificationModal = ({
                   obtained: !userCertification?.obtained,
                 });
               }}
-              className="flex flex-row text-left my-2"
+              className="flex flex-row items-center text-left my-4"
             >
-              <span className="shrink-0 my-0.5">
-                <Image
-                  src={`/icons/${darkMode ? "dark" : "light"}/${
-                    userCertification?.obtained ? "full" : "empty"
-                  }-select.svg`}
-                  alt={"Certifications"}
-                  height={32}
-                  width={32}
-                  layout="fixed"
-                />
-              </span>
-              <span className="ml-2 mt-1 text-base">
+              <Image
+                src={`/icons/${darkMode ? "dark" : "light"}/${
+                  userCertification?.obtained ? "full" : "empty"
+                }-select.svg`}
+                alt={"Certifications"}
+                height={32}
+                width={32}
+                layout="fixed"
+              />
+              <span className="ml-2 text-base">
                 {t("userProfile.certModal.obtained")}
               </span>
             </button>
-            <CustomSelect
-              labelFn={(cert) => `${cert?.certBody} - ${cert?.name}`}
-              keyFn={(cert) => cert.id}
-              choices={certificationsRef.sort((a, b) =>
-                a.certBody + a.name > b.certBody + b.name ? 1 : -1
-              )}
-              selectedChoice={userCertification?.Certification}
-              placeholder={t("userProfile.certModal.selectCert")}
-              readOnly={editMode}
-              onChange={(certification) => {
-                setUserCertification({
-                  ...userCertification,
-                  Certification: certification,
-                });
-              }}
-            />
-            <div className="relative form-floating mb-3 xl:w-96">
+            <div className={"my-4"}>
+              <CustomSelect
+                labelFn={(cert) => `${cert?.certBody} - ${cert?.name}`}
+                keyFn={(cert) => cert.id}
+                choices={certificationsRef.sort((a, b) =>
+                  a.certBody + a.name > b.certBody + b.name ? 1 : -1
+                )}
+                selectedChoice={userCertification?.Certification}
+                placeholder={t("userProfile.certModal.selectCert")}
+                readOnly={editMode}
+                onChange={(certification) => {
+                  setUserCertification({
+                    ...userCertification,
+                    Certification: certification,
+                  });
+                }}
+              />
+            </div>
+            <div className="relative form-floating mb-3 xl:w-96 my-2">
               <label htmlFor="floatingInput" className="ml-2 mt-1 text-base">
                 {!userCertification?.obtained
                   ? t("userProfile.certModal.deadline")
@@ -107,7 +107,7 @@ const CertificationModal = ({
                 }}
               />
             </div>
-            {userCertification?.obtained ? (
+            {userCertification?.obtained && (
               <button
                 onClick={() => {
                   setHasExpiryDate(!hasExpiryDate);
@@ -129,10 +129,8 @@ const CertificationModal = ({
                   {t("userProfile.certModal.hasExpiryDate")}
                 </span>
               </button>
-            ) : (
-              <></>
             )}
-            {userCertification?.obtained && hasExpiryDate ? (
+            {userCertification?.obtained && hasExpiryDate && (
               <div className="relative form-floating mb-3 xl:w-96">
                 <label htmlFor="floatingInput" className="ml-2 mt-1 text-base">
                   {t("userProfile.certModal.to")}
@@ -150,8 +148,6 @@ const CertificationModal = ({
                   }}
                 />
               </div>
-            ) : (
-              <></>
             )}
           </div>
         </div>

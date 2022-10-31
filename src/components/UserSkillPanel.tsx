@@ -60,9 +60,7 @@ const UserSkillPanel = ({
                   <></>
                 )}
               </div>
-              <h3 className="text-md">
-                Zenika {t(`agencies.${skill.user.agency}`)}
-              </h3>
+              <h3 className="text-md">{`Zenika ${skill.user.agency}`}</h3>
             </div>
           </div>
           <div className="flex flex-row justify-around">

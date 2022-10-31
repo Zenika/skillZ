@@ -69,7 +69,7 @@ const CustomSelect = ({
             opened ? "" : "h-0"
           } duration-500`}
         >
-          {!readOnly && opened ? (
+          {!readOnly && opened && (
             <div className="flex rounded-b-lg w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96">
               {choices.map((choice) => (
                 <span
@@ -81,8 +81,6 @@ const CustomSelect = ({
                 </span>
               ))}
             </div>
-          ) : (
-            <></>
           )}
         </div>
       </div>
