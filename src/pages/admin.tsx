@@ -49,7 +49,7 @@ export default function AdminPage() {
                 {
                   skills.Skill.filter((field) => field.verified === false)
                     .length
-                }{" "}
+                }
                 {t("search.result")}
               </p>
             )}
