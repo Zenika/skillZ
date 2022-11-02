@@ -51,9 +51,6 @@ export default function AdminPage() {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log("skills", skills);
-  }, [search]);
   if (authorize === false) return <Custom404 />;
 
   return (
