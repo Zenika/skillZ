@@ -1,15 +1,22 @@
-import { useMutation } from "@apollo/client";
-import { useContext } from "react";
-import { SetSkillCategoryMutation } from "../../generated/graphql";
-import { SET_SKILL_CATEGORY } from "../../graphql/mutations/skills";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useContext } from "react";
+import {
+  EditSkillMutation,
+  GetAllCategoriesQuery,
+} from "../../generated/graphql";
+import { EDIT_SKILL } from "../../graphql/mutations/skills";
+import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
+import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../Button";
+import CustomSelect from "../CustomSelect";
+import ErrorPage from "../ErrorPage";
 
 type EditSkillAdminModalProps = {
   skill: FetchedSkill;
   cancel: () => void;
-  callback: (skill: FetchedSkill) => void;
+  callback: () => void;
 };
 
 const EditSkillAdminModal = ({
@@ -20,23 +27,74 @@ const EditSkillAdminModal = ({
   const { t } = useContext(i18nContext);
 
   /*
+   * QUERIES
+   */
+  const {
+    data: categories,
+    loading: categoriesLoading,
+    error,
+  } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
+
+  /*
    * MUTATIONS
    */
-  const [
-    setSkillCategory,
-    { data: dataEditSkill, loading: loadingEditSkill, error: errorEditSkill },
-  ] = useMutation<SetSkillCategoryMutation>(SET_SKILL_CATEGORY);
+  const [editSkill] = useMutation<EditSkillMutation>(EDIT_SKILL);
 
-  const onAddButtonClick = () => {};
+  const onEditButtonClick = () => {
+    editSkill({
+      variables: {
+        id: skill.id,
+        categoryId: skill.categoryId,
+      },
+    })
+      .then(() => {
+        displayNotification(
+          t("skills.updateSkillSuccess").replace("%skill%", skill.name),
+          "green",
+          5000
+        );
+        callback();
+      })
+      .catch(() => {
+        displayNotification(
+          t("skills.updateSkillFailed").replace("%skill%", skill.name),
+          "red",
+          5000
+        );
+        callback();
+      });
+  };
 
   const onDeleteButtonClick = () => {};
+
+  if (error) {
+    return <ErrorPage />;
+  }
 
   return (
     <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
       <div className="flex flex-row place-content-between">
         <h1 className="flex-start px-2 my-4 text-xl text-bold">{skill.name}</h1>
       </div>
-      <div className="flex flex-col"></div>
+      <div className="flex flex-col my-4 ">
+        {!categoriesLoading && (
+          <div className={"my-4"}>
+            <span className="text-sm">{t("admin.category")}</span>
+            <CustomSelect
+              labelFn={(x) => x.label}
+              keyFn={(x) => x.id}
+              choices={categories.Category.map((categorie) => categorie) ?? []}
+              selectedChoice={categories.Category.find(
+                (categorie) => categorie.id === skill.categoryId
+              )}
+              placeholder={t("myProfile.selectPlaceholder")}
+              onChange={(categorie) => {
+                skill.categoryId = categorie.id;
+              }}
+            />
+          </div>
+        )}
+      </div>
       <div className="flex flex-row justify-between">
         <Button type={"secondary"} style={"contained"} callback={cancel}>
           {t("skills.modal.cancel")}
@@ -44,17 +102,10 @@ const EditSkillAdminModal = ({
         <div className={"flex flex-row gap-4"}>
           <Button
             type={"primary"}
-            style={"outlined"}
-            callback={onDeleteButtonClick}
-          >
-            {t("skills.modal.delete")}
-          </Button>
-          <Button
-            type={"primary"}
             style={"contained"}
-            callback={onAddButtonClick}
+            callback={onEditButtonClick}
           >
-            {t("skills.modal.addSkill")}
+            {t("admin.update")}
           </Button>
         </div>
       </div>

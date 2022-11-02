@@ -10,7 +10,7 @@ export const GET_CATEGORIE_ID_BY_NAME = gql`
 
 export const GET_ALL_CATEGORIES = gql`
   query getAllCategories {
-    Category() {
+    Category {
       id
       label
     }

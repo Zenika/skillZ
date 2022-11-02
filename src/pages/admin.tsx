@@ -3,8 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import EditSkillAdminModal from "../components/admin/EditSkillAdminModal";
+import SkillAdminPanel from "../components/admin/SkillAdminPanel";
 import CommonPage from "../components/CommonPage";
-import NotificationPanel from "../components/NotificationPanel";
 import SearchBar from "../components/SearchBar";
 import { config } from "../env";
 import { GetAllVerifiedSkillsQuery } from "../generated/graphql";
@@ -94,15 +94,15 @@ export default function AdminPage() {
               {skills.Skill.length > 0 &&
                 skills.Skill.filter((field) => field.verified === false).map(
                   (skill, index) => (
-                    <NotificationPanel
+                    <SkillAdminPanel
                       key={index}
                       skill={{
                         name: skill.name,
-                        skillId: skill.id,
+                        id: skill.id,
                         verified: skill.verified,
                       }}
                       approvedSkills={false}
-                    ></NotificationPanel>
+                    ></SkillAdminPanel>
                   )
                 )}
               <div className="flex flex-col mb-8 mt-10">
@@ -114,15 +114,16 @@ export default function AdminPage() {
               {skills.Skill.length > 0 &&
                 skills.Skill.filter((field) => field.verified === true).map(
                   (skill, index) => (
-                    <NotificationPanel
+                    <SkillAdminPanel
                       key={index}
                       skill={{
                         name: skill.name,
-                        skillId: skill.id,
+                        id: skill.id,
                         verified: skill.verified,
                       }}
                       approvedSkills={true}
-                    ></NotificationPanel>
+                      onEditClick={() => onModalClick(skill)}
+                    ></SkillAdminPanel>
                   )
                 )}
             </div>
@@ -130,12 +131,18 @@ export default function AdminPage() {
         </div>
       </div>
       {selectedSkill && (
-        <div className="flex flex-row justify-center">
-          <EditSkillAdminModal
-            skill={selectedSkill}
-            cancel={onModalClose}
-            callback={onModalClose}
-          ></EditSkillAdminModal>
+        <div
+          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
+            selectedSkill ? "" : "hidden"
+          }`}
+        >
+          <div className="flex flex-row justify-center">
+            <EditSkillAdminModal
+              skill={selectedSkill}
+              cancel={onModalClose}
+              callback={onModalClose}
+            ></EditSkillAdminModal>
+          </div>
         </div>
       )}
     </CommonPage>
