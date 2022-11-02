@@ -13,6 +13,9 @@ export default {
     deleteSkill: "Supprimer de Skillz",
     approved: "Approuver",
     skillsPending: "Compétences en attente de validation",
+    allSkills: "Toutes les compétences",
+    modify: "Modifier",
+    skillList: "Liste des compétences",
   },
   nav: {
     mySkills: "Compétences",
@@ -159,6 +162,7 @@ export default {
     targeting: "ciblée pour le",
     validTo: "jusqu'au",
     addCert: "Ajouter Certif",
+    seeRadars: "Voir les graphs",
     certModal: {
       confirm: "Confirmer",
       cancel: "Annuler",

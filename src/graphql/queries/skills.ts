@@ -271,8 +271,8 @@ export const GET_SKILL_ID_BY_NAME = gql`
 `;
 
 export const GET_ALL_VERIFIED_SKILL = gql`
-  query getAllVerifiedSkills {
-    Skill {
+  query getAllVerifiedSkills($search: String!) {
+    Skill(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
       name
       id
       verified

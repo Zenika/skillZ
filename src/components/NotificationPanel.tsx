@@ -15,7 +15,13 @@ import { displayNotification } from "../utils/displayNotification";
 
 type Skill = { name: string; skillId: string; verified: boolean };
 
-const NotificationPanel = ({ skill }: { skill: Skill }) => {
+const NotificationPanel = ({
+  skill,
+  approvedSkills,
+}: {
+  skill: Skill;
+  approvedSkills: boolean;
+}) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
 
@@ -57,26 +63,42 @@ const NotificationPanel = ({ skill }: { skill: Skill }) => {
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
         </div>
-        <div className="flex flex-row justify-around">
-          <div className="flex flex-col">
-            <Button
-              type={"primary"}
-              style={"outlined"}
-              callback={deleteSkillButtonClick}
-            >
-              {t("admin.deleteSkill")}
-            </Button>
+        {approvedSkills === false ? (
+          <div>
+            <div className="flex flex-row justify-around">
+              <div className="flex flex-col">
+                <Button
+                  type={"primary"}
+                  style={"outlined"}
+                  callback={deleteSkillButtonClick}
+                >
+                  {t("admin.deleteSkill")}
+                </Button>
+              </div>
+              <div className="flex flex-col">
+                <Button
+                  type={"primary"}
+                  style={"contained"}
+                  callback={updateVerifiedSkillButtonClick}
+                >
+                  {t("admin.approved")}
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <Button
-              type={"primary"}
-              style={"contained"}
-              callback={updateVerifiedSkillButtonClick}
-            >
-              {t("admin.approved")}
-            </Button>
+        ) : (
+          <div className="flex flex-end justify-end">
+            <div className="flex flex-col">
+              <Button
+                type={"primary"}
+                style={"contained"}
+                callback={() => console.log("modify")}
+              >
+                {t("admin.modify")}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
