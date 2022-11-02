@@ -15,6 +15,7 @@ export default {
     skillsPending: "Compétences en attente de validation",
     allSkills: "Toutes les compétences",
     modify: "Modifier",
+    skillList: "Liste des compétences",
   },
   nav: {
     mySkills: "Compétences",

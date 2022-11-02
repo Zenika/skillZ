@@ -94,7 +94,10 @@ export default function AdminPage() {
                   )
                 )}
               <div className="flex flex-col mb-8 mt-10">
-                <h1 className="text-xl">{t("admin.skillsPending")}</h1>
+                <h1 className="text-xl">{t("admin.skillList")}</h1>
+                <p className="opacity-50">
+                  {skills.Skill.length} {t("search.result")}
+                </p>
               </div>
               {skills.Skill.length > 0 &&
                 skills.Skill.filter((field) => field.verified === true).map(

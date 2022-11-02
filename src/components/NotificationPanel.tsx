@@ -59,13 +59,7 @@ const NotificationPanel = ({
     <div
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
     >
-      <div
-        className={
-          approvedSkills === false
-            ? `flex flex-col w-full`
-            : `flex flex-row space-between`
-        }
-      >
+      <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
         </div>
@@ -93,14 +87,16 @@ const NotificationPanel = ({
             </div>
           </div>
         ) : (
-          <div>
-            <Button
-              type={"primary"}
-              style={"contained"}
-              callback={() => console.log("modify")}
-            >
-              {t("admin.modify")}
-            </Button>
+          <div className="flex flex-end justify-end">
+            <div className="flex flex-col">
+              <Button
+                type={"primary"}
+                style={"contained"}
+                callback={() => console.log("modify")}
+              >
+                {t("admin.modify")}
+              </Button>
+            </div>
           </div>
         )}
       </div>

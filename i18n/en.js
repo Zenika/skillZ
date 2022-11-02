@@ -23,6 +23,7 @@ export default {
     skillsPending: "Skills that are pending validation",
     allSkills: "All skills",
     modify: "Modify",
+    skillList: "Skills list",
   },
   sidepanel: {
     profile: "Profile",
