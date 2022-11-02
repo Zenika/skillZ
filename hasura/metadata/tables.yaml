@@ -162,6 +162,21 @@
 - table:
     schema: public
     name: SkillTopic
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns: []
+  select_permissions:
+    - role: world
+      permission:
+        columns: []
+        filter: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter: {}
 - table:
     schema: public
     name: Tag
@@ -463,7 +478,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: "*"
+          columns: '*'
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -526,7 +541,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: "*"
+          columns: '*'
       retry_conf:
         num_retries: 5
         interval_sec: 30
