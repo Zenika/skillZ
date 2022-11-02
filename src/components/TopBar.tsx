@@ -5,14 +5,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { GetUserAgencyQuery } from "../generated/graphql";
+import { config } from "../env";
+import {
+  GetAllNotVerifiedSkillsQuery,
+  GetUserAgencyQuery,
+} from "../generated/graphql";
+import { GET_ALL_NOT_VERIFIED_SKILL } from "../graphql/queries/skills";
 import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
 import { DarkModeSelector } from "./DarkModeSelector";
 import { LocaleSelector } from "./LocaleSelector";
-import { config } from "../env";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -41,6 +45,14 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     }
   );
 
+  const {
+    data: skills,
+    loading,
+    error: errorSkills,
+  } = useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
+    fetchPolicy: "network-only",
+  });
+
   /*
    * CALLBACKS
    */
@@ -59,10 +71,8 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     query: "(min-device-width: 1280px)",
   });
 
-  if (error) {
-    console.error(
-      `Something bad happened while authenticating user: ${error.message}`
-    );
+  if (error || errorSkills) {
+    console.error(`Something bad happened: ${error.message}`);
     return <></>;
   }
 
@@ -172,7 +182,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     .find((admin) => admin === user.email) && (
                   <div className="w-36">
                     <Link href="/admin">
-                      <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                      <div className="flex flex-initial flex-col justify-between cursor-pointer relative">
                         <Image
                           src={
                             pathname === "/admin"
@@ -188,6 +198,16 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                           height="25"
                           className="p-1"
                         />
+                        {skills && (
+                          <div
+                            className={
+                              "absolute top-0 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
+                            }
+                          >
+                            {skills.Skill.length}
+                          </div>
+                        )}
+
                         <span className="text-center">Admin</span>
                         {pathname === "/admin" && (
                           <div className="flex flex-row justify-center w-full h-0.5">

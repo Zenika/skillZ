@@ -63,9 +63,7 @@ export default function AdminPage() {
             setSearch={setSearch}
             placeholder={t("search.placeholder")}
           />
-          {loading ? (
-            <div />
-          ) : (
+          {!loading && (
             <div>
               <div className="flex flex-col mb-8 mt-10">
                 <h1 className="text-xl">{t("admin.skillsPending")}</h1>
