@@ -282,10 +282,10 @@ export const GET_ALL_VERIFIED_SKILL = gql`
 
 export const GET_ALL_NOT_VERIFIED_SKILL = gql`
   query getAllNotVerifiedSkills {
-      Skill(where: {verified: {_eq: false}}) {
-        name
-        id
-        verified
-      }
+    Skill(where: { verified: { _eq: false } }) {
+      name
+      id
+      verified
     }
+  }
 `;
