@@ -115,7 +115,7 @@ INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") V
 ('Clean Code', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
 ('SOLID', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
 ('Craftsmanship', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
-('IT Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
+('IT Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Global architecture of IT systems'),
 ('Software Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
 ('IS Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
 ('Cloud', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
