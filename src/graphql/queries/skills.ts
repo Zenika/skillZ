@@ -276,6 +276,7 @@ export const GET_ALL_VERIFIED_SKILL = gql`
       name
       id
       verified
+      categoryId
     }
   }
 `;

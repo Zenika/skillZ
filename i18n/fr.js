@@ -15,7 +15,9 @@ export default {
     skillsPending: "Compétences en attente de validation",
     allSkills: "Toutes les compétences",
     modify: "Modifier",
+    update: "Mettre à jour",
     skillList: "Liste des compétences",
+    category: "Catégorie",
   },
   nav: {
     mySkills: "Compétences",
@@ -103,6 +105,7 @@ export default {
       desire: "Niveau d'appétence",
       cancel: "ANNULER",
       addSkill: "AJOUTER",
+      editSkill: "MODIFIER",
       delete: "Supprimer",
     },
     addSkillSuccess: "La compétence %skill% a été ajoutée avec succès",

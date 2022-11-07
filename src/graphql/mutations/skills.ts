@@ -53,3 +53,14 @@ export const UPDATE_SKILL_VERIFIED_MUTATION = gql`
     }
   }
 `;
+
+export const EDIT_SKILL = gql`
+  mutation editSkill($id: uuid!, $categoryId: uuid!) {
+    update_Skill(
+      where: { id: { _eq: $id } }
+      _set: { categoryId: $categoryId }
+    ) {
+      affected_rows
+    }
+  }
+`;
