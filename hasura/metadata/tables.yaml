@@ -184,8 +184,16 @@
   select_permissions:
     - role: world
       permission:
+        columns:
+          - skillId
+          - topicId
+        filter: {}
+  update_permissions:
+    - role: world
+      permission:
         columns: []
         filter: {}
+        check: {}
   delete_permissions:
     - role: world
       permission:
@@ -204,17 +212,14 @@
 - table:
     schema: public
     name: Topic
-  object_relationships:
+  array_relationships:
     - name: SkillTopics
       using:
-        manual_configuration:
-          remote_table:
+        foreign_key_constraint_on:
+          column: topicId
+          table:
             schema: public
             name: SkillTopic
-          insertion_order: null
-          column_mapping:
-            id: topicId
-  array_relationships:
     - name: UserTopics
       using:
         foreign_key_constraint_on:
@@ -228,6 +233,7 @@
         columns:
           - id
           - name
+          - type
         filter: {}
         allow_aggregations: true
 - table:
