@@ -20,6 +20,8 @@ export type FetchedSkill = {
   skillLevel?: number;
   userCount?: number;
   add?: boolean;
+  verified?: boolean;
+  categoryId?: string;
 };
 
 export type Certification = {

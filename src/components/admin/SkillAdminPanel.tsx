@@ -1,27 +1,30 @@
-import { useContext } from "react";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { i18nContext } from "../utils/i18nContext";
-import Button from "./Button";
-import {
-  DELETE_SKILL_MUTATION,
-  UPDATE_SKILL_VERIFIED_MUTATION,
-} from "../graphql/mutations/skills";
+import { useContext } from "react";
 import {
   DeleteSkillMutation,
   SetVerifiedSkillMutationMutationFn,
-} from "../generated/graphql";
-import { useMutation } from "@apollo/client";
-import { displayNotification } from "../utils/displayNotification";
+} from "../../generated/graphql";
+import {
+  DELETE_SKILL_MUTATION,
+  UPDATE_SKILL_VERIFIED_MUTATION,
+} from "../../graphql/mutations/skills";
+import { displayNotification } from "../../utils/displayNotification";
+import { i18nContext } from "../../utils/i18nContext";
+import { FetchedSkill } from "../../utils/types";
+import Button from "../Button";
 
-type Skill = { name: string; skillId: string; verified: boolean };
+type SkillAdminPanelProps = {
+  skill: FetchedSkill;
+  approvedSkills: boolean;
+  onEditClick?: () => void;
+};
 
-const NotificationPanel = ({
+const SkillAdminPanel = ({
   skill,
   approvedSkills,
-}: {
-  skill: Skill;
-  approvedSkills: boolean;
-}) => {
+  onEditClick,
+}: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
 
@@ -34,7 +37,7 @@ const NotificationPanel = ({
   );
 
   const deleteSkillButtonClick = async () => {
-    await deleteSkill({ variables: { skillId: skill.skillId } })
+    await deleteSkill({ variables: { skillId: skill.id } })
       .then(() => {
         router.reload();
       })
@@ -45,7 +48,7 @@ const NotificationPanel = ({
 
   const updateVerifiedSkillButtonClick = async () => {
     await updateVerifiedSkill({
-      variables: { skillId: skill.skillId, verified: true },
+      variables: { skillId: skill.id, verified: true },
     })
       .then(() => {
         router.reload();
@@ -63,7 +66,7 @@ const NotificationPanel = ({
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
         </div>
-        {approvedSkills === false ? (
+        {!approvedSkills && (
           <div>
             <div className="flex flex-row justify-around">
               <div className="flex flex-col">
@@ -86,13 +89,14 @@ const NotificationPanel = ({
               </div>
             </div>
           </div>
-        ) : (
+        )}
+        {approvedSkills && onEditClick && (
           <div className="flex flex-end justify-end">
             <div className="flex flex-col">
               <Button
                 type={"primary"}
                 style={"contained"}
-                callback={() => console.log("modify")}
+                callback={onEditClick}
               >
                 {t("admin.modify")}
               </Button>
@@ -104,4 +108,4 @@ const NotificationPanel = ({
   );
 };
 
-export default NotificationPanel;
+export default SkillAdminPanel;

@@ -106,6 +106,13 @@
       using:
         foreign_key_constraint_on: categoryId
   array_relationships:
+    - name: SkillTopics
+      using:
+        foreign_key_constraint_on:
+          column: skillId
+          table:
+            schema: public
+            name: SkillTopic
     - name: UserSkillDesires
       using:
         foreign_key_constraint_on:
@@ -162,6 +169,13 @@
 - table:
     schema: public
     name: SkillTopic
+  object_relationships:
+    - name: Skill
+      using:
+        foreign_key_constraint_on: skillId
+    - name: Topic
+      using:
+        foreign_key_constraint_on: topicId
   insert_permissions:
     - role: world
       permission:
@@ -190,6 +204,16 @@
 - table:
     schema: public
     name: Topic
+  object_relationships:
+    - name: SkillTopics
+      using:
+        manual_configuration:
+          remote_table:
+            schema: public
+            name: SkillTopic
+          insertion_order: null
+          column_mapping:
+            id: topicId
   array_relationships:
     - name: UserTopics
       using:
@@ -478,7 +502,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -541,7 +565,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30

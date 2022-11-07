@@ -23,7 +23,9 @@ export default {
     skillsPending: "Skills that are pending validation",
     allSkills: "All skills",
     modify: "Modify",
+    update: "Update",
     skillList: "Skills list",
+    category: "Category",
   },
   sidepanel: {
     profile: "Profile",
@@ -100,6 +102,7 @@ export default {
       desire: "Desire level",
       cancel: "CANCEL",
       addSkill: "ADD SKILL",
+      editSkill: "UPDATE",
       delete: "Delete",
     },
     addSkillSuccess: "Skill %skill% was added successfully",
