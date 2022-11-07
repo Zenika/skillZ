@@ -51,7 +51,7 @@ export default function AdminPage() {
     }
   }, [user]);
 
-  if (authorize === false) return <Custom404 />;
+  if (authorize == false) return <Custom404 />;
 
   return (
     <CommonPage page={"Admin"} backBar={false}>
@@ -78,7 +78,7 @@ export default function AdminPage() {
                 )}
               </div>
               {skills.Skill.length > 0 &&
-                skills.Skill.filter((field) => field.verified === false).map(
+                skills.Skill.filter((field) => field.verified == false).map(
                   (skill, index) => (
                     <NotificationPanel
                       key={index}
@@ -95,14 +95,14 @@ export default function AdminPage() {
                 <h1 className="text-xl">{t("admin.skillList")}</h1>
                 <p className="opacity-50">
                   {
-                    skills.Skill.filter((field) => field.verified === true)
+                    skills.Skill.filter((field) => field.verified == true)
                       .length
                   }{" "}
                   {t("search.result")}
                 </p>
               </div>
               {skills.Skill.length > 0 &&
-                skills.Skill.filter((field) => field.verified === true).map(
+                skills.Skill.filter((field) => field.verified == true).map(
                   (skill, index) => (
                     <NotificationPanel
                       key={index}
