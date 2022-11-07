@@ -1,10 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useEffect } from "react";
 import { useContext } from "react";
-import {
-  GetTopicsInfosQuery,
-  SkillTopicsBySkillQuery,
-} from "../generated/graphql";
+import { GetTopicsInfosQuery } from "../generated/graphql";
 import {
   ADD_SKILL_TO_TOPIC,
   DELETE_SKILL_TO_TOPIC,
@@ -21,7 +17,7 @@ type skillTopicsProps = {
   skillTopics: any;
 };
 
-const skillTopics = ({
+const SkillTopics = ({
   refetch,
   readOnly,
   skill,
@@ -36,31 +32,27 @@ const skillTopics = ({
   const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
 
   const updateTopic = (selectedTopic: { id: string; name: string }) => {
-    const skilltopic = skillTopics.skillTopic?.find(
-      (value) => value.id === selectedTopic?.id
+    const skilltopic = skillTopics.SkillTopic?.find(
+      (value) => value.topicId === selectedTopic?.id
     );
-    // if (!skilltopic) {
-    //   insertTopic({
-    //     variables: { email: user.email, topicId: selectedTopic.id },
-    //   }).then(() =>
-    //     refetch({
-    //       variables: { email: user.email },
-    //     })
-    //   );
-    // } else {
-    //   deleteTopic({
-    //     variables: { email: user.email, topicId: selectedTopic.id },
-    //   }).then(() =>
-    //     refetch({
-    //       variables: { email: user.email },
-    //     })
-    //   );
-    // }
+    if (!skilltopic) {
+      insertTopic({
+        variables: { skillId: skill?.id, topicId: selectedTopic.id },
+      }).then(() =>
+        refetch({
+          variables: { skillId: skill?.id },
+        })
+      );
+    } else {
+      deleteTopic({
+        variables: { skillId: skill?.id, topicId: selectedTopic.id },
+      }).then(() =>
+        refetch({
+          variables: { skillId: skill?.id },
+        })
+      );
+    }
   };
-
-  useEffect(() => {
-    if (topics) console.log("topics", topics);
-  }, [topics]);
 
   return (
     <div
@@ -70,14 +62,14 @@ const skillTopics = ({
           : "bg-light dark:bg-dark-dark my-2 p-2"
       }`}
     >
-      <span className="text-xl p-2">Topics</span>
+      <span className="text-xl p-2">{t("admin.topics")}</span>
       <div className="flex flex-row flex-wrap justify-around">
         {topics?.Topic.map((topic) => (
           <button
             disabled={readOnly}
             key={topic.name}
             className={`rounded-full m-2 ${
-              skillTopics.SkillTopic.find(
+              skillTopics?.SkillTopic.find(
                 (skilltopic) => skilltopic.topicId === topic.id
               )
                 ? "gradient-red"
@@ -92,4 +84,4 @@ const skillTopics = ({
     </div>
   );
 };
-export default skillTopics;
+export default SkillTopics;

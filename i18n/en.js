@@ -26,6 +26,7 @@ export default {
     update: "Update",
     skillList: "Skills list",
     category: "Category",
+    topics: "Topics associated",
   },
   sidepanel: {
     profile: "Profile",

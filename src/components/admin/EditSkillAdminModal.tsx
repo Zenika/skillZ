@@ -84,11 +84,6 @@ const EditSkillAdminModal = ({
 
   const onDeleteButtonClick = () => {};
 
-  useEffect(() => {
-    // console.log("skillid", skill?.id);
-    if (topicsBySkill) console.log("topicSKill", topicsBySkill);
-  }, [topicsBySkill]);
-
   if (error) {
     return <ErrorPage />;
   }

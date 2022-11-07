@@ -180,7 +180,9 @@
     - role: world
       permission:
         check: {}
-        columns: []
+        columns:
+          - skillId
+          - topicId
   select_permissions:
     - role: world
       permission:

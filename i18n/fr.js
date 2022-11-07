@@ -18,6 +18,7 @@ export default {
     update: "Mettre à jour",
     skillList: "Liste des compétences",
     category: "Catégorie",
+    topics: "Sujets associés",
   },
   nav: {
     mySkills: "Compétences",
