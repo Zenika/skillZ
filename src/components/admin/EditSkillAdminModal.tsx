@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useContext } from "react";
 import {
-  AddSkillToTopicMutation,
   EditSkillMutation,
   GetAllCategoriesQuery,
   SkillTopicsBySkillQuery,
 } from "../../generated/graphql";
-import { ADD_SKILL_TO_TOPIC, EDIT_SKILL } from "../../graphql/mutations/skills";
+import { EDIT_SKILL } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
+import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
@@ -15,8 +15,6 @@ import Button from "../Button";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import SkillTopic from "../SkillTopics";
-import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
-import { useEffect } from "react";
 
 type EditSkillAdminModalProps = {
   skill: FetchedSkill;
@@ -88,13 +86,15 @@ const EditSkillAdminModal = ({
 
   return (
     <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
-      <div className="flex flex-row place-content-between">
-        <h1 className="flex-start px-2 my-4 text-xl text-bold">{skill.name}</h1>
+      <div className="flex flex-row place-content-between border-b">
+        <h2 className="flex-start px-2 my-4 text-xl text-bold">{`${t(
+          "admin.update"
+        )} ${skill.name}`}</h2>
       </div>
-      <div className="flex flex-col my-4 ">
+      <div className="flex flex-col my-4">
         {!categoriesLoading && (
           <div className={"my-4"}>
-            <span className="text-xl">{t("admin.category")}</span>
+            <p className="text-m my-2">{t("admin.category")}</p>
             <CustomSelect
               labelFn={(x) => x.label}
               keyFn={(x) => x.id}
