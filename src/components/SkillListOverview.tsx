@@ -251,7 +251,7 @@ const SkillListOverview = ({
                             pathname: `/skills/${context}/${category.name}`,
                           })
                         }
-                        className={`w-full inline-block p-4 rounded-t-lg border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ${
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent dark:hover:bg-dark-dark hover:bg-light-dark ${
                           !add && "border-b-2 border-dark-red"
                         }`}
                       >
@@ -266,7 +266,7 @@ const SkillListOverview = ({
                             search: "?add=true",
                           })
                         }
-                        className={`w-full inline-block p-4 rounded-t-lg border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ${
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent dark:hover:bg-dark-dark hover:bg-light-dark ${
                           add && "border-b-2 border-dark-red"
                         }`}
                       >
