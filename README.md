@@ -14,12 +14,13 @@ Install dependencies using `npm install` at the root of the project.
 
 ### Create an env file
 
-Create an file named `.env.local`, then add these variables
+Create an file named `.env.local`, then add these variables :
 
 ```
 # If you're using Linux, your local (or distant) hasura endpoint url should looks like this :
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
@@ -35,6 +36,7 @@ NEXT_PUBLIC_AUTH0_CALLBACK=/auth
 # If you're using Windows, your local (or distant) hasura endpoint url should looks like this :
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
 HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
 HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
@@ -45,6 +47,8 @@ NEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt
 NEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/
 NEXT_PUBLIC_AUTH0_CALLBACK=/auth
 ```
+
+If you want to be an admin, think to replace or add your email address at `NEXT_PUBLIC_ADMINS=john.doe@zenika.com;`
 
 ### Run postgres and hasura locally with docker
 
