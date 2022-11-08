@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { GetTopicsInfosQuery } from "../generated/graphql";
 import {
   ADD_SKILL_TO_TOPIC,
@@ -63,7 +63,7 @@ const SkillTopics = ({
       className={`flex flex-col
       `}
     >
-      <span className="text-xl">{t("admin.topics")}</span>
+      <p className="text-m my-2">{t("admin.topics")}</p>
       <div className="flex flex-row flex-wrap justify-around my-2">
         {topics?.Topic.map((topic) => (
           <button
