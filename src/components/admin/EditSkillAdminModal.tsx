@@ -54,8 +54,6 @@ const EditSkillAdminModal = ({
    * MUTATIONS
    */
   const [editSkill] = useMutation<EditSkillMutation>(EDIT_SKILL);
-  const [addSkillToTopic] =
-    useMutation<AddSkillToTopicMutation>(ADD_SKILL_TO_TOPIC);
 
   const onEditButtonClick = () => {
     editSkill({
@@ -96,7 +94,7 @@ const EditSkillAdminModal = ({
       <div className="flex flex-col my-4 ">
         {!categoriesLoading && (
           <div className={"my-4"}>
-            <span className="text-sm">{t("admin.category")}</span>
+            <span className="text-xl">{t("admin.category")}</span>
             <CustomSelect
               labelFn={(x) => x.label}
               keyFn={(x) => x.id}

@@ -15,7 +15,6 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import AddOrEditSkillModal from "./AddOrEditSkillModal";
 import AddSkillListSelector from "./AddSkilListSelector";
-import Button from "./Button";
 import FilterByPanel from "./FilterByPanel";
 import Radar from "./Radar";
 import SearchBar from "./SearchBar";
@@ -243,35 +242,39 @@ const SkillListOverview = ({
               className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
             >
               {context === "mine" && (
-                <>
-                  <div
-                    className={`flex flex-row justify-around px-2 py-1 ${
-                      editPanelOpened ? "opacity-25" : ""
-                    }`}
-                  >
-                    <Button
-                      type={add ? "secondary" : "primary"}
-                      style={"contained"}
-                      callback={() =>
-                        router.push(`/skills/${context}/${category.name}`)
-                      }
-                    >
-                      {t("skills.mySkills")}
-                    </Button>
-                    <Button
-                      type={add ? "primary" : "secondary"}
-                      style={"contained"}
-                      callback={() =>
-                        router.push({
-                          pathname: `/skills/${context}/${category.name}`,
-                          search: "?add=true",
-                        })
-                      }
-                    >
-                      {t("skills.addSkill")}
-                    </Button>
-                  </div>
-                </>
+                <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                  <ul className="flex flex-wrap -mb-px">
+                    <li className="w-1/2 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          router.push({
+                            pathname: `/skills/${context}/${category.name}`,
+                          })
+                        }
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent dark:hover:bg-dark-dark hover:bg-light-dark ${
+                          !add && "border-b-2 border-dark-red"
+                        }`}
+                      >
+                        {t("skills.mySkills")}
+                      </div>
+                    </li>
+                    <li className="w-1/2 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          router.push({
+                            pathname: `/skills/${context}/${category.name}`,
+                            search: "?add=true",
+                          })
+                        }
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent dark:hover:bg-dark-dark hover:bg-light-dark ${
+                          add && "border-b-2 border-dark-red"
+                        }`}
+                      >
+                        {t("skills.addSkill")}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               )}
               <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
                 <SearchBar

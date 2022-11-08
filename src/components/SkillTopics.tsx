@@ -6,7 +6,6 @@ import {
   DELETE_SKILL_TO_TOPIC,
 } from "../graphql/mutations/skills";
 import { GET_TOPICS_INFOS } from "../graphql/queries/topics";
-import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 
@@ -23,11 +22,16 @@ const SkillTopics = ({
   skill,
   skillTopics,
 }: skillTopicsProps) => {
+  /*
+   * QUERIES
+   */
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
   const { data: topics, loading: loadingTopics } =
     useQuery<GetTopicsInfosQuery>(GET_TOPICS_INFOS);
 
+  /*
+   * MUTATIONS
+   */
   const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC);
   const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
 
@@ -56,14 +60,11 @@ const SkillTopics = ({
 
   return (
     <div
-      className={`flex flex-col rounded-lg ${
-        darkMode
-          ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
-          : "bg-light dark:bg-dark-dark my-2 p-2"
-      }`}
+      className={`flex flex-col
+      `}
     >
-      <span className="text-xl p-2">{t("admin.topics")}</span>
-      <div className="flex flex-row flex-wrap justify-around">
+      <span className="text-xl">{t("admin.topics")}</span>
+      <div className="flex flex-row flex-wrap justify-around my-2">
         {topics?.Topic.map((topic) => (
           <button
             disabled={readOnly}
