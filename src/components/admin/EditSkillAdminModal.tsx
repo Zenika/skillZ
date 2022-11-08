@@ -91,7 +91,7 @@ const EditSkillAdminModal = ({
           "admin.update"
         )} ${skill.name}`}</h2>
       </div>
-      <div className="flex flex-col my-4 divide-y-2">
+      <div className="flex flex-col my-4">
         {!categoriesLoading && (
           <div className={"my-4"}>
             <p className="text-m my-2">{t("admin.category")}</p>
