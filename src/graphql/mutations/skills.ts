@@ -54,6 +54,32 @@ export const UPDATE_SKILL_VERIFIED_MUTATION = gql`
   }
 `;
 
+export const ADD_SKILL_TO_TOPIC = gql`
+  mutation addSkillToTopic($skillId: uuid!, $topicId: uuid!) {
+    insert_SkillTopic(objects: { skillId: $skillId, topicId: $topicId }) {
+      affected_rows
+      returning {
+        skillId
+        topicId
+      }
+    }
+  }
+`;
+
+export const DELETE_SKILL_TO_TOPIC = gql`
+  mutation deleteSkillToTopic($skillId: uuid!, $topicId: uuid!) {
+    delete_SkillTopic(
+      where: { skillId: { _eq: $skillId }, topicId: { _eq: $topicId } }
+    ) {
+      affected_rows
+      returning {
+        skillId
+        topicId
+      }
+    }
+  }
+`;
+
 export const EDIT_SKILL = gql`
   mutation editSkill($id: uuid!, $categoryId: uuid!) {
     update_Skill(

@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useContext } from "react";
 import {
+  AddSkillToTopicMutation,
   EditSkillMutation,
   GetAllCategoriesQuery,
+  SkillTopicsBySkillQuery,
 } from "../../generated/graphql";
-import { EDIT_SKILL } from "../../graphql/mutations/skills";
+import { ADD_SKILL_TO_TOPIC, EDIT_SKILL } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
@@ -12,6 +14,9 @@ import { FetchedSkill } from "../../utils/types";
 import Button from "../Button";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
+import SkillTopic from "../SkillTopics";
+import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
+import { useEffect } from "react";
 
 type EditSkillAdminModalProps = {
   skill: FetchedSkill;
@@ -34,6 +39,16 @@ const EditSkillAdminModal = ({
     loading: categoriesLoading,
     error,
   } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
+  const {
+    data: topicsBySkill,
+    refetch,
+    loading: loadingTopicBySkill,
+  } = useQuery<SkillTopicsBySkillQuery>(GET_SKILLTOPICS_BY_SKILL, {
+    fetchPolicy: "network-only",
+    variables: {
+      skillId: skill?.id,
+    },
+  });
 
   /*
    * MUTATIONS
@@ -79,7 +94,7 @@ const EditSkillAdminModal = ({
       <div className="flex flex-col my-4 ">
         {!categoriesLoading && (
           <div className={"my-4"}>
-            <span className="text-sm">{t("admin.category")}</span>
+            <span className="text-xl">{t("admin.category")}</span>
             <CustomSelect
               labelFn={(x) => x.label}
               keyFn={(x) => x.id}
@@ -95,6 +110,14 @@ const EditSkillAdminModal = ({
           </div>
         )}
       </div>
+
+      <SkillTopic
+        refetch={refetch}
+        readOnly={false}
+        skill={skill}
+        skillTopics={topicsBySkill}
+      />
+
       <div className="flex flex-row justify-between">
         <Button type={"secondary"} style={"contained"} callback={cancel}>
           {t("skills.modal.cancel")}

@@ -290,3 +290,12 @@ export const GET_ALL_NOT_VERIFIED_SKILL = gql`
     }
   }
 `;
+
+export const GET_SKILLTOPICS_BY_SKILL = gql`
+  query skillTopicsBySkill($skillId: uuid!) {
+    SkillTopic(where: { Skill: { id: { _eq: $skillId } } }) {
+      topicId
+      skillId
+    }
+  }
+`;
