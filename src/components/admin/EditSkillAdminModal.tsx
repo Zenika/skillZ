@@ -37,16 +37,15 @@ const EditSkillAdminModal = ({
     loading: categoriesLoading,
     error,
   } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
-  const {
-    data: topicsBySkill,
-    refetch,
-    loading: loadingTopicBySkill,
-  } = useQuery<SkillTopicsBySkillQuery>(GET_SKILLTOPICS_BY_SKILL, {
-    fetchPolicy: "network-only",
-    variables: {
-      skillId: skill?.id,
-    },
-  });
+  const { data: topicsBySkill, refetch } = useQuery<SkillTopicsBySkillQuery>(
+    GET_SKILLTOPICS_BY_SKILL,
+    {
+      fetchPolicy: "network-only",
+      variables: {
+        skillId: skill?.id,
+      },
+    }
+  );
 
   /*
    * MUTATIONS
@@ -77,8 +76,6 @@ const EditSkillAdminModal = ({
         callback();
       });
   };
-
-  const onDeleteButtonClick = () => {};
 
   if (error) {
     return <ErrorPage />;

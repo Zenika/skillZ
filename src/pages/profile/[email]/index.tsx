@@ -34,10 +34,6 @@ const Profile = () => {
   );
 
   const infoUser = data?.User[0];
-  const userAgency =
-    error || !infoUser?.UserLatestAgency?.agency
-      ? undefined
-      : infoUser?.UserLatestAgency?.agency;
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;

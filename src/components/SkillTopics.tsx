@@ -26,8 +26,7 @@ const SkillTopics = ({
    * QUERIES
    */
   const { t } = useContext(i18nContext);
-  const { data: topics, loading: loadingTopics } =
-    useQuery<GetTopicsInfosQuery>(GET_TOPICS_INFOS);
+  const { data: topics } = useQuery<GetTopicsInfosQuery>(GET_TOPICS_INFOS);
 
   /*
    * MUTATIONS

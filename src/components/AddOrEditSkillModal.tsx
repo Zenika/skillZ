@@ -8,7 +8,7 @@ import Button from "./Button";
 type AddOrEditSkillModalProps = {
   skill?: FetchedSkill;
   cancel: () => void;
-  callback: (skill: FetchedSkill) => void;
+  callback: (skill: FetchedSkill) => void; // eslint-disable-line no-unused-vars
   add?: string | string[];
 };
 

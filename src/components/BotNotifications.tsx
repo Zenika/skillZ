@@ -7,9 +7,13 @@ import { useQuery } from "@apollo/client";
 import { GetBotNotificationsQuery } from "../generated/graphql";
 import Loading from "./Loading";
 
-export const BotNotifications = ({ t }: { t: (path: string) => string }) => {
+export const BotNotifications = ({
+  t,
+}: {
+  t: (path: string) => string /* eslint-disable-line no-unused-vars*/;
+}) => {
   const values: [any, any] = [false, true];
-  const { error, user } = useAuth0();
+  const { user } = useAuth0();
   const {
     data: userDatas,
     loading,

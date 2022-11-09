@@ -7,11 +7,6 @@ type Topic = {
   name: string;
 };
 
-type TopicSelectorData = {
-  Topic: Topic[];
-  UserTopic: { Topic: Topic }[];
-};
-
 const TOPIC_SELECTOR_QUERY = gql`
   query topicSelectorQuery($email: String!) {
     Topic {
@@ -28,14 +23,11 @@ const TOPIC_SELECTOR_QUERY = gql`
 `;
 
 const TopicSelector = ({ email, topics, setTopics }) => {
-  const { data, error, loading } = useQuery<TopicSelectorQueryQuery>(
-    TOPIC_SELECTOR_QUERY,
-    {
-      variables: {
-        email,
-      },
-    }
-  );
+  const { data } = useQuery<TopicSelectorQueryQuery>(TOPIC_SELECTOR_QUERY, {
+    variables: {
+      email,
+    },
+  });
   const addTopic = (topic: Topic) => {
     if (topics.filter((t) => t.Topic.id === topic.id).length <= 0) {
       setTopics([...topics, { Topic: topic }]);

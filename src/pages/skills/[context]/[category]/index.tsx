@@ -42,7 +42,6 @@ const ListSkillsPage = () => {
    */
   const {
     data: categoryData,
-    refetch: categoryRefetch,
     loading: categoryLoading,
     error: categoryError,
   } = useQuery<GetCategoryIdByNameQuery>(GET_CATEGORIE_ID_BY_NAME, {

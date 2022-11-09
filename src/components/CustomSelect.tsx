@@ -4,12 +4,12 @@ import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {
   choices: any[];
-  keyFn: (x: any) => string;
-  labelFn: (x: any) => string;
+  keyFn: (x: any) => string; // eslint-disable-line no-unused-vars
+  labelFn: (x: any) => string; // eslint-disable-line no-unused-vars
   selectedChoice?: any;
   placeholder: string;
   readOnly?: boolean;
-  onChange: (choice: any) => void;
+  onChange: (choice: any) => void; // eslint-disable-line no-unused-vars
 };
 
 const CustomSelect = ({

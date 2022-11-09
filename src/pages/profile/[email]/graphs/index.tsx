@@ -58,7 +58,7 @@ const HomePanelByUser = () => {
     name: data.label,
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: `${query.email}`,
-    data: data.CurrentSkillsAndDesires.map((skill, i) => ({
+    data: data.CurrentSkillsAndDesires.map((skill) => ({
       x: skill.skillLevel,
       y: skill.desireLevel,
       weight: 25,

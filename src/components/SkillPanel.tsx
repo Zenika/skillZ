@@ -30,7 +30,7 @@ const SkillPanel = ({
   context: string;
   count?: number;
   categoryLabel: string;
-  onEditClick?: (skill: Skill) => void;
+  onEditClick?: (skill: Skill) => void; // eslint-disable-line no-unused-vars
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();

@@ -18,7 +18,7 @@ const AddSkillListSelector = ({
   didYouMeanSkills: Partial<Skill>[];
   search: string;
   categoryId: string;
-  action: (skill: Partial<Skill>) => void;
+  action: (skill: Partial<Skill>) => void; // eslint-disable-line no-unused-vars
 }) => {
   const { t } = useContext(i18nContext);
   const isDesktop = useMediaQuery({
