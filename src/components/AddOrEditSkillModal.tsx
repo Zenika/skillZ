@@ -16,7 +16,7 @@ const AddOrEditSkillModal = ({
   skill,
   cancel,
   callback,
-  add
+  add,
 }: AddOrEditSkillModalProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -33,7 +33,10 @@ const AddOrEditSkillModal = ({
   };
 
   return (
-    <div id="addOrEditSkillModal" className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50 overflow-y-scroll max-tablet:h-75v">
+    <div
+      id="addOrEditSkillModal"
+      className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50 overflow-y-scroll max-tablet:h-75v"
+    >
       <div className="flex flex-row place-content-between">
         <h1 className="flex-start px-2 my-4 text-xl text-bold">
           {skill?.name}
@@ -130,19 +133,21 @@ const AddOrEditSkillModal = ({
           {t("skills.modal.cancel")}
         </Button>
         <div className="flex flex-row gap-4 flex-wrap">
-          {!add ? <Button
-            type={"primary"}
-            style={"outlined"}
-            callback={onDeleteButtonClick}
-            disabled={
-              skillLevel === 0 ||
-              desireLevel === 0 ||
-              !skill.desireLevel ||
-              !skill.skillLevel
-            }
-          >
-            {t("skills.modal.delete")}
-          </Button> : null}
+          {!add ? (
+            <Button
+              type={"primary"}
+              style={"outlined"}
+              callback={onDeleteButtonClick}
+              disabled={
+                skillLevel === 0 ||
+                desireLevel === 0 ||
+                !skill.desireLevel ||
+                !skill.skillLevel
+              }
+            >
+              {t("skills.modal.delete")}
+            </Button>
+          ) : null}
           <Button
             type={"primary"}
             style={"contained"}

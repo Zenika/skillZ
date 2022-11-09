@@ -10,9 +10,9 @@ module.exports = {
       88: "88%",
     },
     screens: {
-      'max-tablet': {'max': '640px'},
-      'max-laptop': {'max': '1024px'},
-      'max-desktop': {'max': '1280px'},
+      "max-tablet": { max: "640px" },
+      "max-laptop": { max: "1024px" },
+      "max-desktop": { max: "1280px" },
     },
     colors: {
       dark: {
