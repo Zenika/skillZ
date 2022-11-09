@@ -64,7 +64,7 @@ jobs:
             - v4-packaging-dependencies-
       - run:
           name: eslint
-          command: npm run lint --max-warnings=0 .
+          command: npm run lint
   unit-test:
     executor: node
     steps:
