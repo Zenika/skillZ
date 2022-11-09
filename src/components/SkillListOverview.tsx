@@ -352,6 +352,7 @@ const SkillListOverview = ({
                     <div className="flex flex-row justify-center">
                       <AddOrEditSkillModal
                         skill={selectedSkill}
+                        add={add}
                         cancel={onModalCancel}
                         callback={(skill) => {
                           editSkillAction({

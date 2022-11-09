@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
@@ -9,12 +9,14 @@ type AddOrEditSkillModalProps = {
   skill?: FetchedSkill;
   cancel: () => void;
   callback: (skill: FetchedSkill) => void;
+  add?: string | string[];
 };
 
 const AddOrEditSkillModal = ({
   skill,
   cancel,
   callback,
+  add
 }: AddOrEditSkillModalProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -31,7 +33,7 @@ const AddOrEditSkillModal = ({
   };
 
   return (
-    <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
+    <div id="addOrEditSkillModal" className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50 overflow-y-scroll max-tablet:h-75v">
       <div className="flex flex-row place-content-between">
         <h1 className="flex-start px-2 my-4 text-xl text-bold">
           {skill?.name}
@@ -123,12 +125,12 @@ const AddOrEditSkillModal = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between flex-wrap gap-4">
         <Button type={"secondary"} style={"contained"} callback={cancel}>
           {t("skills.modal.cancel")}
         </Button>
-        <div className={"flex flex-row gap-4"}>
-          <Button
+        <div className="flex flex-row gap-4 flex-wrap">
+          {!add ? <Button
             type={"primary"}
             style={"outlined"}
             callback={onDeleteButtonClick}
@@ -140,7 +142,7 @@ const AddOrEditSkillModal = ({
             }
           >
             {t("skills.modal.delete")}
-          </Button>
+          </Button> : null}
           <Button
             type={"primary"}
             style={"contained"}
