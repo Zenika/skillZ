@@ -12,6 +12,7 @@ import {
 } from "../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../graphql/queries/skills";
 import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
+import { useActivity } from "../providers/ActivityProvider";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
@@ -26,6 +27,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
+  const { lastSeen } = useActivity();
   const { locale, query, pathname } = useRouter();
   let { context } = query;
 
@@ -240,10 +242,13 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 <div className="flex flex-col px-2 justify-center">
                   <span className="font-bold">{user?.name}</span>
                   {userAgencyResult?.UserLatestAgency[0]?.agency && (
-                    <span>
+                    <p className={"text-sm"}>
                       {`Zenika ${userAgencyResult?.UserLatestAgency[0]?.agency}`}
-                    </span>
+                    </p>
                   )}
+                  <p className={"text-xs"}>{`${t(
+                    "myProfile.lastSeen"
+                  )} : ${lastSeen.toLocaleString("fr-FR")}`}</p>
                 </div>
                 <Image
                   src={user?.picture || ""}
