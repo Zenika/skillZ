@@ -4,7 +4,6 @@ import {
   DELETE_USER_TOPIC_MUTATION,
   INSERT_USER_TOPIC_MUTATION,
 } from "../../graphql/mutations/userInfos";
-import { useDarkMode } from "../../utils/darkMode";
 import { i18nContext } from "../../utils/i18nContext";
 
 type PreferedTopicsProps = {
@@ -27,7 +26,6 @@ const PreferedTopics = ({
   readOnly,
 }: PreferedTopicsProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
   const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
   const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
   const updateTopic = (selectedTopic: {
@@ -59,13 +57,7 @@ const PreferedTopics = ({
   };
 
   return (
-    <div
-      className={`flex flex-col rounded-lg ${
-        darkMode
-          ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
-          : "bg-light dark:bg-dark-dark my-2 p-2"
-      }`}
-    >
+    <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2">
       <span className="text-xl p-2">{t("userProfile.topics")}</span>
       <div className="flex flex-row flex-wrap justify-around">
         {topics?.map((topic) => (

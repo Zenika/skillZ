@@ -29,7 +29,7 @@ module.exports = {
       light: {
         light: "#F9F9F9",
         med: "#F3F3F3",
-        dark: "#BCBCBC",
+        dark: "#E0E0E0",
         ultrawhite: "#FFFFFF",
         graytext: "rgba(0, 0, 0, 0.87)",
         graybutton: "rgba(0, 0, 0, 0.1)",

@@ -34,10 +34,6 @@ const Profile = () => {
   );
 
   const infoUser = data?.User[0];
-  const userAgency =
-    error || !infoUser?.UserLatestAgency?.agency
-      ? undefined
-      : infoUser?.UserLatestAgency?.agency;
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
@@ -84,23 +80,25 @@ const Profile = () => {
           {infoUser?.UserLatestAgency?.agency && (
             <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
           )}
-          <PreferedTopics
-            topics={topics}
-            refetch={null}
-            user={data?.User[0]}
-            readOnly={true}
-          ></PreferedTopics>
-          <CertificationsList
-            userCertifications={userCertifications}
-            readOnly={true}
-          ></CertificationsList>
-          {skillsDatas && (
-            <Statistics
-              userAchievements={userAchievements}
-              skillsDatas={skillsDatas}
-              myStatistics={false}
-            />
-          )}
+          <div>
+            <PreferedTopics
+              topics={topics}
+              refetch={null}
+              user={data?.User[0]}
+              readOnly={true}
+            ></PreferedTopics>
+            <CertificationsList
+              userCertifications={userCertifications}
+              readOnly={true}
+            ></CertificationsList>
+            {skillsDatas && (
+              <Statistics
+                userAchievements={userAchievements}
+                skillsDatas={skillsDatas}
+                myStatistics={false}
+              />
+            )}
+          </div>
         </div>
       </div>
     </CommonPage>
