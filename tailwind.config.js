@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   important: true,
   // Active dark mode on class basis
@@ -9,7 +11,12 @@ module.exports = {
       name: "brightness",
       88: "88%",
     },
-
+    screens: {
+      ...defaultTheme.screens,
+      "max-tablet": { max: "640px" },
+      "max-laptop": { max: "1024px" },
+      "max-desktop": { max: "1280px" },
+    },
     colors: {
       dark: {
         light: "#292929",
@@ -63,6 +70,7 @@ module.exports = {
         radar: "800px",
         "1/6": "16.66%",
         "1/12": "8.333333%",
+        "75v": "75vh",
       },
       margin: {
         radar: "8.333333%",
