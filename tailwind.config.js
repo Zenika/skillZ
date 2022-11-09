@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   important: true,
   // Active dark mode on class basis
@@ -10,6 +12,7 @@ module.exports = {
       88: "88%",
     },
     screens: {
+      ...defaultTheme.screens,
       "max-tablet": { max: "640px" },
       "max-laptop": { max: "1024px" },
       "max-desktop": { max: "1280px" },

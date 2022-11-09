@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
