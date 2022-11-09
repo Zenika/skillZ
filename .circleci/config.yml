@@ -54,6 +54,17 @@ jobs:
       - run:
           name: qc-prettier
           command: npm run prettier:check
+  eslint:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+      - run:
+          name: eslint
+          command: npm run lint --max-warnings=0 .
   unit-test:
     executor: node
     steps:
@@ -220,6 +231,9 @@ workflows:
       - qc-prettier:
           requires:
             - install-dependencies
+      - eslint:
+          requires:
+            - install-dependencies
       - unit-test:
           requires:
             - install-dependencies
@@ -257,6 +271,7 @@ workflows:
           name: build
           requires:
             - qc-prettier
+            - eslint
             - unit-test
           graphql-url: http://localhost:8080/v1/graphql
           base-url: http://localhost:3000
@@ -305,6 +320,10 @@ workflows:
           requires:
             - install-dependencies
           filters: *deploy-filters
+      - eslint:
+          requires:
+            - install-dependencies
+          filters: *deploy-filters
       - unit-test:
           requires:
             - install-dependencies
@@ -313,6 +332,7 @@ workflows:
           name: build
           requires:
             - qc-prettier
+            - eslint
             - unit-test
           graphql-url: http://localhost:8080/v1/graphql
           base-url: http://localhost:3000
