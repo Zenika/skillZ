@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { SkillDetailsQuery } from "../generated/graphql";
 import { GET_SKILL_DETAILS } from "../graphql/queries/skills";
 import { Skill } from "../utils/types";
