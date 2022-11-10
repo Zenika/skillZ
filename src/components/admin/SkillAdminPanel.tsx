@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   DeleteSkillMutation,
   SetVerifiedSkillMutationMutationFn,
@@ -13,6 +13,8 @@ import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../Button";
+import Modal from "../Modal";
+import SkillDetails from "../SkillDetails";
 
 type SkillAdminPanelProps = {
   skill: FetchedSkill;
@@ -27,6 +29,7 @@ const SkillAdminPanel = ({
 }: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
+  const [openSkillDetails, setOpenSkillDetails] = useState(false);
 
   /*
    * MUTATIONS
@@ -58,13 +61,19 @@ const SkillAdminPanel = ({
       });
   };
 
+  const closeModal = () => {
+    setOpenSkillDetails(false);
+  };
+
   return (
     <div
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
     >
       <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl">{skill.name}</h2>
+          <h2 className="text-xl" onClick={() => setOpenSkillDetails(true)}>
+            {skill.name}
+          </h2>
         </div>
         {!approvedSkills && (
           <div>
@@ -104,6 +113,11 @@ const SkillAdminPanel = ({
           </div>
         )}
       </div>
+      {openSkillDetails && (
+        <Modal closeModal={closeModal}>
+          <SkillDetails skill={skill}></SkillDetails>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -120,7 +120,7 @@ const EditSkillAdminModal = ({
   }
 
   return (
-    <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
+    <div className="flex flex-col">
       <div className="flex flex-row place-content-between border-b">
         <h2 className="flex-start px-2 my-4 text-xl text-bold">{`${t(
           "admin.update"

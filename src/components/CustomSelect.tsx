@@ -47,7 +47,7 @@ const CustomSelect = ({
   return (
     <div ref={ref} className="w-full h-12">
       <div
-        className="z-20 absolute"
+        className="z-10 absolute"
         style={{ width: size.width, height: size.height }}
       >
         <div
