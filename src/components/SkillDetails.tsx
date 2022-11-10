@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { SkillDetailsQuery } from "../generated/graphql";
 import { GET_SKILL_DETAILS } from "../graphql/queries/skills";
 import { Skill } from "../utils/types";
@@ -13,20 +13,22 @@ const SkillDetails = ({ skill: { id } }: { skill: Skill }) => {
     error,
     loading,
   } = useQuery<SkillDetailsQuery>(GET_SKILL_DETAILS, {
-    variables: { email: user.email, skillId: id },
+    variables: { skillId: id },
     fetchPolicy: "network-only",
   });
 
+  useEffect(() => {
+    console.log(skillDetails);
+  }, [skillDetails]);
+
   return !loading ? (
-    error || skillDetails?.UserSkillDesire.length > 0 ? (
+    !error || !skillDetails ? (
       <div>
-        <h1 className="text-xl">
-          {skillDetails.UserSkillDesire[0].Skill.name}
-        </h1>
+        <h1 className="text-xl">{skillDetails.Skill[0].name}</h1>
         <span className="text-sm text-dark-light/40">
-          {skillDetails.UserSkillDesire[0].Skill.description}
+          {skillDetails.Skill[0].description}
         </span>
-        <p>{skillDetails.UserSkillDesire[0].created_at}</p>
+        {/* <p>{skillDetails.UserSkillDesire[0].created_at}</p> */}
       </div>
     ) : (
       <div>No data accessible for this skill.</div>

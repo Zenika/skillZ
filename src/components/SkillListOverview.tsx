@@ -1,11 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
@@ -17,7 +12,7 @@ import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import AddOrEditSkillModal from "./AddOrEditSkillModal";
+import AddOrEditSkillModal from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel from "./FilterByPanel";
 import Modal from "./Modal";

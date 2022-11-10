@@ -301,18 +301,11 @@ export const GET_SKILLTOPICS_BY_SKILL = gql`
 `;
 
 export const GET_SKILL_DETAILS = gql`
-  query skillDetails($email: String!, $skillId: uuid!) {
-    UserSkillDesire(
-      where: {
-        User: { email: { _eq: $email } }
-        Skill: { id: { _eq: $skillId } }
-      }
-    ) {
-      created_at
-      Skill {
-        name
-        description
-      }
+  query skillDetails($skillId: uuid!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      description
+      name
+      id
     }
   }
 `;
