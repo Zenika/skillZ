@@ -1,6 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";

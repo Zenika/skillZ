@@ -11,6 +11,7 @@ import { i18nContext } from "../utils/i18nContext";
 import LevelBar from "./LevelBar";
 import Modal from "./Modal";
 import SkillDetails from "./SkillDetails";
+import Button from "./Button";
 
 const SkillPanel = ({
   skill,
