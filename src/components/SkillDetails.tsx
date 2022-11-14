@@ -1,40 +1,56 @@
 import { useQuery } from "@apollo/client/react";
-import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { SkillDetailsQuery } from "../generated/graphql";
 import { GET_SKILL_DETAILS } from "../graphql/queries/skills";
 import { Skill } from "../utils/types";
+import { i18nContext } from "../utils/i18nContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const SkillDetails = ({ skill: { id } }: { skill: Skill }) => {
+const SkillDetails = ({ skill }: { skill: Skill }) => {
   const { user } = useAuth0();
-
+  const { t } = useContext(i18nContext);
   const {
     data: skillDetails,
     error,
     loading,
   } = useQuery<SkillDetailsQuery>(GET_SKILL_DETAILS, {
-    variables: { skillId: id },
+    variables: { skillId: skill.id || skill.skillId, email: user.email },
     fetchPolicy: "network-only",
   });
 
-  useEffect(() => {
-    console.log(skillDetails);
-  }, [skillDetails]);
-
   return !loading ? (
     !error || !skillDetails ? (
-      <div>
+      <div className="flex w-full justify-start flex-col">
         <h1 className="text-xl">{skillDetails.Skill[0].name}</h1>
         <span className="text-sm text-dark-light/40">
           {skillDetails.Skill[0].description}
         </span>
-        {/* <p>{skillDetails.UserSkillDesire[0].created_at}</p> */}
+        {skillDetails.Skill[0].UserSkillDesires.length > 0 && (
+          <p>{skillDetails.Skill[0].UserSkillDesires[0].created_at}</p>
+        )}
+        <div className="flex flex-row flex-wrap justify-around my-2">
+          {skillDetails.Skill[0].SkillTopics.length > 0 ? (
+            <>
+              <p className="text-m my-2">{t("admin.topics")} : </p>
+              {skillDetails.Skill[0].SkillTopics.map((topic) => (
+                <div
+                  key={`topic-${topic.Topic.name}`}
+                  className="rounded-full m-2 gradient-red"
+                >
+                  <span className="px-2 py-1 text-white">
+                    {topic.Topic.name}
+                  </span>
+                </div>
+              ))}
+            </>
+          ) : null}
+        </div>
       </div>
     ) : (
-      <div>No data accessible for this skill.</div>
+      <div>{t("error.noData")}</div>
     )
   ) : (
-    <div>Loading ...</div>
+    <div>{t("loading.loadingText")}</div>
   );
 };
 

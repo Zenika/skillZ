@@ -79,7 +79,10 @@ const AddSkillListSelector = ({
               }
             >
               <div className="flex flex-row justify-between w-full items-center">
-                <span className="text-l" onClick={() => selectSkill(skill)}>
+                <span
+                  className="text-l cursor-pointer"
+                  onClick={() => selectSkill(skill)}
+                >
                   {skill.name}
                 </span>
                 <Button
@@ -128,7 +131,10 @@ const AddSkillListSelector = ({
                 }
               >
                 <div className="flex flex-row justify-between w-full items-center">
-                  <span className="text-l" onClick={() => selectSkill(skill)}>
+                  <span
+                    className="text-l cursor-pointer"
+                    onClick={() => selectSkill(skill)}
+                  >
                     {skill.name}
                   </span>
                   <Button

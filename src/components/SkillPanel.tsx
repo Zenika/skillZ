@@ -70,7 +70,7 @@ const SkillPanel = ({
         <div className="flex flex-row justify-between">
           <div className="flex flex-col">
             <h2
-              className="text-xl"
+              className="text-xl cursor-pointer"
               onClick={() => setOpenSkillDetails((curr) => (curr = !curr))}
             >
               {skill.name}

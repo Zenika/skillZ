@@ -8,6 +8,7 @@ export default {
       "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
     refetch: "Réessayer",
+    noData: "Aucune donnée disponible.",
   },
   admin: {
     deleteSkill: "Supprimer de Skillz",

@@ -71,7 +71,10 @@ const SkillAdminPanel = ({
     >
       <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl" onClick={() => setOpenSkillDetails(true)}>
+          <h2
+            className="text-xl cursor-pointer"
+            onClick={() => setOpenSkillDetails(true)}
+          >
             {skill.name}
           </h2>
         </div>
