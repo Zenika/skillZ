@@ -80,25 +80,25 @@ const Profile = () => {
             <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
           )}
           <div>
-          <Topics
-            readOnly
-            topics={data.Topic.map((topic) => {
-              return { id: topic.id, name: topic.name };
-            })}
-            selectedTopics={data.UserTopic.map((t) => t.topicId)}
-            title={t("userProfile.topics")}
-          />
-          <CertificationsList
-            userCertifications={userCertifications}
-            readOnly={true}
-          ></CertificationsList>
-          {skillsDatas && (
-            <Statistics
-              userAchievements={userAchievements}
-              skillsDatas={skillsDatas}
-              myStatistics={false}
+            <Topics
+              readOnly
+              topics={data.Topic.map((topic) => {
+                return { id: topic.id, name: topic.name };
+              })}
+              selectedTopics={data.UserTopic.map((t) => t.topicId)}
+              title={t("userProfile.topics")}
             />
-          )}
+            <CertificationsList
+              userCertifications={userCertifications}
+              readOnly={true}
+            ></CertificationsList>
+            {skillsDatas && (
+              <Statistics
+                userAchievements={userAchievements}
+                skillsDatas={skillsDatas}
+                myStatistics={false}
+              />
+            )}
           </div>
         </div>
       </div>
