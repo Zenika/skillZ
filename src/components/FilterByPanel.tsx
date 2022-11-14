@@ -4,7 +4,7 @@ export type Filter = {
   name: string;
   values: string[];
   selected?: string;
-  callback: (value: any) => void; // eslint-disable-line no-unused-vars
+  callback: (value: any) => void;
 };
 
 const FilterByPanel = ({ filters }: { filters: Filter[] }) => {

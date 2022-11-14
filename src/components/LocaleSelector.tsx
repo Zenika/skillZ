@@ -6,8 +6,8 @@ export const LocaleSelector = ({
   t,
 }: {
   locale: string;
-  changeLocale: (locale: string) => void; // eslint-disable-line no-unused-vars
-  t: (path: string) => string; // eslint-disable-line no-unused-vars
+  changeLocale: (locale: string) => void;
+  t: (path: string) => string;
 }) => {
   const values: [any, any] = ["en", "fr"];
   return (

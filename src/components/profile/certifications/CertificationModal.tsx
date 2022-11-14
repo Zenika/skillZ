@@ -10,8 +10,8 @@ type CertificationModalProps = {
   userCertificationRef?: UserCertification;
   certificationsRef: Certification[];
   onCancel: () => void;
-  onConfirm: (userCert: UserCertification) => void; // eslint-disable-line no-unused-vars
-  onDelete: (userCert: UserCertification) => void; // eslint-disable-line no-unused-vars
+  onConfirm: (userCert: UserCertification) => void;
+  onDelete: (userCert: UserCertification) => void;
 };
 
 const CertificationModal = ({

@@ -6,8 +6,8 @@ export const DarkModeSelector = ({
   t,
 }: {
   darkMode: boolean;
-  changeDarkMode: (darkMode: boolean) => void; // eslint-disable-line no-unused-vars
-  t: (path: string) => string; // eslint-disable-line no-unused-vars
+  changeDarkMode: (darkMode: boolean) => void;
+  t: (path: string) => string;
 }) => {
   const values: [any, any] = [false, true];
   return (
