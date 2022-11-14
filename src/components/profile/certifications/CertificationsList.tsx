@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import { UserCertification } from "../../../utils/types";
 import Button from "../../Button";
@@ -18,16 +17,9 @@ const CertificationsList = ({
   onUserCertificationAdd = () => {},
 }: CertificationsList) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
 
   return (
-    <div
-      className={`flex flex-col rounded-lg ${
-        darkMode
-          ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
-          : "bg-light dark:bg-dark-dark my-2 p-2"
-      }`}
-    >
+    <div className="flex flex-col rounded lg bg-light-dark dark:bg-dark-dark my-2 p-2">
       <span className="text-xl p-2">{t("userProfile.certifications")}</span>
       <div className="flex flex-row flex-wrap justify-around">
         {/* TODO: Custom component for certification tag*/}

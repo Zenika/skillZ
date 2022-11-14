@@ -19,7 +19,6 @@ import {
   UPSERT_USER_CERTIFICATION_MUTATION,
 } from "../../graphql/mutations/userInfos";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
-import { useDarkMode } from "../../utils/darkMode";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { UserCertification } from "../../utils/types";
@@ -28,7 +27,6 @@ const Profile = () => {
   // HOOKS
   const { user } = useAuth0();
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
 
   // CONTEXT
   const router = useRouter();
@@ -169,13 +167,7 @@ const Profile = () => {
                 <span>{user?.name}</span>
               </div>
             </div>
-            <div
-              className={`${
-                darkMode
-                  ? "flex flex-col justify-around rounded-lg bg-dark-dark pb-6 p-2"
-                  : "flex flex-col justify-around rounded-lg bg-light-med pb-6 p-2"
-              } my-2`}
-            >
+            <div className="flex flex-col justify-around rounded-lg dark:bg-dark-dark bg-light-dark pb-6 p-2">
               <div className="p-2 text-xl">{t("myProfile.agency")}</div>
               {onboarding && (
                 <div
