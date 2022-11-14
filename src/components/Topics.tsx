@@ -1,4 +1,3 @@
-import { useDarkMode } from "../utils/darkMode";
 import { Topic } from "../utils/types";
 
 type TopicsRequiredProps = {
@@ -29,15 +28,9 @@ const Topics = ({
   removeCallback,
   readOnly,
 }: TopicsProps) => {
-  const { darkMode } = useDarkMode();
-
   return (
     <div
-      className={`flex flex-col rounded-lg ${
-        darkMode
-          ? "bg-light-dark dark:bg-dark-dark my-2 p-2"
-          : "bg-light dark:bg-dark-dark my-2 p-2"
-      }`}
+      className={`flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2`}
     >
       <p className="text-xl p-2">{title}</p>
       <div className="flex flex-row flex-wrap justify-around">
