@@ -44,6 +44,7 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
       ) {
         desireLevel
         skillLevel
+        updated_at
       }
       Category {
         color
