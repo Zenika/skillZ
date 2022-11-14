@@ -1,2 +1,2 @@
-alter table "public"."User" add column "last_seen" timestamp
+alter table "public"."User" add column "last_seen" timestamptz
  not null default now();

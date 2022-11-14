@@ -248,7 +248,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   )}
                   <p className={"text-xs"}>{`${t(
                     "myProfile.lastSeen"
-                  )} : ${lastSeen.toLocaleString("fr-FR")}`}</p>
+                  )} : ${lastSeen.toLocaleString()}`}</p>
                 </div>
                 <Image
                   src={user?.picture || ""}

@@ -1,7 +1,13 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import differenceInMinutes from "date-fns/differenceInMinutes";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { GetUserQuery } from "../generated/graphql";
 import { UPDATE_USER_ACTIVITY } from "../graphql/mutations/userInfos";
 import { GET_USER_QUERY } from "../graphql/queries/userInfos";
@@ -31,17 +37,18 @@ const ActivityProvider = ({
 
   const [updateLastSeenMutation] = useMutation(UPDATE_USER_ACTIVITY);
 
-  useEffect(() => {
-    setLastSeen(new Date(userData?.User[0].last_seen));
-  }, [userData]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const updateLastSeen = useCallback(
+    (email) => {
       const currentDate = new Date();
-      if (differenceInMinutes(currentDate, lastSeen) < 10) return;
+      if (
+        !user.email ||
+        !lastSeen ||
+        differenceInMinutes(currentDate, lastSeen) < 10
+      )
+        return;
 
       updateLastSeenMutation({
-        variables: { email: user.email, last_seen: currentDate },
+        variables: { email: email, last_seen: currentDate.toUTCString() },
       })
         .then(() => {
           setLastSeen(currentDate);
@@ -49,9 +56,21 @@ const ActivityProvider = ({
         .catch((e) => {
           console.log(e);
         });
+    },
+    [lastSeen, updateLastSeenMutation, user?.email]
+  );
+
+  useEffect(() => {
+    if (!userData) return;
+    setLastSeen(new Date(userData?.User[0].last_seen));
+  }, [userData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateLastSeen(user.email);
     }, 60000);
     return () => clearInterval(interval);
-  }, [lastSeen, updateLastSeenMutation, user?.email]);
+  }, [updateLastSeen, user]);
 
   return (
     <ActivityProviderContext.Provider value={{ lastSeen: new Date(lastSeen) }}>
@@ -67,7 +86,7 @@ export const useActivity = (): ActivityProviderType => {
     ActivityProviderContext
   );
   if (!context) {
-    throw new Error("useActivity must be used within a ActivityProvider");
+    throw new Error("useActivity must be used within an ActivityProvider");
   }
   return context;
 };
