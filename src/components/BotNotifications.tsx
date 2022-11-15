@@ -10,7 +10,7 @@ import Loading from "./Loading";
 export const BotNotifications = ({
   t,
 }: {
-  t: (path: string) => string /* eslint-disable-line no-unused-vars*/;
+  t: (path: string) => string;
 }) => {
   const values: [any, any] = [false, true];
   const { user } = useAuth0();
