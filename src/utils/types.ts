@@ -38,3 +38,8 @@ export type UserCertification = {
   url?: string;
   Certification: Certification;
 };
+
+export type Topic = {
+  id: string;
+  name: string;
+};

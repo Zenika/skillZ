@@ -9,19 +9,21 @@ import ErrorPage from "../../components/ErrorPage";
 import Loading from "../../components/Loading";
 import CertificationModal from "../../components/profile/certifications/CertificationModal";
 import CertificationsList from "../../components/profile/certifications/CertificationsList";
-import PreferedTopics from "../../components/profile/PreferedTopics";
 import { Statistics } from "../../components/profile/statistics/Statistics";
+import Topics from "../../components/Topics";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 import {
   DELETE_USER_CERTIFICATION_MUTATION,
+  DELETE_USER_TOPIC_MUTATION,
   INSERT_USER_MUTATION,
+  INSERT_USER_TOPIC_MUTATION,
   UPSERT_USER_AGENCY_MUTATION,
   UPSERT_USER_CERTIFICATION_MUTATION,
 } from "../../graphql/mutations/userInfos";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
-import { UserCertification } from "../../utils/types";
+import { Topic, UserCertification } from "../../utils/types";
 
 const Profile = () => {
   // HOOKS
@@ -55,6 +57,8 @@ const Profile = () => {
   const [deleteCertificationMutation] = useMutation(
     DELETE_USER_CERTIFICATION_MUTATION
   );
+  const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION);
+  const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION);
 
   const updateAgency = (agency: string) => {
     insertUser({
@@ -127,6 +131,26 @@ const Profile = () => {
       });
   };
 
+  const addTopic = (topic: Topic) => {
+    insertTopic({
+      variables: { email: user.email, topicId: topic.id },
+    }).then(() =>
+      refetch({
+        variables: { email: user.email },
+      })
+    );
+  };
+
+  const removeTopic = (topic: Topic) => {
+    deleteTopic({
+      variables: { email: user.email, topicId: topic.id },
+    }).then(() =>
+      refetch({
+        variables: { email: user.email },
+      })
+    );
+  };
+
   const onboarding =
     !data ||
     data?.Topic.length <= 0 ||
@@ -192,12 +216,19 @@ const Profile = () => {
             {/* ### MG_NEW_USER */}
             {!onboarding && (
               <div>
-                <PreferedTopics
-                  topics={data?.Topic ?? []}
-                  refetch={refetch}
-                  user={data?.User[0]}
-                  readOnly={false}
-                ></PreferedTopics>
+                <Topics
+                  topics={data.Topic.map((topic) => {
+                    return { id: topic.id, name: topic.name };
+                  })}
+                  selectedTopics={data.UserTopic.map((t) => t.topicId)}
+                  title={t("userProfile.topics")}
+                  addCallback={(topic) => {
+                    addTopic(topic);
+                  }}
+                  removeCallback={(topic) => {
+                    removeTopic(topic);
+                  }}
+                />
                 <CertificationsList
                   userCertifications={data?.UserCertification ?? []}
                   onUserCertificationSelect={(userCert) => {

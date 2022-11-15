@@ -2,21 +2,20 @@ import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { GoGraph } from "react-icons/go";
 import Button from "../../../components/Button";
 import CommonPage from "../../../components/CommonPage";
 import Loading from "../../../components/Loading";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
-import PreferedTopics from "../../../components/profile/PreferedTopics";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
 import ViewAgency from "../../../components/profile/ViewAgency";
+import Topics from "../../../components/Topics";
 import { config } from "../../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
-import Custom404 from "../../404";
-import { useContext } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
+import Custom404 from "../../404";
 
 const Profile = () => {
   const { push, query } = useRouter();
@@ -81,12 +80,14 @@ const Profile = () => {
             <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
           )}
           <div>
-            <PreferedTopics
-              topics={topics}
-              refetch={null}
-              user={data?.User[0]}
-              readOnly={true}
-            ></PreferedTopics>
+            <Topics
+              readOnly
+              topics={data.Topic.map((topic) => {
+                return { id: topic.id, name: topic.name };
+              })}
+              selectedTopics={data.UserTopic.map((t) => t.topicId)}
+              title={t("userProfile.topics")}
+            />
             <CertificationsList
               userCertifications={userCertifications}
               readOnly={true}
