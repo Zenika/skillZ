@@ -9,10 +9,13 @@ import { config } from "../env";
 import {
   GetAllNotVerifiedSkillsQuery,
   GetUserAgencyQuery,
+  GetUserQuery,
 } from "../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../graphql/queries/skills";
-import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
-import { useActivity } from "../providers/ActivityProvider";
+import {
+  GET_USER_AGENCY_QUERY,
+  GET_USER_QUERY,
+} from "../graphql/queries/userInfos";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
@@ -27,7 +30,6 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
-  const { lastSeen } = useActivity();
   const { locale, query, pathname } = useRouter();
   let { context } = query;
 
@@ -46,6 +48,11 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
       fetchPolicy: "network-only",
     }
   );
+
+  const { data: userData } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: user.email },
+    fetchPolicy: "network-only",
+  });
 
   const { data: skills, error: errorSkills } =
     useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
@@ -246,9 +253,16 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                       {`Zenika ${userAgencyResult?.UserLatestAgency[0]?.agency}`}
                     </p>
                   )}
-                  <p className={"text-xs"}>{`${t(
-                    "myProfile.lastSeen"
-                  )} : ${lastSeen.toLocaleString()}`}</p>
+                  {userData && userData.User[0] && (
+                    <p className={"text-xs"}>{`${t(
+                      "myProfile.lastLogin"
+                    )} : ${new Date(userData.User[0].last_login).toLocaleString(
+                      [],
+                      {
+                        dateStyle: "short",
+                      }
+                    )}`}</p>
+                  )}
                 </div>
                 <Image
                   src={user?.picture || ""}

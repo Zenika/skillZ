@@ -282,8 +282,9 @@
             _eq: x-hasura-user-email
         columns:
           - botNotifications
+          - current_login
           - email
-          - last_seen
+          - last_login
           - name
           - picture
   select_permissions:
@@ -291,8 +292,9 @@
       permission:
         columns:
           - botNotifications
+          - current_login
           - email
-          - last_seen
+          - last_login
           - name
           - picture
         filter: {}
@@ -302,8 +304,9 @@
       permission:
         columns:
           - botNotifications
+          - current_login
           - email
-          - last_seen
+          - last_login
           - name
           - picture
         filter:

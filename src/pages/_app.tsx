@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import ActivityProvider from "../providers/ActivityProvider";
 import AuthProvider from "../providers/AuthProvider";
 import GraphQLProvider from "../providers/GraphQLProvider";
 import "../styles/404.css";
@@ -71,20 +70,18 @@ const App = ({ Component, pageProps }) => {
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>
           <GraphQLProvider>
-            <ActivityProvider>
-              <Head>
-                <title>skillZ</title>
-                <meta
-                  name="viewport"
-                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                />
-              </Head>
-              <div className={`${darkMode ? "dark" : ""}`}>
-                <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
-                  <Component {...{ pathName, ...pageProps }} />
-                </div>
+            <Head>
+              <title>skillZ</title>
+              <meta
+                name="viewport"
+                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+              />
+            </Head>
+            <div className={`${darkMode ? "dark" : ""}`}>
+              <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
+                <Component {...{ pathName, ...pageProps }} />
               </div>
-            </ActivityProvider>
+            </div>
           </GraphQLProvider>
         </i18nContext.Provider>
       </DarkModeProvider>
