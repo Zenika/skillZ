@@ -57,7 +57,7 @@ const Login = () => {
         console.log(e);
         setError(true);
       });
-  }, [user, userData]);
+  }, [user, userData, push, query.returnTo, updateLastLoginMutation]);
 
   if (error || errorUserData) {
     return <ErrorPage />;
