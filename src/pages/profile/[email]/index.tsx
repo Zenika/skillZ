@@ -36,7 +36,6 @@ const Profile = () => {
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
-  const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
   const userCertifications =
     error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
 

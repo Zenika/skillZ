@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDarkMode } from "../utils/darkMode";
@@ -32,8 +31,6 @@ const HomePanel = ({
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const router = useRouter();
-  const { agency } = router.query;
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });

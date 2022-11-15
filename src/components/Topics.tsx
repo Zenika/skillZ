@@ -35,10 +35,10 @@ const Topics = ({
     >
       <p className="text-xl p-2">{title}</p>
       <div className="flex flex-row flex-wrap justify-around px-4">
-        {topics.map((topic) => {
+        {topics.map((topic, key) => {
           const selected = selectedTopics.some((t) => topic.id === t);
           return (
-            <div className="flex-inital py-2">
+            <div className="flex-inital py-2" key={key}>
               <Button
                 disabled={readOnly}
                 type={"tertiary"}
@@ -49,7 +49,7 @@ const Topics = ({
                     : () => addCallback(topic)
                 }
               >
-                {topic.name}
+                <p className="text-sm">{topic.name}</p>
               </Button>
             </div>
           );

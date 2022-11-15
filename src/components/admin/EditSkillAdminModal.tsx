@@ -111,8 +111,6 @@ const EditSkillAdminModal = ({
     );
   };
 
-  const onDeleteButtonClick = () => {};
-
   if (loadingTopics || loadingCategories || loadingTopicBySkill) {
     return <Loading />;
   }

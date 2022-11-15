@@ -19,4 +19,7 @@ module.exports = withPWA({
     locales: ["en", "fr"],
     defaultLocale: "en",
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 });

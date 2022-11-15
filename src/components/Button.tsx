@@ -1,5 +1,4 @@
 import React from "react";
-import { useDarkMode } from "../utils/darkMode";
 
 type ButtonProps = {
   type: "primary" | "secondary" | "tertiary";
@@ -20,7 +19,6 @@ const Button = ({
   uppercase = true,
   disabled = false,
 }: ButtonProps) => {
-  const { darkMode } = useDarkMode();
   return (
     <button
       className={`${
@@ -44,7 +42,9 @@ const Button = ({
       } ${
         style === "outlined" &&
         `text-${type === "primary" ? "dark-red" : "white"}`
-      } text-base font-bold py-2 px-5 rounded-full disabled:opacity-25 ${
+      } text-base ${style != "faded" && "font-bold"} py-${
+        type === "tertiary" ? "1" : "2"
+      } px-5 rounded-full disabled:opacity-25 ${
         style === "contained" && type === "tertiary" && "gradient-red"
       } ${style === "faded" && type === "tertiary" && "gradient-red-faded"}`}
       disabled={disabled}
