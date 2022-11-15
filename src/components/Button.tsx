@@ -8,6 +8,7 @@ type ButtonProps = {
   icon?: JSX.Element;
   disabled?: boolean;
   uppercase?: boolean;
+  color?: string;
 };
 
 const Button = ({
@@ -18,11 +19,14 @@ const Button = ({
   icon = null,
   uppercase = true,
   disabled = false,
+  color,
 }: ButtonProps) => {
   return (
     <button
       className={`${
-        type === "primary" && style === "contained" && "gradient-red"
+        type === "primary" &&
+        style === "contained" &&
+        `gradient-${color && color.length > 0 ? color : "red"}`
       } ${
         type === "secondary" &&
         style === "contained" &&
@@ -45,7 +49,9 @@ const Button = ({
       } text-base ${style != "faded" && "font-bold"} py-${
         type === "tertiary" ? "1" : "2"
       } px-5 rounded-full disabled:opacity-25 ${
-        style === "contained" && type === "tertiary" && "gradient-red"
+        style === "contained" &&
+        type === "tertiary" &&
+        `gradient-${color && color.length > 0 ? color : "red"}`
       } ${style === "faded" && type === "tertiary" && "gradient-red-faded"}`}
       disabled={disabled}
       onClick={callback}
