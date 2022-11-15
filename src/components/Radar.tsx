@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
-import styles from "./Radar.module.css";
 
 const oneToSix = [1, 2, 3, 4, 5, 6];
 
