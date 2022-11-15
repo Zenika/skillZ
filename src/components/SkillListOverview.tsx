@@ -171,12 +171,6 @@ const SkillListOverview = ({
     setFadedPage(true);
   };
 
-  const onModalCancel = () => {
-    setSelectedSkill(null);
-    setEditPanelOpened(false);
-    setFadedPage(false);
-  };
-
   const filters =
     context === "zenika"
       ? [
@@ -308,9 +302,6 @@ const SkillListOverview = ({
                     } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
                       editPanelOpened ? "opacity-25" : ""
                     }`}
-                    onClick={() =>
-                      editPanelOpened ? onModalCancel() : () => {}
-                    }
                   >
                     {skillsData?.length > 0 ? (
                       skillsData
@@ -340,7 +331,6 @@ const SkillListOverview = ({
                   <Modal closeModal={() => setEditPanelOpened(false)}>
                     <AddOrEditSkillModal
                       skill={selectedSkill}
-                      cancel={onModalCancel}
                       callback={(skill) => {
                         editSkillAction({
                           id: skill.id,
