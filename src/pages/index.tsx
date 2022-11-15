@@ -98,4 +98,6 @@ const Home = () => {
   );
 };
 
-export default withAuthenticationRequired(Home);
+export default withAuthenticationRequired(Home, {
+  loginOptions: { prompt: "login" },
+});

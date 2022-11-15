@@ -179,4 +179,6 @@ const Search = () => {
   );
 };
 
-export default withAuthenticationRequired(Search);
+export default withAuthenticationRequired(Search, {
+  loginOptions: { prompt: "login" },
+});

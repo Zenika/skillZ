@@ -67,4 +67,6 @@ const SkillPage = () => {
   );
 };
 
-export default withAuthenticationRequired(SkillPage);
+export default withAuthenticationRequired(SkillPage, {
+  loginOptions: { prompt: "login" },
+});
