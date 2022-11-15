@@ -45,13 +45,10 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     }
   );
 
-  const {
-    data: skills,
-    loading,
-    error: errorSkills,
-  } = useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
-    fetchPolicy: "network-only",
-  });
+  const { data: skills, error: errorSkills } =
+    useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
+      fetchPolicy: "network-only",
+    });
 
   /*
    * CALLBACKS

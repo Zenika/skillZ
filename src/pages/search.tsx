@@ -37,13 +37,12 @@ const Search = () => {
   /*
    * QUERIES
    */
-  const {
-    data,
-    error: profilesError,
-    loading: profilesLoading,
-  } = useQuery<SearchSkillsAndProfilesQuery>(SEARCH_SKILLS_AND_PROFILES_QUERY, {
-    variables: { search: `%${search}%` },
-  });
+  const { data, error: profilesError } = useQuery<SearchSkillsAndProfilesQuery>(
+    SEARCH_SKILLS_AND_PROFILES_QUERY,
+    {
+      variables: { search: `%${search}%` },
+    }
+  );
 
   const skills = data?.skills;
   const profiles = data?.profiles;

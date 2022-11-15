@@ -24,7 +24,7 @@ export const ProgressBar = ({ percentage, type }) => {
       setTrackerCss(`${styles.progressTrackerDiamond}`);
       setValidatorCss(`${styles.filterSilver}`);
     }
-  }, [percentage]);
+  }, [percentage, type]);
 
   return (
     <div

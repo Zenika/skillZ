@@ -7,7 +7,6 @@ import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../graphql/queries/skills";
-import zenika from "../pages/zenika";
 import { computeFilterUrl } from "../utils/computeFilterUrl";
 import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
@@ -74,27 +73,24 @@ const SkillListOverview = ({
   /*
    * QUERIES
    */
-  const {
-    data: dataSearch,
-    refetch: refetchSearch,
-    loading: loadingSearch,
-    error: errorSearch,
-  } = useQuery<SearchSkillsByCategoryQuery>(SEARCH_SKILLS_BY_CATEGORY_QUERY, {
-    variables: {
-      category: category.name,
-      search: `%${debouncedSearchValue}%`,
-      email: userEmail,
-      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-    },
-    fetchPolicy: "network-only",
-  });
+  const { data: dataSearch } = useQuery<SearchSkillsByCategoryQuery>(
+    SEARCH_SKILLS_BY_CATEGORY_QUERY,
+    {
+      variables: {
+        category: category.name,
+        search: `%${debouncedSearchValue}%`,
+        email: userEmail,
+        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+      },
+      fetchPolicy: "network-only",
+    }
+  );
 
   const {
     skillsData,
     color,
     agencies,
     refetch: SkillsRefetch,
-    loading: skillsLoading,
   } = useFetchSkillsByContextCategoryAndAgency(
     context,
     category.name,
@@ -106,12 +102,8 @@ const SkillListOverview = ({
   /*
    * MUTATIONS
    */
-  const [addSkill, { error: mutationError }] = useMutation(
-    ADD_USER_SKILL_MUTATION
-  );
-  const [deleteSkill, { error: mutationDeleteError }] = useMutation(
-    DELETE_USER_SKILL_MUTATION
-  );
+  const [addSkill] = useMutation(ADD_USER_SKILL_MUTATION);
+  const [deleteSkill] = useMutation(DELETE_USER_SKILL_MUTATION);
 
   const editSkillAction = ({ id, name, skillLevel, desireLevel, add }) => {
     if (add) {

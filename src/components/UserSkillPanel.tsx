@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
@@ -27,9 +26,7 @@ const UserSkillPanel = ({
 }) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const { query } = useRouter();
-  const { category } = query;
-  const { id, name, level, desire, certif } = skill;
+  const { level, desire, certif } = skill;
   return (
     <Link href={`/profile/${skill.user.email}`}>
       <div className="flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg cursor-pointer">

@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import Navbar from "./Navbar";
 import Notification from "./Notification";
@@ -25,7 +23,6 @@ const CommonPage = ({
   backBar = true,
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
   const router = useRouter();
   const [panelOpened, setPanelOpened] = useState(false);
   const togglePanel = () => setPanelOpened(!panelOpened);
