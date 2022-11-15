@@ -1,8 +1,9 @@
 import React from "react";
+import { useDarkMode } from "../utils/darkMode";
 
 type ButtonProps = {
-  type: "primary" | "secondary";
-  style: "outlined" | "contained";
+  type: "primary" | "secondary" | "tertiary";
+  style: "outlined" | "contained" | "faded";
   callback: () => void;
   children?: JSX.Element | JSX.Element[] | string | string[];
   icon?: JSX.Element;
@@ -19,6 +20,7 @@ const Button = ({
   uppercase = true,
   disabled = false,
 }: ButtonProps) => {
+  const { darkMode } = useDarkMode();
   return (
     <button
       className={`${
@@ -36,9 +38,15 @@ const Button = ({
         style === "outlined" &&
         "border-dark-light dark:border-dark-light"
       } ${uppercase ? "uppercase" : "normal-case"} ${
+        style === "contained" &&
+        (type === "primary" || type === "tertiary") &&
+        "text-light-dark"
+      } ${
         style === "outlined" &&
         `text-${type === "primary" ? "dark-red" : "white"}`
-      } text-base font-bold py-2 px-5 rounded-full disabled:opacity-25`}
+      } text-base font-bold py-2 px-5 rounded-full disabled:opacity-25 ${
+        style === "contained" && type === "tertiary" && "gradient-red"
+      } ${style === "faded" && type === "tertiary" && "gradient-red-faded"}`}
       disabled={disabled}
       onClick={callback}
     >
