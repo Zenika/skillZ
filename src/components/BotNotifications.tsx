@@ -7,11 +7,7 @@ import { useQuery } from "@apollo/client";
 import { GetBotNotificationsQuery } from "../generated/graphql";
 import Loading from "./Loading";
 
-export const BotNotifications = ({
-  t,
-}: {
-  t: (path: string) => string;
-}) => {
+export const BotNotifications = ({ t }: { t: (path: string) => string }) => {
   const values: [any, any] = [false, true];
   const { user } = useAuth0();
   const {
