@@ -29,9 +29,6 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
     Topic {
       id
       name
-      UserTopics(where: { userEmail: { _eq: $email } }) {
-        created_at
-      }
     }
     Certification {
       id
@@ -76,10 +73,8 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
         desireLevel
       }
     }
-    UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
-      aggregate {
-        count
-      }
+    UserTopic(where: { userEmail: { _eq: $email } }) {
+      topicId
     }
   }
 `;
