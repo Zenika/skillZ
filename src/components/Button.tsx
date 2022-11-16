@@ -52,7 +52,11 @@ const Button = ({
         style === "contained" &&
         type === "tertiary" &&
         `gradient-${color && color.length > 0 ? color : "red"}`
-      } ${style === "faded" && type === "tertiary" && "gradient-red-faded"}`}
+      } ${
+        style === "faded" &&
+        type === "tertiary" &&
+        `gradient-${color && color.length > 0 ? color : "red"}-faded`
+      }`}
       disabled={disabled}
       onClick={callback}
     >

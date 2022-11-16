@@ -38,7 +38,7 @@ const Topics = ({
         {topics.map((topic, key) => {
           const selected = selectedTopics.some((t) => topic.id === t);
           return (
-            <div className="flex-inital py-2" key={key}>
+            <div className="flex-inital py-2" key={`topic-${key}`}>
               <Button
                 disabled={readOnly}
                 type={"tertiary"}
