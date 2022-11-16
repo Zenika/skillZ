@@ -112,11 +112,6 @@ const SkillAdminPanel = ({
           </div>
         )}
       </div>
-      {openSkillDetails && (
-        <Modal closeModal={closeModal}>
-          <SkillDetails skill={skill}></SkillDetails>
-        </Modal>
-      )}
     </div>
   );
 };
