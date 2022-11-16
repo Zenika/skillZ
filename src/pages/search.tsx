@@ -97,7 +97,7 @@ const Search = () => {
   }
 
   return (
-    <CommonPage page={"search"} backBar={false}>
+    <CommonPage page={"search"} backBar={true}>
       <div className={"flex justify-center"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
