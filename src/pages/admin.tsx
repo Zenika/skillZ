@@ -73,7 +73,7 @@ export default function AdminPage() {
   if (authorize == false) return <Custom404 />;
 
   return (
-    <CommonPage page={"Admin"} backBar={false} faded={true}>
+    <CommonPage page={"Admin"} backBar={false}>
       <div className={`flex justify-center ${selectedSkill && "opacity-25"}`}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar

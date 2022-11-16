@@ -13,13 +13,11 @@ type CommonPageProps = {
   children: any;
   page: string;
   backBar?: boolean;
-  faded?: boolean;
 };
 
 const CommonPage = ({
   children,
   page,
-  faded = false,
   backBar = true,
 }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
@@ -52,9 +50,7 @@ const CommonPage = ({
             {backBar && (
               <div className="flex flex-row justify-center w-full my-1 bg-light-dark dark:bg-dark-dark">
                 <div
-                  className={`flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6 ${
-                    faded ? "opacity-25" : ""
-                  }`}
+                  className="flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6"
                 >
                   <Button
                     type={"primary"}

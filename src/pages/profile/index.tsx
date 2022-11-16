@@ -163,7 +163,7 @@ const Profile = () => {
     return <ErrorPage />;
   } else {
     return (
-      <CommonPage page={"profile"} faded={certModalOpened}>
+      <CommonPage page={"profile"}>
         <div
           className={`flex flex-row justify-center mt-4 mb-20 ${
             certModalOpened ? "opacity-25" : ""

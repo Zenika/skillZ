@@ -29,9 +29,9 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
   return (
     <div
       id="addOrEditSkill"
-      className="flex flex-col relative h-fit max-h-75vh"
+      className="flex flex-col relative h-fit max-h-75vh w-full"
     >
-      <h1 className="flex-start px-2 my-4 text-xl text-bold">{skill?.name}</h1>
+      <h1 className="m-auto px-2 my-4 text-xl text-bold">{skill?.name}</h1>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
@@ -60,7 +60,7 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
         <div className="m-4">
           <div
             className={`flex flex-col ${
-              navState === "knowledge" ? "" : "hidden"
+              navState === "knowledge" ? null : "hidden"
             }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
@@ -90,7 +90,7 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
             ))}
           </div>
           <div
-            className={`flex flex-col ${navState === "desire" ? "" : "hidden"}`}
+            className={`flex flex-col ${navState === "desire" ? null : "hidden"}`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
               <button
@@ -119,7 +119,7 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
         </div>
       </div>
       <div className="flex flex-row justify-between flex-wrap gap-4 pb-2">
-        <div className="flex flex-row gap-4 flex-wrap">
+        <div className="flex flex-row gap-4 flex-wrap justify-between w-full">
           {!add ? (
             <Button
               type={"primary"}

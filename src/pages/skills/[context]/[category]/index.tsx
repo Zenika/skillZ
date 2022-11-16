@@ -67,7 +67,7 @@ const ListSkillsPage = () => {
   }
 
   return (
-    <CommonPage page={category} faded={modalOpened}>
+    <CommonPage page={category}>
       {context != "mine" &&
         context != "zenika" &&
         userInfosDatas.User.length && (

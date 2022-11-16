@@ -297,7 +297,7 @@ const SkillListOverview = ({
                 )}
                 {(!add || context === "zenika") && (
                   <div
-                    className={`my-4 z-10 ${
+                    className={`my-4 ${
                       editPanelOpened ? "cursor-pointer" : ""
                     } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
                       editPanelOpened ? "opacity-25" : ""

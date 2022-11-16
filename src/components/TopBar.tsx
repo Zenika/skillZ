@@ -232,7 +232,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             </button>
           )}
           {isDesktop && (
-            <div className="z-50 divide-y divide-dark-radargrid divide-light-radargrid">
+            <div className="divide-y divide-dark-radargrid divide-light-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex flex-row items-center px-2 py-4 justify-between h-full"
@@ -254,9 +254,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 />
               </button>
               <div
-                className={`bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded z-50 ${
-                  !openMenu ? "hidden" : ""
-                }`}
+                className={`relative bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded ${!openMenu && "hidden"}`}
               >
                 <ul className="flex flex-col justify-around h-full p-2">
                   <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
