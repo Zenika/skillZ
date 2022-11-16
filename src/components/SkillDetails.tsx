@@ -19,7 +19,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
   });
 
   return !loading ? (
-    !error || !skillDetails ? (
+    !error || skillDetails ? (
       <div className="flex w-full justify-start flex-col">
         <h1 className="text-xl">{skillDetails.Skill[0].name}</h1>
         <span className="text-sm text-dark-light/40">
