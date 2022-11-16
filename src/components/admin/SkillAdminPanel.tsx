@@ -29,7 +29,7 @@ const SkillAdminPanel = ({
 }: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
-  const [openSkillDetails, setOpenSkillDetails] = useState(false);
+  
 
   /*
    * MUTATIONS
@@ -61,10 +61,6 @@ const SkillAdminPanel = ({
       });
   };
 
-  const closeModal = () => {
-    setOpenSkillDetails(false);
-  };
-
   return (
     <div
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
@@ -73,7 +69,7 @@ const SkillAdminPanel = ({
         <div className="flex flex-row justify-between">
           <h2
             className="text-xl cursor-pointer"
-            onClick={() => setOpenSkillDetails(true)}
+            
           >
             {skill.name}
           </h2>
@@ -116,11 +112,6 @@ const SkillAdminPanel = ({
           </div>
         )}
       </div>
-      {openSkillDetails && (
-        <Modal closeModal={closeModal}>
-          <SkillDetails skill={skill}></SkillDetails>
-        </Modal>
-      )}
     </div>
   );
 };
