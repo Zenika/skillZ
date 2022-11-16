@@ -50,6 +50,7 @@ export default {
     knowledge: "Connaissances",
     behaviors: "Postures",
     profile: "Profil",
+    search: "Recherche",
   },
   onboarding: {
     skip: "Passer",
