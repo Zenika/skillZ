@@ -37,7 +37,9 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
                   key={`topic-${topic.Topic.name}`}
                   className="rounded-full m-2 gradient-red"
                 >
-                  <span className="px-2 py-1 text-white">
+                <Button type={"tertiary"} style ={"contained"} disabled={true}>
+                    {topic.Topic.name}
+                 </Button>
                     {topic.Topic.name}
                   </span>
                 </div>
