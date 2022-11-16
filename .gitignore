@@ -64,3 +64,6 @@ graphql.schema.json
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/test-results/
+/playwright-report/
+/playwright/.cache/
