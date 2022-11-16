@@ -5,6 +5,7 @@ import { GET_SKILL_DETAILS } from "../graphql/queries/skills";
 import { Skill } from "../utils/types";
 import { i18nContext } from "../utils/i18nContext";
 import { useAuth0 } from "@auth0/auth0-react";
+import Button from "./Button";
 
 const SkillDetails = ({ skill }: { skill: Skill }) => {
   const { user } = useAuth0();
@@ -37,11 +38,14 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
                   key={`topic-${topic.Topic.name}`}
                   className="rounded-full m-2 gradient-red"
                 >
-                <Button type={"tertiary"} style ={"contained"} disabled={true}>
+                  <Button
+                    type={"tertiary"}
+                    style={"contained"}
+                    disabled={true}
+                    visible={true}
+                  >
                     {topic.Topic.name}
-                 </Button>
-                    {topic.Topic.name}
-                  </span>
+                  </Button>
                 </div>
               ))}
             </>

@@ -3,9 +3,10 @@ import React from "react";
 type ButtonProps = {
   type: "primary" | "secondary" | "tertiary";
   style: "outlined" | "contained" | "faded";
-  callback: () => void;
+  callback?: () => void;
   children?: JSX.Element | JSX.Element[] | string | string[];
   icon?: JSX.Element;
+  visible?: boolean;
   disabled?: boolean;
   uppercase?: boolean;
   color?: string;
@@ -18,6 +19,7 @@ const Button = ({
   children,
   icon = null,
   uppercase = true,
+  visible = false,
   disabled = false,
   color,
 }: ButtonProps) => {
@@ -48,7 +50,7 @@ const Button = ({
         `text-${type === "primary" ? "dark-red" : "white"}`
       } text-base ${style != "faded" && "font-bold"} py-${
         type === "tertiary" ? "1" : "2"
-      } px-5 rounded-full disabled:opacity-25 ${
+      } px-5 rounded-full ${!visible && "disabled:opacity-25"} ${
         style === "contained" &&
         type === "tertiary" &&
         `gradient-${color && color.length > 0 ? color : "red"}`

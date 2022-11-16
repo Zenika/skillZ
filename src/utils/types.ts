@@ -42,7 +42,7 @@ export type UserCertification = {
 export type Topic = {
   id: string;
   name: string;
-}
+};
 
 export type Skill = {
   name?: string | null | undefined;

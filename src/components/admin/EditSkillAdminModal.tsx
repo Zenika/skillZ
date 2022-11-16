@@ -159,9 +159,9 @@ const EditSkillAdminModal = ({
 
       <div className="flex flex-wrap flex-row justify-between pb-4">
         <span className="pt-2">
-        <Button type={"secondary"} style={"contained"} callback={cancel}>
-          {t("skills.modal.cancel")}
-        </Button>
+          <Button type={"secondary"} style={"contained"} callback={cancel}>
+            {t("skills.modal.cancel")}
+          </Button>
         </span>
         <span className="pt-2">
           <Button
