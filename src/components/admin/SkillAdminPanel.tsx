@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import {
   DeleteSkillMutation,
   SetVerifiedSkillMutationMutationFn,
@@ -13,8 +13,6 @@ import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../Button";
-import Modal from "../Modal";
-import SkillDetails from "../SkillDetails";
 
 type SkillAdminPanelProps = {
   skill: FetchedSkill;
@@ -29,7 +27,6 @@ const SkillAdminPanel = ({
 }: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
-  
 
   /*
    * MUTATIONS
@@ -67,12 +64,7 @@ const SkillAdminPanel = ({
     >
       <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
-          <h2
-            className="text-xl cursor-pointer"
-            
-          >
-            {skill.name}
-          </h2>
+          <h2 className="text-xl cursor-pointer">{skill.name}</h2>
         </div>
         {!approvedSkills && (
           <div>
