@@ -95,4 +95,6 @@ const ListSkillsPage = () => {
   );
 };
 
-export default withAuthenticationRequired(ListSkillsPage);
+export default withAuthenticationRequired(ListSkillsPage, {
+  loginOptions: { prompt: "login" },
+});

@@ -104,4 +104,6 @@ const HomePanelByUser = () => {
   );
 };
 
-export default withAuthenticationRequired(HomePanelByUser);
+export default withAuthenticationRequired(HomePanelByUser, {
+  loginOptions: { prompt: "login" },
+});

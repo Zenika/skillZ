@@ -105,4 +105,6 @@ const Profile = () => {
   );
 };
 
-export default withAuthenticationRequired(Profile);
+export default withAuthenticationRequired(Profile, {
+  loginOptions: { prompt: "login" },
+});

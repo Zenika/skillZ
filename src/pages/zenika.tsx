@@ -78,4 +78,6 @@ const Zenika = () => {
   );
 };
 
-export default withAuthenticationRequired(Zenika);
+export default withAuthenticationRequired(Zenika, {
+  loginOptions: { prompt: "login" },
+});
