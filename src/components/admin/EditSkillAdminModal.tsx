@@ -120,7 +120,7 @@ const EditSkillAdminModal = ({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col max-h-75vh p-2">
       <div className="flex flex-row place-content-between border-b">
         <h2 className="flex-start px-2 my-4 text-xl text-bold">{`${t(
           "admin.update"
@@ -157,11 +157,13 @@ const EditSkillAdminModal = ({
         }}
       />
 
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-wrap flex-row justify-between pb-4">
+        <span className="pt-2">
         <Button type={"secondary"} style={"contained"} callback={cancel}>
           {t("skills.modal.cancel")}
         </Button>
-        <div className={"flex flex-row gap-4"}>
+        </span>
+        <span className="pt-2">
           <Button
             type={"primary"}
             style={"contained"}
@@ -169,7 +171,7 @@ const EditSkillAdminModal = ({
           >
             {t("admin.update")}
           </Button>
-        </div>
+        </span>
       </div>
     </div>
   );

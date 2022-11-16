@@ -272,7 +272,7 @@ const SkillListOverview = ({
                   <div
                     className={`flex flex-col ${
                       isDesktop ? "h-radar" : ""
-                    } p-2 z-10 ${editPanelOpened ? "opacity-25" : ""}`}
+                    } p-2 ${editPanelOpened ? "opacity-25" : ""}`}
                   >
                     <AddSkillListSelector
                       action={onModalClick}
