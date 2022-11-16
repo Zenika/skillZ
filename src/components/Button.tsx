@@ -1,13 +1,14 @@
 import React from "react";
 
 type ButtonProps = {
-  type: "primary" | "secondary";
-  style: "outlined" | "contained";
+  type: "primary" | "secondary" | "tertiary";
+  style: "outlined" | "contained" | "faded";
   callback: () => void;
   children?: JSX.Element | JSX.Element[] | string | string[];
   icon?: JSX.Element;
   disabled?: boolean;
   uppercase?: boolean;
+  color?: string;
 };
 
 const Button = ({
@@ -18,11 +19,14 @@ const Button = ({
   icon = null,
   uppercase = true,
   disabled = false,
+  color,
 }: ButtonProps) => {
   return (
     <button
       className={`${
-        type === "primary" && style === "contained" && "gradient-red"
+        type === "primary" &&
+        style === "contained" &&
+        `gradient-${color && color.length > 0 ? color : "red"}`
       } ${
         type === "secondary" &&
         style === "contained" &&
@@ -36,9 +40,23 @@ const Button = ({
         style === "outlined" &&
         "border-dark-light dark:border-dark-light"
       } ${uppercase ? "uppercase" : "normal-case"} ${
+        style === "contained" &&
+        (type === "primary" || type === "tertiary") &&
+        "text-light-dark"
+      } ${
         style === "outlined" &&
         `text-${type === "primary" ? "dark-red" : "white"}`
-      } text-base font-bold py-2 px-5 rounded-full disabled:opacity-25`}
+      } text-base ${style != "faded" && "font-bold"} py-${
+        type === "tertiary" ? "1" : "2"
+      } px-5 rounded-full disabled:opacity-25 ${
+        style === "contained" &&
+        type === "tertiary" &&
+        `gradient-${color && color.length > 0 ? color : "red"}`
+      } ${
+        style === "faded" &&
+        type === "tertiary" &&
+        `gradient-${color && color.length > 0 ? color : "red"}-faded`
+      }`}
       disabled={disabled}
       onClick={callback}
     >

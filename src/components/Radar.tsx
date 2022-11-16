@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
-import styles from "./Radar.module.css";
 
 const oneToSix = [1, 2, 3, 4, 5, 6];
 
@@ -25,24 +24,24 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
   return (
     <div
       style={{
-        bottom: `${data.y - (isHovering ? data.weight + 70 : 50) / 2}px`,
-        left: `${data.x - (isHovering ? data.weight + 70 : 50) / 2}px`,
-        width: `${isHovering ? data.weight + 70 : 50}px`,
-        height: `${isHovering ? data.weight + 70 : 50}px`,
+        bottom: `${data.y - (isHovering ? data.weight + 180 : 50) / 2}px`,
+        left: `${data.x - (isHovering ? data.weight + 180 : 50) / 2}px`,
+        width: `${isHovering ? data.weight + 180 : 50}px`,
+        height: `${isHovering ? data.weight + 180 : 50}px`,
         zIndex: `${isHovering ? "999" : "1"}`,
       }}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      className={`${styles.circle} flex flex-col justify-center absolute rounded-full text-center text-xs gradient-${color}`}
+      className={`flex flex-col justify-center absolute rounded-full text-center text-s gradient-${color}`}
     >
       <div className="flex flex-row justify-center">
         <span
-          className={`text-light-greytext dark:text-dark-med overflow-clip ${
-            data.weight > 30 ? "p-4" : ""
+          className={`text-light-light font-bold overflow-clip ${
+            data.weight > 30 && isHovering && "p-4"
           }`}
         >
-          {!isHovering && data.weight > 50 && `+${data.labels.length}`}
-          {!isHovering && data.weight < 50 && data.labels.join(", ")}
+          {!isHovering && data.weight > 30 && `+${data.labels.length}`}
+          {!isHovering && data.weight < 30 && data.labels.join(", ")}
           {isHovering && data.labels.join(", ")}
         </span>
       </div>

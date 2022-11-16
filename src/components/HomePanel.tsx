@@ -139,7 +139,7 @@ const HomePanel = ({
                     <div
                       className={`${x === "right" ? "order-last" : ""} ${
                         x === "right" ? "text-right" : "text-left"
-                      } ${
+                      } font-bold ${
                         data[i]
                           ? `${
                               widthTable[isDesktop ? "desktop" : "mobile"][i]
@@ -147,7 +147,7 @@ const HomePanel = ({
                           : ""
                       } ${
                         x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
-                      } h-6 m-0.5 text-light-greytext dark:text-dark-med p-0.5`}
+                      } h-6 m-0.5 text-light-light p-0.5`}
                     >
                       {data[i] ? i + 1 : ""}
                     </div>

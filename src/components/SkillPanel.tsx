@@ -8,6 +8,7 @@ import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import LevelBar from "./LevelBar";
+import Button from "./Button";
 
 type Skill = {
   name?: string | null | undefined;
@@ -73,13 +74,16 @@ const SkillPanel = ({
           <div className="flex flex-col">
             <h2 className="text-xl">{skill.name}</h2>
             {context === "search" && (
-              // TODO: Custom component for category tag
-              <button
-                onClick={() => push(linkToCategory)}
-                className={`rounded-full opacity-80 gradient-${skill.Category.color} text-white text-xs mt-2 p-2 max-w-xs w-20`}
-              >
-                {skill.Category.label}
-              </button>
+              <div className="py-2">
+                <Button
+                  type={"tertiary"}
+                  style={"contained"}
+                  color={skill.Category.color}
+                  callback={() => push(linkToCategory)}
+                >
+                  {skill.Category.label}
+                </Button>
+              </div>
             )}
           </div>
           {(count || certif) && (
