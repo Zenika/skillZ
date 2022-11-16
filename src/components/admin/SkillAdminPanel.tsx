@@ -29,7 +29,7 @@ const SkillAdminPanel = ({
 }: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
-  const [openSkillDetails, setOpenSkillDetails] = useState(false);
+  
 
   /*
    * MUTATIONS
