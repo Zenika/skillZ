@@ -1,3 +1,4 @@
+-- Migrations exists instead of seeds
 INSERT INTO "public"."Agency" ("name") VALUES
 ('Paris'),
 ('Nantes'),
