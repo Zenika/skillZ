@@ -15,11 +15,7 @@ type CommonPageProps = {
   backBar?: boolean;
 };
 
-const CommonPage = ({
-  children,
-  page,
-  backBar = true,
-}: CommonPageProps) => {
+const CommonPage = ({ children, page, backBar = true }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
   const [panelOpened, setPanelOpened] = useState(false);
@@ -49,9 +45,7 @@ const CommonPage = ({
           <div className="flex flex-col justify-center bg-light-med dark:bg-dark-med w-full">
             {backBar && (
               <div className="flex flex-row justify-center w-full my-1 bg-light-dark dark:bg-dark-dark">
-                <div
-                  className="flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6"
-                >
+                <div className="flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6">
                   <Button
                     type={"primary"}
                     style={"contained"}

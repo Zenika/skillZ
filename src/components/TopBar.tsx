@@ -254,7 +254,9 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 />
               </button>
               <div
-                className={`relative bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded ${!openMenu && "hidden"}`}
+                className={`relative bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded ${
+                  !openMenu && "hidden"
+                }`}
               >
                 <ul className="flex flex-col justify-around h-full p-2">
                   <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">

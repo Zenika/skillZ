@@ -90,7 +90,9 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
             ))}
           </div>
           <div
-            className={`flex flex-col ${navState === "desire" ? null : "hidden"}`}
+            className={`flex flex-col ${
+              navState === "desire" ? null : "hidden"
+            }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
               <button
