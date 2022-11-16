@@ -26,6 +26,7 @@
     "cypress:run": "cypress run",
     "playwright:run": "npx playwright test",
     "playwright:report": "npx playwright show-report",
+    "playwright:codegen": "npx playwright codegen",
     "hasura": "hasura --project ./hasura",
     "seeds:generate": "ts-node ./hasura/local_seeds/seedscript.ts",
     "seeds:apply": "npm run hasura seeds apply --file ./hasura/local_seeds/seeds.sql",
