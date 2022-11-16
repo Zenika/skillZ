@@ -61,10 +61,6 @@ const SkillAdminPanel = ({
       });
   };
 
-  const closeModal = () => {
-    setOpenSkillDetails(false);
-  };
-
   return (
     <div
       className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
