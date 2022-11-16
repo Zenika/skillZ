@@ -61,3 +61,6 @@ graphql.schema.json
 /bot-slack/ngrok
 /bot-slack/.DS_Store
 /bot-slack/coverage
+/test-results/
+/playwright-report/
+/playwright/.cache/
