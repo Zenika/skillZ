@@ -579,5 +579,11 @@ INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") V
 ('UX Research', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('UX Design', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Product Design', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
-('Feature Flipping', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, '')
+('Feature Flipping', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('FAST Agile', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Obsidian', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Speed Reading', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
+('Solidity', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Koa', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Tailwind CSS', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, '')
 ON CONFLICT ("name") DO UPDATE SET "categoryId" = EXCLUDED."categoryId", "verified" = true, "description" = EXCLUDED."description";
