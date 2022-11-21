@@ -19,11 +19,7 @@ export const LocaleSelector = ({
       <ul className="flex flex-row justify-around">
         <li>🇬🇧</li>
         <li>
-          <SlidingCheckbox
-            selectedValue={locale}
-            values={values}
-            alwaysFull={true}
-          />
+          <SlidingCheckbox selectedValue={locale} values={values} />
         </li>
         <li>🇫🇷</li>
       </ul>
