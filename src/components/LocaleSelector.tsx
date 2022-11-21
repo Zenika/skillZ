@@ -15,7 +15,7 @@ export const LocaleSelector = ({
       className="cursor"
       onClick={() => changeLocale(locale === values[0] ? values[1] : values[0])}
     >
-      <span>{t("sidepanel.preferedLanguage")}</span>
+      <span>{t("sidepanel.language")}</span>
       <ul className="flex flex-row justify-around">
         <li>🇬🇧</li>
         <li>
