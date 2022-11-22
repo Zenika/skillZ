@@ -126,22 +126,20 @@ const EditSkillAdminModal = ({
           "admin.update"
         )} ${skill.name}`}</h2>
       </div>
-      <div className="flex flex-col my-4">
-        <div className={"my-2 p-2"}>
-          <p className="text-xl p-2">{t("admin.category")}</p>
-          <CustomSelect
+      <div className={`flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6`}>
+        <p className="text-xl p-2">{t("admin.category")}</p>
+        <CustomSelect
             labelFn={(x) => x.label}
             keyFn={(x) => x.id}
             choices={categories.Category.map((categorie) => categorie) ?? []}
             selectedChoice={categories.Category.find(
-              (categorie) => categorie.id === skill.categoryId
+                (categorie) => categorie.id === skill.categoryId
             )}
             placeholder={t("myProfile.selectPlaceholder")}
             onChange={(categorie) => {
               skill.categoryId = categorie.id;
             }}
-          />
-        </div>
+        />
       </div>
       <Topics
         topics={topics.Topic.map((topic) => {
