@@ -26,10 +26,11 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
         <span className="text-sm text-dark-light/40 dark:text-light-dark/70">
           {skillDetails.Skill[0].description}
         </span>
-        {skillDetails.Skill[0].UserSkillDesires.length > 0 && (
+        {/* ---- TODO ---- Better handle of the date, as any update of a skill will create a new uerSkillDesire */}
+        {/* {skillDetails.Skill[0].UserSkillDesires.length > 0 && (
           <p>{skillDetails.Skill[0].UserSkillDesires[0].created_at}</p>
-        )}
-        <div className="flex flex-row flex-wrap justify-around my-2">
+        )} */}
+        <div className="flex flex-row flex-wrap justify-start my-2">
           {skillDetails.Skill[0].SkillTopics.length > 0 ? (
             <>
               <p className="text-m my-2">{t("admin.topics")} : </p>
