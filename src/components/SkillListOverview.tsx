@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
@@ -12,9 +12,10 @@ import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import AddOrEditSkillModal from "./AddOrEditSkillModal";
+import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel from "./FilterByPanel";
+import Modal from "./Modal";
 import Radar from "./Radar";
 import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
@@ -24,7 +25,6 @@ type SkillListOverviewProps = {
   context: string;
   agency: string;
   category: { name: string; id: string };
-  setFadedPage?: Dispatch<SetStateAction<boolean>>;
 };
 
 const computeDidYouMeanSearchString = (search: string) => {
@@ -44,7 +44,6 @@ const SkillListOverview = ({
   context,
   agency,
   category,
-  setFadedPage,
 }: SkillListOverviewProps) => {
   /*
    * HOOKS
@@ -167,13 +166,6 @@ const SkillListOverview = ({
   const onModalClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     setEditPanelOpened(true);
-    setFadedPage(true);
-  };
-
-  const onModalCancel = () => {
-    setSelectedSkill(null);
-    setEditPanelOpened(false);
-    setFadedPage(false);
   };
 
   const filters =
@@ -277,7 +269,7 @@ const SkillListOverview = ({
                   <div
                     className={`flex flex-col ${
                       isDesktop ? "h-radar" : ""
-                    } p-2 z-10 ${editPanelOpened ? "opacity-25" : ""}`}
+                    } p-2 ${editPanelOpened ? "opacity-25" : ""}`}
                   >
                     <AddSkillListSelector
                       action={onModalClick}
@@ -302,14 +294,11 @@ const SkillListOverview = ({
                 )}
                 {(!add || context === "zenika") && (
                   <div
-                    className={`my-4 z-10 ${
+                    className={`my-4 ${
                       editPanelOpened ? "cursor-pointer" : ""
                     } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
                       editPanelOpened ? "opacity-25" : ""
                     }`}
-                    onClick={() =>
-                      editPanelOpened ? onModalCancel() : () => {}
-                    }
                   >
                     {skillsData?.length > 0 ? (
                       skillsData
@@ -335,33 +324,24 @@ const SkillListOverview = ({
                     )}
                   </div>
                 )}
-                <div
-                  className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-                    editPanelOpened ? "" : "hidden"
-                  }`}
-                >
-                  {selectedSkill && (
-                    <div className="flex flex-row justify-center">
-                      <AddOrEditSkillModal
-                        skill={selectedSkill}
-                        add={add}
-                        cancel={onModalCancel}
-                        callback={(skill) => {
-                          editSkillAction({
-                            id: skill.id,
-                            name: skill.name,
-                            skillLevel: skill.skillLevel,
-                            desireLevel: skill.desireLevel,
-                            add: skill.add,
-                          });
-                          setEditPanelOpened(false);
-                          setSelectedSkill(null);
-                          setFadedPage(false);
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
+                {selectedSkill && editPanelOpened ? (
+                  <Modal closeModal={() => setEditPanelOpened(false)}>
+                    <AddOrEditSkill
+                      skill={selectedSkill}
+                      callback={(skill) => {
+                        editSkillAction({
+                          id: skill.id,
+                          name: skill.name,
+                          skillLevel: skill.skillLevel,
+                          desireLevel: skill.desireLevel,
+                          add: skill.add,
+                        });
+                        setEditPanelOpened(false);
+                        setSelectedSkill(null);
+                      }}
+                    />
+                  </Modal>
+                ) : null}
               </div>
             </div>
           </div>

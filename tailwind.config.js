@@ -57,6 +57,9 @@ module.exports = {
       homePanel: "400px",
       homePanelMobile: "300px",
     },
+    maxHeight: {
+      "75vh": "75vh",
+    },
     extend: {
       hueRotate: {
         8: "8deg",

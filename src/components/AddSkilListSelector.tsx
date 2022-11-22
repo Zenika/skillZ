@@ -1,11 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { InsertSkillMutationMutation, Skill } from "../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { displayNotification } from "../utils/displayNotification";
 import { i18nContext } from "../utils/i18nContext";
 import Button from "./Button";
+import Modal from "./Modal";
+import SkillDetails from "./SkillDetails";
 
 const AddSkillListSelector = ({
   skills,
@@ -24,6 +26,17 @@ const AddSkillListSelector = ({
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
+  const [openSkillDetails, setOpenSkillDetails] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
+  const closeModal = () => {
+    setOpenSkillDetails(false);
+  };
+
+  const selectSkill = (skill: Partial<Skill>) => {
+    setSelectedSkill(skill);
+    setOpenSkillDetails(true);
+  };
 
   /*
    * MUTATIONS
@@ -66,7 +79,12 @@ const AddSkillListSelector = ({
               }
             >
               <div className="flex flex-row justify-between w-full items-center">
-                <span className="text-l">{skill.name}</span>
+                <span
+                  className="text-l cursor-pointer"
+                  onClick={() => selectSkill(skill)}
+                >
+                  {skill.name}
+                </span>
                 <Button
                   type={"primary"}
                   style={"outlined"}
@@ -113,7 +131,12 @@ const AddSkillListSelector = ({
                 }
               >
                 <div className="flex flex-row justify-between w-full items-center">
-                  <span className="text-l">{skill.name}</span>
+                  <span
+                    className="text-l cursor-pointer"
+                    onClick={() => selectSkill(skill)}
+                  >
+                    {skill.name}
+                  </span>
                   <Button
                     type={"primary"}
                     style={"outlined"}
@@ -127,6 +150,11 @@ const AddSkillListSelector = ({
           </div>
         </>
       )}
+      {openSkillDetails ? (
+        <Modal closeModal={closeModal}>
+          <SkillDetails skill={selectedSkill}></SkillDetails>
+        </Modal>
+      ) : null}
     </div>
   );
 };

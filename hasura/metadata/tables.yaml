@@ -143,9 +143,10 @@
       permission:
         columns:
           - categoryId
+          - description
           - id
-          - verified
           - name
+          - verified
         filter: {}
         allow_aggregations: true
   update_permissions:

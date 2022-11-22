@@ -43,3 +43,14 @@ export type Topic = {
   id: string;
   name: string;
 };
+
+export type Skill = {
+  name?: string | null | undefined;
+  userCount?: any | null | undefined;
+  id?: string;
+  skillId?: string;
+  skillLevel?: any | null | undefined;
+  desireLevel?: any | null | undefined;
+  UserSkillDesires?: any | null;
+  Category?: any | null;
+};

@@ -1,24 +1,17 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { VscSettings } from "react-icons/vsc";
 import { config } from "../env";
+import { Skill } from "../utils/types";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import LevelBar from "./LevelBar";
+import Modal from "./Modal";
+import SkillDetails from "./SkillDetails";
 import Button from "./Button";
-
-type Skill = {
-  name?: string | null | undefined;
-  userCount?: any | null | undefined;
-  id?: any | null | undefined;
-  skillLevel?: any | null | undefined;
-  desireLevel?: any | null | undefined;
-  UserSkillDesires?: any | null;
-  Category?: any | null;
-};
 
 const SkillPanel = ({
   skill,
@@ -36,6 +29,7 @@ const SkillPanel = ({
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
+  const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const { agency } = query;
   const computedAgency =
     agency && agency !== "World"
@@ -56,6 +50,10 @@ const SkillPanel = ({
     )}`
   );
 
+  const closeModal = () => {
+    setOpenSkillDetails(false);
+  };
+
   if (computedAgency) {
     link.searchParams.append("agency", computedAgency);
   }
@@ -72,7 +70,12 @@ const SkillPanel = ({
       >
         <div className="flex flex-row justify-between">
           <div className="flex flex-col">
-            <h2 className="text-xl">{skill.name}</h2>
+            <h2
+              className="text-xl cursor-pointer"
+              onClick={() => setOpenSkillDetails((curr) => (curr = !curr))}
+            >
+              {skill.name}
+            </h2>
             {context === "search" && (
               <div className="py-2">
                 <Button
@@ -148,6 +151,11 @@ const SkillPanel = ({
           <AiFillEye size={20} />
         </div>
       )}
+      {openSkillDetails ? (
+        <Modal closeModal={closeModal}>
+          <SkillDetails skill={skill} />
+        </Modal>
+      ) : null}
     </div>
   );
 };

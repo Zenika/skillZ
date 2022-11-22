@@ -5,19 +5,13 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import Button from "./Button";
 
-type AddOrEditSkillModalProps = {
+type AddOrEditSkillProps = {
   skill?: FetchedSkill;
-  cancel: () => void;
   callback: (skill: FetchedSkill) => void;
   add?: string | string[];
 };
 
-const AddOrEditSkillModal = ({
-  skill,
-  cancel,
-  callback,
-  add,
-}: AddOrEditSkillModalProps) => {
+const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
@@ -34,14 +28,10 @@ const AddOrEditSkillModal = ({
 
   return (
     <div
-      id="addOrEditSkillModal"
-      className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50 overflow-y-scroll max-tablet:h-75v"
+      id="addOrEditSkill"
+      className="flex flex-col relative h-fit max-h-75vh w-full"
     >
-      <div className="flex flex-row place-content-between">
-        <h1 className="flex-start px-2 my-4 text-xl text-bold">
-          {skill?.name}
-        </h1>
-      </div>
+      <h1 className="m-auto px-2 my-4 text-xl text-bold">{skill?.name}</h1>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
@@ -70,7 +60,7 @@ const AddOrEditSkillModal = ({
         <div className="m-4">
           <div
             className={`flex flex-col ${
-              navState === "knowledge" ? "" : "hidden"
+              navState === "knowledge" ? null : "hidden"
             }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
@@ -100,7 +90,9 @@ const AddOrEditSkillModal = ({
             ))}
           </div>
           <div
-            className={`flex flex-col ${navState === "desire" ? "" : "hidden"}`}
+            className={`flex flex-col ${
+              navState === "desire" ? null : "hidden"
+            }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
               <button
@@ -128,11 +120,8 @@ const AddOrEditSkillModal = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-between flex-wrap gap-4">
-        <Button type={"secondary"} style={"contained"} callback={cancel}>
-          {t("skills.modal.cancel")}
-        </Button>
-        <div className="flex flex-row gap-4 flex-wrap">
+      <div className="flex flex-row justify-between flex-wrap gap-4 pb-2">
+        <div className="flex flex-row gap-4 flex-wrap justify-between w-full">
           {!add ? (
             <Button
               type={"primary"}
@@ -162,4 +151,4 @@ const AddOrEditSkillModal = ({
   );
 };
 
-export default AddOrEditSkillModal;
+export default AddOrEditSkill;

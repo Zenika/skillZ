@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import EditSkillAdminModal from "../components/admin/EditSkillAdminModal";
 import SkillAdminPanel from "../components/admin/SkillAdminPanel";
 import CommonPage from "../components/CommonPage";
+import Modal from "../components/Modal";
 import SearchBar from "../components/SearchBar";
 import { config } from "../env";
 import { GetAllVerifiedSkillsQuery } from "../generated/graphql";
@@ -30,6 +31,10 @@ export default function AdminPage() {
   const [authorize, setAuthorize] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | null>(null);
+
+  const closeModal = () => {
+    setSelectedSkill(null);
+  };
 
   /*
    * QUERIES
@@ -68,7 +73,7 @@ export default function AdminPage() {
   if (authorize == false) return <Custom404 />;
 
   return (
-    <CommonPage page={"Admin"} backBar={false} faded={true}>
+    <CommonPage page={"Admin"} backBar={false}>
       <div className={`flex justify-center ${selectedSkill && "opacity-25"}`}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
@@ -134,21 +139,15 @@ export default function AdminPage() {
           )}
         </div>
       </div>
-      {selectedSkill && (
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            selectedSkill ? "" : "hidden"
-          }`}
-        >
-          <div className="flex flex-row justify-center">
-            <EditSkillAdminModal
-              skill={selectedSkill}
-              cancel={onModalClose}
-              callback={onModalClose}
-            ></EditSkillAdminModal>
-          </div>
-        </div>
-      )}
+      {selectedSkill ? (
+        <Modal closeModal={closeModal}>
+          <EditSkillAdminModal
+            skill={selectedSkill}
+            cancel={onModalClose}
+            callback={onModalClose}
+          ></EditSkillAdminModal>
+        </Modal>
+      ) : null}
     </CommonPage>
   );
 }
