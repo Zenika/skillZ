@@ -30,7 +30,7 @@ export default {
   },
   sidepanel: {
     profile: "Profile",
-    preferedLanguage: "Prefered language",
+    language: "Language",
     darkMode: "Dark mode",
     logout: "Logout",
     botNotifications: "Slack bot notifications",
