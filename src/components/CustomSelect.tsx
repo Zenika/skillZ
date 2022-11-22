@@ -47,13 +47,11 @@ const CustomSelect = ({
   return (
     <div ref={ref} className="w-full h-12">
       <div
-        className="z-20 absolute"
+        className="z-10 absolute"
         style={{ width: size.width, height: size.height }}
       >
         <div
-          className={`bg-light-light dark:bg-dark-light w-full rounded${
-            !readOnly && opened ? "-t-lg" : "-lg"
-          } p-4 appearance-none ${
+          className={`bg-light-light dark:bg-dark-light w-full p-3 appearance-none rounded-lg border border-solid border-light-dark ${
             readOnly ? "" : "cursor-pointer bg-rightDropdown "
           }${
             readOnly ? "" : darkMode ? styles.selectDark : styles.selectLight
@@ -70,7 +68,7 @@ const CustomSelect = ({
           } duration-500`}
         >
           {!readOnly && opened && (
-            <div className="flex rounded-b-lg w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96">
+            <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark">
               {choices.map((choice) => (
                 <span
                   key={keyFn(choice)}

@@ -8,6 +8,7 @@ export default {
       "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
     refetch: "Réessayer",
+    noData: "Aucune donnée disponible.",
   },
   admin: {
     deleteSkill: "Supprimer de Skillz",
@@ -18,6 +19,7 @@ export default {
     update: "Mettre à jour",
     skillList: "Liste des compétences",
     category: "Catégorie",
+    topics: "Sujets associés",
   },
   nav: {
     mySkills: "Compétences",
@@ -29,7 +31,7 @@ export default {
   },
   sidepanel: {
     profile: "Profil",
-    preferedLanguage: "Langue",
+    language: "Langue",
     darkMode: "Mode sombre",
     logout: "Se déconnecter",
     botNotifications: "Notifications du bot Slack",
@@ -49,6 +51,7 @@ export default {
     knowledge: "Connaissances",
     behaviors: "Postures",
     profile: "Profil",
+    search: "Recherche",
   },
   onboarding: {
     skip: "Passer",

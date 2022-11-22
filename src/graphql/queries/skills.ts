@@ -73,6 +73,7 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       order_by: { name: asc }
     ) {
       name
+      skillId
       skillLevel: averageSkillLevel
       desireLevel: averageDesireLevel
       Category {
@@ -287,6 +288,33 @@ export const GET_ALL_NOT_VERIFIED_SKILL = gql`
       name
       id
       verified
+    }
+  }
+`;
+
+export const GET_SKILLTOPICS_BY_SKILL = gql`
+  query skillTopicsBySkill($skillId: uuid!) {
+    SkillTopic(where: { Skill: { id: { _eq: $skillId } } }) {
+      topicId
+      skillId
+    }
+  }
+`;
+
+export const GET_SKILL_DETAILS = gql`
+  query skillDetails($skillId: uuid!, $email: String!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      description
+      name
+      id
+      SkillTopics {
+        Topic {
+          name
+        }
+      }
+      UserSkillDesires(where: { userEmail: { _eq: $email } }) {
+        created_at
+      }
     }
   }
 `;

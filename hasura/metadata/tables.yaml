@@ -143,9 +143,10 @@
       permission:
         columns:
           - categoryId
+          - description
           - id
-          - verified
           - name
+          - verified
         filter: {}
         allow_aggregations: true
   update_permissions:
@@ -173,12 +174,24 @@
     - name: Tag
       using:
         foreign_key_constraint_on: tagId
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - skillId
+          - tagId
   select_permissions:
     - role: world
       permission:
         columns:
           - skillId
           - tagId
+        filter: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
         filter: {}
 - table:
     schema: public
@@ -218,6 +231,14 @@
 - table:
     schema: public
     name: Tag
+  array_relationships:
+    - name: SkillTags
+      using:
+        foreign_key_constraint_on:
+          column: tagId
+          table:
+            schema: public
+            name: SkillTag
   select_permissions:
     - role: world
       permission:
@@ -524,7 +545,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -587,7 +608,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30

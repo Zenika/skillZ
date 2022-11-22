@@ -11,7 +11,7 @@ const AGENCY_SELECTOR_QUERY = gql`
 `;
 
 const AgencySelector = ({ setAgency }) => {
-  const { data, error, loading } = useQuery<AgencySelectorQueryQuery>(
+  const { data, loading } = useQuery<AgencySelectorQueryQuery>(
     AGENCY_SELECTOR_QUERY
   );
   const agencies = data?.Agency.map((agency) => agency.name);

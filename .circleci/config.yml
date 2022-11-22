@@ -54,6 +54,17 @@ jobs:
       - run:
           name: qc-prettier
           command: npm run prettier:check
+  eslint:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+      - run:
+          name: eslint
+          command: npm run lint
   unit-test:
     executor: node
     steps:
@@ -107,7 +118,7 @@ jobs:
           command: npm run hasura -- --endpoint=http://hasura:8080 metadata apply
       - run:
           name: Create .env.local file
-          command: echo -e "NEXT_PUBLIC_ADMINS=adrien.nortain@zenika.com;mai-ly.lehoux@zenika.com;pierre.brethes@zenika.com;benjamin.bourgeois@zenika.com;hugo.wood@zenika.com;stephanie.herve-pineau@zenika.com;laurent.tardif@zenika.com;stephane.cohan@zenika.com;pierre.nicoli@zenika.com;\nNEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nNEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com\nNEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt\nNEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/\nNEXT_PUBLIC_AUTH0_CALLBACK=/auth\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
+          command: echo -e "NEXT_PUBLIC_ADMINS=jean-philippe.baconnais@zenika.com;adrien.nortain@zenika.com;mai-ly.lehoux@zenika.com;pierre.brethes@zenika.com;benjamin.bourgeois@zenika.com;stephanie.herve-pineau@zenika.com;laurent.tardif@zenika.com;pierre.nicoli@zenika.com;\nNEXT_PUBLIC_GRAPHQL_URL=http://hasura:8080/v1/graphql\nNEXT_PUBLIC_BASE_URL=http://localhost:3000\nNEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2\nNEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com\nNEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt\nNEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/\nNEXT_PUBLIC_AUTH0_CALLBACK=/auth\nHASURA_ADMIN_SECRET=key\nNEXT_API_BEARER_TOKEN=Bearer key\nHASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement" >> .env.local
       - run:
           name: build
           command: npm run build:local
@@ -220,6 +231,9 @@ workflows:
       - qc-prettier:
           requires:
             - install-dependencies
+      - eslint:
+          requires:
+            - install-dependencies
       - unit-test:
           requires:
             - install-dependencies
@@ -257,6 +271,7 @@ workflows:
           name: build
           requires:
             - qc-prettier
+            - eslint
             - unit-test
           graphql-url: http://localhost:8080/v1/graphql
           base-url: http://localhost:3000
@@ -305,6 +320,10 @@ workflows:
           requires:
             - install-dependencies
           filters: *deploy-filters
+      - eslint:
+          requires:
+            - install-dependencies
+          filters: *deploy-filters
       - unit-test:
           requires:
             - install-dependencies
@@ -313,6 +332,7 @@ workflows:
           name: build
           requires:
             - qc-prettier
+            - eslint
             - unit-test
           graphql-url: http://localhost:8080/v1/graphql
           base-url: http://localhost:3000

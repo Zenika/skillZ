@@ -8,6 +8,7 @@ export default {
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
     refetch: "Retry",
+    noData: "No data available.",
   },
   nav: {
     mySkills: "My skills",
@@ -26,10 +27,11 @@ export default {
     update: "Update",
     skillList: "Skills list",
     category: "Category",
+    topics: "Associated topics",
   },
   sidepanel: {
     profile: "Profile",
-    preferedLanguage: "Prefered language",
+    language: "Language",
     darkMode: "Dark mode",
     logout: "Logout",
     botNotifications: "Slack bot notifications",
@@ -49,6 +51,7 @@ export default {
     knowledge: "Knowledge",
     behaviors: "Behavior",
     profile: "Profile",
+    search: "Search",
   },
   onboarding: {
     skip: "Skip",

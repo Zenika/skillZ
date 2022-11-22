@@ -1,29 +1,22 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import Navbar from "./Navbar";
 import Notification from "./Notification";
 import SidePanel from "./SidePanel";
 import TopBar from "./TopBar";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import Button from "./Button";
 
 type CommonPageProps = {
   children: any;
   page: string;
   backBar?: boolean;
-  faded?: boolean;
 };
 
-const CommonPage = ({
-  children,
-  page,
-  faded = false,
-  backBar = true,
-}: CommonPageProps) => {
+const CommonPage = ({ children, page, backBar = true }: CommonPageProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode } = useDarkMode();
   const router = useRouter();
   const [panelOpened, setPanelOpened] = useState(false);
   const togglePanel = () => setPanelOpened(!panelOpened);
@@ -51,23 +44,16 @@ const CommonPage = ({
         >
           <div className="flex flex-col justify-center bg-light-med dark:bg-dark-med w-full">
             {backBar && (
-              <div className="flex flex-row justify-center w-full my-1 bg-light-light dark:bg-dark-dark">
-                <div
-                  className={`flex flex-row max-w-screen-xl w-full p-6 ${
-                    faded ? "opacity-25" : ""
-                  }`}
-                >
-                  <button onClick={() => router.back()}>
-                    <Image
-                      src={`/icons/${
-                        darkMode ? "dark" : "light"
-                      }/back-arrow.svg`}
-                      alt={"back"}
-                      width="16"
-                      height="16"
-                    />
-                  </button>
-                  <h1 className="ml-10 text-xl">
+              <div className="flex flex-row justify-center w-full my-1 bg-light-dark dark:bg-dark-dark">
+                <div className="flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6">
+                  <Button
+                    type={"primary"}
+                    style={"contained"}
+                    callback={() => router.back()}
+                    icon={<AiOutlineArrowLeft color="white" />}
+                  ></Button>
+
+                  <h1 className="text-xl self-center">
                     {t(`commonPageNav.${page}`) || page}
                   </h1>
                 </div>
