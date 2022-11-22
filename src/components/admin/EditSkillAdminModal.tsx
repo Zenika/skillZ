@@ -12,7 +12,10 @@ import {
   EDIT_SKILL,
 } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
-import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
+import {
+  GET_SKILLTOPICS_BY_SKILL,
+  GET_SKILLTAGS_BY_SKILL,
+} from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
@@ -22,6 +25,7 @@ import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
+import EditTags from "./EditTags";
 
 type EditSkillAdminModalProps = {
   skill: FetchedSkill;
@@ -50,7 +54,7 @@ const EditSkillAdminModal = ({
 
   const {
     data: topicsBySkill,
-    refetch,
+    refetch: refetchTopics,
     loading: loadingTopicBySkill,
   } = useQuery<SkillTopicsBySkillQuery>(GET_SKILLTOPICS_BY_SKILL, {
     fetchPolicy: "network-only",
@@ -58,7 +62,6 @@ const EditSkillAdminModal = ({
       skillId: skill?.id,
     },
   });
-
   /*
    * MUTATIONS
    */
@@ -95,7 +98,7 @@ const EditSkillAdminModal = ({
     insertTopic({
       variables: { skillId: skill.id, topicId: topic.id },
     }).then(() =>
-      refetch({
+      refetchTopics({
         variables: { skillId: skill.id },
       })
     );
@@ -105,7 +108,7 @@ const EditSkillAdminModal = ({
     deleteTopic({
       variables: { skillId: skill.id, topicId: topic.id },
     }).then(() =>
-      refetch({
+      refetchTopics({
         variables: { skillId: skill.id },
       })
     );
@@ -156,6 +159,7 @@ const EditSkillAdminModal = ({
           removeTopic(topic);
         }}
       />
+      <EditTags skill={skill} />
 
       <div className="flex flex-wrap flex-row justify-between pb-4">
         <span className="pt-2">

@@ -106,6 +106,13 @@
       using:
         foreign_key_constraint_on: categoryId
   array_relationships:
+    - name: SkillTags
+      using:
+        foreign_key_constraint_on:
+          column: skillId
+          table:
+            schema: public
+            name: SkillTag
     - name: SkillTopics
       using:
         foreign_key_constraint_on:

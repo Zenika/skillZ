@@ -318,3 +318,12 @@ export const GET_SKILL_DETAILS = gql`
     }
   }
 `;
+
+export const GET_SKILLTAGS_BY_SKILL = gql`
+  query skillTagsBySkill($skillId: uuid!) {
+    SkillTag(where: { skillId: { _eq: $skillId } }) {
+      tagId
+      skillId
+    }
+  }
+`;

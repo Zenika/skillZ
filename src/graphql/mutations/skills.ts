@@ -90,3 +90,21 @@ export const EDIT_SKILL = gql`
     }
   }
 `;
+
+export const INSERT_SKILL_TO_TAG = gql`
+  mutation insertSkillToTag($skillId: uuid!, $tagId: Int!) {
+    insert_SkillTag(objects: { skillId: $skillId, tagId: $tagId }) {
+      affected_rows
+    }
+  }
+`;
+
+export const DELETE_SKILL_TO_TAG = gql`
+  mutation deleteSkillToTag($skillId: uuid!, $tagId: Int!) {
+    delete_SkillTag(
+      where: { skillId: { _eq: $skillId }, tagId: { _eq: $tagId } }
+    ) {
+      affected_rows
+    }
+  }
+`;

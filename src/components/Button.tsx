@@ -10,6 +10,7 @@ type ButtonProps = {
   disabled?: boolean;
   uppercase?: boolean;
   color?: string;
+  chip?: boolean;
 };
 
 const Button = ({
@@ -22,6 +23,7 @@ const Button = ({
   visible = false,
   disabled = false,
   color,
+  chip = false,
 }: ButtonProps) => {
   return (
     <button
