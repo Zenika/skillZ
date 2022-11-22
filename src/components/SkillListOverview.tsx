@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
@@ -12,7 +12,7 @@ import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import AddOrEditSkillModal from "./AddOrEditSkill";
+import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import FilterByPanel from "./FilterByPanel";
 import Modal from "./Modal";
@@ -25,7 +25,6 @@ type SkillListOverviewProps = {
   context: string;
   agency: string;
   category: { name: string; id: string };
-  setFadedPage?: Dispatch<SetStateAction<boolean>>;
 };
 
 const computeDidYouMeanSearchString = (search: string) => {
@@ -45,7 +44,6 @@ const SkillListOverview = ({
   context,
   agency,
   category,
-  setFadedPage,
 }: SkillListOverviewProps) => {
   /*
    * HOOKS
@@ -168,7 +166,6 @@ const SkillListOverview = ({
   const onModalClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     setEditPanelOpened(true);
-    setFadedPage(true);
   };
 
   const filters =
@@ -329,7 +326,7 @@ const SkillListOverview = ({
                 )}
                 {selectedSkill && editPanelOpened ? (
                   <Modal closeModal={() => setEditPanelOpened(false)}>
-                    <AddOrEditSkillModal
+                    <AddOrEditSkill
                       skill={selectedSkill}
                       callback={(skill) => {
                         editSkillAction({
@@ -341,7 +338,6 @@ const SkillListOverview = ({
                         });
                         setEditPanelOpened(false);
                         setSelectedSkill(null);
-                        setFadedPage(false);
                       }}
                     />
                   </Modal>

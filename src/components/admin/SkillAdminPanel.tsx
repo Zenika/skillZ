@@ -64,7 +64,7 @@ const SkillAdminPanel = ({
     >
       <div className={`flex flex-col w-full`}>
         <div className="flex flex-row justify-between">
-          <h2 className="text-xl cursor-pointer">{skill.name}</h2>
+          <h2 className="text-xl">{skill.name}</h2>
         </div>
         {!approvedSkills && (
           <div>
