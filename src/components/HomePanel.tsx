@@ -132,9 +132,13 @@ const HomePanel = ({
               <div
                 className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
               >
-                <div className={`mb-2 ${colorTable[color]} flex items-center`}>
-                  <FaTrophy className={`mr-1`} />
-                  {t("home.bestSkills")}:
+                <div
+                  className={`mb-2 ${colorTable[color]} flex items-center ${
+                    x === "right" && "justify-end"
+                  } ${!isDesktop && "text-sm"}`}
+                >
+                  <FaTrophy className={`mr-2`} />
+                  {t("home.bestSkills")}
                 </div>
                 {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
                   <div
