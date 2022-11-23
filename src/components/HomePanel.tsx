@@ -6,7 +6,7 @@ import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
-import { FaTrophy } from "react-icons/all";
+import { FaTrophy } from "react-icons/fa";
 
 type HomePanelProps = {
   props: {
