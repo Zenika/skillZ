@@ -1,4 +1,7 @@
-import { SkillTagBySkillQuery } from "../../generated/graphql";
+import {
+  SkillTagsBySkillQuery,
+  GetAllTagsQuery,
+} from "../../generated/graphql";
 import {
   INSERT_SKILL_TO_TAG,
   DELETE_SKILL_TO_TAG,
@@ -6,6 +9,7 @@ import {
 import {
   GET_SKILLTOPICS_BY_SKILL,
   GET_SKILLTAGS_BY_SKILL,
+  GET_ALL_TAGS,
 } from "../../graphql/queries/skills";
 import { useMutation, useQuery } from "@apollo/client";
 import { i18nContext } from "../../utils/i18nContext";
@@ -29,11 +33,17 @@ const EditTags = ({ skill }: EditTags) => {
     data: tagsBySkill,
     refetch: refetchTags,
     loading: loadingTagsBySkill,
-  } = useQuery<SkillTagBySkillQuery>(GET_SKILLTAGS_BY_SKILL, {
+  } = useQuery<SkillTagsBySkillQuery>(GET_SKILLTAGS_BY_SKILL, {
     variables: {
       skillId: skill?.id,
     },
   });
+
+  const {
+    data: allTags,
+    refetch: refetchallTags,
+    loading: loadingAllTags,
+  } = useQuery<GetAllTagsQuery>(GET_ALL_TAGS);
 
   /*
    * MUTATIONS
@@ -56,6 +66,7 @@ const EditTags = ({ skill }: EditTags) => {
             </Button>
           );
         })}
+      {allTags && console.log("allTags", allTags.Tag)}
       <div className="w-full flex flex-col">
         <input
           className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
@@ -66,6 +77,13 @@ const EditTags = ({ skill }: EditTags) => {
           }}
           placeholder="Add tags"
         ></input>
+        {allTags && allTags.Tag.length > 0 && (
+          <ul id="autocomplete-tags">
+            {allTags.Tag.map((tag, index) => (
+              <li key={index}>{tag.name}</li>
+            ))}
+          </ul>
+        )}
       </div>
       <div></div>
     </div>

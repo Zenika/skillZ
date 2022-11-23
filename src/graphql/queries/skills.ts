@@ -327,3 +327,12 @@ export const GET_SKILLTAGS_BY_SKILL = gql`
     }
   }
 `;
+
+export const GET_ALL_TAGS = gql`
+  query getAllTags {
+    Tag {
+      name
+      id
+    }
+  }
+`;
