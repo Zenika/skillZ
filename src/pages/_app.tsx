@@ -5,6 +5,7 @@ import AuthProvider from "../providers/AuthProvider";
 import GraphQLProvider from "../providers/GraphQLProvider";
 import "../styles/404.css";
 import "../styles/globals.css";
+import "../styles/circles.css";
 import { DarkModeProvider } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { usei18n } from "../utils/usei18n";

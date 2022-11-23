@@ -37,6 +37,7 @@ export default {
     botNotifications: "Notifications du bot Slack",
   },
   home: {
+    bestSkills: "Top 5 des compétences",
     addSkill: "Ajouter une compétence",
     noSkill: "Aucune compétence",
     practices: "Pratiques",

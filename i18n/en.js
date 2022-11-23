@@ -8,7 +8,7 @@ export default {
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
     refetch: "Retry",
-    noData: "No data available."
+    noData: "No data available.",
   },
   nav: {
     mySkills: "My skills",
@@ -37,6 +37,7 @@ export default {
     botNotifications: "Slack bot notifications",
   },
   home: {
+    bestSkills: "Top 5 best skills",
     addSkill: "Add skill",
     noSkill: "No skill here",
     practices: "Practices",
