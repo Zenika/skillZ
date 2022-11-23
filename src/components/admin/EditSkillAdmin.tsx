@@ -22,11 +22,11 @@ import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
 
-type EditSkillAdminModalProps = {
+type EditSkillAdminProps = {
   skill: FetchedSkill;
 };
 
-const EditSkillAdmin = ({ skill }: EditSkillAdminModalProps) => {
+const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
   const { t } = useContext(i18nContext);
 
   /*
