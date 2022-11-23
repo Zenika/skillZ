@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { i18nContext } from "../utils/i18nContext";
+import { MdKeyboardArrowUp, MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const oneToSix = [1, 2, 3, 4, 5, 6];
 
@@ -50,19 +51,38 @@ const Circle = ({ data, color }: { data: RadarData; color: string }) => {
 };
 
 const RadarCell = ({
-  first,
+  x,
+  y,
   isFullSize,
 }: {
-  first: boolean;
+  x: number;
+  y: number;
   isFullSize: boolean;
 }) => {
   const { t } = useContext(i18nContext);
   return (
-    <div className="flex flex-col justify-between w-1/6 h-full border border-dashed border-opacity-25 border-light-radargrid dark:border-dark-radargrid">
-      {first && isFullSize && (
-        <span className="rotated">{t("radar.desire")}</span>
+    <div
+      style={{
+        border: "1px dashed black",
+        borderBottom: y === 6 ? "3px solid black" : "1px dashed black",
+        borderLeft: x === 1 ? "3px solid black" : "1px dashed black",
+      }}
+      className={`flex flex-col ${
+        isFullSize ? "justify-between" : "justify-end"
+      } w-1/6 h-full border-opacity-25 border-light-radargrid dark:border-dark-radargrid`}
+    >
+      {x === 1 && y === 6 && (
+        <span
+          className={`rotated whitespace-nowrap ${!isFullSize && "text-xs"}`}
+        >
+          {t("radar.desire")}
+        </span>
       )}
-      {first && isFullSize && <span className="ml-2">{t("radar.level")}</span>}
+      {x === 1 && y === 6 && (
+        <span className={`ml-2 whitespace-nowrap ${!isFullSize && "text-xs"}`}>
+          {t("radar.level")}
+        </span>
+      )}
     </div>
   );
 };
@@ -71,11 +91,7 @@ const RadarRow = ({ i, isFullSize }: { i: number; isFullSize: boolean }) => {
   return (
     <div className="flex flex-row w-full h-1/6">
       {oneToSix.map((k) => (
-        <RadarCell
-          key={`${i}-${k}`}
-          first={k === 1 && i === 6}
-          isFullSize={isFullSize}
-        />
+        <RadarCell key={`${i}-${k}`} x={k} y={i} isFullSize={isFullSize} />
       ))}
     </div>
   );
@@ -166,8 +182,16 @@ const Radar = ({
           ref={radar}
           className={`${
             title === "" ? "w-radar h-radar" : "w-11/12 h-5/6"
-          } m-3 max-w-radar max-h-radar`}
+          } m-3 max-w-radar max-h-radar relative`}
         >
+          <span
+            className={`absolute -right-1.5 -bottom-1.5 scale-150 opacity-30`}
+          >
+            <MdOutlineKeyboardArrowRight />
+          </span>
+          <span className={`absolute -left-1.5 -top-2 scale-150 opacity-30`}>
+            <MdKeyboardArrowUp />
+          </span>
           {oneToSix.map((i) => (
             <RadarRow key={i} i={i} isFullSize={isFullSize} />
           ))}
