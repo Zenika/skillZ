@@ -17,23 +17,16 @@ import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill, Topic } from "../../utils/types";
-import Button from "../Button";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
 
-type EditSkillAdminModalProps = {
+type EditSkillAdminProps = {
   skill: FetchedSkill;
-  cancel: () => void;
-  callback: () => void;
 };
 
-const EditSkillAdminModal = ({
-  skill,
-  cancel,
-  callback,
-}: EditSkillAdminModalProps) => {
+const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
   const { t } = useContext(i18nContext);
 
   /*
@@ -66,49 +59,34 @@ const EditSkillAdminModal = ({
   const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC);
   const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
 
-  const onEditButtonClick = () => {
-    editSkill({
-      variables: {
-        id: skill.id,
-        categoryId: skill.categoryId,
-      },
-    })
-      .then(() => {
-        displayNotification(
-          t("skills.updateSkillSuccess").replace("%skill%", skill.name),
-          "green",
-          5000
-        );
-        callback();
-      })
-      .catch(() => {
-        displayNotification(
-          t("skills.updateSkillFailed").replace("%skill%", skill.name),
-          "red",
-          5000
-        );
-        callback();
-      });
-  };
-
   const addTopic = (topic: Topic) => {
     insertTopic({
       variables: { skillId: skill.id, topicId: topic.id },
-    }).then(() =>
+    }).then(() => {
+      displayNotification(
+        t("skills.addSkillTopicSuccess").replace("%topic%", topic.name),
+        "green",
+        5000
+      );
       refetch({
         variables: { skillId: skill.id },
-      })
-    );
+      });
+    });
   };
 
   const removeTopic = (topic: Topic) => {
     deleteTopic({
       variables: { skillId: skill.id, topicId: topic.id },
-    }).then(() =>
+    }).then(() => {
+      displayNotification(
+        t("skills.deleteSkillTopicSuccess").replace("%topic%", topic.name),
+        "green",
+        5000
+      );
       refetch({
         variables: { skillId: skill.id },
-      })
-    );
+      });
+    });
   };
 
   if (loadingTopics || loadingCategories || loadingTopicBySkill) {
@@ -126,9 +104,7 @@ const EditSkillAdminModal = ({
           "admin.update"
         )} ${skill.name}`}</h2>
       </div>
-      <div
-        className={`flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6`}
-      >
+      <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6">
         <p className="text-xl p-2">{t("admin.category")}</p>
         <CustomSelect
           labelFn={(x) => x.label}
@@ -139,7 +115,26 @@ const EditSkillAdminModal = ({
           )}
           placeholder={t("myProfile.selectPlaceholder")}
           onChange={(categorie) => {
-            skill.categoryId = categorie.id;
+            editSkill({
+              variables: {
+                id: skill.id,
+                categoryId: categorie.id,
+              },
+            })
+              .then(() => {
+                displayNotification(
+                  t("skills.updateSkillSuccess").replace("%skill%", skill.name),
+                  "green",
+                  5000
+                );
+              })
+              .catch(() => {
+                displayNotification(
+                  t("skills.updateSkillFailed").replace("%skill%", skill.name),
+                  "red",
+                  5000
+                );
+              });
           }}
         />
       </div>
@@ -156,25 +151,8 @@ const EditSkillAdminModal = ({
           removeTopic(topic);
         }}
       />
-
-      <div className="flex flex-wrap flex-row justify-between pb-4">
-        <span className="pt-2">
-          <Button type={"secondary"} style={"contained"} callback={cancel}>
-            {t("skills.modal.cancel")}
-          </Button>
-        </span>
-        <span className="pt-2">
-          <Button
-            type={"primary"}
-            style={"contained"}
-            callback={onEditButtonClick}
-          >
-            {t("admin.update")}
-          </Button>
-        </span>
-      </div>
     </div>
   );
 };
 
-export default EditSkillAdminModal;
+export default EditSkillAdmin;

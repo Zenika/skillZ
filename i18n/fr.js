@@ -113,6 +113,8 @@ export default {
     },
     addSkillSuccess: "La compétence %skill% a été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% a été modifiée avec succès",
+    addSkillTopicSuccess: "Le sujet %topic% a bien été ajouté au skill",
+    deleteSkillTopicSuccess: "Le sujet %topic% a bien été supprimé du skill",
     deleteSkillSuccess: "La compétence %skill% a été supprimée avec succès",
     refreshSkillFailed: "Erreur lors de la récupération des compétences",
     updateSkillFailed:

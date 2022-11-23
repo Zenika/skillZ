@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import EditSkillAdminModal from "../components/admin/EditSkillAdminModal";
+import EditSkillAdmin from "../components/admin/EditSkillAdmin";
 import SkillAdminPanel from "../components/admin/SkillAdminPanel";
 import CommonPage from "../components/CommonPage";
 import Modal from "../components/Modal";
@@ -34,28 +34,26 @@ export default function AdminPage() {
 
   const closeModal = () => {
     setSelectedSkill(null);
+    refetch();
   };
 
   /*
    * QUERIES
    */
-  const { data: skills, loading } = useQuery<GetAllVerifiedSkillsQuery>(
-    GET_ALL_VERIFIED_SKILL,
-    {
-      fetchPolicy: "network-only",
-      variables: { search: `%${search}%` },
-    }
-  );
+  const {
+    data: skills,
+    loading,
+    refetch,
+  } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL, {
+    fetchPolicy: "network-only",
+    variables: { search: `%${search}%` },
+  });
 
   /*
    * LISTENERS
    */
   const onModalClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
-  };
-
-  const onModalClose = () => {
-    setSelectedSkill(null);
   };
 
   /*
@@ -141,11 +139,7 @@ export default function AdminPage() {
       </div>
       {selectedSkill ? (
         <Modal closeModal={closeModal}>
-          <EditSkillAdminModal
-            skill={selectedSkill}
-            cancel={onModalClose}
-            callback={onModalClose}
-          ></EditSkillAdminModal>
+          <EditSkillAdmin skill={selectedSkill}></EditSkillAdmin>
         </Modal>
       ) : null}
     </CommonPage>
