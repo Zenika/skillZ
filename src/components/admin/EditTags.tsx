@@ -10,7 +10,7 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import { i18nContext } from "../../utils/i18nContext";
 import Loading from "../Loading";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../Button";
 
@@ -20,6 +20,7 @@ type EditTags = {
 
 const EditTags = ({ skill }: EditTags) => {
   const { t } = useContext(i18nContext);
+  const [tagInput, setTagInput] = useState("");
 
   /*
    * QUERIES
@@ -42,21 +43,31 @@ const EditTags = ({ skill }: EditTags) => {
 
   return (
     <div className="w-full">
-      {tagsBySkill.SkillTag.map((tag) => {
-        return (
-          <Button
-            type={"primary"}
-            style={"contained"}
-            visible={true}
-            callback={() => console.log("clicked")}
-          >
-            {tag.tagId + ""}
-          </Button>
-        );
-      })}
-      <div
-        className={`bg-light-light dark:bg-dark-light w-full p-3 appearance-none rounded-lg border border-solid border-light-dark`}
-      ></div>
+      {tagsBySkill &&
+        tagsBySkill.SkillTag.map((tag) => {
+          return (
+            <Button
+              type={"primary"}
+              style={"contained"}
+              visible={true}
+              callback={() => console.log("clicked")}
+            >
+              {tag.tagId + ""}
+            </Button>
+          );
+        })}
+      <div className="w-full flex flex-col">
+        <input
+          className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
+          type="text"
+          value={tagInput}
+          onChange={(e) => {
+            setTagInput(e.target.value);
+          }}
+          placeholder="Add tags"
+        ></input>
+      </div>
+      <div></div>
     </div>
   );
 };
