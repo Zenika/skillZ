@@ -8,7 +8,7 @@ export default {
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
     refetch: "Retry",
-    noData: "No data available."
+    noData: "No data available.",
   },
   nav: {
     mySkills: "My skills",
@@ -110,6 +110,10 @@ export default {
     },
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
+    addSkillTopicSuccess:
+      "Topic %topic% has been successfully added to the skill.",
+    deleteSkillTopicSuccess:
+      "Topic %topic% has been successfully removed from the skill.",
     deleteSkillSuccess: "Skill %skill% was deleted successfully",
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
