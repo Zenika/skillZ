@@ -105,44 +105,38 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
         )} ${skill.name}`}</h2>
       </div>
       <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6">
-          <p className="text-xl p-2">{t("admin.category")}</p>
-          <CustomSelect
-            labelFn={(x) => x.label}
-            keyFn={(x) => x.id}
-            choices={categories.Category.map((categorie) => categorie) ?? []}
-            selectedChoice={categories.Category.find(
-              (categorie) => categorie.id === skill.categoryId
-            )}
-            placeholder={t("myProfile.selectPlaceholder")}
-            onChange={(categorie) => {
-              editSkill({
-                variables: {
-                  id: skill.id,
-                  categoryId: categorie.id,
-                },
+        <p className="text-xl p-2">{t("admin.category")}</p>
+        <CustomSelect
+          labelFn={(x) => x.label}
+          keyFn={(x) => x.id}
+          choices={categories.Category.map((categorie) => categorie) ?? []}
+          selectedChoice={categories.Category.find(
+            (categorie) => categorie.id === skill.categoryId
+          )}
+          placeholder={t("myProfile.selectPlaceholder")}
+          onChange={(categorie) => {
+            editSkill({
+              variables: {
+                id: skill.id,
+                categoryId: categorie.id,
+              },
+            })
+              .then(() => {
+                displayNotification(
+                  t("skills.updateSkillSuccess").replace("%skill%", skill.name),
+                  "green",
+                  5000
+                );
               })
-                .then(() => {
-                  displayNotification(
-                    t("skills.updateSkillSuccess").replace(
-                      "%skill%",
-                      skill.name
-                    ),
-                    "green",
-                    5000
-                  );
-                })
-                .catch(() => {
-                  displayNotification(
-                    t("skills.updateSkillFailed").replace(
-                      "%skill%",
-                      skill.name
-                    ),
-                    "red",
-                    5000
-                  );
-                });
-            }}
-          />
+              .catch(() => {
+                displayNotification(
+                  t("skills.updateSkillFailed").replace("%skill%", skill.name),
+                  "red",
+                  5000
+                );
+              });
+          }}
+        />
       </div>
       <Topics
         topics={topics.Topic.map((topic) => {
