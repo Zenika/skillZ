@@ -67,8 +67,7 @@ const RadarCell = ({
         borderBottom: y === 6 ? "3px solid black" : "1px dashed black",
         borderLeft: x === 1 ? "3px solid black" : "1px dashed black",
       }}
-      className={`flex flex-col ${
-        isFullSize ? "justify-between" : "justify-end"
+      className={`flex flex-col justify-end
       } w-1/6 h-full border-opacity-25 border-light-radargrid dark:border-dark-radargrid`}
     >
       {x === 1 && y === 6 && (
@@ -79,7 +78,7 @@ const RadarCell = ({
         </span>
       )}
       {x === 1 && y === 6 && (
-        <span className={`ml-2 whitespace-nowrap ${!isFullSize && "text-xs"}`}>
+        <span className={`ml-4 whitespace-nowrap ${!isFullSize && "text-xs"}`}>
           {t("radar.level")}
         </span>
       )}
