@@ -577,3 +577,9 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='UX Design' WHERE tag.name IN ('ux','design') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Product Design' WHERE tag.name IN ('product','design') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Feature Flipping' WHERE tag.name IN ('architecture','pattern') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='FAST Agile' WHERE tag.name IN ('agile','framework') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Obsidian' WHERE tag.name IN ('tooling') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Speed Reading' WHERE tag.name IN ('strength') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Solidity' WHERE tag.name IN ('blockchain','programming') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Koa' WHERE tag.name IN ('web', 'frontend','framework') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Tailwind CSS' WHERE tag.name IN ('web','frontend','design') ON CONFLICT DO NOTHING;
