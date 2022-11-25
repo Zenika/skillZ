@@ -37,6 +37,7 @@ export default {
     botNotifications: "Slack bot notifications",
   },
   home: {
+    bestSkills: "Top 5 skills",
     addSkill: "Add skill",
     noSkill: "No skill here",
     practices: "Practices",
