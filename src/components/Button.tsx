@@ -28,15 +28,17 @@ const Button = ({
       className={`${
         type === "primary" &&
         style === "contained" &&
-        `gradient-${color && color.length > 0 ? color : "red"}`
+        `text-light-ultrawhite gradient-${
+          color && color.length > 0 ? color : "red"
+        } hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
       } ${
         type === "secondary" &&
         style === "contained" &&
-        "bg-light-graybutton dark:bg-dark-graybutton"
+        "bg-light-graybutton hover:bg-light-radargrid dark:bg-dark-graybutton dark:hover:bg-dark-radargrid"
       } ${style === "outlined" && "bg-transparent border"} ${
         type === "primary" &&
         style === "outlined" &&
-        "border-dark-red dark:border-dark-red"
+        "border-dark-red dark:border-dark-red hover:bg-light-red hover:text-light-light"
       } ${
         type === "secondary" &&
         style === "outlined" &&
@@ -50,14 +52,20 @@ const Button = ({
         `text-${type === "primary" ? "dark-red" : "white"}`
       } text-base ${style != "faded" && "font-bold"} py-${
         type === "tertiary" ? "1" : "2"
-      } px-5 rounded-full ${!visible && "disabled:opacity-25"} ${
+      } px-5 rounded-full ${
+        !visible && "disabled:opacity-25 disabled:pointer-events-none"
+      } ${
         style === "contained" &&
         type === "tertiary" &&
-        `gradient-${color && color.length > 0 ? color : "red"}`
+        `text-light-ultrawhite gradient-${
+          color && color.length > 0 ? color : "red"
+        } hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
       } ${
         style === "faded" &&
         type === "tertiary" &&
-        `gradient-${color && color.length > 0 ? color : "red"}-faded`
+        `gradient-${
+          color && color.length > 0 ? color : "red"
+        }-faded text-light-ultrawhite hover:shadow-xl hover:shadow-light-graybutton hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
       }`}
       disabled={disabled}
       onClick={callback}

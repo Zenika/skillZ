@@ -79,9 +79,11 @@ const HomePanel = ({
       }}
     >
       <div
-        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel ${
-          !isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"
-        } ${y && x ? roundTable[y][x] : ""} m-1 w-2/5`}
+        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel
+        hover:bg-light-dark border border-light-panel dark:border-dark-panel hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton
+        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"} ${
+          y && x ? roundTable[y][x] : ""
+        } m-1 w-2/5`}
       >
         <div
           className={`flex flex-auto ${
