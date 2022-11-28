@@ -2,6 +2,7 @@ import {
   SkillTagsBySkillQuery,
   GetAllTagsQuery,
   SearchAllTagsQuery,
+  GetTagFromTagNameQuery,
 } from "../../generated/graphql";
 import {
   INSERT_SKILL_TO_TAG,
@@ -11,6 +12,7 @@ import {
   GET_SKILLTOPICS_BY_SKILL,
   GET_SKILLTAGS_BY_SKILL,
   GET_ALL_TAGS,
+  GET_TAG_FROM_TAGNAME,
   SEARCH_IN_ALL_TAGS,
 } from "../../graphql/queries/skills";
 import { useMutation, useQuery } from "@apollo/client";
@@ -20,6 +22,7 @@ import React, { useContext, useState } from "react";
 import { FetchedSkill, Tag } from "../../utils/types";
 import Button from "../Button";
 import AutoCompleteList from "../AutoCompleteList";
+import { useEffect } from "react";
 type EditTags = {
   skill: FetchedSkill;
 };
@@ -27,6 +30,7 @@ type EditTags = {
 const EditTags = ({ skill }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
+  const [tagSelected, setTagSelected] = useState("");
 
   /*
    * QUERIES
@@ -41,6 +45,12 @@ const EditTags = ({ skill }: EditTags) => {
     },
   });
 
+  const { data: tagsByTagName, refetch: refetchTagFromName } =
+    useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME, {
+      variables: {
+        tagName: tagSelected,
+      },
+    });
   const {
     data: allTags,
     refetch: refetchallTags,
@@ -57,38 +67,51 @@ const EditTags = ({ skill }: EditTags) => {
     }
   );
 
+  useEffect(() => {
+    refetchTagFromName({
+      variables: { tagName: tagSelected },
+    });
+  }, [tagSelected]);
   /*
    * MUTATIONS
    */
   const [insertTag] = useMutation(INSERT_SKILL_TO_TAG);
   const [deleteTag] = useMutation(DELETE_SKILL_TO_TAG);
 
-  const addTag = (tag: Tag) => {
-    console.log("tag callback*****", tag);
-    // insertTag({variables: {skillId: skill.id, tagId: tag.id},}).then(() =>
-    // refetchTags({
-    //   variables: { skillId: skill.id}
-    // })
-    // )
+  const addTag = (tagName: string) => {
+    console.log("before", tagsByTagName);
+    setTagSelected(tagName);
+    console.log("after", tagsByTagName);
+    insertTag({
+      variables: { skillId: skill.id, tagId: tagsByTagName.Tag[0]?.id },
+    }).then(() =>
+      refetchTags({
+        variables: { skillId: skill.id },
+      })
+    );
   };
 
   return (
     <div className="w-full">
       <p className="text-xl p-2">Tags</p>
-      {tagsBySkill &&
-        tagsBySkill.SkillTag.map((tag) => {
-          return (
-            <Button
-              type={"primary"}
-              style={"contained"}
-              visible={true}
-              callback={() => console.log("clicked")}
-            >
-              {tag.tagId + ""}
-            </Button>
-          );
-        })}
-      {allTags && console.log("allTags", searchAllTags)}
+      <div className="flex flex-rpw">
+        {tagsBySkill &&
+          tagsBySkill.SkillTag.map((tag) => {
+            return (
+              <div className="px-2">
+                <Button
+                  type={"primary"}
+                  style={"contained"}
+                  visible={true}
+                  callback={() => console.log("clicked")}
+                >
+                  {tag.Tag.name}
+                </Button>
+              </div>
+            );
+          })}
+      </div>
+      {/* {allTags && console.log("allTags", searchAllTags)} */}
       <div className="w-full flex flex-col pt-4">
         <input
           className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}

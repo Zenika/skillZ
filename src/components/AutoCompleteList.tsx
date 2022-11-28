@@ -23,9 +23,6 @@ const AutoCompleteList = ({
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
 
-  console.log("selected", selected);
-
-  console.log("search", search);
   const onItemClick = (value: string) => {
     setSelected(value);
     onChange(value);
@@ -39,7 +36,6 @@ const AutoCompleteList = ({
     });
   }, [ref]);
 
-  console.log("choices", choices);
   return (
     <div ref={ref} className="w-full h-12">
       <div

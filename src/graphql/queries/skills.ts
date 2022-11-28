@@ -324,6 +324,9 @@ export const GET_SKILLTAGS_BY_SKILL = gql`
     SkillTag(where: { skillId: { _eq: $skillId } }) {
       tagId
       skillId
+      Tag {
+        name
+      }
     }
   }
 `;
@@ -340,6 +343,15 @@ export const GET_ALL_TAGS = gql`
 export const SEARCH_IN_ALL_TAGS = gql`
   query searchAllTags($search: String!) {
     Tag(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
+      name
+      id
+    }
+  }
+`;
+
+export const GET_TAG_FROM_TAGNAME = gql`
+  query getTagFromTagName($tagName: String!) {
+    Tag(where: { name: { _eq: $tagName } }) {
       name
       id
     }
