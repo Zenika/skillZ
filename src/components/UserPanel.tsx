@@ -7,7 +7,7 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
 
   return (
     <Link href={`/profile/${user?.email}`}>
-      <div className="flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg cursor-pointer">
+      <div className="flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg cursor-pointer border border-light-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton">
         <div
           className={`flex flex-col ${
             context !== "zenika" ? "w-5/6" : "w-full"
@@ -29,9 +29,9 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
             </div>
           </div>
         </div>
-        {/* <div className="flex w-1/6 justify-end">
-        <Image src={`/icons/${darkMode ? "dark" : "light"}/chevron.svg`} width="8" height="12" />
-      </div> */}
+        <div className="flex w-1/6 justify-end">
+          <Image src={`/icons/light/chevron.svg`} width="8" height="12" />
+        </div>
       </div>
     </Link>
   );
