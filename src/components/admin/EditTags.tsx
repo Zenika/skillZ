@@ -19,10 +19,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import { i18nContext } from "../../utils/i18nContext";
 import Loading from "../Loading";
 import React, { useContext, useState } from "react";
-import { FetchedSkill, Tag } from "../../utils/types";
+import { FetchedSkill, SkillTag } from "../../utils/types";
 import Button from "../Button";
 import AutoCompleteList from "../AutoCompleteList";
 import { useEffect } from "react";
+import Chip from "../Chip";
 type EditTags = {
   skill: FetchedSkill;
 };
@@ -69,7 +70,7 @@ const EditTags = ({ skill }: EditTags) => {
 
   useEffect(() => {
     refetchTagFromName({
-      variables: { tagName: tagSelected },
+      tagName: tagSelected,
     });
   }, [tagSelected]);
   /*
@@ -78,6 +79,9 @@ const EditTags = ({ skill }: EditTags) => {
   const [insertTag] = useMutation(INSERT_SKILL_TO_TAG);
   const [deleteTag] = useMutation(DELETE_SKILL_TO_TAG);
 
+  /*
+   * FUNCTIONS
+   */
   const addTag = (tagName: string) => {
     console.log("before", tagsByTagName);
     setTagSelected(tagName);
@@ -91,26 +95,39 @@ const EditTags = ({ skill }: EditTags) => {
     );
   };
 
+  const removeTag = (tag: SkillTag) => {
+    deleteTag({
+      variables: {
+        skillId: skill.id,
+        tagId: tag.tagId,
+      },
+    }).then(() =>
+      refetchTags({
+        variables: { skillId: skill.id },
+      })
+    );
+  };
+
   return (
     <div className="w-full">
       <p className="text-xl p-2">Tags</p>
-      <div className="flex flex-rpw">
+      <div className="flex flex-row flex-wrap">
         {tagsBySkill &&
           tagsBySkill.SkillTag.map((tag) => {
             return (
               <div className="px-2">
-                <Button
-                  type={"primary"}
-                  style={"contained"}
-                  visible={true}
-                  callback={() => console.log("clicked")}
+                <Chip
+                  type="primary"
+                  style="contained"
+                  callback={() => removeTag(tag)}
                 >
                   {tag.Tag.name}
-                </Button>
+                </Chip>
               </div>
             );
           })}
       </div>
+
       {/* {allTags && console.log("allTags", searchAllTags)} */}
       <div className="w-full flex flex-col pt-4">
         <input

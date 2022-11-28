@@ -45,8 +45,13 @@ export type Topic = {
 };
 
 export type Tag = {
-  id: string;
   name: string;
+  id: any;
+};
+
+export type SkillTag = {
+  tagId: number;
+  skillId: any;
 };
 
 export type Skill = {
