@@ -30,7 +30,12 @@ const UserPanel = ({ user, context }: { user: User; context: string }) => {
           </div>
         </div>
         <div className="flex w-1/6 justify-end">
-          <Image src={`/icons/light/chevron.svg`} width="8" height="12" />
+          <Image
+            src={`/icons/light/chevron.svg`}
+            width="8"
+            height="12"
+            alt={"arrow"}
+          />
         </div>
       </div>
     </Link>
