@@ -88,6 +88,7 @@ export const GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY = gql`
       color
       x
       y
+      description
       CurrentSkillsAndDesires(
         limit: 5
         order_by: { skillLevel: desc, desireLevel: desc }

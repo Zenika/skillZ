@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
+import { FaTrophy } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
-import { FaTrophy } from "react-icons/fa";
 
 type HomePanelProps = {
   props: {
@@ -15,6 +15,7 @@ type HomePanelProps = {
     context: string;
     color: string;
     name: string;
+    description: string;
     count: number;
     data: {
       x: number;
@@ -28,7 +29,7 @@ type HomePanelProps = {
 };
 
 const HomePanel = ({
-  props: { x, y, context, color, name, count, data, certifs },
+  props: { x, y, context, color, name, description, count, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
@@ -143,10 +144,7 @@ const HomePanel = ({
                   {t("home.bestSkills")}
                 </div>
                 {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
-                  <div
-                    key={i}
-                    className="flex flex-auto flex-row justify-between"
-                  >
+                  <div key={i} className="flex flex-auto flex-row">
                     <div
                       className={`${x === "right" ? "order-last" : ""} ${
                         x === "right" ? "text-right" : "text-left"
@@ -162,7 +160,7 @@ const HomePanel = ({
                     >
                       {data[i] ? i + 1 : ""}
                     </div>
-                    <span className="px-2 overflow-clip">
+                    <span className="px-2 truncate w-full">
                       {data[i]?.name ?? ""}
                     </span>
                   </div>
@@ -176,8 +174,8 @@ const HomePanel = ({
               </div>
             )}
             <div
-              className={`flex flex-auto ${
-                x === "left" ? "justify-end" : "justify-start"
+              className={`flex flex-col ${
+                y === "bot" ? "justify-start" : "justify-end"
               } flex-row py-4 px-1 h-1/3 ${
                 y === "bot" ? "order-1" : "order-12"
               }`}
@@ -193,13 +191,14 @@ const HomePanel = ({
           </div>
 
           {isDesktop && (
-            <div className={`flex flex-auto flex-col w-3/5 h-full`}>
+            <div className={`flex flex-auto flex-col w-4/5 h-full`}>
               <Radar
                 x={x}
                 y={y}
                 data={data}
                 color={color}
                 title={t(`home.${name}`)}
+                description={description}
               />
             </div>
           )}

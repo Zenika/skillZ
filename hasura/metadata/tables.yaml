@@ -74,12 +74,13 @@
     - role: world
       permission:
         columns:
+          - color
+          - description
           - id
+          - index
           - label
           - x
           - "y"
-          - color
-          - index
         filter: {}
         allow_aggregations: true
 - table:

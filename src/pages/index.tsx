@@ -63,6 +63,7 @@ const Home = () => {
     y: data.y,
     color: data.color,
     name: data.label,
+    description: data.description,
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "mine",
     data: data.CurrentSkillsAndDesires.map((skill) => ({

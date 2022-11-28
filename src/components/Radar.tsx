@@ -87,6 +87,7 @@ const Radar = ({
   y,
   color,
   title,
+  description,
   faded,
 }: {
   data: RadarData[];
@@ -94,6 +95,7 @@ const Radar = ({
   y: string;
   color: string;
   title: string;
+  description: string;
   faded?: boolean;
 }) => {
   const radar = useRef(null);
@@ -178,20 +180,25 @@ const Radar = ({
           </div>
         </div>
       </div>
-      <div className="w-full h-1/5">
-        <div
-          className={`flex flex-auto ${
-            x === "left" ? "justify-end" : "justify-start"
-          } flex-row py-4 px-1 h-1/3 ${y === "bot" ? "order-1" : "order-12"}`}
+      <div
+        className={`w-full h-1/5 pt-2 flex ${description && "flex-col"} ${
+          y != "bot" && "items-end"
+        }`}
+      >
+        <p
+          className={`text-xl px-2 w-full ${
+            x === "left" ? "text-right" : "text-left"
+          } ${colorTable[color]}`}
         >
-          <span
-            className={`text-xl px-2 w-full ${
-              x === "left" ? "text-right" : "text-left"
-            } ${colorTable[color]}`}
-          >
-            {title}
-          </span>
-        </div>
+          {title}
+        </p>
+        <p
+          className={`text-xs px-2 w-full ${
+            x === "left" ? "text-right" : "text-left"
+          } ${colorTable[color]}`}
+        >
+          {description}
+        </p>
       </div>
     </div>
   );
