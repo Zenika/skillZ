@@ -70,7 +70,11 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
                   setSkillLevel(index);
                   setNavState("desire");
                 }}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  skillLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -98,7 +102,11 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
               <button
                 key={`desire-${index}`}
                 onClick={() => setDesireLevel(index)}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  desireLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image

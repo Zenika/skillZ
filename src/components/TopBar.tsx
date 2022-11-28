@@ -90,13 +90,13 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             />
           </Link>
         </div>
-        <div className="flex justify-center w-1/3">
+        <div className="flex justify-center h-full w-1/3">
           {isDesktop && (
-            <div className="flex flex-col justify-center p-4">
-              <div className="flex flex-row justify-around">
-                <div className="w-36">
+            <div className="flex flex-col justify-center px-4 h-full">
+              <div className="flex flex-row justify-around h-full items-center">
+                <div className="w-36 h-full">
                   <Link href="/">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           context === "mine" || pathname === "/"
@@ -120,9 +120,9 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
-                <div className="w-36">
+                <div className="w-36 h-full">
                   <Link href="/zenika">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           context === "zenika" || pathname === "/zenika"
@@ -148,9 +148,9 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
-                <div className="w-36">
+                <div className="w-36 h-full">
                   <Link href="/search">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           pathname === "/search"
@@ -177,9 +177,9 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   config.nextPublicAdmins
                     .split(";")
                     .find((admin) => admin === user.email) && (
-                  <div className="w-36">
+                  <div className="w-36 h-full">
                     <Link href="/admin">
-                      <div className="flex flex-initial flex-col justify-between cursor-pointer relative">
+                      <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid">
                         <Image
                           src={
                             pathname === "/admin"
@@ -232,7 +232,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             </button>
           )}
           {isDesktop && (
-            <div className="divide-y divide-dark-radargrid divide-light-radargrid">
+            <div className="divide-y divide-dark-radargrid divide-light-radargrid hover:bg-light-dark hover:dark:bg-dark-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex flex-row items-center px-2 py-4 justify-between h-full"
@@ -254,12 +254,12 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 />
               </button>
               <div
-                className={`relative bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded ${
+                className={`relative bg-light-ultrawhite dark:bg-dark-med shadow rounded-b-md z-50 ${
                   !openMenu && "hidden"
                 }`}
               >
-                <ul className="flex flex-col justify-around h-full p-2">
-                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
+                <ul className="flex flex-col justify-around h-full p-2 rounded-b-md border border-light-ultrawhite dark:border-dark-ultradark">
+                  <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link href={`/profile`}>
                       <div className="flex flex-row cursor-pointer">
                         <Image
@@ -274,7 +274,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                       </div>
                     </Link>
                   </li>
-                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
+                  <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link href="/logout">
                       <div className="flex flex-row cursor-pointer">
                         <Image

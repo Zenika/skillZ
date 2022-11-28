@@ -29,7 +29,7 @@ const UserSkillPanel = ({
   const { level, desire, certif } = skill;
   return (
     <Link href={`/profile/${skill.user.email}`}>
-      <div className="flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg cursor-pointer">
+      <div className="flex flex-row bg-light-light dark:bg-dark-light hover:bg-light-dark border border-light-light dark:border-dark-light hover:border-light-graybutton dark:hover:bg-dark-radargrid dark:hover:border-dark-graybutton px-4 py-4 mx-2 my-1 rounded-lg cursor-pointer">
         <div
           className={`flex flex-col ${
             context !== "zenika" ? "w-5/6" : "w-full"

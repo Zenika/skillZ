@@ -13,7 +13,10 @@ const Modal = ({ closeModal, children }) => {
             className="absolute top-2 right-2 cursor-pointer"
             onClick={closeModal}
           >
-            <IoIosCloseCircle size={25} />
+            <IoIosCloseCircle
+              size={25}
+              className="text-dark-light hover:text-dark-ultradark dark:text-light-dark dark:hover:text-light-ultrawhite"
+            />
           </div>
           {children}
         </div>

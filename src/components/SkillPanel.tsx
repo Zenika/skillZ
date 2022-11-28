@@ -61,7 +61,8 @@ const SkillPanel = ({
   const certif = false;
   return (
     <div
-      className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center`}
+      className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center cursor-pointer border border-light-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton`}
+      onClick={() => setOpenSkillDetails((curr) => (curr = !curr))}
     >
       <div
         className={`flex flex-col ${
@@ -70,12 +71,7 @@ const SkillPanel = ({
       >
         <div className="flex flex-row justify-between">
           <div className="flex flex-col">
-            <h2
-              className="text-xl cursor-pointer"
-              onClick={() => setOpenSkillDetails((curr) => (curr = !curr))}
-            >
-              {skill.name}
-            </h2>
+            <h2 className="text-xl cursor-pointer">{skill.name}</h2>
             {context === "search" && (
               <div className="py-2">
                 <Button
@@ -137,10 +133,16 @@ const SkillPanel = ({
       </div>
       {onEditClick && (
         <div
-          className="flex w-1/6 justify-end cursor-pointer"
-          onClick={() => onEditClick(skill)}
+          className="flex w-1/6 justify-end"
+          onClick={(e) => {
+            e.stopPropagation();
+            onEditClick(skill);
+          }}
         >
-          <VscSettings size={20} />
+          <VscSettings
+            className="cursor-pointer p-1 rounded-2xl hover:bg-dark-light hover:text-light-light hover:dark:bg-light-light hover:dark:text-light-graytext"
+            size={30}
+          />
         </div>
       )}
       {(context === "zenika" || context === "search") && (
@@ -148,7 +150,10 @@ const SkillPanel = ({
           className="flex w-1/6 justify-end cursor-pointer"
           onClick={() => push(link)}
         >
-          <AiFillEye size={20} />
+          <AiFillEye
+            className="p-1 rounded-2xl hover:bg-dark-light hover:text-light-light hover:dark:bg-light-light hover:dark:text-light-graytext"
+            size={30}
+          />
         </div>
       )}
       {openSkillDetails ? (
