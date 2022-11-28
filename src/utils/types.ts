@@ -44,6 +44,11 @@ export type Topic = {
   name: string;
 };
 
+export type Tag = {
+  id: string;
+  name: string;
+};
+
 export type Skill = {
   name?: string | null | undefined;
   userCount?: any | null | undefined;
