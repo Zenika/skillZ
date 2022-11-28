@@ -94,7 +94,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
           {isDesktop && (
             <div className="flex flex-col justify-center px-4 h-full">
               <div className="flex flex-row justify-around h-full items-center">
-                <div className="w-36 h-full">
+                <div className="w-36">
                   <Link href="/">
                     <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
@@ -120,7 +120,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
-                <div className="w-36 h-full">
+                <div className="w-36">
                   <Link href="/zenika">
                     <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
@@ -148,7 +148,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
-                <div className="w-36 h-full">
+                <div className="w-36">
                   <Link href="/search">
                     <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
@@ -177,7 +177,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   config.nextPublicAdmins
                     .split(";")
                     .find((admin) => admin === user.email) && (
-                  <div className="w-36 h-full">
+                  <div className="w-36">
                     <Link href="/admin">
                       <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid">
                         <Image
@@ -198,7 +198,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                         {skills && (
                           <div
                             className={
-                              "absolute top-0 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
+                              "absolute top-1 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
                             }
                           >
                             {skills.Skill.length}
