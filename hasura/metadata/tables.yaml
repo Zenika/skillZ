@@ -74,12 +74,13 @@
     - role: world
       permission:
         columns:
+          - color
+          - description
           - id
+          - index
           - label
           - x
           - "y"
-          - color
-          - index
         filter: {}
         allow_aggregations: true
 - table:
@@ -472,21 +473,21 @@
             _eq: x-hasura-user-email
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
   select_permissions:
     - role: world
       permission:
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - id
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter: {}
         allow_aggregations: true
@@ -495,10 +496,10 @@
       permission:
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter:
           userEmail:
@@ -609,11 +610,11 @@
         columns:
           - categoryId
           - created_at
+          - updated_at
           - desireLevel
           - name
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter: {}
         allow_aggregations: true

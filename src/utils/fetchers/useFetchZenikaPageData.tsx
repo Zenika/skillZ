@@ -24,6 +24,7 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
     y: data?.y,
     color: data?.color,
     name: data?.label,
+    description: data?.description,
     count:
       data?.AgenciesAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
@@ -56,6 +57,7 @@ const fetchZenikaPageData = (email: string) => {
     y: data?.y,
     color: data?.color,
     name: data?.label,
+    description: data?.description,
     count:
       data?.ZenikasAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
