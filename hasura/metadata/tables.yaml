@@ -473,6 +473,7 @@
             _eq: x-hasura-user-email
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
@@ -482,6 +483,7 @@
       permission:
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - id
           - skillId
@@ -494,6 +496,7 @@
       permission:
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
@@ -607,8 +610,10 @@
         columns:
           - categoryId
           - created_at
+          - updated_at
           - desireLevel
           - name
+          - skillId
           - skillLevel
           - userEmail
         filter: {}
