@@ -341,8 +341,11 @@ export const GET_ALL_TAGS = gql`
 `;
 
 export const SEARCH_IN_ALL_TAGS = gql`
-  query searchAllTags($search: String!) {
-    Tag(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
+  query searchAllTags($search: String!, $tagIds: [Int!]!) {
+    Tag(
+      where: { name: { _ilike: $search }, id: { _nin: $tagIds } }
+      order_by: { name: asc }
+    ) {
       name
       id
     }

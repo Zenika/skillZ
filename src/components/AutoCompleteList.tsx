@@ -7,7 +7,6 @@ type AutoCompleteList = {
   placeholder: string;
   onChange: (choice: any) => void;
   search: string;
-  addCallback: (topic: Topic) => void;
 };
 
 const AutoCompleteList = ({
@@ -15,7 +14,6 @@ const AutoCompleteList = ({
   placeholder,
   onChange,
   search = "",
-  addCallback,
 }: AutoCompleteList) => {
   const [opened, setOpened] = useState(false);
   const { darkMode } = useDarkMode();

@@ -32,6 +32,7 @@ const EditTags = ({ skill }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
   const [tagSelected, setTagSelected] = useState("");
+  const [existingTagsIds, setExistingTagsIds] = useState([]);
 
   /*
    * QUERIES
@@ -64,6 +65,7 @@ const EditTags = ({ skill }: EditTags) => {
       fetchPolicy: "network-only",
       variables: {
         search: `%${tagInput}%`,
+        tagIds: existingTagsIds,
       },
     }
   );
@@ -83,9 +85,7 @@ const EditTags = ({ skill }: EditTags) => {
    * FUNCTIONS
    */
   const addTag = (tagName: string) => {
-    console.log("before", tagsByTagName);
     setTagSelected(tagName);
-    console.log("after", tagsByTagName);
     insertTag({
       variables: { skillId: skill.id, tagId: tagsByTagName.Tag[0]?.id },
     }).then(() =>
@@ -107,6 +107,15 @@ const EditTags = ({ skill }: EditTags) => {
       })
     );
   };
+
+  useEffect(() => {
+    let tagsIds = [];
+
+    tagsBySkill.SkillTag.map((tag) => {
+      tagsIds.push(tag.tagId);
+    });
+    setExistingTagsIds(tagsIds);
+  }, [tagsBySkill]);
 
   return (
     <div className="w-full">
