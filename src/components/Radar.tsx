@@ -95,7 +95,7 @@ const Radar = ({
   y: string;
   color: string;
   title: string;
-  description: string;
+  description?: string;
   faded?: boolean;
 }) => {
   const radar = useRef(null);

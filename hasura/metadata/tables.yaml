@@ -609,7 +609,6 @@
           - created_at
           - desireLevel
           - name
-          - skillId
           - skillLevel
           - userEmail
         filter: {}

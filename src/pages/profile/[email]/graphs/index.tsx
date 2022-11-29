@@ -56,6 +56,7 @@ const HomePanelByUser = () => {
     y: data.y,
     color: data.color,
     name: data.label,
+    description: data.description,
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: `${query.email}`,
     data: data.CurrentSkillsAndDesires.map((skill) => ({

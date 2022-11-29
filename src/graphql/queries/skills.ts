@@ -214,6 +214,7 @@ export const GET_SKILLS_AND_DESIRES_QUERY = gql`
       color
       x
       y
+      description
       ZenikasAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
@@ -241,6 +242,7 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
       color
       x
       y
+      description
       AgenciesAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
