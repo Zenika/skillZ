@@ -1,6 +1,5 @@
 import {
   SkillTagsBySkillQuery,
-  GetAllTagsQuery,
   SearchAllTagsQuery,
   GetTagFromTagNameQuery,
 } from "../../generated/graphql";
@@ -9,9 +8,7 @@ import {
   DELETE_SKILL_TO_TAG,
 } from "../../graphql/mutations/skills";
 import {
-  GET_SKILLTOPICS_BY_SKILL,
   GET_SKILLTAGS_BY_SKILL,
-  GET_ALL_TAGS,
   GET_TAG_FROM_TAGNAME,
   SEARCH_IN_ALL_TAGS,
 } from "../../graphql/queries/skills";
@@ -20,7 +17,6 @@ import { i18nContext } from "../../utils/i18nContext";
 import Loading from "../Loading";
 import React, { useContext, useState } from "react";
 import { FetchedSkill, SkillTag } from "../../utils/types";
-import Button from "../Button";
 import AutoCompleteList from "../AutoCompleteList";
 import { useEffect } from "react";
 import Chip from "../Chip";
@@ -47,17 +43,15 @@ const EditTags = ({ skill }: EditTags) => {
     },
   });
 
-  const { data: tagsByTagName, refetch: refetchTagFromName } =
-    useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME, {
-      variables: {
-        tagName: tagSelected,
-      },
-    });
   const {
-    data: allTags,
-    refetch: refetchallTags,
-    loading: loadingAllTags,
-  } = useQuery<GetAllTagsQuery>(GET_ALL_TAGS);
+    data: tagsByTagName,
+    refetch: refetchTagFromName,
+    loading: loadingtagFromName,
+  } = useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME, {
+    variables: {
+      tagName: tagSelected,
+    },
+  });
 
   const { data: searchAllTags } = useQuery<SearchAllTagsQuery>(
     SEARCH_IN_ALL_TAGS,
@@ -74,7 +68,7 @@ const EditTags = ({ skill }: EditTags) => {
     refetchTagFromName({
       tagName: tagSelected,
     });
-  }, [tagSelected]);
+  }, [tagSelected, refetchTagFromName]);
   /*
    * MUTATIONS
    */
@@ -88,11 +82,7 @@ const EditTags = ({ skill }: EditTags) => {
     setTagSelected(tagName);
     insertTag({
       variables: { skillId: skill.id, tagId: tagsByTagName.Tag[0]?.id },
-    }).then(() =>
-      refetchTags({
-        variables: { skillId: skill.id },
-      })
-    );
+    }).then(() => refetchTags({ skillId: skill.id }));
   };
 
   const removeTag = (tag: SkillTag) => {
@@ -101,14 +91,11 @@ const EditTags = ({ skill }: EditTags) => {
         skillId: skill.id,
         tagId: tag.tagId,
       },
-    }).then(() =>
-      refetchTags({
-        variables: { skillId: skill.id },
-      })
-    );
+    }).then(() => refetchTags({ skillId: skill.id }));
   };
 
   useEffect(() => {
+    if (!tagsBySkill) return;
     let tagsIds = [];
 
     tagsBySkill.SkillTag.map((tag) => {
@@ -117,14 +104,16 @@ const EditTags = ({ skill }: EditTags) => {
     setExistingTagsIds(tagsIds);
   }, [tagsBySkill]);
 
+  if (loadingTagsBySkill || loadingtagFromName) return <Loading />;
+
   return (
     <div className="w-full">
       <p className="text-xl p-2">Tags</p>
       <div className="flex flex-row flex-wrap">
         {tagsBySkill &&
-          tagsBySkill.SkillTag.map((tag) => {
+          tagsBySkill.SkillTag.map((tag, i) => {
             return (
-              <div className="px-2">
+              <div className="px-2" key={i}>
                 <Chip
                   type="primary"
                   style="contained"
@@ -144,7 +133,7 @@ const EditTags = ({ skill }: EditTags) => {
           onChange={(e) => {
             setTagInput(e.target.value);
           }}
-          placeholder="Add tags"
+          placeholder={t("admin.addTags")}
         ></input>
         {searchAllTags && (
           <AutoCompleteList
@@ -152,9 +141,6 @@ const EditTags = ({ skill }: EditTags) => {
             placeholder={"Tags"}
             onChange={(tag) => addTag(tag)}
             search={tagInput}
-            addCallback={(tag) => {
-              console.log("tag add Callback", tag);
-            }}
           />
         )}
       </div>

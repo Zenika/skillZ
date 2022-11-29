@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useDarkMode } from "../utils/darkMode";
-import { Topic } from "../utils/types";
 
 type AutoCompleteList = {
   choices: any[];
@@ -11,21 +9,11 @@ type AutoCompleteList = {
 
 const AutoCompleteList = ({
   choices,
-  placeholder,
   onChange,
   search = "",
 }: AutoCompleteList) => {
-  const [opened, setOpened] = useState(false);
-  const { darkMode } = useDarkMode();
-  const [selected, setSelected] = useState(undefined);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
-
-  const onItemClick = (value: string) => {
-    setSelected(value);
-    onChange(value);
-    setOpened(false);
-  };
 
   useEffect(() => {
     setSize({
@@ -42,10 +30,11 @@ const AutoCompleteList = ({
       >
         {search.length > 0 && (
           <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark">
-            {choices.map((choice) => (
+            {choices.map((choice, i) => (
               <div
                 className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
-                onClick={() => onItemClick(choice)}
+                onClick={() => onChange(choice)}
+                key={i}
               >
                 {choice}
               </div>

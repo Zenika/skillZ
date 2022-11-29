@@ -38,7 +38,7 @@ const Chip = ({ type, style, callback, children }: ChipProps) => {
         setBackgroundColor("gradient-red-faded");
       }
     }
-  }, []);
+  }, [style, type]);
 
   return (
     <div

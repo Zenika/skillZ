@@ -12,10 +12,7 @@ import {
   EDIT_SKILL,
 } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
-import {
-  GET_SKILLTOPICS_BY_SKILL,
-  GET_SKILLTAGS_BY_SKILL,
-} from "../../graphql/queries/skills";
+import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
@@ -130,6 +127,7 @@ const EditSkillAdminModal = ({
         )} ${skill.name}`}</h2>
       </div>
       <div className="flex flex-col my-4">
+        {/* TODO: split into components */}
         <div className={"my-2 p-2"}>
           <p className="text-xl p-2">{t("admin.category")}</p>
           <CustomSelect

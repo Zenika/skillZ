@@ -28,6 +28,7 @@ export default {
     skillList: "Skills list",
     category: "Category",
     topics: "Associated topics",
+    addTags: "Add tags",
   },
   sidepanel: {
     profile: "Profile",
