@@ -476,7 +476,6 @@
           - desireLevel
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
   select_permissions:
     - role: world
@@ -487,7 +486,6 @@
           - id
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter: {}
         allow_aggregations: true
@@ -499,7 +497,6 @@
           - desireLevel
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter:
           userEmail:
@@ -614,7 +611,6 @@
           - name
           - skillId
           - skillLevel
-          - updated_at
           - userEmail
         filter: {}
         allow_aggregations: true
