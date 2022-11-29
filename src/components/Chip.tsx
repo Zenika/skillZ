@@ -42,7 +42,7 @@ const Chip = ({ type, style, callback, children }: ChipProps) => {
 
   return (
     <div
-      className={`text-base px-4 py-1.5 my-1 rounded-full uppercase ${backgroundColor} ${borderColor} ${textColor} flex`}
+      className={`text-base px-4 py-1 my-1 rounded-full uppercase ${backgroundColor} ${borderColor} ${textColor} flex`}
     >
       <div className="flex-row flex-wrap flex justify-center align-middle items-center gap-2">
         {children}

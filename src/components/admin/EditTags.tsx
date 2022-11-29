@@ -127,8 +127,6 @@ const EditTags = ({ skill }: EditTags) => {
             );
           })}
       </div>
-
-      {/* {allTags && console.log("allTags", searchAllTags)} */}
       <div className="w-full flex flex-col pt-4">
         <input
           className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
@@ -150,21 +148,7 @@ const EditTags = ({ skill }: EditTags) => {
             }}
           />
         )}
-
-        {/* {searchAllTags && tagInput.length > 0 && searchAllTags.Tag.length > 0 && (
-          <ul id="autocomplete-tags">
-            {searchAllTags.Tag.map((tag, index) => (
-              <li
-                key={index}
-                className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
-              >
-                {tag.name}
-              </li>
-            ))}
-          </ul>
-        )} */}
       </div>
-      <div></div>
     </div>
   );
 };
