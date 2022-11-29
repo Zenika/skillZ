@@ -181,8 +181,8 @@ const Radar = ({
         </div>
       </div>
       <div
-        className={`w-full h-1/5 pt-2 flex ${description && "flex-col"} ${
-          y != "bot" && "items-end"
+        className={`w-full h-1/5 py-2 flex ${description ? "flex-col" : ""} ${
+          y != "bot" ? "items-end" : ""
         }`}
       >
         <p
@@ -192,13 +192,15 @@ const Radar = ({
         >
           {title}
         </p>
-        <p
-          className={`text-xs px-2 w-full ${
-            x === "left" ? "text-right" : "text-left"
-          } ${colorTable[color]}`}
-        >
-          {description}
-        </p>
+        {description && (
+          <p
+            className={`text-xs px-2 w-full ${
+              x === "left" ? "text-right" : "text-left"
+            } ${colorTable[color]}`}
+          >
+            {description}
+          </p>
+        )}
       </div>
     </div>
   );
