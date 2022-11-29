@@ -126,6 +126,14 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
               </button>
             ))}
           </div>
+          {skill.updated_at && (
+            <p className="mb-3 text-xs text-light-graytext dark:text-dark-graytext">
+              {`${t("skills.lastUpdate")} : ${skill.updated_at.toLocaleString(
+                [],
+                { dateStyle: "short" }
+              )}`}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-row justify-between flex-wrap gap-4 pb-2">

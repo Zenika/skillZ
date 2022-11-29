@@ -125,6 +125,7 @@ export default {
     topBar: {
       title: "Voici le graphique %category% de",
     },
+    lastUpdate: "Dernière mise à jour",
   },
   myProfile: {
     onboardingButton: "C'est parti !",

@@ -52,6 +52,7 @@ const fetchMySkills = (
     name: skill.name,
     skillLevel: skill.UsersCurrentSkillsAndDesires[0]?.skillLevel,
     desireLevel: skill.UsersCurrentSkillsAndDesires[0]?.desireLevel,
+    updated_at: new Date(skill.UsersCurrentSkillsAndDesires[0]?.updated_at),
   }));
   return {
     skillsData,
