@@ -16,7 +16,10 @@ const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
   const onRedirectCallback: Auth0ProviderOptions["onRedirectCallback"] = (
     appState
   ) => {
-    push(appState?.returnTo || window.location.pathname);
+    push({
+      pathname: `/login`,
+      search: `returnTo=${appState?.returnTo || window.location.pathname}`,
+    });
   };
 
   return (

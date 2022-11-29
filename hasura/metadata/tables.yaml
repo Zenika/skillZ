@@ -281,16 +281,20 @@
           email:
             _eq: x-hasura-user-email
         columns:
-          - email
           - botNotifications
+          - current_login
+          - email
+          - last_login
           - name
           - picture
   select_permissions:
     - role: world
       permission:
         columns:
-          - email
           - botNotifications
+          - current_login
+          - email
+          - last_login
           - name
           - picture
         filter: {}
@@ -300,15 +304,15 @@
       permission:
         columns:
           - botNotifications
+          - current_login
           - email
+          - last_login
           - name
           - picture
         filter:
           email:
             _eq: x-hasura-user-email
-        check:
-          email:
-            _eq: x-hasura-user-email
+        check: null
 - table:
     schema: public
     name: UserAchievements

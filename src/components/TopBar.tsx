@@ -9,9 +9,13 @@ import { config } from "../env";
 import {
   GetAllNotVerifiedSkillsQuery,
   GetUserAgencyQuery,
+  GetUserQuery,
 } from "../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../graphql/queries/skills";
-import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
+import {
+  GET_USER_AGENCY_QUERY,
+  GET_USER_QUERY,
+} from "../graphql/queries/userInfos";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
@@ -44,6 +48,11 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
       fetchPolicy: "network-only",
     }
   );
+
+  const { data: userData } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: user.email },
+    fetchPolicy: "network-only",
+  });
 
   const { data: skills, error: errorSkills } =
     useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
@@ -240,9 +249,19 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 <div className="flex flex-col px-2 justify-center">
                   <span className="font-bold">{user?.name}</span>
                   {userAgencyResult?.UserLatestAgency[0]?.agency && (
-                    <span>
+                    <p className={"text-sm"}>
                       {`Zenika ${userAgencyResult?.UserLatestAgency[0]?.agency}`}
-                    </span>
+                    </p>
+                  )}
+                  {userData && userData.User[0] && (
+                    <p className={"text-xs"}>{`${t(
+                      "myProfile.lastLogin"
+                    )} : ${new Date(userData.User[0].last_login).toLocaleString(
+                      [],
+                      {
+                        dateStyle: "short",
+                      }
+                    )}`}</p>
                   )}
                 </div>
                 <Image

@@ -131,6 +131,7 @@ export default {
     onboardingButton: "C'est parti !",
     onboarding:
       "Bienvenue sur SkillZ ! 🎉 Nous vous recommandons de renseigner vos sujets préférés et vos certifications pour que votre profil soit complet. Mais commençons par votre agence.",
+    lastLogin: "Dernière connexion",
     agency: "Mon agence",
     selectPlaceholder: "Sélectionner mon agence",
     contact: "Ma méthode de contact préférée",

@@ -9,6 +9,8 @@ export const GET_USER_QUERY = gql`
       UserLatestAgency {
         agency
       }
+      last_login
+      current_login
     }
   }
 `;
