@@ -60,11 +60,10 @@ const HomePanelByUser = () => {
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: `${query.email}`,
     data: data.CurrentSkillsAndDesires.map((skill) => ({
-      x: skill.skillLevel,
-      y: skill.desireLevel,
-      weight: 25,
-      labels: [``],
+      id: skill.skillId,
       name: skill.name,
+      skillLevel: skill.skillLevel,
+      desireLevel: skill.desireLevel,
     })),
     certifs: 0,
   })).map((row) => ({

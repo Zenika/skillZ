@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
+import { colorTable } from "../constants/colorTable";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
@@ -14,9 +15,9 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
+import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import FilterByPanel from "./FilterByPanel";
 import Modal from "./Modal";
-import Radar from "./Radar";
 import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
 
@@ -199,28 +200,19 @@ const SkillListOverview = ({
           <div className="flex flex-row justify-center w-full">
             {isDesktop && (
               <div className="flex flex-col h-2/3 w-2/3 px-2">
-                <Radar
-                  data={
-                    skillsData
-                      ?.filter(
+                {skillsData && (
+                  <SkillzScatterChart
+                    data={
+                      skillsData?.filter(
                         (skill) =>
                           (skill.skillLevel > 0 || skill.skillLevel) &&
                           (skill.desireLevel > 0 || skill.desireLevel)
-                      )
-                      .map((skill) => ({
-                        x: skill.skillLevel,
-                        y: skill.desireLevel,
-                        weight: 65,
-                        labels: [skill.name],
-                        name: skill.name,
-                      })) ?? []
-                  }
-                  color={color}
-                  x="top"
-                  y="left"
-                  title=""
-                  faded={editPanelOpened}
-                />
+                      ) ?? []
+                    }
+                    color={colorTable[color]}
+                    axisLabels={true}
+                  />
+                )}
               </div>
             )}
             <div

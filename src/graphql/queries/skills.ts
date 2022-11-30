@@ -219,6 +219,7 @@ export const GET_SKILLS_AND_DESIRES_QUERY = gql`
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel
@@ -248,6 +249,7 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
         limit: 5
         where: { agency: { _eq: $agency } }
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel

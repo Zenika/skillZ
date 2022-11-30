@@ -189,9 +189,11 @@ export default {
       selectDate: "Sélectionner une date",
     },
   },
-  radar: {
-    desire: "Niveau d'appétence",
-    level: "Niveau de compétence",
+  graph: {
+    scatter: {
+      desire: "Niveau d'appétence",
+      level: "Niveau de compétence",
+    },
   },
   search: {
     placeholder: "Rechercher une compétence",

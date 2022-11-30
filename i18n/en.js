@@ -186,9 +186,11 @@ export default {
       selectDate: "Select a date",
     },
   },
-  radar: {
-    desire: "Desire level",
-    level: "Skill level",
+  graph: {
+    scatter: {
+      desire: "Desire level",
+      level: "Skill level",
+    },
   },
   search: {
     placeholder: "Search for a skill",
