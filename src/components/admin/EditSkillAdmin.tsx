@@ -21,6 +21,7 @@ import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
+import SkillDescription from "./SkillDescription";
 
 type EditSkillAdminProps = {
   skill: FetchedSkill;
@@ -104,6 +105,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
           "admin.update"
         )} ${skill.name}`}</h2>
       </div>
+      <SkillDescription skill={skill} title={"Description"} />
       <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6">
         <p className="text-xl p-2">{t("admin.category")}</p>
         <CustomSelect
