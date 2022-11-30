@@ -51,7 +51,7 @@ const CustomSelect = ({
         style={{ width: size.width, height: size.height }}
       >
         <div
-          className={`bg-light-light dark:bg-dark-light w-full p-3 appearance-none rounded-lg border border-solid border-light-dark ${
+          className={`bg-light-light dark:bg-dark-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:border-dark-graybutton w-full p-3 appearance-none rounded-lg border border-solid border-light-dark ${
             readOnly ? "" : "cursor-pointer bg-rightDropdown "
           }${
             readOnly ? "" : darkMode ? styles.selectDark : styles.selectLight
@@ -68,11 +68,11 @@ const CustomSelect = ({
           } duration-500`}
         >
           {!readOnly && opened && (
-            <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark">
+            <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-graybutton">
               {choices.map((choice) => (
                 <span
                   key={keyFn(choice)}
-                  className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
+                  className="hover:bg-light-dark hover:dark:bg-dark-radargrid py-2 px-4 cursor-pointer"
                   onClick={() => onItemClick(choice)}
                 >
                   {labelFn(choice)}

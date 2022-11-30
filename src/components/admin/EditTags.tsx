@@ -27,7 +27,6 @@ type EditTags = {
 const EditTags = ({ skill }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
-  const [tagSelected, setTagSelected] = useState("");
   const [existingTagsIds, setExistingTagsIds] = useState([]);
 
   /*
@@ -43,15 +42,8 @@ const EditTags = ({ skill }: EditTags) => {
     },
   });
 
-  const {
-    data: tagsByTagName,
-    refetch: refetchTagFromName,
-    loading: loadingtagFromName,
-  } = useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME, {
-    variables: {
-      tagName: tagSelected,
-    },
-  });
+  const { refetch: refetchTagFromName, loading: loadingtagFromName } =
+    useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME);
 
   const { data: searchAllTags } = useQuery<SearchAllTagsQuery>(
     SEARCH_IN_ALL_TAGS,
@@ -64,11 +56,6 @@ const EditTags = ({ skill }: EditTags) => {
     }
   );
 
-  useEffect(() => {
-    refetchTagFromName({
-      tagName: tagSelected,
-    });
-  }, [tagSelected, refetchTagFromName]);
   /*
    * MUTATIONS
    */
@@ -78,10 +65,12 @@ const EditTags = ({ skill }: EditTags) => {
   /*
    * FUNCTIONS
    */
-  const addTag = (tagName: string) => {
-    setTagSelected(tagName);
+  const addTag = async (tagName: string) => {
+    const refetchedSkill = await refetchTagFromName({
+      tagName: tagName,
+    });
     insertTag({
-      variables: { skillId: skill.id, tagId: tagsByTagName.Tag[0]?.id },
+      variables: { skillId: skill.id, tagId: refetchedSkill.data.Tag[0]?.id },
     }).then(() => refetchTags({ skillId: skill.id }));
   };
 
@@ -107,7 +96,7 @@ const EditTags = ({ skill }: EditTags) => {
   if (loadingTagsBySkill || loadingtagFromName) return <Loading />;
 
   return (
-    <div className="w-full">
+    <div className="w-full rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2">
       <p className="text-xl p-2">Tags</p>
       <div className="flex flex-row flex-wrap">
         {tagsBySkill &&

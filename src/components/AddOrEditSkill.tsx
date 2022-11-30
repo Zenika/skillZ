@@ -70,7 +70,11 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
                   setSkillLevel(index);
                   setNavState("desire");
                 }}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  skillLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -98,7 +102,11 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
               <button
                 key={`desire-${index}`}
                 onClick={() => setDesireLevel(index)}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  desireLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -118,6 +126,14 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
               </button>
             ))}
           </div>
+          {skill.updated_at && (
+            <p className="mb-3 text-xs text-light-graytext dark:text-dark-graytext">
+              {`${t("skills.lastUpdate")} : ${skill.updated_at.toLocaleString(
+                [],
+                { dateStyle: "short" }
+              )}`}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-row justify-between flex-wrap gap-4 pb-2">

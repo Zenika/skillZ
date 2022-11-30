@@ -6,6 +6,7 @@ import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import styles from "./HomePanel.module.css";
 import Radar from "./Radar";
+import { FaTrophy } from "react-icons/fa";
 
 type HomePanelProps = {
   props: {
@@ -78,9 +79,11 @@ const HomePanel = ({
       }}
     >
       <div
-        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel ${
-          !isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"
-        } ${y && x ? roundTable[y][x] : ""} m-1 w-2/5`}
+        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel
+        hover:bg-light-dark border border-light-panel dark:border-dark-panel hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton
+        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"} ${
+          y && x ? roundTable[y][x] : ""
+        } m-1 w-2/5`}
       >
         <div
           className={`flex flex-auto ${
@@ -131,6 +134,14 @@ const HomePanel = ({
               <div
                 className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
               >
+                <div
+                  className={`mb-2 ${colorTable[color]} flex items-center ${
+                    x === "right" && "justify-end"
+                  } ${!isDesktop && "text-sm"}`}
+                >
+                  <FaTrophy className={`mr-2`} />
+                  {t("home.bestSkills")}
+                </div>
                 {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
                   <div
                     key={i}

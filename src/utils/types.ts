@@ -22,6 +22,7 @@ export type FetchedSkill = {
   add?: boolean;
   verified?: boolean;
   categoryId?: string;
+  updated_at?: Date;
 };
 
 export type Certification = {

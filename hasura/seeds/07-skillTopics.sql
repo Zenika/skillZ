@@ -580,3 +580,9 @@ INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" to
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='UX Design' WHERE topic.name IN ('Frontend (UI)') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Product Design' WHERE topic.name IN ('Product') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Feature Flipping' WHERE topic.name IN ('Architecture') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='FAST Agile' WHERE topic.name IN ('Agile') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Obsidian' WHERE topic.name IN ('Facilitation') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Speed Reading' WHERE topic.name IN ('Facilitation') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Solidity' WHERE topic.name IN ('Data engineering') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Koa' WHERE topic.name IN ('Frontend (UI)') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTopic" SELECT skill.id, topic.id FROM public."Topic" topic JOIN public."Skill" skill ON skill.name='Tailwind CSS' WHERE topic.name IN ('Frontend (UI)') ON CONFLICT DO NOTHING;

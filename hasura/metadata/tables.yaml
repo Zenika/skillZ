@@ -512,17 +512,19 @@
           - desireLevel
           - skillId
           - skillLevel
+          - updated_at
           - userEmail
   select_permissions:
     - role: world
       permission:
         columns:
+          - created_at
+          - desireLevel
           - id
-          - userEmail
           - skillId
           - skillLevel
-          - desireLevel
-          - created_at
+          - updated_at
+          - userEmail
         filter: {}
         allow_aggregations: true
   update_permissions:
@@ -533,6 +535,7 @@
           - desireLevel
           - skillId
           - skillLevel
+          - updated_at
           - userEmail
         filter:
           userEmail:
@@ -641,13 +644,14 @@
     - role: world
       permission:
         columns:
-          - skillId
           - categoryId
-          - userEmail
-          - name
-          - skillLevel
-          - desireLevel
           - created_at
+          - desireLevel
+          - name
+          - skillId
+          - skillLevel
+          - updated_at
+          - userEmail
         filter: {}
         allow_aggregations: true
 - table:

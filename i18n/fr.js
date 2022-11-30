@@ -38,6 +38,7 @@ export default {
     botNotifications: "Notifications du bot Slack",
   },
   home: {
+    bestSkills: "Top 5 des compétences",
     addSkill: "Ajouter une compétence",
     noSkill: "Aucune compétence",
     practices: "Pratiques",
@@ -114,6 +115,8 @@ export default {
     },
     addSkillSuccess: "La compétence %skill% a été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% a été modifiée avec succès",
+    addSkillTopicSuccess: "Le sujet %topic% a bien été ajouté au skill",
+    deleteSkillTopicSuccess: "Le sujet %topic% a bien été supprimé du skill",
     deleteSkillSuccess: "La compétence %skill% a été supprimée avec succès",
     refreshSkillFailed: "Erreur lors de la récupération des compétences",
     updateSkillFailed:
@@ -123,6 +126,7 @@ export default {
     topBar: {
       title: "Voici le graphique %category% de",
     },
+    lastUpdate: "Dernière mise à jour",
   },
   myProfile: {
     onboardingButton: "C'est parti !",

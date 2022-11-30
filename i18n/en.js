@@ -38,6 +38,7 @@ export default {
     botNotifications: "Slack bot notifications",
   },
   home: {
+    bestSkills: "Top 5 skills",
     addSkill: "Add skill",
     noSkill: "No skill here",
     practices: "Practices",
@@ -111,6 +112,10 @@ export default {
     },
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
+    addSkillTopicSuccess:
+      "Topic %topic% has been successfully added to the skill.",
+    deleteSkillTopicSuccess:
+      "Topic %topic% has been successfully removed from the skill.",
     deleteSkillSuccess: "Skill %skill% was deleted successfully",
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
@@ -118,6 +123,7 @@ export default {
     topBar: {
       title: "Here is the graph of %category% from",
     },
+    lastUpdate: "Last update",
   },
   myProfile: {
     onboardingButton: "Let's go !",

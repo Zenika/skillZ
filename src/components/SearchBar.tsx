@@ -20,7 +20,7 @@ const SearchBar = ({
       value={value ?? initialValue}
       placeholder={placeholder ?? t("skills.searchPlaceholder")}
       onChange={(e) => setSearch(e?.target?.value || "")}
-      className={`bg-light-ultrawhite dark:bg-dark-light w-full rounded-full p-4 bg-right outline-none focus-visible:outline-light-red dark:focus-visible:outline-dark-red ${styles.search}`}
+      className={`bg-light-ultrawhite dark:bg-dark-light border border-light-light dark:border-dark-light hover:border-light-graybutton hover:bg-light-dark hover:dark:border-dark-graybutton hover:dark:bg-dark-radargrid w-full rounded-full p-4 bg-right outline-none focus-visible:outline-light-red dark:focus-visible:outline-dark-red ${styles.search}`}
     />
   );
 };
