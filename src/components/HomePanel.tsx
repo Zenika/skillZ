@@ -3,10 +3,11 @@ import Link from "next/link";
 import { useContext } from "react";
 import { FaTrophy } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
+import { colorTable } from "../constants/colorTable";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
+import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
-import Radar from "./Radar";
 
 type HomePanelProps = {
   props: {
@@ -18,11 +19,10 @@ type HomePanelProps = {
     description: string;
     count: number;
     data: {
-      x: number;
-      y: number;
-      weight: number;
-      labels: string[];
+      id: string;
       name: string;
+      skillLevel: number;
+      desireLevel: number;
     }[];
     certifs: number;
   };
@@ -48,7 +48,7 @@ const HomePanel = ({
     },
   };
 
-  const colorTable = {
+  const tailwindColorTable = {
     green: "text-light-green dark:text-dark-green",
     red: "text-light-red dark:text-dark-red",
     blue: "text-light-blue dark:text-dark-blue",
@@ -136,9 +136,11 @@ const HomePanel = ({
                 className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
               >
                 <div
-                  className={`mb-2 ${colorTable[color]} flex items-center ${
-                    x === "right" && "justify-end"
-                  } ${!isDesktop && "text-sm"}`}
+                  className={`mb-2 ${
+                    tailwindColorTable[color]
+                  } flex items-center ${x === "right" && "justify-end"} ${
+                    !isDesktop && "text-sm"
+                  }`}
                 >
                   <FaTrophy className={`mr-2`} />
                   {t("home.bestSkills")}
@@ -183,7 +185,7 @@ const HomePanel = ({
               <span
                 className={`text-xl px-2 w-full ${
                   x === "left" ? "text-right" : "text-left"
-                } ${colorTable[color]}`}
+                } ${tailwindColorTable[color]}`}
               >
                 {isDesktop ? "" : t(`home.${name}`)}
               </span>
@@ -192,13 +194,10 @@ const HomePanel = ({
 
           {isDesktop && (
             <div className={`flex flex-auto flex-col w-4/5 h-full`}>
-              <Radar
-                x={x}
-                y={y}
+              <SkillzScatterChart
                 data={data}
-                color={color}
-                title={t(`home.${name}`)}
-                description={description}
+                color={colorTable[color]}
+                axisLabels={false}
               />
             </div>
           )}

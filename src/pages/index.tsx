@@ -67,16 +67,12 @@ const Home = () => {
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "mine",
     data: data.CurrentSkillsAndDesires.map((skill) => ({
-      x: skill.skillLevel,
-      y: skill.desireLevel,
-      weight: 25,
-      labels: [``],
+      id: skill.skillId,
       name: skill.name,
+      skillLevel: skill.skillLevel,
+      desireLevel: skill.desireLevel,
     })),
     certifs: 0,
-  })).map((row) => ({
-    ...row,
-    data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
 
   if (authLoading || userLoading || dataLoading) {
