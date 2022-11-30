@@ -34,7 +34,7 @@ const SkillzScatterChart = ({
   axisLabels,
 }: SkillzScatterChartProps) => {
   const { t } = useContext(i18nContext);
-  const { darkMode, changeDarkMode } = useDarkMode();
+  const { darkMode } = useDarkMode();
 
   // Merge all skill of same graduation into one point
   const formattedData: SkillzScatterChartData[] = data.reduce(
