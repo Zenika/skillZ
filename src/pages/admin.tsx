@@ -82,7 +82,7 @@ export default function AdminPage() {
           />
           {!loading && (
             <div>
-              <div className="flex flex-col mb-8 mt-10">
+              <div className="flex flex-col mb-5 mt-5 p-4">
                 <h1 className="text-xl">{t("admin.skillsPending")}</h1>
                 {skills.Skill && (
                   <p className="opacity-50">
@@ -108,7 +108,7 @@ export default function AdminPage() {
                     ></SkillAdminPanel>
                   )
                 )}
-              <div className="flex flex-col mb-8 mt-10">
+              <div className="flex flex-col mb-5 mt-5 p-4">
                 <h1 className="text-xl">{t("admin.skillList")}</h1>
                 <p className="opacity-50">
                   {
