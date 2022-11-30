@@ -112,12 +112,7 @@ const SkillzScatterChart = ({
           content={<CustomTooltip />}
           contentStyle={{ color: color }}
         />
-        <Scatter
-          name="A school"
-          data={formattedData}
-          fill={color}
-          shape={<RenderDot />}
-        >
+        <Scatter data={formattedData} fill={color} shape={<RenderDot />}>
           <LabelList dataKey="z" fill={"white"} fontSize={10} />
         </Scatter>
       </ScatterChart>
