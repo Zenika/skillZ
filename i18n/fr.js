@@ -20,6 +20,7 @@ export default {
     skillList: "Liste des compétences",
     category: "Catégorie",
     topics: "Sujets associés",
+    addTags: "Ajouter des tags",
   },
   nav: {
     mySkills: "Compétences",

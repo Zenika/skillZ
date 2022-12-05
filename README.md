@@ -3,6 +3,7 @@
 A progressive web app to store your proficiency and desire to learn different skills.
 
 ## Requirements
+
 - Node 16.x
 - Npm 8.x
 - Docker
