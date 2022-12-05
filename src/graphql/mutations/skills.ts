@@ -110,3 +110,17 @@ export const DELETE_SKILL_TO_TAG = gql`
     }
   }
 `;
+
+export const UPDATE_SKILL_DESCRIPTION = gql`
+  mutation updateSkillDescription($skillId: uuid!, $desc: String!) {
+    update_Skill(
+      where: { id: { _eq: $skillId } }
+      _set: { description: $desc }
+    ) {
+      affected_rows
+      returning {
+        description
+      }
+    }
+  }
+`;

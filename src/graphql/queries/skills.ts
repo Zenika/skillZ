@@ -365,3 +365,11 @@ export const GET_TAG_FROM_TAGNAME = gql`
     }
   }
 `;
+
+export const GET_SKILL_DESCRIPTION = gql`
+  query getSkillDescription($skillId: uuid!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      description
+    }
+  }
+`;

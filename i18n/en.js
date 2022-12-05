@@ -29,6 +29,13 @@ export default {
     category: "Category",
     topics: "Associated topics",
     addTags: "Add tags",
+    placeHolderDescription: "Set the description",
+    descriptionEmpty: "No description provided",
+    notification: {
+      descriptionEmpty: "The description can't be empty",
+      descriptionSuccess: "The descrition has been changed with success",
+      descriptionError: "Error, try again",
+    },
   },
   sidepanel: {
     profile: "Profile",

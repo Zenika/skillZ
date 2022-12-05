@@ -21,6 +21,13 @@ export default {
     category: "Catégorie",
     topics: "Sujets associés",
     addTags: "Ajouter des tags",
+    placeHolderDescription: "Modifier la description",
+    descriptionEmpty: "Pas de description spécifiée",
+    notification: {
+      descriptionEmpty: "La description ne peut pas être vide",
+      descriptionSuccess: "La description a été changée avec succés",
+      descriptionError: "Erreur, essayez encore",
+    },
   },
   nav: {
     mySkills: "Compétences",
