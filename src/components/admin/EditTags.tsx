@@ -124,14 +124,11 @@ const EditTags = ({ skill }: EditTags) => {
           }}
           placeholder={t("admin.addTags")}
         ></input>
-        {searchAllTags && (
-          <AutoCompleteList
-            choices={searchAllTags.Tag.map((tag) => tag.name) ?? []}
-            placeholder={"Tags"}
-            onChange={(tag) => addTag(tag)}
-            search={tagInput}
-          />
-        )}
+        <AutoCompleteList
+          choices={searchAllTags?.Tag.map((tag) => tag.name) ?? []}
+          onChange={(tag) => addTag(tag)}
+          search={tagInput}
+        />
       </div>
     </div>
   );
