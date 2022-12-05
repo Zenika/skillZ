@@ -1,8 +1,8 @@
-import { Topic } from "../utils/types";
-import Button from "./Button";
+import { TopicItem } from "../utils/types";
+import Topic from "./Topic";
 
 type TopicsRequiredProps = {
-  topics: Topic[];
+  topics: TopicItem[];
   selectedTopics: string[];
   title: string;
 };
@@ -10,8 +10,8 @@ type TopicsRequiredProps = {
 type TopicsOptionalProps =
   | {
       readOnly?: false;
-      addCallback: (topic: Topic) => void;
-      removeCallback: (topic: Topic) => void;
+      addCallback: (topic: TopicItem) => void;
+      removeCallback: (topic: TopicItem) => void;
     }
   | {
       readOnly: true;
@@ -38,20 +38,19 @@ const Topics = ({
         {topics.map((topic, key) => {
           const selected = selectedTopics.some((t) => topic.id === t);
           return (
-            <div className="flex-inital py-2" key={`topic-${key}`}>
-              <Button
-                disabled={readOnly}
-                type={"tertiary"}
-                style={selected ? "contained" : "faded"}
-                callback={
-                  selected
-                    ? () => removeCallback(topic)
-                    : () => addCallback(topic)
-                }
-              >
-                <p className="text-sm">{topic.name}</p>
-              </Button>
-            </div>
+            <Topic
+              topic={topic}
+              key={key}
+              type={selected ? "selected" : "common"}
+              callback={
+                selected
+                  ? () => removeCallback(topic)
+                  : () => addCallback(topic)
+              }
+              {...(readOnly && {
+                readonly: true,
+              })}
+            />
           );
         })}
       </div>

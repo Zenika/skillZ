@@ -40,9 +40,15 @@ export type UserCertification = {
   Certification: Certification;
 };
 
-export type Topic = {
+export type TopicItem = {
   id: string;
   name: string;
+};
+
+export type CategoryItem = {
+  id: string;
+  label: string;
+  color: string;
 };
 
 export type Tag = {
@@ -63,5 +69,5 @@ export type Skill = {
   skillLevel?: any | null | undefined;
   desireLevel?: any | null | undefined;
   UserSkillDesires?: any | null;
-  Category?: any | null;
+  Category?: CategoryItem | null;
 };

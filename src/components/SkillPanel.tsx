@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { VscSettings } from "react-icons/vsc";
@@ -8,10 +8,10 @@ import { config } from "../env";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { Skill } from "../utils/types";
-import Button from "./Button";
 import LevelBar from "./LevelBar";
 import Modal from "./Modal";
 import SkillDetails from "./SkillDetails";
+import Tag, { TagColor } from "./Tag";
 
 const SkillPanel = ({
   skill,
@@ -77,16 +77,13 @@ const SkillPanel = ({
             <div className="flex flex-col">
               <h2 className="text-xl cursor-pointer">{skill.name}</h2>
               {context === "search" && (
-                <div className="py-2">
-                  <Button
-                    type={"tertiary"}
-                    style={"contained"}
-                    color={skill.Category.color}
-                    callback={() => push(linkToCategory)}
-                  >
-                    {skill.Category.label}
-                  </Button>
-                </div>
+                <Tag
+                  name={skill.Category.label}
+                  key={skill.Category.id}
+                  color={skill.Category.color as TagColor}
+                  callback={() => push(linkToCategory)}
+                  uppercase
+                />
               )}
             </div>
             {(count || certif) && (
