@@ -28,6 +28,7 @@ export default {
     skillList: "Skills list",
     category: "Category",
     topics: "Associated topics",
+    addTags: "Add tags",
   },
   sidepanel: {
     profile: "Profile",
@@ -186,9 +187,11 @@ export default {
       selectDate: "Select a date",
     },
   },
-  radar: {
-    desire: "Desire level",
-    level: "Skill level",
+  graph: {
+    scatter: {
+      desire: "Desire level",
+      level: "Skill level",
+    },
   },
   search: {
     placeholder: "Search for a skill",

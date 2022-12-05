@@ -22,6 +22,7 @@ import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
 import SkillDescription from "./SkillDescription";
+import EditTags from "./EditTags";
 
 type EditSkillAdminProps = {
   skill: FetchedSkill;
@@ -44,7 +45,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
 
   const {
     data: topicsBySkill,
-    refetch,
+    refetch: refetchTopics,
     loading: loadingTopicBySkill,
   } = useQuery<SkillTopicsBySkillQuery>(GET_SKILLTOPICS_BY_SKILL, {
     fetchPolicy: "network-only",
@@ -52,7 +53,6 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
       skillId: skill?.id,
     },
   });
-
   /*
    * MUTATIONS
    */
@@ -69,7 +69,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
         "green",
         5000
       );
-      refetch({
+      refetchTopics({
         variables: { skillId: skill.id },
       });
     });
@@ -84,7 +84,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
         "green",
         5000
       );
-      refetch({
+      refetchTopics({
         variables: { skillId: skill.id },
       });
     });
@@ -140,6 +140,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
           }}
         />
       </div>
+      <EditTags skill={skill} />
       <Topics
         topics={topics.Topic.map((topic) => {
           return { id: topic.id, name: topic.name };

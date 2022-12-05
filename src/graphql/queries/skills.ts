@@ -219,6 +219,7 @@ export const GET_SKILLS_AND_DESIRES_QUERY = gql`
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel
@@ -248,6 +249,7 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
         limit: 5
         where: { agency: { _eq: $agency } }
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel
@@ -318,6 +320,48 @@ export const GET_SKILL_DETAILS = gql`
       UserSkillDesires(where: { userEmail: { _eq: $email } }) {
         created_at
       }
+    }
+  }
+`;
+
+export const GET_SKILLTAGS_BY_SKILL = gql`
+  query skillTagsBySkill($skillId: uuid!) {
+    SkillTag(where: { skillId: { _eq: $skillId } }) {
+      tagId
+      skillId
+      Tag {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_ALL_TAGS = gql`
+  query getAllTags {
+    Tag {
+      name
+      id
+    }
+  }
+`;
+
+export const SEARCH_IN_ALL_TAGS = gql`
+  query searchAllTags($search: String!, $tagIds: [Int!]!) {
+    Tag(
+      where: { name: { _ilike: $search }, id: { _nin: $tagIds } }
+      order_by: { name: asc }
+    ) {
+      name
+      id
+    }
+  }
+`;
+
+export const GET_TAG_FROM_TAGNAME = gql`
+  query getTagFromTagName($tagName: String!) {
+    Tag(where: { name: { _eq: $tagName } }) {
+      name
+      id
     }
   }
 `;
