@@ -121,11 +121,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
 
       {myStatistics && (
         <div className="flex flex-row-reverse">
-          <Button
-            type={"primary"}
-            style={"contained"}
-            callback={() => push(link)}
-          >
+          <Button type={"primary"} callback={() => push(link)}>
             {t("statistics.add").replace("%label%", label)}
           </Button>
         </div>

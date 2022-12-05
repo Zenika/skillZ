@@ -46,11 +46,7 @@ const CertificationsList = ({
       </div>
       <div className={"flex flex-row justify-center mt-2 mb-2"}>
         {!readOnly && (
-          <Button
-            type={"primary"}
-            style={"contained"}
-            callback={onUserCertificationAdd}
-          >
+          <Button type={"primary"} callback={onUserCertificationAdd}>
             {t("myProfile.addCertification")}
           </Button>
         )}

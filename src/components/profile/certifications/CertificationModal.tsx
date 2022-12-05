@@ -161,18 +161,13 @@ const CertificationModal = ({
         </div>
       </div>
       <div className="mt-6 flex flex-row justify-between">
-        <Button
-          type={"secondary"}
-          style={"contained"}
-          callback={() => onCancel()}
-        >
+        <Button type={"tertiary"} callback={() => onCancel()}>
           {t("userProfile.certModal.cancel")}
         </Button>
         <div className={"flex flex-row gap-4"}>
           {editMode && (
             <Button
-              type={"primary"}
-              style={"outlined"}
+              type={"secondary"}
               callback={() => onDelete(userCertificationRef)}
             >
               {t("myProfile.removeCertification")}
@@ -180,7 +175,6 @@ const CertificationModal = ({
           )}
           <Button
             type={"primary"}
-            style={"contained"}
             callback={() =>
               onConfirm({
                 ...userCertification,
