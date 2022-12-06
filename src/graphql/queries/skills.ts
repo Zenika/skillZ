@@ -282,6 +282,7 @@ export const GET_ALL_VERIFIED_SKILL = gql`
     Skill(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
       name
       id
+      description
       verified
       categoryId
     }

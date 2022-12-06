@@ -29,6 +29,15 @@ export default {
     category: "Category",
     topics: "Associated topics",
     addTags: "Add tags",
+    placeHolderDescription: "Set the description",
+    save: "Save",
+    description: "Description",
+    notification: {
+      descriptionEmpty: "The description can't be empty",
+      descriptionSuccess:
+        "The descrition of %skill% has been modified with success",
+      descriptionError: "Error, try again",
+    },
   },
   sidepanel: {
     profile: "Profile",
