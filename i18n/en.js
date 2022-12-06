@@ -30,8 +30,8 @@ export default {
     topics: "Associated topics",
     addTags: "Add tags",
     placeHolderDescription: "Set the description",
-    descriptionEmpty: "No description provided",
     save: "Save",
+    description: "Description",
     notification: {
       descriptionEmpty: "The description can't be empty",
       descriptionSuccess:

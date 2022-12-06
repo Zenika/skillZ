@@ -282,6 +282,7 @@ export const GET_ALL_VERIFIED_SKILL = gql`
     Skill(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
       name
       id
+      description
       verified
       categoryId
     }
@@ -364,14 +365,6 @@ export const GET_TAG_FROM_TAGNAME = gql`
     Tag(where: { name: { _eq: $tagName } }) {
       name
       id
-    }
-  }
-`;
-
-export const GET_SKILL_DESCRIPTION = gql`
-  query getSkillDescription($skillId: uuid!) {
-    Skill(where: { id: { _eq: $skillId } }) {
-      description
     }
   }
 `;

@@ -106,7 +106,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
         )} ${skill.name}`}</h2>
       </div>
       <div className="mt-4 mb-4">
-        <SkillDescription skill={skill} title={"Description"} />
+        <SkillDescription skill={skill} title={t("admin.description")} />
         <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6">
           <p className="text-xl p-2">{t("admin.category")}</p>
           <CustomSelect

@@ -22,8 +22,8 @@ export default {
     topics: "Sujets associés",
     addTags: "Ajouter des tags",
     placeHolderDescription: "Modifier la description",
-    descriptionEmpty: "Pas de description spécifiée",
     save: "Sauvegarder",
+    description: "Description",
     notification: {
       descriptionEmpty: "La description ne peut pas être vide",
       descriptionSuccess: "La description de %skill% a été changée avec succés",
