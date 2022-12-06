@@ -42,7 +42,7 @@ const Tag = ({
   uppercase = false,
 }: TagProps) => {
   return (
-    <div className="flex-inital py-2" key={`topic-${key}`}>
+    <div className="flex-inital py-2" key={`tag-${key}`}>
       <button
         className={`${classes.base} ${classes.disabled} ${
           classes.color[color]
