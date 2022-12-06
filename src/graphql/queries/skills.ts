@@ -78,6 +78,7 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       skillLevel: averageSkillLevel
       desireLevel: averageDesireLevel
       Category {
+        id
         label
         color
       }
@@ -314,6 +315,7 @@ export const GET_SKILL_DETAILS = gql`
       id
       SkillTopics {
         Topic {
+          id
           name
         }
       }

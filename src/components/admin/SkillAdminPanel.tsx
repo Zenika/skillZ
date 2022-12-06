@@ -70,18 +70,13 @@ const SkillAdminPanel = ({
           <div>
             <div className="flex flex-row justify-around">
               <div className="flex flex-col">
-                <Button
-                  type={"primary"}
-                  style={"outlined"}
-                  callback={deleteSkillButtonClick}
-                >
+                <Button type={"secondary"} callback={deleteSkillButtonClick}>
                   {t("admin.deleteSkill")}
                 </Button>
               </div>
               <div className="flex flex-col">
                 <Button
                   type={"primary"}
-                  style={"contained"}
                   callback={updateVerifiedSkillButtonClick}
                 >
                   {t("admin.approved")}
@@ -93,11 +88,7 @@ const SkillAdminPanel = ({
         {approvedSkills && onEditClick && (
           <div className="flex flex-end justify-end">
             <div className="flex flex-col">
-              <Button
-                type={"primary"}
-                style={"contained"}
-                callback={onEditClick}
-              >
+              <Button type={"primary"} callback={onEditClick}>
                 {t("admin.modify")}
               </Button>
             </div>

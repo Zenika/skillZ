@@ -19,11 +19,7 @@ export default function Custom404() {
               {t("error.title404")}
             </p>
             <p className="mb-8">{t("error.text404")} </p>
-            <Button
-              type={"secondary"}
-              style={"contained"}
-              callback={() => push("/")}
-            >
+            <Button type={"tertiary"} callback={() => push("/")}>
               {t("error.button404")}
             </Button>
           </div>

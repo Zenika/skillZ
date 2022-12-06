@@ -140,8 +140,7 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
         <div className="flex flex-row gap-4 flex-wrap justify-between w-full">
           {!add ? (
             <Button
-              type={"primary"}
-              style={"outlined"}
+              type={"secondary"}
               callback={onDeleteButtonClick}
               disabled={
                 skillLevel === 0 ||
@@ -155,7 +154,6 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
           ) : null}
           <Button
             type={"primary"}
-            style={"contained"}
             callback={onAddButtonClick}
             disabled={skillLevel === 0 || desireLevel === 0}
           >

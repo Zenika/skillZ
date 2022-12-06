@@ -23,7 +23,7 @@ import {
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
-import { Topic, UserCertification } from "../../utils/types";
+import { TopicItem, UserCertification } from "../../utils/types";
 
 const Profile = () => {
   // HOOKS
@@ -131,7 +131,7 @@ const Profile = () => {
       });
   };
 
-  const addTopic = (topic: Topic) => {
+  const addTopic = (topic: TopicItem) => {
     insertTopic({
       variables: { email: user.email, topicId: topic.id },
     }).then(() =>
@@ -141,7 +141,7 @@ const Profile = () => {
     );
   };
 
-  const removeTopic = (topic: Topic) => {
+  const removeTopic = (topic: TopicItem) => {
     deleteTopic({
       variables: { email: user.email, topicId: topic.id },
     }).then(() =>
