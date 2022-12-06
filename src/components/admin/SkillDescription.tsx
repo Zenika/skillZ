@@ -76,7 +76,7 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
         placeholder={"Modifier la description"}
       ></textarea>
       <div className="my-2 mt-4 self-center">
-        <Button type="primary" style="contained">
+        <Button type="primary">
           Save
         </Button>
       </div>

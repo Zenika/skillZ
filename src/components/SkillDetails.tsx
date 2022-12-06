@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client/react";
+import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext } from "react";
 import { SkillDetailsQuery } from "../generated/graphql";
 import { GET_SKILL_DETAILS } from "../graphql/queries/skills";
-import { Skill } from "../utils/types";
 import { i18nContext } from "../utils/i18nContext";
-import { useAuth0 } from "@auth0/auth0-react";
-import Button from "./Button";
+import { Skill } from "../utils/types";
+import Topic from "./Topic";
 
 const SkillDetails = ({ skill }: { skill: Skill }) => {
   const { user } = useAuth0();
@@ -30,24 +30,17 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
         {/* {skillDetails.Skill[0].UserSkillDesires.length > 0 && (
           <p>{skillDetails.Skill[0].UserSkillDesires[0].created_at}</p>
         )} */}
-        <div className="flex flex-row flex-wrap justify-start my-2">
+        <div className="flex flex-row flex-wrap justify-start items-center my-2">
           {skillDetails.Skill[0].SkillTopics.length > 0 ? (
             <>
-              <p className="text-m my-2">{t("admin.topics")} : </p>
+              <p className="text-m my-2 mx-2">{t("admin.topics")} : </p>
               {skillDetails.Skill[0].SkillTopics.map((topic) => (
-                <div
-                  key={`topic-${topic.Topic.name}`}
-                  className="rounded-full m-2 gradient-red"
-                >
-                  <Button
-                    type={"tertiary"}
-                    style={"contained"}
-                    disabled={true}
-                    visible={true}
-                  >
-                    {topic.Topic.name}
-                  </Button>
-                </div>
+                <Topic
+                  topic={topic.Topic}
+                  key={topic.Topic.id}
+                  type={"selected"}
+                  readOnly
+                />
               ))}
             </>
           ) : null}

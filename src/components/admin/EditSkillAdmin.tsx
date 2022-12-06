@@ -16,7 +16,7 @@ import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
-import { FetchedSkill, Topic } from "../../utils/types";
+import { FetchedSkill, TopicItem } from "../../utils/types";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
@@ -60,7 +60,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
   const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC);
   const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
 
-  const addTopic = (topic: Topic) => {
+  const addTopic = (topic: TopicItem) => {
     insertTopic({
       variables: { skillId: skill.id, topicId: topic.id },
     }).then(() => {
@@ -75,7 +75,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
     });
   };
 
-  const removeTopic = (topic: Topic) => {
+  const removeTopic = (topic: TopicItem) => {
     deleteTopic({
       variables: { skillId: skill.id, topicId: topic.id },
     }).then(() => {

@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useMediaQuery } from "react-responsive";
 import { i18nContext } from "../utils/i18nContext";
+import Button from "./Button";
 import Navbar from "./Navbar";
 import Notification from "./Notification";
 import SidePanel from "./SidePanel";
 import TopBar from "./TopBar";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import Button from "./Button";
 
 type CommonPageProps = {
   children: any;
@@ -48,7 +48,6 @@ const CommonPage = ({ children, page, backBar = true }: CommonPageProps) => {
                 <div className="flex flex-row items-stretch space-x-4 max-w-screen-xl w-full p-6">
                   <Button
                     type={"primary"}
-                    style={"contained"}
                     callback={() => router.back()}
                     icon={<AiOutlineArrowLeft color="white" />}
                   ></Button>

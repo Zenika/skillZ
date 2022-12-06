@@ -1,72 +1,50 @@
+import clsx from "clsx";
 import React from "react";
 
-type ButtonProps = {
-  type: "primary" | "secondary" | "tertiary";
-  style: "outlined" | "contained" | "faded";
+type ButtonType = "primary" | "secondary" | "tertiary" | "faded";
+
+interface ButtonProps {
+  type: ButtonType;
   callback?: () => void;
   children?: JSX.Element | JSX.Element[] | string | string[];
   icon?: JSX.Element;
-  visible?: boolean;
-  disabled?: boolean;
   uppercase?: boolean;
-  color?: string;
+  disabled?: boolean;
+}
+
+const buttonTypeClasses: Record<ButtonType, string> = {
+  primary:
+    "text-light-ultrawhite gradient-red hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid",
+  secondary:
+    "text-dark-red bg-transparent border border-dark-red dark:border-dark-red hover:bg-light-red hover:text-light-light",
+  tertiary:
+    "bg-light-graybutton hover:bg-light-radargrid dark:bg-dark-graybutton dark:hover:bg-dark-radargrid",
+  faded:
+    "gradient-red-faded text-light-ultrawhite hover:shadow-xl hover:shadow-light-graybutton hover:dark:shadow-lg hover:dark:shadow-dark-radargrid",
+};
+
+const classes = {
+  base: "text-base font-bold py-2 px-5 rounded-full",
+  disabled: "disabled:opacity-25 disabled:pointer-events-none",
+  uppercase: "uppercase",
+  variant: buttonTypeClasses,
 };
 
 const Button = ({
   type,
-  style,
   callback,
   children,
   icon = null,
   uppercase = true,
-  visible = false,
   disabled = false,
-  color,
 }: ButtonProps) => {
   return (
     <button
-      className={`${
-        type === "primary" &&
-        style === "contained" &&
-        `text-light-ultrawhite gradient-${
-          color && color.length > 0 ? color : "red"
-        } hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
-      } ${
-        type === "secondary" &&
-        style === "contained" &&
-        "bg-light-graybutton hover:bg-light-radargrid dark:bg-dark-graybutton dark:hover:bg-dark-radargrid"
-      } ${style === "outlined" && "bg-transparent border"} ${
-        type === "primary" &&
-        style === "outlined" &&
-        "border-dark-red dark:border-dark-red hover:bg-light-red hover:text-light-light"
-      } ${
-        type === "secondary" &&
-        style === "outlined" &&
-        "border-dark-light dark:border-dark-light"
-      } ${uppercase ? "uppercase" : "normal-case"} ${
-        style === "contained" &&
-        (type === "primary" || type === "tertiary") &&
-        "text-light-dark"
-      } ${
-        style === "outlined" &&
-        `text-${type === "primary" ? "dark-red" : "white"}`
-      } text-base ${style != "faded" && "font-bold"} py-${
-        type === "tertiary" ? "1" : "2"
-      } px-5 rounded-full ${
-        !visible && "disabled:opacity-25 disabled:pointer-events-none"
-      } ${
-        style === "contained" &&
-        type === "tertiary" &&
-        `text-light-ultrawhite gradient-${
-          color && color.length > 0 ? color : "red"
-        } hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
-      } ${
-        style === "faded" &&
-        type === "tertiary" &&
-        `gradient-${
-          color && color.length > 0 ? color : "red"
-        }-faded text-light-ultrawhite hover:shadow-xl hover:shadow-light-graybutton hover:dark:shadow-lg hover:dark:shadow-dark-radargrid`
-      }`}
+      className={clsx(
+        `${classes.base} ${classes.disabled} ${
+          uppercase && classes.uppercase
+        } ${classes.variant[type]}`
+      )}
       disabled={disabled}
       onClick={callback}
     >

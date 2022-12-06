@@ -68,7 +68,6 @@ const Profile = () => {
             </div>
             <Button
               type={"primary"}
-              style={"contained"}
               callback={() => push(linkRadar)}
               icon={<GoGraph />}
             >

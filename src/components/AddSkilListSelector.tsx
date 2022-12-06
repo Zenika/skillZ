@@ -85,11 +85,7 @@ const AddSkillListSelector = ({
                 >
                   {skill.name}
                 </span>
-                <Button
-                  type={"primary"}
-                  style={"outlined"}
-                  callback={() => action(skill)}
-                >
+                <Button type={"secondary"} callback={() => action(skill)}>
                   {t("skills.add")}
                 </Button>
               </div>
@@ -109,7 +105,6 @@ const AddSkillListSelector = ({
           </span>
           <Button
             type={"primary"}
-            style={"contained"}
             callback={addSkillButtonClick}
             uppercase={false}
           >
@@ -137,11 +132,7 @@ const AddSkillListSelector = ({
                   >
                     {skill.name}
                   </span>
-                  <Button
-                    type={"primary"}
-                    style={"outlined"}
-                    callback={() => action(skill)}
-                  >
+                  <Button type={"secondary"} callback={() => action(skill)}>
                     {t("skills.add")}
                   </Button>
                 </div>
