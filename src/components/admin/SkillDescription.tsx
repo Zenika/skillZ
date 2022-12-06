@@ -20,14 +20,12 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
   /*
    * QUERIES
    */
-  const { data: dataSkillDescription } = useQuery<GetSkillDescriptionQuery>(
-    GET_SKILL_DESCRIPTION,
-    {
+  const { data: dataSkillDescription, refetch: refetchSkillDescription } =
+    useQuery<GetSkillDescriptionQuery>(GET_SKILL_DESCRIPTION, {
       variables: {
         skillId: skill?.id,
       },
-    }
-  );
+    });
 
   /*
    * MUTATIONS
@@ -41,6 +39,21 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
           skillId: skill?.id,
           desc: descriptionInput,
         },
+      }).then(() => {
+        displayNotification(
+          t("admin.notification.descriptionSuccess").replace(
+            "%skill%",
+            skill?.name
+          ),
+          "green",
+          5000
+        );
+        refetchSkillDescription({
+          variables: {
+            skillId: skill?.id,
+          },
+        });
+        setDescriptionInput("");
       });
     } else {
       displayNotification(
@@ -65,19 +78,21 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
           <p className="text-m p-2 italic">No description</p>
         )}
       </div>
-      <textarea
-        className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
-        rows={4}
-        name="updateDescription"
-        value={descriptionInput}
-        onChange={(e) => {
-          setDescriptionInput(e.target.value);
-        }}
-        placeholder={"Modifier la description"}
-      ></textarea>
-      <div className="my-2 mt-4 self-center">
-        <Button type="primary">
-          Save
+      <div className="flex flex-col mt-4 mb-4">
+        <textarea
+          className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
+          rows={4}
+          name="updateDescription"
+          value={descriptionInput}
+          onChange={(e) => {
+            setDescriptionInput(e.target.value);
+          }}
+          placeholder={"Modifier la description"}
+        ></textarea>
+      </div>
+      <div className="my-2 self-center">
+        <Button type="primary" callback={() => editDescriptionAction()}>
+          {t("admin.save")}
         </Button>
       </div>
     </div>

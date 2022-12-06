@@ -23,9 +23,10 @@ export default {
     addTags: "Ajouter des tags",
     placeHolderDescription: "Modifier la description",
     descriptionEmpty: "Pas de description spécifiée",
+    save: "Sauvegarder",
     notification: {
       descriptionEmpty: "La description ne peut pas être vide",
-      descriptionSuccess: "La description a été changée avec succés",
+      descriptionSuccess: "La description de %skill% a été changée avec succés",
       descriptionError: "Erreur, essayez encore",
     },
   },

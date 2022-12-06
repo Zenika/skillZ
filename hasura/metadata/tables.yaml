@@ -162,6 +162,7 @@
       permission:
         columns:
           - categoryId
+          - description
           - id
           - name
           - verified

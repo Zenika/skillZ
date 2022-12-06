@@ -31,9 +31,11 @@ export default {
     addTags: "Add tags",
     placeHolderDescription: "Set the description",
     descriptionEmpty: "No description provided",
+    save: "Save",
     notification: {
       descriptionEmpty: "The description can't be empty",
-      descriptionSuccess: "The descrition has been changed with success",
+      descriptionSuccess:
+        "The descrition of %skill% has been modified with success",
       descriptionError: "Error, try again",
     },
   },
