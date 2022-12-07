@@ -1,11 +1,5 @@
 import fetch from 'node-fetch';
-import * as dotenv from 'dotenv'
 import fs from "fs";
-
-/*
- * IMPORT ENVIRONMENT
- */
-dotenv.config()
 
 /*
  * ENVIRONMENT CHECK
@@ -57,5 +51,4 @@ writer.write("\n ON CONFLICT (\"name\") DO UPDATE SET \"categoryId\" = EXCLUDED.
 
 writer.close()
 
-
-console.log(skills);
+console.log("Referential Skills successfully updated.")
