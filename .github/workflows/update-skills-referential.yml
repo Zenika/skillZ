@@ -25,6 +25,9 @@ jobs:
           cache: 'npm'
 
       - name: Update referential
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_API_BEARER_TOKEN: ${{ secrets.NEXT_API_BEARER_TOKEN }}
         run: |
           cd scripts
           npm ci
