@@ -10,21 +10,26 @@ on:
     branches: 'chore/automated_skill_pr'
 
 jobs:
-  build:
-    name: Trigger Site Rebuild
+  update-referential:
+    name: Update Skills referential
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           ref: chore/skills_referential
-      - run: |
+          fetch-depth: 0
+
+      - name: Update referential
+        run: |
           date > generated.txt
+
+      - name: Commit
+        run: |
           git add .
           git commit -m "generated"
           git push
-  create-pull-request:
-    runs-on: ubuntu-latest
-    steps:
+
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
