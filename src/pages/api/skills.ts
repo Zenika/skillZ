@@ -11,11 +11,12 @@ async function getAllSkills() {
   const graphqlQuery = {
     operationName: "getAllSkills",
     query: `query getAllSkills {
-                Skill(where: {verified: {_eq: true}}) {
+                Skill(where: {verified: {_eq: true}}, order_by: {name: asc}) {
                   id
                   categoryId
                   description
                   name
+                  verified
                 }
               }
             `,
@@ -53,8 +54,6 @@ export default async function handler(
   ) {
     return res.status(500).json({ message: "Missing environment variables" });
   }
-
-  console.log(req.headers);
 
   if (req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN) {
     return res.status(401).json({ message: "Wrong bearer token." });
