@@ -21,7 +21,7 @@ jobs:
 
       - name: Update referential
         run: |
-          git branch -b chore/update_skill_referential
+          git checkout -b chore/update_skill_referential
           date > generated.txt
 
       - name: Commit
