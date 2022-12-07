@@ -77,9 +77,10 @@ const SkillAdminPanel = ({
               <div className="flex flex-col">
                 <Button
                   type={"primary"}
-                  callback={updateVerifiedSkillButtonClick}
+                  // callback={updateVerifiedSkillButtonClick}
+                  callback={onEditClick}
                 >
-                  {t("admin.approved")}
+                  {t("admin.verified")}
                 </Button>
               </div>
             </div>

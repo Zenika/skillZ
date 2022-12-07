@@ -20,7 +20,7 @@ export default {
   },
   admin: {
     deleteSkill: "Delete from Skillz",
-    approved: "Approve",
+    verified: "Verify",
     skillsPending: "Skills that are pending validation",
     allSkills: "All skills",
     modify: "Modify",

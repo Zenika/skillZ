@@ -105,6 +105,7 @@ export default function AdminPage() {
                         verified: skill.verified,
                       }}
                       approvedSkills={false}
+                      onEditClick={() => onModalClick(skill)}
                     ></SkillAdminPanel>
                   )
                 )}

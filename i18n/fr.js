@@ -12,7 +12,7 @@ export default {
   },
   admin: {
     deleteSkill: "Supprimer de Skillz",
-    approved: "Approuver",
+    verified: "Vérifier",
     skillsPending: "Compétences en attente de validation",
     allSkills: "Toutes les compétences",
     modify: "Modifier",
