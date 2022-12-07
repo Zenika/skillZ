@@ -9,6 +9,7 @@ export default {
     unknown: "Une erreur inconnue est survenue.",
     refetch: "Réessayer",
     noData: "Aucune donnée disponible.",
+    requiredField: "Ce champs est obligatoire",
   },
   admin: {
     deleteSkill: "Supprimer de Skillz",

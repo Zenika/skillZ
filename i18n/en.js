@@ -9,6 +9,7 @@ export default {
     unknown: "An unknown error has occurred.",
     refetch: "Retry",
     noData: "No data available.",
+    requiredField: "This field is required",
   },
   nav: {
     mySkills: "My skills",

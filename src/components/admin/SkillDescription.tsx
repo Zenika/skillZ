@@ -5,6 +5,7 @@ import Button from "../Button";
 import { UPDATE_SKILL_DESCRIPTION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
+import TextArea from "../TextArea";
 
 type SkillDescription = {
   skill: FetchedSkill;
@@ -51,17 +52,15 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
       className={`flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2`}
     >
       <p className="text-xl p-2">{title}</p>
-      <div className="flex flex-col mt-4 mb-4">
-        <textarea
-          className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-light-dark`}
-          rows={4}
-          name="updateDescription"
-          value={descriptionInput}
-          onChange={(e) => {
-            setDescriptionInput(e.target.value);
-          }}
-        ></textarea>
-      </div>
+      {console.log("desc", skill?.description)}
+      <TextArea
+        error={skill?.description?.length === 0 || skill?.description === null}
+        callback={setDescriptionInput}
+        value={descriptionInput}
+        name={"updateDescription"}
+        errorMessage={t("error.requiredField")}
+        rows={4}
+      ></TextArea>
       <div className="my-2 self-center">
         <Button
           type="primary"
