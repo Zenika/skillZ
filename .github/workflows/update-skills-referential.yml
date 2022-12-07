@@ -30,7 +30,7 @@ jobs:
         run: |
           git add .
           git commit -m "generated"
-          git push
+          git push --set-upstream origin chore/update_skill_referential
 
       - name: Create Pull Request
         uses: actions/github-script@v6
