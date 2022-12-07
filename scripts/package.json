@@ -2,14 +2,10 @@
   "name": "skillz-scripts",
   "version": "1.0.0",
   "description": "Scripts for the skillz project",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0"
   }
 }
