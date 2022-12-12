@@ -8,17 +8,16 @@ type TopicsRequiredProps = {
   topics: TopicItem[];
   selectedTopics: string[];
   title: string;
+  error?: boolean;
 };
 
 type TopicsOptionalProps =
   | {
       readOnly?: false;
-      error?: boolean;
       addCallback: (topic: TopicItem) => void;
       removeCallback: (topic: TopicItem) => void;
     }
   | {
-      error: true;
       readOnly: true;
       addCallback?: never;
       removeCallback?: never;
@@ -43,7 +42,6 @@ const Topics = ({
     >
       <div className="flex flex-row">
         <p className="text-xl p-2">{title}</p>
-        {console.log("error", error)}
         {error && (
           <div className="flex flex-row items-center">
             <RiErrorWarningFill color="#bf1d67" />

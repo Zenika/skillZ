@@ -54,10 +54,7 @@ const SkillAdminPanel = ({
                 </Button>
               </div>
               <div className="flex flex-col">
-                <Button
-                  type={"primary"}
-                  callback={onEditClick}
-                >
+                <Button type={"primary"} callback={onEditClick}>
                   {t("admin.verified")}
                 </Button>
               </div>
