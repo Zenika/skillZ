@@ -83,13 +83,13 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
   );
 
   const updateVerifiedSkillButtonClick = async () => {
-    await updateVerifiedSkill({
+    updateVerifiedSkill({
       variables: { skillId: skillId, verified: true },
     })
       .then(() => {
         router.reload();
       })
-      .catch(({}) => {
+      .catch(() => {
         displayNotification(`${t("error.unknown")}`, "red", 5000);
       });
   };

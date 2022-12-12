@@ -7,13 +7,17 @@ import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import TextArea from "../TextArea";
 
-type SkillDescription = {
+type SkillDescriptionProps = {
   skill: FetchedSkill;
   title: string;
   refetchSkill: () => void;
 };
 
-const SkillDescription = ({ skill, title, refetchSkill }: SkillDescription) => {
+const SkillDescription = ({
+  skill,
+  title,
+  refetchSkill,
+}: SkillDescriptionProps) => {
   const [descriptionInput, setDescriptionInput] = useState(skill?.description);
   const { t } = useContext(i18nContext);
 

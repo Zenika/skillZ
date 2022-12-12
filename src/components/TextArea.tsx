@@ -1,16 +1,23 @@
 import React from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 
-type TextArea = {
+type TextAreaProps = {
   error: boolean;
-  callback?: () => void;
+  callback?: (e: any) => void;
   value: string;
   errorMessage: string;
   rows: number;
   name: string;
 };
 
-const TextArea = ({ error, callback, value, errorMessage, rows, name }) => {
+const TextArea = ({
+  error,
+  callback,
+  value,
+  errorMessage,
+  rows,
+  name,
+}: TextAreaProps) => {
   return (
     <div className="flex flex-col mt-4 mb-4">
       {error && (
