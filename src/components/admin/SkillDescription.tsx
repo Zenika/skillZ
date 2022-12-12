@@ -22,7 +22,6 @@ const SkillDescription = ({ skill, title, refetchSkill }: SkillDescription) => {
    */
   const [updateDescription] = useMutation(UPDATE_SKILL_DESCRIPTION);
 
-  console.log("skill?.id", skill?.id);
   const editDescriptionAction = () => {
     if (descriptionInput.length > 0) {
       updateDescription({

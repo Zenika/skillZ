@@ -117,16 +117,18 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
     return <ErrorPage />;
   }
 
+  const skill = skillSelected?.Skill[0];
+
   return (
     <div className="flex flex-col max-h-75vh p-2">
       <div className="flex flex-row place-content-between border-b">
         <h2 className="flex-start px-2 my-4 text-xl text-bold">{`${t(
           "admin.update"
-        )} ${skillSelected?.Skill[0].name}`}</h2>
+        )} ${skill?.name}`}</h2>
       </div>
       <div className="mt-4 pb-4">
         <SkillDescription
-          skill={skillSelected?.Skill[0]}
+          skill={skill}
           title={t("admin.description")}
           refetchSkill={refetchSkillSelected}
         />
@@ -137,8 +139,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
             keyFn={(x) => x.id}
             choices={categories.Category.map((categorie) => categorie) ?? []}
             selectedChoice={categories.Category.find(
-              (categorie) =>
-                categorie.id === skillSelected?.Skill[0]?.categoryId
+              (categorie) => categorie.id === skill?.categoryId
             )}
             placeholder={t("myProfile.selectPlaceholder")}
             onChange={(categorie) => {
@@ -152,7 +153,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
                   displayNotification(
                     t("skills.updateSkillSuccess").replace(
                       "%skill%",
-                      skillSelected?.Skill[0]?.name
+                      skill?.name
                     ),
                     "green",
                     5000
@@ -162,7 +163,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
                   displayNotification(
                     t("skills.updateSkillFailed").replace(
                       "%skill%",
-                      skillSelected?.Skill[0]?.name
+                      skill?.name
                     ),
                     "red",
                     5000
@@ -171,18 +172,13 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
             }}
           />
         </div>
-        <EditTags
-          skill={skillSelected?.Skill[0]}
-          refetchSkill={refetchSkillSelected}
-        />
+        <EditTags skill={skill} refetchSkill={refetchSkillSelected} />
         <Topics
           topics={topics.Topic.map((topic) => {
             return { id: topic.id, name: topic.name };
           })}
-          selectedTopics={skillSelected?.Skill[0]?.SkillTopics.map(
-            (t) => t.topicId
-          )}
-          error={skillSelected?.Skill[0]?.SkillTopics.length === 0}
+          selectedTopics={skill?.SkillTopics.map((t) => t.topicId)}
+          error={skill?.SkillTopics.length === 0}
           title={t("admin.topics")}
           addCallback={(topic) => {
             addTopic(topic);
@@ -193,14 +189,14 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
         />
       </div>
       <div className="pb-4 self-center">
-        {!skillSelected?.Skill[0]?.verified && (
+        {!skill?.verified && (
           <Button
             type="primary"
             disabled={
               !(
-                skillSelected?.Skill[0]?.SkillTags?.length > 0 &&
-                skillSelected?.Skill[0]?.SkillTopics?.length > 0 &&
-                skillSelected?.Skill[0]?.description
+                skill?.SkillTags?.length > 0 &&
+                skill?.SkillTopics?.length > 0 &&
+                skill?.description
               )
             }
             callback={updateVerifiedSkillButtonClick}
