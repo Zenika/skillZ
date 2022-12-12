@@ -140,7 +140,7 @@ export default function AdminPage() {
       </div>
       {selectedSkill ? (
         <Modal closeModal={closeModal}>
-          <EditSkillAdmin skill={selectedSkill}></EditSkillAdmin>
+          <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
         </Modal>
       ) : null}
     </CommonPage>

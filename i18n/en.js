@@ -10,6 +10,8 @@ export default {
     refetch: "Retry",
     noData: "No data available.",
     requiredField: "This field is required",
+    tagRequired: "Add at least 1 tag",
+    topicRequired: "Add at least 1 topic",
   },
   nav: {
     mySkills: "My skills",
@@ -28,6 +30,7 @@ export default {
     update: "Update",
     skillList: "Skills list",
     category: "Category",
+    approve: "Approve this skill",
     topics: "Associated topics",
     addTags: "Add tags",
     placeHolderDescription: "Set the description",

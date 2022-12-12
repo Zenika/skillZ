@@ -10,6 +10,8 @@ export default {
     refetch: "Réessayer",
     noData: "Aucune donnée disponible.",
     requiredField: "Ce champs est obligatoire",
+    tagRequired: "Ajoutez au minimum 1 tag",
+    topicRequired: "Ajoutez au minimum 1 sujet",
   },
   admin: {
     deleteSkill: "Supprimer de Skillz",
@@ -24,6 +26,7 @@ export default {
     addTags: "Ajouter des tags",
     placeHolderDescription: "Modifier la description",
     save: "Sauvegarder",
+    approve: "Approuver ce skill",
     description: "Description",
     notification: {
       descriptionEmpty: "La description ne peut pas être vide",

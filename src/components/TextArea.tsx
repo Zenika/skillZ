@@ -13,11 +13,12 @@ type TextArea = {
 const TextArea = ({ error, callback, value, errorMessage, rows, name }) => {
   return (
     <div className="flex flex-col mt-4 mb-4">
-      {console.log("error", error)}
-      <div className="flex flex-row items-center">
-        <RiErrorWarningFill color="#bf1d67" />
-        <p className="text-light-red pl-1">{errorMessage}</p>
-      </div>
+      {error && (
+        <div className="flex flex-row items-center">
+          <RiErrorWarningFill color="#bf1d67" />
+          <p className="text-light-red pl-1">{errorMessage}</p>
+        </div>
+      )}
       <textarea
         className={`bg-light-light dark:bg-dark-light p-3 appearance-none rounded-lg border border-solid border-${
           error ? "light-red" : "light-dark"

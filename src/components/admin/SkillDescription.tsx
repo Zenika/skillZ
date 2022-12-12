@@ -10,9 +10,10 @@ import TextArea from "../TextArea";
 type SkillDescription = {
   skill: FetchedSkill;
   title: string;
+  refetchSkill: () => void;
 };
 
-const SkillDescription = ({ skill, title }: SkillDescription) => {
+const SkillDescription = ({ skill, title, refetchSkill }: SkillDescription) => {
   const [descriptionInput, setDescriptionInput] = useState(skill?.description);
   const { t } = useContext(i18nContext);
 
@@ -21,6 +22,7 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
    */
   const [updateDescription] = useMutation(UPDATE_SKILL_DESCRIPTION);
 
+  console.log("skill?.id", skill?.id);
   const editDescriptionAction = () => {
     if (descriptionInput.length > 0) {
       updateDescription({
@@ -29,6 +31,7 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
           desc: descriptionInput,
         },
       }).then(() => {
+        refetchSkill();
         displayNotification(
           t("admin.notification.descriptionSuccess").replace(
             "%skill%",
@@ -52,7 +55,6 @@ const SkillDescription = ({ skill, title }: SkillDescription) => {
       className={`flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2`}
     >
       <p className="text-xl p-2">{title}</p>
-      {console.log("desc", skill?.description)}
       <TextArea
         error={skill?.description?.length === 0 || skill?.description === null}
         callback={setDescriptionInput}
