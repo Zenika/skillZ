@@ -5,18 +5,21 @@ import {
   GetAllCategoriesQuery,
   GetTopicsInfosQuery,
   SkillMandatoryFieldsQuery,
+  SetVerifiedSkillMutationMutationFn,
 } from "../../generated/graphql";
+import { useRouter } from "next/router";
 import {
   ADD_SKILL_TO_TOPIC,
   DELETE_SKILL_TO_TOPIC,
   EDIT_SKILL,
+  UPDATE_SKILL_VERIFIED_MUTATION,
 } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
 import { GET_SKILL_MANDATORY_FIELDS } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
-import { FetchedSkill, TopicItem } from "../../utils/types";
+import { TopicItem } from "../../utils/types";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
@@ -31,6 +34,7 @@ type EditSkillAdminProps = {
 
 const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
   const { t } = useContext(i18nContext);
+  const router = useRouter();
 
   /*
    * QUERIES
@@ -72,6 +76,22 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
         variables: { skillId: skillId },
       });
     });
+  };
+
+  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
+    UPDATE_SKILL_VERIFIED_MUTATION
+  );
+
+  const updateVerifiedSkillButtonClick = async () => {
+    await updateVerifiedSkill({
+      variables: { skillId: skillId, verified: true },
+    })
+      .then(() => {
+        router.reload();
+      })
+      .catch(({}) => {
+        displayNotification(`${t("error.unknown")}`, "red", 5000);
+      });
   };
 
   const removeTopic = (topic: TopicItem) => {
@@ -151,7 +171,6 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
             }}
           />
         </div>
-        {console.log("skillSelected?.Skill[0]?.SkillTopics", skillSelected)}
         <EditTags
           skill={skillSelected?.Skill[0]}
           refetchSkill={refetchSkillSelected}
@@ -163,6 +182,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
           selectedTopics={skillSelected?.Skill[0]?.SkillTopics.map(
             (t) => t.topicId
           )}
+          error={skillSelected?.Skill[0]?.SkillTopics.length === 0}
           title={t("admin.topics")}
           addCallback={(topic) => {
             addTopic(topic);
@@ -172,7 +192,6 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
           }}
         />
       </div>
-      {console.log("prout", skillSelected?.Skill[0]?.SkillTags?.length)}
       <div className="pb-4 self-center">
         {!skillSelected?.Skill[0]?.verified && (
           <Button
@@ -184,6 +203,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
                 skillSelected?.Skill[0]?.description
               )
             }
+            callback={updateVerifiedSkillButtonClick}
           >
             {t("admin.approve")}
           </Button>

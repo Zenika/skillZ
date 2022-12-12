@@ -95,7 +95,7 @@ const EditTags = ({ skill, refetchSkill }: EditTags) => {
     });
     setExistingTagsIds(tagsIds);
     refetchSkill();
-  }, [tagsBySkill]);
+  }, [tagsBySkill, refetchSkill]);
 
   if (loadingTagsBySkill || loadingtagFromName) return <Loading />;
 
