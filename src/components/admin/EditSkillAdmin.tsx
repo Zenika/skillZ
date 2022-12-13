@@ -4,32 +4,37 @@ import {
   EditSkillMutation,
   GetAllCategoriesQuery,
   GetTopicsInfosQuery,
-  SkillTopicsBySkillQuery,
+  SkillMandatoryFieldsQuery,
+  SetVerifiedSkillMutationMutationFn,
 } from "../../generated/graphql";
+import { useRouter } from "next/router";
 import {
   ADD_SKILL_TO_TOPIC,
   DELETE_SKILL_TO_TOPIC,
   EDIT_SKILL,
+  UPDATE_SKILL_VERIFIED_MUTATION,
 } from "../../graphql/mutations/skills";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
-import { GET_SKILLTOPICS_BY_SKILL } from "../../graphql/queries/skills";
+import { GET_SKILL_MANDATORY_FIELDS } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
-import { FetchedSkill, TopicItem } from "../../utils/types";
+import { TopicItem } from "../../utils/types";
 import CustomSelect from "../CustomSelect";
 import ErrorPage from "../ErrorPage";
 import Loading from "../Loading";
 import Topics from "../Topics";
 import SkillDescription from "./SkillDescription";
 import EditTags from "./EditTags";
+import Button from "../Button";
 
 type EditSkillAdminProps = {
-  skill: FetchedSkill;
+  skillId: string;
 };
 
-const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
+const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
   const { t } = useContext(i18nContext);
+  const router = useRouter();
 
   /*
    * QUERIES
@@ -44,15 +49,13 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
   } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
 
   const {
-    data: topicsBySkill,
-    refetch: refetchTopics,
-    loading: loadingTopicBySkill,
-  } = useQuery<SkillTopicsBySkillQuery>(GET_SKILLTOPICS_BY_SKILL, {
-    fetchPolicy: "network-only",
-    variables: {
-      skillId: skill?.id,
-    },
+    data: skillSelected,
+    loading: loadingSkillSelected,
+    refetch: refetchSkillSelected,
+  } = useQuery<SkillMandatoryFieldsQuery>(GET_SKILL_MANDATORY_FIELDS, {
+    variables: { skillId: skillId },
   });
+
   /*
    * MUTATIONS
    */
@@ -62,35 +65,51 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
 
   const addTopic = (topic: TopicItem) => {
     insertTopic({
-      variables: { skillId: skill.id, topicId: topic.id },
+      variables: { skillId: skillId, topicId: topic.id },
     }).then(() => {
       displayNotification(
         t("skills.addSkillTopicSuccess").replace("%topic%", topic.name),
         "green",
         5000
       );
-      refetchTopics({
-        variables: { skillId: skill.id },
+      refetchSkillSelected({
+        variables: { skillId: skillId },
       });
     });
   };
 
+  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
+    UPDATE_SKILL_VERIFIED_MUTATION
+  );
+
+  const updateVerifiedSkillButtonClick = async () => {
+    updateVerifiedSkill({
+      variables: { skillId: skillId, verified: true },
+    })
+      .then(() => {
+        router.reload();
+      })
+      .catch(() => {
+        displayNotification(`${t("error.unknown")}`, "red", 5000);
+      });
+  };
+
   const removeTopic = (topic: TopicItem) => {
     deleteTopic({
-      variables: { skillId: skill.id, topicId: topic.id },
+      variables: { skillId: skillId, topicId: topic.id },
     }).then(() => {
       displayNotification(
         t("skills.deleteSkillTopicSuccess").replace("%topic%", topic.name),
         "green",
         5000
       );
-      refetchTopics({
-        variables: { skillId: skill.id },
+      refetchSkillSelected({
+        variables: { skillId: skillId },
       });
     });
   };
 
-  if (loadingTopics || loadingCategories || loadingTopicBySkill) {
+  if (loadingTopics || loadingCategories || loadingSkillSelected) {
     return <Loading />;
   }
 
@@ -98,15 +117,21 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
     return <ErrorPage />;
   }
 
+  const skill = skillSelected?.Skill[0];
+
   return (
     <div className="flex flex-col max-h-75vh p-2">
       <div className="flex flex-row place-content-between border-b">
         <h2 className="flex-start px-2 my-4 text-xl text-bold">{`${t(
           "admin.update"
-        )} ${skill.name}`}</h2>
+        )} ${skill?.name}`}</h2>
       </div>
-      <div className="mt-4 mb-4">
-        <SkillDescription skill={skill} title={t("admin.description")} />
+      <div className="mt-4 pb-4">
+        <SkillDescription
+          skill={skill}
+          title={t("admin.description")}
+          refetchSkill={refetchSkillSelected}
+        />
         <div className="flex flex-col rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2 pb-6">
           <p className="text-xl p-2">{t("admin.category")}</p>
           <CustomSelect
@@ -114,13 +139,13 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
             keyFn={(x) => x.id}
             choices={categories.Category.map((categorie) => categorie) ?? []}
             selectedChoice={categories.Category.find(
-              (categorie) => categorie.id === skill.categoryId
+              (categorie) => categorie.id === skill?.categoryId
             )}
             placeholder={t("myProfile.selectPlaceholder")}
             onChange={(categorie) => {
               editSkill({
                 variables: {
-                  id: skill.id,
+                  id: skillId,
                   categoryId: categorie.id,
                 },
               })
@@ -128,7 +153,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
                   displayNotification(
                     t("skills.updateSkillSuccess").replace(
                       "%skill%",
-                      skill.name
+                      skill?.name
                     ),
                     "green",
                     5000
@@ -138,7 +163,7 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
                   displayNotification(
                     t("skills.updateSkillFailed").replace(
                       "%skill%",
-                      skill.name
+                      skill?.name
                     ),
                     "red",
                     5000
@@ -147,12 +172,13 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
             }}
           />
         </div>
-        <EditTags skill={skill} />
+        <EditTags skill={skill} refetchSkill={refetchSkillSelected} />
         <Topics
           topics={topics.Topic.map((topic) => {
             return { id: topic.id, name: topic.name };
           })}
-          selectedTopics={topicsBySkill.SkillTopic.map((t) => t.topicId)}
+          selectedTopics={skill?.SkillTopics.map((t) => t.topicId)}
+          error={skill?.SkillTopics.length === 0}
           title={t("admin.topics")}
           addCallback={(topic) => {
             addTopic(topic);
@@ -161,6 +187,23 @@ const EditSkillAdmin = ({ skill }: EditSkillAdminProps) => {
             removeTopic(topic);
           }}
         />
+      </div>
+      <div className="pb-4 self-center">
+        {!skill?.verified && (
+          <Button
+            type="primary"
+            disabled={
+              !(
+                skill?.SkillTags?.length > 0 &&
+                skill?.SkillTopics?.length > 0 &&
+                skill?.description
+              )
+            }
+            callback={updateVerifiedSkillButtonClick}
+          >
+            {t("admin.approve")}
+          </Button>
+        )}
       </div>
     </div>
   );

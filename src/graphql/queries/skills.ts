@@ -285,6 +285,12 @@ export const GET_ALL_VERIFIED_SKILL = gql`
       description
       verified
       categoryId
+      SkillTags {
+        tagId
+      }
+      SkillTopics {
+        topicId
+      }
     }
   }
 `;
@@ -299,11 +305,22 @@ export const GET_ALL_NOT_VERIFIED_SKILL = gql`
   }
 `;
 
-export const GET_SKILLTOPICS_BY_SKILL = gql`
-  query skillTopicsBySkill($skillId: uuid!) {
-    SkillTopic(where: { Skill: { id: { _eq: $skillId } } }) {
-      topicId
-      skillId
+export const GET_SKILL_MANDATORY_FIELDS = gql`
+  query skillMandatoryFields($skillId: uuid!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      SkillTags {
+        skillId
+        tagId
+      }
+      SkillTopics {
+        topicId
+        skillId
+      }
+      description
+      name
+      categoryId
+      verified
+      id
     }
   }
 `;

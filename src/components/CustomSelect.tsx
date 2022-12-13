@@ -36,7 +36,7 @@ const CustomSelect = ({
   };
 
   return (
-    <div className="w-auto h-12">
+    <div className="w-auto z-10 h-12">
       <div
         className={`bg-light-light dark:bg-dark-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:border-dark-graybutton w-full p-3 appearance-none rounded-lg border border-solid border-light-dark ${
           readOnly ? "" : "cursor-pointer bg-rightDropdown "

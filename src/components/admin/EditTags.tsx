@@ -20,11 +20,14 @@ import { FetchedSkill, SkillTag } from "../../utils/types";
 import AutoCompleteList from "../AutoCompleteList";
 import { useEffect } from "react";
 import Chip from "../Chip";
+import { RiErrorWarningFill } from "react-icons/ri";
+
 type EditTags = {
   skill: FetchedSkill;
+  refetchSkill: () => void;
 };
 
-const EditTags = ({ skill }: EditTags) => {
+const EditTags = ({ skill, refetchSkill }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
   const [existingTagsIds, setExistingTagsIds] = useState([]);
@@ -91,13 +94,22 @@ const EditTags = ({ skill }: EditTags) => {
       tagsIds.push(tag.tagId);
     });
     setExistingTagsIds(tagsIds);
-  }, [tagsBySkill]);
+    refetchSkill();
+  }, [tagsBySkill, refetchSkill]);
 
   if (loadingTagsBySkill || loadingtagFromName) return <Loading />;
 
   return (
     <div className="w-full rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2">
-      <p className="text-xl p-2">Tags</p>
+      <div className="flex flex-row items-center">
+        <p className="text-xl p-2">Tags</p>
+        {tagsBySkill?.SkillTag.length === 0 && (
+          <div className="flex flex-row items-center">
+            <RiErrorWarningFill color="#bf1d67" />
+            <p className="text-light-red pl-1">{t("error.tagRequired")}</p>
+          </div>
+        )}
+      </div>
       <div className="flex flex-row flex-wrap">
         {tagsBySkill &&
           tagsBySkill.SkillTag.map((tag, i) => {

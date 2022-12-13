@@ -105,6 +105,7 @@ export default function AdminPage() {
                         verified: skill.verified,
                       }}
                       approvedSkills={false}
+                      onEditClick={() => onModalClick(skill)}
                     ></SkillAdminPanel>
                   )
                 )}
@@ -139,7 +140,7 @@ export default function AdminPage() {
       </div>
       {selectedSkill ? (
         <Modal closeModal={closeModal}>
-          <EditSkillAdmin skill={selectedSkill}></EditSkillAdmin>
+          <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
         </Modal>
       ) : null}
     </CommonPage>

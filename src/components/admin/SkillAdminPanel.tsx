@@ -1,14 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import {
-  DeleteSkillMutation,
-  SetVerifiedSkillMutationMutationFn,
-} from "../../generated/graphql";
-import {
-  DELETE_SKILL_MUTATION,
-  UPDATE_SKILL_VERIFIED_MUTATION,
-} from "../../graphql/mutations/skills";
+import { DeleteSkillMutation } from "../../generated/graphql";
+import { DELETE_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
@@ -32,24 +26,9 @@ const SkillAdminPanel = ({
    * MUTATIONS
    */
   const [deleteSkill] = useMutation<DeleteSkillMutation>(DELETE_SKILL_MUTATION);
-  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
-    UPDATE_SKILL_VERIFIED_MUTATION
-  );
 
   const deleteSkillButtonClick = async () => {
     await deleteSkill({ variables: { skillId: skill.id } })
-      .then(() => {
-        router.reload();
-      })
-      .catch(({}) => {
-        displayNotification(`${t("error.unknown")}`, "red", 5000);
-      });
-  };
-
-  const updateVerifiedSkillButtonClick = async () => {
-    await updateVerifiedSkill({
-      variables: { skillId: skill.id, verified: true },
-    })
       .then(() => {
         router.reload();
       })
@@ -75,11 +54,8 @@ const SkillAdminPanel = ({
                 </Button>
               </div>
               <div className="flex flex-col">
-                <Button
-                  type={"primary"}
-                  callback={updateVerifiedSkillButtonClick}
-                >
-                  {t("admin.approved")}
+                <Button type={"primary"} callback={onEditClick}>
+                  {t("admin.verified")}
                 </Button>
               </div>
             </div>

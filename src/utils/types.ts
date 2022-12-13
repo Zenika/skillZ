@@ -14,8 +14,8 @@ export type FetchResult<T> = {
 export type FilterData<T> = { name: string; values: T[]; selected?: T };
 
 export type FetchedSkill = {
-  id: string;
-  name: string;
+  id?: string;
+  name?: string;
   desireLevel?: number;
   skillLevel?: number;
   userCount?: number;
@@ -24,6 +24,13 @@ export type FetchedSkill = {
   verified?: boolean;
   categoryId?: string;
   updated_at?: Date;
+  SkillTags?: SkillTag[];
+  SkillTopics?: SkillTopics[];
+};
+
+export type SkillTopics = {
+  topicId: number;
+  skillId?: any;
 };
 
 export type Certification = {
@@ -59,7 +66,7 @@ export type Tag = {
 
 export type SkillTag = {
   tagId: number;
-  skillId: any;
+  skillId?: any;
 };
 
 export type Skill = {
