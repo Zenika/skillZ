@@ -4,26 +4,15 @@ import { i18nContext } from "../../utils/i18nContext";
 import { TopicItem } from "../../utils/types";
 import Topic from "../atoms/Topic";
 
-type TopicsRequiredProps = {
+type TopicsProps = {
   topics: TopicItem[];
   selectedTopics: string[];
   title: string;
   error?: boolean;
+  readOnly?: boolean;
+  addCallback?: (topic: TopicItem) => void;
+  removeCallback?: (topic: TopicItem) => void;
 };
-
-type TopicsOptionalProps =
-  | {
-      readOnly?: false;
-      addCallback: (topic: TopicItem) => void;
-      removeCallback: (topic: TopicItem) => void;
-    }
-  | {
-      readOnly: true;
-      addCallback?: never;
-      removeCallback?: never;
-    };
-
-export type TopicsProps = TopicsRequiredProps & TopicsOptionalProps;
 
 const Topics = ({
   topics,
@@ -32,7 +21,7 @@ const Topics = ({
   title,
   addCallback,
   removeCallback,
-  readOnly,
+  readOnly = false,
 }: TopicsProps) => {
   const { t } = useContext(i18nContext);
 
@@ -62,9 +51,7 @@ const Topics = ({
                   ? () => removeCallback(topic)
                   : () => addCallback(topic)
               }
-              {...(readOnly && {
-                readonly: true,
-              })}
+              readOnly={readOnly}
             />
           );
         })}
