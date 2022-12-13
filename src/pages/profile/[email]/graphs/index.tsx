@@ -2,11 +2,11 @@ import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import CommonPage from "../../../../components/CommonPage";
-import ErrorPage from "../../../../components/ErrorPage";
-import HomePanel from "../../../../components/HomePanel";
-import Loading from "../../../../components/Loading";
-import UserInfosTopBar from "../../../../components/UserInfosTopBar";
+import CommonPage from "../../../../components/templates/CommonPage";
+import ErrorPage from "../../../../components/templates/ErrorPage";
+import HomePanel from "../../../../components/organisms/HomePanel/HomePanel";
+import Loading from "../../../../components/molecules/Loading";
+import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,

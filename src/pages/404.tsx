@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
-import Button from "../components/Button";
-import CommonPage from "../components/CommonPage";
+import Button from "../components/atoms/Button";
+import CommonPage from "../components/templates/CommonPage";
 import { i18nContext } from "../utils/i18nContext";
 
 export default function Custom404() {

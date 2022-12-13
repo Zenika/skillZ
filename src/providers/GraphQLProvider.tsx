@@ -9,7 +9,7 @@ import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { of } from "await-of";
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
-import Loading from "../components/Loading";
+import Loading from "../components/molecules/Loading";
 import { config } from "../env";
 
 const GraphQLProvider = ({
