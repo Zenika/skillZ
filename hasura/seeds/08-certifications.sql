@@ -23,6 +23,7 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('Certified SAFe 5 Program Consultant', 'SAFe', true),
 ('Management 3.0', 'Management 3.0', true),
 ('Certification "facilitation collaborative avec les Innovation Games" - RS5580', 'CréAgile', true),
+('Professionel Scrum Certifié - RS2396', 'Kagilum', true),
 ('PMI Agile Certified Practitioner', 'Project Management Institute', true),
 ('Design Sprint', 'AJ&Smart', true),
 ('ITIL 3 Foundation', 'Axelos', true),

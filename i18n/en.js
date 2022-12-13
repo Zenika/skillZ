@@ -8,6 +8,10 @@ export default {
       "Unable to add this skill, check that it does not already exist.",
     unknown: "An unknown error has occurred.",
     refetch: "Retry",
+    noData: "No data available.",
+    requiredField: "This field is required",
+    tagRequired: "Add at least 1 tag",
+    topicRequired: "Add at least 1 topic",
   },
   nav: {
     mySkills: "My skills",
@@ -17,14 +21,37 @@ export default {
     classic: "Classic",
     preferences: "Preferences",
   },
+  admin: {
+    deleteSkill: "Delete from Skillz",
+    verified: "Verify",
+    skillsPending: "Skills that are pending validation",
+    allSkills: "All skills",
+    modify: "Modify",
+    update: "Update",
+    skillList: "Skills list",
+    category: "Category",
+    approve: "Approve this skill",
+    topics: "Associated topics",
+    addTags: "Add tags",
+    placeHolderDescription: "Set the description",
+    save: "Save",
+    description: "Description",
+    notification: {
+      descriptionEmpty: "The description can't be empty",
+      descriptionSuccess:
+        "The descrition of %skill% has been modified with success",
+      descriptionError: "Error, try again",
+    },
+  },
   sidepanel: {
     profile: "Profile",
-    preferedLanguage: "Prefered language",
+    language: "Language",
     darkMode: "Dark mode",
     logout: "Logout",
     botNotifications: "Slack bot notifications",
   },
   home: {
+    bestSkills: "Top 5 skills",
     addSkill: "Add skill",
     noSkill: "No skill here",
     practices: "Practices",
@@ -39,6 +66,7 @@ export default {
     knowledge: "Knowledge",
     behaviors: "Behavior",
     profile: "Profile",
+    search: "Search",
   },
   onboarding: {
     skip: "Skip",
@@ -92,10 +120,15 @@ export default {
       desire: "Desire level",
       cancel: "CANCEL",
       addSkill: "ADD SKILL",
+      editSkill: "UPDATE",
       delete: "Delete",
     },
     addSkillSuccess: "Skill %skill% was added successfully",
     updateSkillSuccess: "Skill %skill% was updated successfully",
+    addSkillTopicSuccess:
+      "Topic %topic% has been successfully added to the skill.",
+    deleteSkillTopicSuccess:
+      "Topic %topic% has been successfully removed from the skill.",
     deleteSkillSuccess: "Skill %skill% was deleted successfully",
     refreshSkillFailed: "Error while refreshing skills",
     updateSkillFailed: "Error while updating %skill%.",
@@ -103,11 +136,13 @@ export default {
     topBar: {
       title: "Here is the graph of %category% from",
     },
+    lastUpdate: "Last update",
   },
   myProfile: {
     onboardingButton: "Let's go !",
     onboarding:
       "Welcome to SkillZ ! 🎉 We recommend you set your prefered topics, and your certifications so your profile is complete. But let's start with your agency.",
+    lastLogin: "Last login",
     agency: "My agency",
     selectPlaceholder: "Select my agency",
     contact: "My prefered method of contact",
@@ -149,6 +184,7 @@ export default {
     targeting: "aiming for",
     validTo: "to",
     addCert: "Add Cert",
+    seeRadars: "See graphs",
     certModal: {
       confirm: "Confirm",
       cancel: "Cancel",
@@ -164,9 +200,11 @@ export default {
       selectDate: "Select a date",
     },
   },
-  radar: {
-    desire: "Desire level",
-    level: "Skill level",
+  graph: {
+    scatter: {
+      desire: "Desire level",
+      level: "Skill level",
+    },
   },
   search: {
     placeholder: "Search for a skill",

@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CommonPage from "../components/CommonPage";
@@ -78,4 +78,6 @@ const Zenika = () => {
   );
 };
 
-export default Zenika;
+export default withAuthenticationRequired(Zenika, {
+  loginOptions: { prompt: "login" },
+});

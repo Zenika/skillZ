@@ -9,6 +9,8 @@ export const GET_USER_QUERY = gql`
       UserLatestAgency {
         agency
       }
+      last_login
+      current_login
     }
   }
 `;
@@ -29,9 +31,6 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
     Topic {
       id
       name
-      UserTopics(where: { userEmail: { _eq: $email } }) {
-        created_at
-      }
     }
     Certification {
       id
@@ -76,10 +75,8 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
         desireLevel
       }
     }
-    UserTopic_aggregate(where: { userEmail: { _eq: $email } }) {
-      aggregate {
-        count
-      }
+    UserTopic(where: { userEmail: { _eq: $email } }) {
+      topicId
     }
   }
 `;
@@ -91,13 +88,14 @@ export const GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY = gql`
       color
       x
       y
+      description
       CurrentSkillsAndDesires(
         limit: 5
         order_by: { skillLevel: desc, desireLevel: desc }
         where: { userEmail: { _eq: $email } }
       ) {
+        skillId
         name
-
         skillLevel
         desireLevel
       }

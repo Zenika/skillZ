@@ -1,9 +1,10 @@
 {
-  "name": "zprofile",
+  "name": "skillz",
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=14"
+    "node": "16.x",
+    "npm": "9.x"
   },
   "main": "index.js",
   "scripts": {
@@ -18,7 +19,7 @@
     "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings=0",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "ava",
     "test:integration": "npm run cypress:run",
@@ -34,6 +35,8 @@
     "@apollo/client": "^3.5.7",
     "@auth0/auth0-react": "1.6.0",
     "await-of": "3.1.1",
+    "clsx": "^1.2.1",
+    "date-fns": "^2.29.3",
     "graphql": "15.8.0",
     "next": "^12.0.7",
     "next-pwa": "^5.4.4",
@@ -43,6 +46,7 @@
     "react-icons": "^4.4.0",
     "react-responsive": "8.2.0",
     "react-swipeable": "6.1.2",
+    "recharts": "^2.1.16",
     "sharp": "^0.30.7",
     "use-debounce": "7.0.0"
   },
@@ -57,12 +61,14 @@
     "@types/node": "16.6.1",
     "@types/object-path": "0.11.1",
     "@types/react": "17.0.17",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
     "autoprefixer": "^10.4.2",
     "ava": "^4.0.1",
     "cypress": "^10.9.0",
     "dotenv": "^10.0.0",
-    "eslint": "8.24.0",
-    "eslint-config-next": "12.3.1",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
     "eslint-config-prettier": "^8.5.0",
     "faker": "5.5.3",
     "hasura-cli": "^2.8.4",

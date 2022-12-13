@@ -34,11 +34,7 @@ const SkillPage = () => {
       ? category
       : category.join("")
     : undefined;
-  const { data, color, loading, error } = useFetchUsersForSkill(
-    category,
-    skill,
-    agency
-  );
+  const { data, error } = useFetchUsersForSkill(category, skill, agency);
   if (error) {
     displayNotification(`Error: ${error.message}`, "red", 5000);
   }
@@ -71,4 +67,6 @@ const SkillPage = () => {
   );
 };
 
-export default withAuthenticationRequired(SkillPage);
+export default withAuthenticationRequired(SkillPage, {
+  loginOptions: { prompt: "login" },
+});

@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext } from "react";
+import { FaTrophy } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
+import { colorTable } from "../constants/colorTable";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
+import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
-import Radar from "./Radar";
 
 type HomePanelProps = {
   props: {
@@ -15,25 +16,23 @@ type HomePanelProps = {
     context: string;
     color: string;
     name: string;
+    description: string;
     count: number;
     data: {
-      x: number;
-      y: number;
-      weight: number;
-      labels: string[];
+      id: string;
       name: string;
+      skillLevel: number;
+      desireLevel: number;
     }[];
     certifs: number;
   };
 };
 
 const HomePanel = ({
-  props: { x, y, context, color, name, count, data, certifs },
+  props: { x, y, context, color, name, description, count, data, certifs },
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
-  const router = useRouter();
-  const { agency } = router.query;
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -49,7 +48,7 @@ const HomePanel = ({
     },
   };
 
-  const colorTable = {
+  const tailwindColorTable = {
     green: "text-light-green dark:text-dark-green",
     red: "text-light-red dark:text-dark-red",
     blue: "text-light-blue dark:text-dark-blue",
@@ -81,118 +80,161 @@ const HomePanel = ({
       }}
     >
       <div
-        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel ${
-          !isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"
-        } ${y && x ? roundTable[y][x] : ""} m-1 w-2/5`}
+        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel
+        hover:bg-light-dark border border-light-panel dark:border-dark-panel hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton
+        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"} ${
+          y && x ? roundTable[y][x] : ""
+        } m-1 w-2/5`}
       >
         <div
           className={`flex flex-auto ${
-            x === "right" ? "flex-row-reverse" : ""
+            y === "bot" ? "flex-col-reverse" : "flex-col"
           }`}
         >
           <div
-            className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+            className={`flex flex-auto ${
+              x === "right" ? "flex-row-reverse" : ""
+            }`}
           >
-            {data.length > 0 ? (
-              <div
-                className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
-                  y === "bot" ? "order-11" : "order-1"
-                }`}
-              >
-                {certifs > 0 ? (
-                  <div
-                    className={`text-lg text-center text-light-graytext dark:text-dark-graytext ${
-                      styles.certifs
-                    } ${x === "right" ? "order-last" : ""}`}
-                  >
-                    {certifs}
-                  </div>
-                ) : (
-                  <div className={x === "right" ? "order-last" : ""}> </div>
-                )}
-                <div>{count}</div>
-              </div>
-            ) : (
-              <div
-                className={`flex flex-auto flex-row justify-center py-4 h-1/3 ${
-                  y === "bot" ? "order-11" : "order-1"
-                }`}
-              >
-                {context !== "mine" ? (
-                  <div style={{ width: 48, height: 48 }}></div>
-                ) : (
-                  <Image
-                    src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-                    alt={"add"}
-                    width="48"
-                    height="48"
-                  />
-                )}
-              </div>
-            )}
-            {data.length > 0 ? (
-              <div
-                className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
-              >
-                {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
-                  <div
-                    key={i}
-                    className="flex flex-auto flex-row justify-between"
-                  >
-                    <div
-                      className={`${x === "right" ? "order-last" : ""} ${
-                        x === "right" ? "text-right" : "text-left"
-                      } ${
-                        data[i]
-                          ? `${
-                              widthTable[isDesktop ? "desktop" : "mobile"][i]
-                            } gradient-${color}`
-                          : ""
-                      } ${
-                        x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
-                      } h-6 m-0.5 text-light-greytext dark:text-dark-med p-0.5`}
-                    >
-                      {data[i] ? i + 1 : ""}
-                    </div>
-                    <span className="px-2 overflow-clip">
-                      {data[i]?.name ?? ""}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
-                <p className="text-center">
-                  {context !== "mine" ? t("home.noSkill") : t("home.addSkill")}
-                </p>
-              </div>
-            )}
             <div
-              className={`flex flex-auto ${
-                x === "left" ? "justify-end" : "justify-start"
-              } flex-row py-4 px-1 h-1/3 ${
-                y === "bot" ? "order-1" : "order-12"
+              className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+            >
+              {data.length > 0 ? (
+                <div
+                  className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
+                    y === "bot" ? "order-11" : "order-1"
+                  }`}
+                >
+                  {certifs > 0 ? (
+                    <div
+                      className={`text-lg text-center text-light-graytext dark:text-dark-graytext ${
+                        styles.certifs
+                      } ${x === "right" ? "order-last" : ""}`}
+                    >
+                      {certifs}
+                    </div>
+                  ) : (
+                    <div className={x === "right" ? "order-last" : ""}> </div>
+                  )}
+                  <div>{count}</div>
+                </div>
+              ) : (
+                <div
+                  className={`flex flex-auto flex-row justify-center py-4 h-1/3 ${
+                    y === "bot" ? "order-11" : "order-1"
+                  }`}
+                >
+                  {context !== "mine" ? (
+                    <div style={{ width: 48, height: 48 }}></div>
+                  ) : (
+                    <Image
+                      src={`/icons/${
+                        darkMode ? "dark" : "light"
+                      }/add-skill.svg`}
+                      alt={"add"}
+                      width="48"
+                      height="48"
+                    />
+                  )}
+                </div>
+              )}
+              {data.length > 0 ? (
+                <div
+                  className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
+                >
+                  <div
+                    className={`mb-2 ${
+                      tailwindColorTable[color]
+                    } flex items-center ${x === "right" && "justify-end"} ${
+                      !isDesktop && "text-sm"
+                    }`}
+                  >
+                    <FaTrophy className={`mr-2`} />
+                    {t("home.bestSkills")}
+                  </div>
+                  {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
+                    <div key={i} className="flex flex-auto flex-row">
+                      <div
+                        className={`${x === "right" ? "order-last" : ""} ${
+                          x === "right" ? "text-right" : "text-left"
+                        } font-bold ${
+                          data[i]
+                            ? `${
+                                widthTable[isDesktop ? "desktop" : "mobile"][i]
+                              } gradient-${color}`
+                            : ""
+                        } ${
+                          x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
+                        } h-6 m-0.5 text-light-light p-0.5`}
+                      >
+                        {data[i] ? i + 1 : ""}
+                      </div>
+                      <span
+                        className={`px-2 ${isDesktop ? "truncate w-full" : ""}`}
+                      >
+                        {data[i]?.name ?? ""}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
+                  <p className="text-center">
+                    {context !== "mine"
+                      ? t("home.noSkill")
+                      : t("home.addSkill")}
+                  </p>
+                </div>
+              )}
+              <div
+                className={`flex flex-col ${
+                  y === "bot" ? "justify-start" : "justify-end"
+                } flex-row py-4 px-1 h-1/3 ${
+                  y === "bot" ? "order-1" : "order-12"
+                }`}
+              >
+                <span
+                  className={`text-xl px-2 w-full ${
+                    x === "left" ? "text-right" : "text-left"
+                  } ${tailwindColorTable[color]}`}
+                >
+                  {isDesktop ? "" : t(`home.${name}`)}
+                </span>
+              </div>
+            </div>
+
+            {isDesktop && (
+              <div className={`flex flex-auto flex-col w-4/5 h-full`}>
+                <SkillzScatterChart
+                  data={data}
+                  color={colorTable[color]}
+                  axisLabels={false}
+                />
+              </div>
+            )}
+          </div>
+          {isDesktop && (
+            <div
+              className={`py-2 flex ${description ? "flex-col" : ""} ${
+                y != "bot" ? "items-end" : ""
               }`}
             >
-              <span
+              <p
                 className={`text-xl px-2 w-full ${
                   x === "left" ? "text-right" : "text-left"
-                } ${colorTable[color]}`}
+                } ${tailwindColorTable[color]}`}
               >
-                {isDesktop ? "" : t(`home.${name}`)}
-              </span>
-            </div>
-          </div>
-
-          {isDesktop && (
-            <div className={`flex flex-auto flex-col w-3/5 h-full`}>
-              <Radar
-                x={x}
-                y={y}
-                data={data}
-                color={color}
-                title={t(`home.${name}`)}
-              />
+                {t(`home.${name}`)}
+              </p>
+              {description && (
+                <p
+                  className={`text-xs px-2 w-full ${
+                    x === "left" ? "text-right" : "text-left"
+                  } ${tailwindColorTable[color]}`}
+                >
+                  {description}
+                </p>
+              )}
             </div>
           )}
         </div>

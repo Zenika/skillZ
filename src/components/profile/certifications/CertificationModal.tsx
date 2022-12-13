@@ -55,7 +55,11 @@ const CertificationModal = ({
                   obtained: !userCertification?.obtained,
                 });
               }}
-              className="flex flex-row items-center text-left my-4"
+              className={`flex flex-row items-center text-left my-4 hover:brightness-150 ${
+                userCertification?.obtained
+                  ? "dark:hover:brightness-150"
+                  : "dark:hover:brightness-75"
+              }`}
             >
               <Image
                 src={`/icons/${darkMode ? "dark" : "light"}/${
@@ -112,7 +116,11 @@ const CertificationModal = ({
                 onClick={() => {
                   setHasExpiryDate(!hasExpiryDate);
                 }}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  hasExpiryDate
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -153,18 +161,13 @@ const CertificationModal = ({
         </div>
       </div>
       <div className="mt-6 flex flex-row justify-between">
-        <Button
-          type={"secondary"}
-          style={"contained"}
-          callback={() => onCancel()}
-        >
+        <Button type={"tertiary"} callback={() => onCancel()}>
           {t("userProfile.certModal.cancel")}
         </Button>
         <div className={"flex flex-row gap-4"}>
           {editMode && (
             <Button
-              type={"primary"}
-              style={"outlined"}
+              type={"secondary"}
               callback={() => onDelete(userCertificationRef)}
             >
               {t("myProfile.removeCertification")}
@@ -172,7 +175,6 @@ const CertificationModal = ({
           )}
           <Button
             type={"primary"}
-            style={"contained"}
             callback={() =>
               onConfirm({
                 ...userCertification,

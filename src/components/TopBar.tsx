@@ -5,8 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { GetUserAgencyQuery } from "../generated/graphql";
-import { GET_USER_AGENCY_QUERY } from "../graphql/queries/userInfos";
+import { config } from "../env";
+import {
+  GetAllNotVerifiedSkillsQuery,
+  GetUserAgencyQuery,
+  GetUserQuery,
+} from "../generated/graphql";
+import { GET_ALL_NOT_VERIFIED_SKILL } from "../graphql/queries/skills";
+import {
+  GET_USER_AGENCY_QUERY,
+  GET_USER_QUERY,
+} from "../graphql/queries/userInfos";
 import { useDarkMode } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { BotNotifications } from "./BotNotifications";
@@ -40,6 +49,16 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     }
   );
 
+  const { data: userData } = useQuery<GetUserQuery>(GET_USER_QUERY, {
+    variables: { email: user.email },
+    fetchPolicy: "network-only",
+  });
+
+  const { data: skills, error: errorSkills } =
+    useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
+      fetchPolicy: "network-only",
+    });
+
   /*
    * CALLBACKS
    */
@@ -58,10 +77,8 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     query: "(min-device-width: 1280px)",
   });
 
-  if (error) {
-    console.error(
-      `Something bad happened while authenticating user: ${error.message}`
-    );
+  if (error || errorSkills) {
+    console.error(`Something bad happened: ${error.message}`);
     return <></>;
   }
 
@@ -82,13 +99,13 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             />
           </Link>
         </div>
-        <div className="flex justify-center w-1/3">
+        <div className="flex justify-center h-full w-1/3">
           {isDesktop && (
-            <div className="flex flex-col justify-center p-4">
-              <div className="flex flex-row justify-around">
+            <div className="flex flex-col justify-center px-4 h-full">
+              <div className="flex flex-row justify-around h-full items-center">
                 <div className="w-36">
                   <Link href="/">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           context === "mine" || pathname === "/"
@@ -114,7 +131,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 </div>
                 <div className="w-36">
                   <Link href="/zenika">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           context === "zenika" || pathname === "/zenika"
@@ -142,7 +159,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 </div>
                 <div className="w-36">
                   <Link href="/search">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer">
+                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                       <Image
                         src={
                           pathname === "/search"
@@ -165,6 +182,48 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     </div>
                   </Link>
                 </div>
+                {user.email ===
+                  config.nextPublicAdmins
+                    .split(";")
+                    .find((admin) => admin === user.email) && (
+                  <div className="w-36">
+                    <Link href="/admin">
+                      <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid">
+                        <Image
+                          src={
+                            pathname === "/admin"
+                              ? `/icons/${
+                                  darkMode ? "dark" : "light"
+                                }/zenika-selected.svg`
+                              : `/icons/${
+                                  darkMode ? "dark" : "light"
+                                }/zenika.svg`
+                          }
+                          alt={"admin"}
+                          width="25"
+                          height="25"
+                          className="p-1"
+                        />
+                        {skills && (
+                          <div
+                            className={
+                              "absolute top-1 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
+                            }
+                          >
+                            {skills.Skill.length}
+                          </div>
+                        )}
+
+                        <span className="text-center">Admin</span>
+                        {pathname === "/admin" && (
+                          <div className="flex flex-row justify-center w-full h-0.5">
+                            <div className="w-3/4 h-full gradient-red" />
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -182,7 +241,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             </button>
           )}
           {isDesktop && (
-            <div className="z-50 divide-y divide-dark-radargrid divide-light-radargrid">
+            <div className="divide-y divide-dark-radargrid divide-light-radargrid hover:bg-light-dark hover:dark:bg-dark-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex flex-row items-center px-2 py-4 justify-between h-full"
@@ -190,9 +249,19 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 <div className="flex flex-col px-2 justify-center">
                   <span className="font-bold">{user?.name}</span>
                   {userAgencyResult?.UserLatestAgency[0]?.agency && (
-                    <span>
+                    <p className={"text-sm"}>
                       {`Zenika ${userAgencyResult?.UserLatestAgency[0]?.agency}`}
-                    </span>
+                    </p>
+                  )}
+                  {userData && userData.User[0] && (
+                    <p className={"text-xs"}>{`${t(
+                      "myProfile.lastLogin"
+                    )} : ${new Date(userData.User[0].last_login).toLocaleString(
+                      [],
+                      {
+                        dateStyle: "short",
+                      }
+                    )}`}</p>
                   )}
                 </div>
                 <Image
@@ -204,12 +273,12 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 />
               </button>
               <div
-                className={`bg-light-ultrawhite dark:bg-dark-ultradark shadow rounded z-50 ${
-                  !openMenu ? "hidden" : ""
+                className={`relative bg-light-ultrawhite dark:bg-dark-med shadow rounded-b-md z-50 ${
+                  !openMenu && "hidden"
                 }`}
               >
-                <ul className="flex flex-col justify-around h-full p-2">
-                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
+                <ul className="flex flex-col justify-around h-full p-2 rounded-b-md border border-light-ultrawhite dark:border-dark-ultradark">
+                  <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link href={`/profile`}>
                       <div className="flex flex-row cursor-pointer">
                         <Image
@@ -224,7 +293,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                       </div>
                     </Link>
                   </li>
-                  <li className="p-2 hover:bg-light-med dark:hover:bg-dark-med">
+                  <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link href="/logout">
                       <div className="flex flex-row cursor-pointer">
                         <Image

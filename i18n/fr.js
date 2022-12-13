@@ -8,6 +8,31 @@ export default {
       "Impossible d'ajouter cette compétence, vérifiez que celle-ci n'existe pas déjà.",
     unknown: "Une erreur inconnue est survenue.",
     refetch: "Réessayer",
+    noData: "Aucune donnée disponible.",
+    requiredField: "Ce champs est obligatoire",
+    tagRequired: "Ajoutez au minimum 1 tag",
+    topicRequired: "Ajoutez au minimum 1 sujet",
+  },
+  admin: {
+    deleteSkill: "Supprimer de Skillz",
+    verified: "Vérifier",
+    skillsPending: "Compétences en attente de validation",
+    allSkills: "Toutes les compétences",
+    modify: "Modifier",
+    update: "Mettre à jour",
+    skillList: "Liste des compétences",
+    category: "Catégorie",
+    topics: "Sujets associés",
+    addTags: "Ajouter des tags",
+    placeHolderDescription: "Modifier la description",
+    save: "Sauvegarder",
+    approve: "Approuver ce skill",
+    description: "Description",
+    notification: {
+      descriptionEmpty: "La description ne peut pas être vide",
+      descriptionSuccess: "La description de %skill% a été changée avec succés",
+      descriptionError: "Erreur, essayez encore",
+    },
   },
   nav: {
     mySkills: "Compétences",
@@ -19,12 +44,13 @@ export default {
   },
   sidepanel: {
     profile: "Profil",
-    preferedLanguage: "Langue",
+    language: "Langue",
     darkMode: "Mode sombre",
     logout: "Se déconnecter",
     botNotifications: "Notifications du bot Slack",
   },
   home: {
+    bestSkills: "Top 5 des compétences",
     addSkill: "Ajouter une compétence",
     noSkill: "Aucune compétence",
     practices: "Pratiques",
@@ -39,6 +65,7 @@ export default {
     knowledge: "Connaissances",
     behaviors: "Postures",
     profile: "Profil",
+    search: "Recherche",
   },
   onboarding: {
     skip: "Passer",
@@ -95,10 +122,13 @@ export default {
       desire: "Niveau d'appétence",
       cancel: "ANNULER",
       addSkill: "AJOUTER",
+      editSkill: "MODIFIER",
       delete: "Supprimer",
     },
     addSkillSuccess: "La compétence %skill% a été ajoutée avec succès",
     updateSkillSuccess: "La compétence %skill% a été modifiée avec succès",
+    addSkillTopicSuccess: "Le sujet %topic% a bien été ajouté au skill",
+    deleteSkillTopicSuccess: "Le sujet %topic% a bien été supprimé du skill",
     deleteSkillSuccess: "La compétence %skill% a été supprimée avec succès",
     refreshSkillFailed: "Erreur lors de la récupération des compétences",
     updateSkillFailed:
@@ -108,11 +138,13 @@ export default {
     topBar: {
       title: "Voici le graphique %category% de",
     },
+    lastUpdate: "Dernière mise à jour",
   },
   myProfile: {
     onboardingButton: "C'est parti !",
     onboarding:
       "Bienvenue sur SkillZ ! 🎉 Nous vous recommandons de renseigner vos sujets préférés et vos certifications pour que votre profil soit complet. Mais commençons par votre agence.",
+    lastLogin: "Dernière connexion",
     agency: "Mon agence",
     selectPlaceholder: "Sélectionner mon agence",
     contact: "Ma méthode de contact préférée",
@@ -154,6 +186,7 @@ export default {
     targeting: "ciblée pour le",
     validTo: "jusqu'au",
     addCert: "Ajouter Certif",
+    seeRadars: "Voir les graphs",
     certModal: {
       confirm: "Confirmer",
       cancel: "Annuler",
@@ -169,9 +202,11 @@ export default {
       selectDate: "Sélectionner une date",
     },
   },
-  radar: {
-    desire: "Niveau d'appétence",
-    level: "Niveau de compétence",
+  graph: {
+    scatter: {
+      desire: "Niveau d'appétence",
+      level: "Niveau de compétence",
+    },
   },
   search: {
     placeholder: "Rechercher une compétence",

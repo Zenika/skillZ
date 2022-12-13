@@ -107,3 +107,18 @@ export const DELETE_USER_SKILL_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_USER_ACTIVITY = gql`
+  mutation updateUserActivity(
+    $email: String = ""
+    $last_login: timestamptz = ""
+    $current_login: timestamptz = ""
+  ) {
+    update_User(
+      where: { email: { _eq: $email } }
+      _set: { last_login: $last_login, current_login: $current_login }
+    ) {
+      affected_rows
+    }
+  }
+`;

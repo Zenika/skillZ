@@ -74,12 +74,13 @@
     - role: world
       permission:
         columns:
+          - color
+          - description
           - id
+          - index
           - label
           - x
           - "y"
-          - color
-          - index
         filter: {}
         allow_aggregations: true
 - table:
@@ -106,6 +107,20 @@
       using:
         foreign_key_constraint_on: categoryId
   array_relationships:
+    - name: SkillTags
+      using:
+        foreign_key_constraint_on:
+          column: skillId
+          table:
+            schema: public
+            name: SkillTag
+    - name: SkillTopics
+      using:
+        foreign_key_constraint_on:
+          column: skillId
+          table:
+            schema: public
+            name: SkillTopic
     - name: UserSkillDesires
       using:
         foreign_key_constraint_on:
@@ -129,14 +144,17 @@
         columns:
           - categoryId
           - id
+          - verified
           - name
   select_permissions:
     - role: world
       permission:
         columns:
           - categoryId
+          - description
           - id
           - name
+          - verified
         filter: {}
         allow_aggregations: true
   update_permissions:
@@ -144,19 +162,92 @@
       permission:
         columns:
           - categoryId
+          - description
           - id
           - name
+          - verified
         filter: {}
         check: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter: {}
 - table:
     schema: public
     name: SkillTag
+  object_relationships:
+    - name: Skill
+      using:
+        foreign_key_constraint_on: skillId
+    - name: Tag
+      using:
+        foreign_key_constraint_on: tagId
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - skillId
+          - tagId
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - skillId
+          - tagId
+        filter: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter: {}
 - table:
     schema: public
     name: SkillTopic
+  object_relationships:
+    - name: Skill
+      using:
+        foreign_key_constraint_on: skillId
+    - name: Topic
+      using:
+        foreign_key_constraint_on: topicId
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - skillId
+          - topicId
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - skillId
+          - topicId
+        filter: {}
+  update_permissions:
+    - role: world
+      permission:
+        columns: []
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: world
+      permission:
+        backend_only: false
+        filter: {}
 - table:
     schema: public
     name: Tag
+  array_relationships:
+    - name: SkillTags
+      using:
+        foreign_key_constraint_on:
+          column: tagId
+          table:
+            schema: public
+            name: SkillTag
   select_permissions:
     - role: world
       permission:
@@ -168,6 +259,13 @@
     schema: public
     name: Topic
   array_relationships:
+    - name: SkillTopics
+      using:
+        foreign_key_constraint_on:
+          column: topicId
+          table:
+            schema: public
+            name: SkillTopic
     - name: UserTopics
       using:
         foreign_key_constraint_on:
@@ -181,6 +279,7 @@
         columns:
           - id
           - name
+          - type
         filter: {}
         allow_aggregations: true
 - table:
@@ -225,16 +324,20 @@
           email:
             _eq: x-hasura-user-email
         columns:
-          - email
           - botNotifications
+          - current_login
+          - email
+          - last_login
           - name
           - picture
   select_permissions:
     - role: world
       permission:
         columns:
-          - email
           - botNotifications
+          - current_login
+          - email
+          - last_login
           - name
           - picture
         filter: {}
@@ -244,15 +347,15 @@
       permission:
         columns:
           - botNotifications
+          - current_login
           - email
+          - last_login
           - name
           - picture
         filter:
           email:
             _eq: x-hasura-user-email
-        check:
-          email:
-            _eq: x-hasura-user-email
+        check: null
 - table:
     schema: public
     name: UserAchievements
@@ -412,6 +515,7 @@
             _eq: x-hasura-user-email
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
@@ -420,12 +524,13 @@
     - role: world
       permission:
         columns:
+          - created_at
+          - updated_at
+          - desireLevel
           - id
-          - userEmail
           - skillId
           - skillLevel
-          - desireLevel
-          - created_at
+          - userEmail
         filter: {}
         allow_aggregations: true
   update_permissions:
@@ -433,6 +538,7 @@
       permission:
         columns:
           - created_at
+          - updated_at
           - desireLevel
           - skillId
           - skillLevel
@@ -544,13 +650,14 @@
     - role: world
       permission:
         columns:
-          - skillId
           - categoryId
-          - userEmail
-          - name
-          - skillLevel
-          - desireLevel
           - created_at
+          - updated_at
+          - desireLevel
+          - name
+          - skillId
+          - skillLevel
+          - userEmail
         filter: {}
         allow_aggregations: true
 - table:

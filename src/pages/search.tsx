@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import CommonPage from "../components/CommonPage";
@@ -36,13 +37,12 @@ const Search = () => {
   /*
    * QUERIES
    */
-  const {
-    data,
-    error: profilesError,
-    loading: profilesLoading,
-  } = useQuery<SearchSkillsAndProfilesQuery>(SEARCH_SKILLS_AND_PROFILES_QUERY, {
-    variables: { search: `%${search}%` },
-  });
+  const { data, error: profilesError } = useQuery<SearchSkillsAndProfilesQuery>(
+    SEARCH_SKILLS_AND_PROFILES_QUERY,
+    {
+      variables: { search: `%${search}%` },
+    }
+  );
 
   const skills = data?.skills;
   const profiles = data?.profiles;
@@ -97,7 +97,7 @@ const Search = () => {
   }
 
   return (
-    <CommonPage page={"search"} backBar={false}>
+    <CommonPage page={"search"} backBar={true}>
       <div className={"flex justify-center"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
@@ -179,4 +179,6 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default withAuthenticationRequired(Search, {
+  loginOptions: { prompt: "login" },
+});

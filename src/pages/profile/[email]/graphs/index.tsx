@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import CommonPage from "../../../../components/CommonPage";
@@ -55,14 +56,14 @@ const HomePanelByUser = () => {
     y: data.y,
     color: data.color,
     name: data.label,
+    description: data.description,
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: `${query.email}`,
-    data: data.CurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.skillLevel,
-      y: skill.desireLevel,
-      weight: 25,
-      labels: [``],
+    data: data.CurrentSkillsAndDesires.map((skill) => ({
+      id: skill.skillId,
       name: skill.name,
+      skillLevel: skill.skillLevel,
+      desireLevel: skill.desireLevel,
     })),
     certifs: 0,
   })).map((row) => ({
@@ -103,4 +104,6 @@ const HomePanelByUser = () => {
   );
 };
 
-export default HomePanelByUser;
+export default withAuthenticationRequired(HomePanelByUser, {
+  loginOptions: { prompt: "login" },
+});

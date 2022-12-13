@@ -1,23 +1,23 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
+import { colorTable } from "../constants/colorTable";
 import { SearchSkillsByCategoryQuery, Skill } from "../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../graphql/queries/skills";
-import zenika from "../pages/zenika";
 import { computeFilterUrl } from "../utils/computeFilterUrl";
 import { displayNotification } from "../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
-import AddOrEditSkillModal from "./AddOrEditSkillModal";
+import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
-import Button from "./Button";
+import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import FilterByPanel from "./FilterByPanel";
-import Radar from "./Radar";
+import Modal from "./Modal";
 import SearchBar from "./SearchBar";
 import SkillPanel from "./SkillPanel";
 
@@ -26,7 +26,6 @@ type SkillListOverviewProps = {
   context: string;
   agency: string;
   category: { name: string; id: string };
-  setFadedPage?: Dispatch<SetStateAction<boolean>>;
 };
 
 const computeDidYouMeanSearchString = (search: string) => {
@@ -46,7 +45,6 @@ const SkillListOverview = ({
   context,
   agency,
   category,
-  setFadedPage,
 }: SkillListOverviewProps) => {
   /*
    * HOOKS
@@ -75,27 +73,24 @@ const SkillListOverview = ({
   /*
    * QUERIES
    */
-  const {
-    data: dataSearch,
-    refetch: refetchSearch,
-    loading: loadingSearch,
-    error: errorSearch,
-  } = useQuery<SearchSkillsByCategoryQuery>(SEARCH_SKILLS_BY_CATEGORY_QUERY, {
-    variables: {
-      category: category.name,
-      search: `%${debouncedSearchValue}%`,
-      email: userEmail,
-      didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
-    },
-    fetchPolicy: "network-only",
-  });
+  const { data: dataSearch } = useQuery<SearchSkillsByCategoryQuery>(
+    SEARCH_SKILLS_BY_CATEGORY_QUERY,
+    {
+      variables: {
+        category: category.name,
+        search: `%${debouncedSearchValue}%`,
+        email: userEmail,
+        didYouMeanSearch: computeDidYouMeanSearchString(debouncedSearchValue),
+      },
+      fetchPolicy: "network-only",
+    }
+  );
 
   const {
     skillsData,
     color,
     agencies,
     refetch: SkillsRefetch,
-    loading: skillsLoading,
   } = useFetchSkillsByContextCategoryAndAgency(
     context,
     category.name,
@@ -107,12 +102,8 @@ const SkillListOverview = ({
   /*
    * MUTATIONS
    */
-  const [addSkill, { error: mutationError }] = useMutation(
-    ADD_USER_SKILL_MUTATION
-  );
-  const [deleteSkill, { error: mutationDeleteError }] = useMutation(
-    DELETE_USER_SKILL_MUTATION
-  );
+  const [addSkill] = useMutation(ADD_USER_SKILL_MUTATION);
+  const [deleteSkill] = useMutation(DELETE_USER_SKILL_MUTATION);
 
   const editSkillAction = ({ id, name, skillLevel, desireLevel, add }) => {
     if (add) {
@@ -122,6 +113,7 @@ const SkillListOverview = ({
           email: userEmail,
           skillLevel,
           desireLevel,
+          updated_at: new Date(),
         },
       })
         .then(() => {
@@ -176,13 +168,6 @@ const SkillListOverview = ({
   const onModalClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
     setEditPanelOpened(true);
-    setFadedPage(true);
-  };
-
-  const onModalCancel = () => {
-    setSelectedSkill(null);
-    setEditPanelOpened(false);
-    setFadedPage(false);
   };
 
   const filters =
@@ -215,63 +200,58 @@ const SkillListOverview = ({
           <div className="flex flex-row justify-center w-full">
             {isDesktop && (
               <div className="flex flex-col h-2/3 w-2/3 px-2">
-                <Radar
-                  data={
-                    skillsData
-                      ?.filter(
+                {skillsData && (
+                  <SkillzScatterChart
+                    data={
+                      skillsData?.filter(
                         (skill) =>
                           (skill.skillLevel > 0 || skill.skillLevel) &&
                           (skill.desireLevel > 0 || skill.desireLevel)
-                      )
-                      .map((skill) => ({
-                        x: skill.skillLevel,
-                        y: skill.desireLevel,
-                        weight: 65,
-                        labels: [skill.name],
-                        name: skill.name,
-                      })) ?? []
-                  }
-                  color={color}
-                  x="top"
-                  y="left"
-                  title=""
-                  faded={editPanelOpened}
-                />
+                      ) ?? []
+                    }
+                    color={colorTable[color]}
+                    axisLabels={true}
+                  />
+                )}
               </div>
             )}
             <div
               className={`flex flex-col ${isDesktop ? "w-1/3" : "w-full"} px-2`}
             >
               {context === "mine" && (
-                <>
-                  <div
-                    className={`flex flex-row justify-around px-2 py-1 ${
-                      editPanelOpened ? "opacity-25" : ""
-                    }`}
-                  >
-                    <Button
-                      type={add ? "secondary" : "primary"}
-                      style={"contained"}
-                      callback={() =>
-                        router.push(`/skills/${context}/${category.name}`)
-                      }
-                    >
-                      {t("skills.mySkills")}
-                    </Button>
-                    <Button
-                      type={add ? "primary" : "secondary"}
-                      style={"contained"}
-                      callback={() =>
-                        router.push({
-                          pathname: `/skills/${context}/${category.name}`,
-                          search: "?add=true",
-                        })
-                      }
-                    >
-                      {t("skills.addSkill")}
-                    </Button>
-                  </div>
-                </>
+                <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                  <ul className="flex flex-wrap -mb-px">
+                    <li className="w-1/2 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          router.push({
+                            pathname: `/skills/${context}/${category.name}`,
+                          })
+                        }
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent hover:bg-light-dark hover:dark:bg-dark-radargrid ${
+                          !add && "border-b-2 border-dark-red"
+                        }`}
+                      >
+                        {t("skills.mySkills")}
+                      </div>
+                    </li>
+                    <li className="w-1/2 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          router.push({
+                            pathname: `/skills/${context}/${category.name}`,
+                            search: "?add=true",
+                          })
+                        }
+                        className={`w-full inline-block p-4 rounded-t-lg border-transparent hover:bg-light-dark hover:dark:bg-dark-radargrid ${
+                          add && "border-b-2 border-dark-red"
+                        }`}
+                      >
+                        {t("skills.addSkill")}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               )}
               <div className="flex flex-col mt-6 max-w-screen-xl min-h-screen">
                 <SearchBar
@@ -282,7 +262,7 @@ const SkillListOverview = ({
                   <div
                     className={`flex flex-col ${
                       isDesktop ? "h-radar" : ""
-                    } p-2 z-10 ${editPanelOpened ? "opacity-25" : ""}`}
+                    } p-2 ${editPanelOpened ? "opacity-25" : ""}`}
                   >
                     <AddSkillListSelector
                       action={onModalClick}
@@ -307,14 +287,11 @@ const SkillListOverview = ({
                 )}
                 {(!add || context === "zenika") && (
                   <div
-                    className={`my-4 z-10 ${
+                    className={`my-4 ${
                       editPanelOpened ? "cursor-pointer" : ""
                     } ${isDesktop ? "h-radar overflow-y-auto" : ""} ${
                       editPanelOpened ? "opacity-25" : ""
                     }`}
-                    onClick={() =>
-                      editPanelOpened ? onModalCancel() : () => {}
-                    }
                   >
                     {skillsData?.length > 0 ? (
                       skillsData
@@ -340,32 +317,24 @@ const SkillListOverview = ({
                     )}
                   </div>
                 )}
-                <div
-                  className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-                    editPanelOpened ? "" : "hidden"
-                  }`}
-                >
-                  {selectedSkill && (
-                    <div className="flex flex-row justify-center">
-                      <AddOrEditSkillModal
-                        skill={selectedSkill}
-                        cancel={onModalCancel}
-                        callback={(skill) => {
-                          editSkillAction({
-                            id: skill.id,
-                            name: skill.name,
-                            skillLevel: skill.skillLevel,
-                            desireLevel: skill.desireLevel,
-                            add: skill.add,
-                          });
-                          setEditPanelOpened(false);
-                          setSelectedSkill(null);
-                          setFadedPage(false);
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
+                {selectedSkill && editPanelOpened ? (
+                  <Modal closeModal={() => setEditPanelOpened(false)}>
+                    <AddOrEditSkill
+                      skill={selectedSkill}
+                      callback={(skill) => {
+                        editSkillAction({
+                          id: skill.id,
+                          name: skill.name,
+                          skillLevel: skill.skillLevel,
+                          desireLevel: skill.desireLevel,
+                          add: skill.add,
+                        });
+                        setEditPanelOpened(false);
+                        setSelectedSkill(null);
+                      }}
+                    />
+                  </Modal>
+                ) : null}
               </div>
             </div>
           </div>

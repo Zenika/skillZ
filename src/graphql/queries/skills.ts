@@ -44,6 +44,7 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
       ) {
         desireLevel
         skillLevel
+        updated_at
       }
       Category {
         color
@@ -73,9 +74,11 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       order_by: { name: asc }
     ) {
       name
+      skillId
       skillLevel: averageSkillLevel
       desireLevel: averageDesireLevel
       Category {
+        id
         label
         color
       }
@@ -212,10 +215,12 @@ export const GET_SKILLS_AND_DESIRES_QUERY = gql`
       color
       x
       y
+      description
       ZenikasAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel
@@ -239,11 +244,13 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
       color
       x
       y
+      description
       AgenciesAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
         where: { agency: { _eq: $agency } }
       ) {
+        skillId
         name
         averageSkillLevel
         averageDesireLevel
@@ -265,6 +272,115 @@ export const GET_SKILLS_AND_DESIRES_BY_AGENCY_QUERY = gql`
 export const GET_SKILL_ID_BY_NAME = gql`
   query getSkillCategoryAndIDByName($name: String!) {
     Skill(where: { name: { _eq: $name } }) {
+      id
+    }
+  }
+`;
+
+export const GET_ALL_VERIFIED_SKILL = gql`
+  query getAllVerifiedSkills($search: String!) {
+    Skill(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
+      name
+      id
+      description
+      verified
+      categoryId
+      SkillTags {
+        tagId
+      }
+      SkillTopics {
+        topicId
+      }
+    }
+  }
+`;
+
+export const GET_ALL_NOT_VERIFIED_SKILL = gql`
+  query getAllNotVerifiedSkills {
+    Skill(where: { verified: { _eq: false } }) {
+      name
+      id
+      verified
+    }
+  }
+`;
+
+export const GET_SKILL_MANDATORY_FIELDS = gql`
+  query skillMandatoryFields($skillId: uuid!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      SkillTags {
+        skillId
+        tagId
+      }
+      SkillTopics {
+        topicId
+        skillId
+      }
+      description
+      name
+      categoryId
+      verified
+      id
+    }
+  }
+`;
+
+export const GET_SKILL_DETAILS = gql`
+  query skillDetails($skillId: uuid!, $email: String!) {
+    Skill(where: { id: { _eq: $skillId } }) {
+      description
+      name
+      id
+      SkillTopics {
+        Topic {
+          id
+          name
+        }
+      }
+      UserSkillDesires(where: { userEmail: { _eq: $email } }) {
+        created_at
+      }
+    }
+  }
+`;
+
+export const GET_SKILLTAGS_BY_SKILL = gql`
+  query skillTagsBySkill($skillId: uuid!) {
+    SkillTag(where: { skillId: { _eq: $skillId } }) {
+      tagId
+      skillId
+      Tag {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_ALL_TAGS = gql`
+  query getAllTags {
+    Tag {
+      name
+      id
+    }
+  }
+`;
+
+export const SEARCH_IN_ALL_TAGS = gql`
+  query searchAllTags($search: String!, $tagIds: [Int!]!) {
+    Tag(
+      where: { name: { _ilike: $search }, id: { _nin: $tagIds } }
+      order_by: { name: asc }
+    ) {
+      name
+      id
+    }
+  }
+`;
+
+export const GET_TAG_FROM_TAGNAME = gql`
+  query getTagFromTagName($tagName: String!) {
+    Tag(where: { name: { _eq: $tagName } }) {
+      name
       id
     }
   }

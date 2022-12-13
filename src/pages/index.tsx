@@ -63,19 +63,16 @@ const Home = () => {
     y: data.y,
     color: data.color,
     name: data.label,
+    description: data.description,
     count: data.CurrentSkillsAndDesires_aggregate.aggregate.count,
     context: "mine",
-    data: data.CurrentSkillsAndDesires.map((skill, i) => ({
-      x: skill.skillLevel,
-      y: skill.desireLevel,
-      weight: 25,
-      labels: [``],
+    data: data.CurrentSkillsAndDesires.map((skill) => ({
+      id: skill.skillId,
       name: skill.name,
+      skillLevel: skill.skillLevel,
+      desireLevel: skill.desireLevel,
     })),
     certifs: 0,
-  })).map((row) => ({
-    ...row,
-    data: row.data.map((dataRow, i) => ({ ...dataRow, labels: [`${i + 1}`] })),
   }));
 
   if (authLoading || userLoading || dataLoading) {
@@ -98,4 +95,6 @@ const Home = () => {
   );
 };
 
-export default withAuthenticationRequired(Home);
+export default withAuthenticationRequired(Home, {
+  loginOptions: { prompt: "login" },
+});

@@ -5,17 +5,13 @@ import { i18nContext } from "../utils/i18nContext";
 import { FetchedSkill } from "../utils/types";
 import Button from "./Button";
 
-type AddOrEditSkillModalProps = {
+type AddOrEditSkillProps = {
   skill?: FetchedSkill;
-  cancel: () => void;
   callback: (skill: FetchedSkill) => void;
+  add?: string | string[];
 };
 
-const AddOrEditSkillModal = ({
-  skill,
-  cancel,
-  callback,
-}: AddOrEditSkillModalProps) => {
+const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
@@ -31,12 +27,11 @@ const AddOrEditSkillModal = ({
   };
 
   return (
-    <div className="flex flex-col my-16 mx-6 bg-light-light dark:bg-dark-light p-6 rounded-lg max-w-screen-sm w-full z-50">
-      <div className="flex flex-row place-content-between">
-        <h1 className="flex-start px-2 my-4 text-xl text-bold">
-          {skill?.name}
-        </h1>
-      </div>
+    <div
+      id="addOrEditSkill"
+      className="flex flex-col relative h-fit max-h-75vh w-full"
+    >
+      <h1 className="m-auto px-2 my-4 text-xl text-bold">{skill?.name}</h1>
       <div className="flex flex-col">
         <div className="flex flex-row justify-around">
           <div className="flex flex-col">
@@ -65,7 +60,7 @@ const AddOrEditSkillModal = ({
         <div className="m-4">
           <div
             className={`flex flex-col ${
-              navState === "knowledge" ? "" : "hidden"
+              navState === "knowledge" ? null : "hidden"
             }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
@@ -75,7 +70,11 @@ const AddOrEditSkillModal = ({
                   setSkillLevel(index);
                   setNavState("desire");
                 }}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  skillLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -95,13 +94,19 @@ const AddOrEditSkillModal = ({
             ))}
           </div>
           <div
-            className={`flex flex-col ${navState === "desire" ? "" : "hidden"}`}
+            className={`flex flex-col ${
+              navState === "desire" ? null : "hidden"
+            }`}
           >
             {[1, 2, 3, 4, 5].map((index) => (
               <button
                 key={`desire-${index}`}
                 onClick={() => setDesireLevel(index)}
-                className="flex flex-row text-left my-2"
+                className={`flex flex-row text-left my-2 hover:brightness-150 ${
+                  desireLevel === index
+                    ? "dark:hover:brightness-150"
+                    : "dark:hover:brightness-75"
+                }`}
               >
                 <span className="shrink-0 my-0.5">
                   <Image
@@ -121,29 +126,34 @@ const AddOrEditSkillModal = ({
               </button>
             ))}
           </div>
+          {skill.updated_at && (
+            <p className="mb-3 text-xs text-light-graytext dark:text-dark-graytext">
+              {`${t("skills.lastUpdate")} : ${skill.updated_at.toLocaleString(
+                [],
+                { dateStyle: "short" }
+              )}`}
+            </p>
+          )}
         </div>
       </div>
-      <div className="flex flex-row justify-between">
-        <Button type={"secondary"} style={"contained"} callback={cancel}>
-          {t("skills.modal.cancel")}
-        </Button>
-        <div className={"flex flex-row gap-4"}>
+      <div className="flex flex-row justify-between flex-wrap gap-4 pb-2">
+        <div className="flex flex-row gap-4 flex-wrap justify-between w-full">
+          {!add ? (
+            <Button
+              type={"secondary"}
+              callback={onDeleteButtonClick}
+              disabled={
+                skillLevel === 0 ||
+                desireLevel === 0 ||
+                !skill.desireLevel ||
+                !skill.skillLevel
+              }
+            >
+              {t("skills.modal.delete")}
+            </Button>
+          ) : null}
           <Button
             type={"primary"}
-            style={"outlined"}
-            callback={onDeleteButtonClick}
-            disabled={
-              skillLevel === 0 ||
-              desireLevel === 0 ||
-              !skill.desireLevel ||
-              !skill.skillLevel
-            }
-          >
-            {t("skills.modal.delete")}
-          </Button>
-          <Button
-            type={"primary"}
-            style={"contained"}
             callback={onAddButtonClick}
             disabled={skillLevel === 0 || desireLevel === 0}
           >
@@ -155,4 +165,4 @@ const AddOrEditSkillModal = ({
   );
 };
 
-export default AddOrEditSkillModal;
+export default AddOrEditSkill;

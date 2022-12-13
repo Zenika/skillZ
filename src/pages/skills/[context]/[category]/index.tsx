@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import CommonPage from "../../../../components/CommonPage";
 import ErrorPage from "../../../../components/ErrorPage";
 import Loading from "../../../../components/Loading";
@@ -33,16 +33,10 @@ const ListSkillsPage = () => {
   agency = typeof agency === "string" ? agency : agency?.join("") ?? null;
 
   /*
-   * STATES
-   */
-  const [modalOpened, setModalOpened] = useState(false);
-
-  /*
    * QUERIES
    */
   const {
     data: categoryData,
-    refetch: categoryRefetch,
     loading: categoryLoading,
     error: categoryError,
   } = useQuery<GetCategoryIdByNameQuery>(GET_CATEGORIE_ID_BY_NAME, {
@@ -68,7 +62,7 @@ const ListSkillsPage = () => {
   }
 
   return (
-    <CommonPage page={category} faded={modalOpened}>
+    <CommonPage page={category}>
       {context != "mine" &&
         context != "zenika" &&
         userInfosDatas.User.length && (
@@ -90,10 +84,11 @@ const ListSkillsPage = () => {
           name: category as string,
           id: categoryData.Category[0].id,
         }}
-        setFadedPage={setModalOpened}
       />
     </CommonPage>
   );
 };
 
-export default withAuthenticationRequired(ListSkillsPage);
+export default withAuthenticationRequired(ListSkillsPage, {
+  loginOptions: { prompt: "login" },
+});

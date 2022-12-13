@@ -2,23 +2,25 @@ import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { GoGraph } from "react-icons/go";
 import Button from "../../../components/Button";
 import CommonPage from "../../../components/CommonPage";
 import Loading from "../../../components/Loading";
 import CertificationsList from "../../../components/profile/certifications/CertificationsList";
-import PreferedTopics from "../../../components/profile/PreferedTopics";
 import { Statistics } from "../../../components/profile/statistics/Statistics";
 import ViewAgency from "../../../components/profile/ViewAgency";
+import Topics from "../../../components/Topics";
 import { config } from "../../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../../generated/graphql";
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../../graphql/queries/userInfos";
+import { i18nContext } from "../../../utils/i18nContext";
 import Custom404 from "../../404";
 
 const Profile = () => {
   const { push, query } = useRouter();
   const { email: userEmail } = query;
+  const { t } = useContext(i18nContext);
 
   /*
    * QUERIES
@@ -31,14 +33,9 @@ const Profile = () => {
   );
 
   const infoUser = data?.User[0];
-  const userAgency =
-    error || !infoUser?.UserLatestAgency?.agency
-      ? undefined
-      : infoUser?.UserLatestAgency?.agency;
   const userAchievements =
     data?.UserAchievements.length <= 0 ? undefined : data?.UserAchievements;
   const skillsDatas = data?.Category;
-  const topics = error || data?.Topic.length <= 0 ? [] : data?.Topic;
   const userCertifications =
     error || data?.UserCertification.length <= 0 ? [] : data?.UserCertification;
 
@@ -71,37 +68,42 @@ const Profile = () => {
             </div>
             <Button
               type={"primary"}
-              style={"contained"}
               callback={() => push(linkRadar)}
               icon={<GoGraph />}
             >
-              See radars
+              {t("userProfile.seeRadars")}
             </Button>
           </div>
           {infoUser?.UserLatestAgency?.agency && (
             <ViewAgency agency={infoUser?.UserLatestAgency.agency}></ViewAgency>
           )}
-          <PreferedTopics
-            topics={topics}
-            refetch={null}
-            user={data?.User[0]}
-            readOnly={true}
-          ></PreferedTopics>
-          <CertificationsList
-            userCertifications={userCertifications}
-            readOnly={true}
-          ></CertificationsList>
-          {skillsDatas && (
-            <Statistics
-              userAchievements={userAchievements}
-              skillsDatas={skillsDatas}
-              myStatistics={false}
+          <div>
+            <Topics
+              readOnly
+              topics={data.Topic.map((topic) => {
+                return { id: topic.id, name: topic.name };
+              })}
+              selectedTopics={data.UserTopic.map((t) => t.topicId)}
+              title={t("userProfile.topics")}
             />
-          )}
+            <CertificationsList
+              userCertifications={userCertifications}
+              readOnly={true}
+            ></CertificationsList>
+            {skillsDatas && (
+              <Statistics
+                userAchievements={userAchievements}
+                skillsDatas={skillsDatas}
+                myStatistics={false}
+              />
+            )}
+          </div>
         </div>
       </div>
     </CommonPage>
   );
 };
 
-export default withAuthenticationRequired(Profile);
+export default withAuthenticationRequired(Profile, {
+  loginOptions: { prompt: "login" },
+});
