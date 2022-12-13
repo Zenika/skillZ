@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Manifest of Skillz app
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+    labels:
+      - "dependencies"
+      - "automated pr"
+      - "skillz-app"
+    reviewers:
+      - "MailyLehoux"
+      - "benjaminbrgs"
+
+
+  # Manifest of Skillz slack bot
+  - package-ecosystem: "npm"
+    directory: "bot-slack/"
+    target-branch: "main"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+    labels:
+      - "dependencies"
+      - "automated pr"
+      - "skillz-bot"
+    reviewers:
+      - "MailyLehoux"
