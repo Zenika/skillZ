@@ -8,7 +8,11 @@ type StatisticsProps = {
   readOnly: boolean;
 };
 
-export const Statistics = ({ userAchievements, skillsDatas, readOnly }) => {
+export const Statistics = ({
+  userAchievements,
+  skillsDatas,
+  readOnly,
+}: StatisticsProps) => {
   const { t } = useContext(i18nContext);
 
   const filterCountSkills = (label) =>

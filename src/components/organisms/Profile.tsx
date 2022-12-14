@@ -22,6 +22,7 @@ import Button from "../atoms/Button";
 import CustomSelect from "../atoms/CustomSelect/CustomSelect";
 import CertificationsList from "../molecules/CertificationsList";
 import Loading from "../molecules/Loading";
+import Modal from "../molecules/Modal";
 import { Statistics } from "../molecules/Statistics";
 import Topics from "../molecules/Topics";
 import CommonPage from "../templates/CommonPage";
@@ -49,7 +50,7 @@ const Profile = ({
   // STATES
   const [certModalOpened, setCertModalOpened] = useState(false);
   const [selectedUserCert, setSelectedUserCert] =
-    useState<UserCertification>(null);
+    useState<UserCertification | null>(null);
 
   // QUERIES
   const { data, error, refetch, loading } =
@@ -126,7 +127,7 @@ const Profile = ({
           5000
         );
         setCertModalOpened(false);
-        setSelectedUserCert(undefined);
+        setSelectedUserCert(null);
         refetch();
       })
       .catch(() => {
@@ -153,7 +154,7 @@ const Profile = ({
           5000
         );
         setCertModalOpened(false);
-        setSelectedUserCert(undefined);
+        setSelectedUserCert(null);
         refetch();
       })
       .catch(() => {
@@ -292,30 +293,29 @@ const Profile = ({
           </div>
         </div>
 
-        <div
-          className={`z-20 fixed inset-y-0 right-0 h-screen w-full ${
-            certModalOpened ? "" : "hidden"
-          }`}
-        >
-          {certModalOpened && (
-            <div className="flex flex-row justify-center">
-              <CertificationModal
-                userCertificationRef={selectedUserCert}
-                certificationsRef={data?.Certification ?? []}
-                onCancel={() => {
-                  setCertModalOpened(false);
-                  setSelectedUserCert(undefined);
-                }}
-                onConfirm={(userCertification) =>
-                  updateCertification(userCertification)
-                }
-                onDelete={(userCertification) =>
-                  deleteCertification(userCertification)
-                }
-              />
-            </div>
-          )}
-        </div>
+        {certModalOpened && (
+          <Modal
+            closeModal={() => {
+              setCertModalOpened(false);
+              setSelectedUserCert(null);
+            }}
+          >
+            <CertificationModal
+              userCertificationRef={selectedUserCert}
+              certificationsRef={data?.Certification ?? []}
+              onCancel={() => {
+                setCertModalOpened(false);
+                setSelectedUserCert(null);
+              }}
+              onConfirm={(userCertification) =>
+                updateCertification(userCertification)
+              }
+              onDelete={(userCertification) =>
+                deleteCertification(userCertification)
+              }
+            />
+          </Modal>
+        )}
       </CommonPage>
     );
   }
