@@ -55,7 +55,7 @@ const CustomSelect = ({
         } duration-500`}
       >
         {!readOnly && opened && (
-          <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-graybutton">
+          <div className="flex w-full flex-col z-10 bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-graybutton">
             {choices.map((choice) => (
               <span
                 key={keyFn(choice)}
