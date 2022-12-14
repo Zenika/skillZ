@@ -3,14 +3,14 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
-import CommonPage from "../../components/CommonPage";
-import CustomSelect from "../../components/CustomSelect";
-import ErrorPage from "../../components/ErrorPage";
-import Loading from "../../components/Loading";
-import CertificationModal from "../../components/profile/certifications/CertificationModal";
-import CertificationsList from "../../components/profile/certifications/CertificationsList";
-import { Statistics } from "../../components/profile/statistics/Statistics";
-import Topics from "../../components/Topics";
+import CustomSelect from "../../components/atoms/CustomSelect/CustomSelect";
+import CertificationsList from "../../components/molecules/CertificationsList";
+import Loading from "../../components/molecules/Loading";
+import { Statistics } from "../../components/molecules/Statistics";
+import Topics from "../../components/molecules/Topics";
+import CertificationModal from "../../components/organisms/CertificationModal";
+import CommonPage from "../../components/templates/CommonPage";
+import ErrorPage from "../../components/templates/ErrorPage";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
 import {
   DELETE_USER_CERTIFICATION_MUTATION,
