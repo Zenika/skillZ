@@ -2,23 +2,13 @@ import { TopicItem } from "../../utils/types";
 
 type TopicType = "common" | "selected";
 
-type TopicRequiredProps = {
+type TopicProps = {
   type: TopicType;
   topic: TopicItem;
   key: string | number;
+  readOnly?: boolean;
+  callback?: (topic: TopicItem) => void;
 };
-
-type TopicOptionalProps =
-  | {
-      readOnly?: false;
-      callback: (topic: TopicItem) => void;
-    }
-  | {
-      readOnly: true;
-      callback?: never;
-    };
-
-export type TopicProps = TopicRequiredProps & TopicOptionalProps;
 
 const topicTypeClasses: Record<TopicType, string> = {
   common:
@@ -33,7 +23,13 @@ const classes = {
   variant: topicTypeClasses,
 };
 
-const Topic = ({ type, topic, key, readOnly, callback }: TopicProps) => {
+const Topic = ({
+  type,
+  topic,
+  key,
+  callback,
+  readOnly = false,
+}: TopicProps) => {
   return (
     <div className="flex-inital py-2" key={`topic-${key}`}>
       <button
