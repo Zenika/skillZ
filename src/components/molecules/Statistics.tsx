@@ -2,7 +2,17 @@ import React, { useContext } from "react";
 import { i18nContext } from "../../utils/i18nContext";
 import { BadgeSubojectivesCategoryCompletion } from "./Badge";
 
-export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
+type StatisticsProps = {
+  userAchievements: any;
+  skillsDatas: any;
+  readOnly: boolean;
+};
+
+export const Statistics = ({
+  userAchievements,
+  skillsDatas,
+  readOnly,
+}: StatisticsProps) => {
   const { t } = useContext(i18nContext);
 
   const filterCountSkills = (label) =>
@@ -12,37 +22,37 @@ export const Statistics = ({ userAchievements, skillsDatas, myStatistics }) => {
   return (
     <div className="bg-light-dark dark:bg-dark-dark pb-4 pl-4 pr-4 my-2 p-2 flex-col rounded-lg">
       <h2 className="p-2 text-xl">
-        {myStatistics
-          ? t("statistics.myTitleSection")
-          : t("statistics.titleSection")}
+        {readOnly
+          ? t("statistics.titleSection")
+          : t("statistics.myTitleSection")}
       </h2>
       <BadgeSubojectivesCategoryCompletion
         label={"practices"}
         datas={userAchievements}
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("practices")}
-        myStatistics={myStatistics}
+        readOnly={readOnly}
       />
       <BadgeSubojectivesCategoryCompletion
         label={"activities"}
         datas={userAchievements}
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("activities")}
-        myStatistics={myStatistics}
+        readOnly={readOnly}
       />
       <BadgeSubojectivesCategoryCompletion
         label={"knowledge"}
         datas={userAchievements}
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("knowledge")}
-        myStatistics={myStatistics}
+        readOnly={readOnly}
       />
       <BadgeSubojectivesCategoryCompletion
         label={"behaviors"}
         datas={userAchievements}
         src="/img/badges/hexagone.svg"
         countSkills={filterCountSkills("behaviors")}
-        myStatistics={myStatistics}
+        readOnly={readOnly}
       />
     </div>
   );

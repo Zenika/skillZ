@@ -13,7 +13,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
   datas,
   src,
   countSkills,
-  myStatistics,
+  readOnly,
 }) => {
   const [step, setStep] = useState([0]);
   const [skillsNumber, setSkillsNumber] = useState(0);
@@ -93,7 +93,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
       <div className="flex flex-row place-content-between">
         <div className="p-1 text-l">
           <p className="font-extrabold text-xl mt-2">Graph {label}</p>
-          {myStatistics && (
+          {!readOnly && (
             <p className="mt-1.5 mb-2">
               {t("statistics.subobjectivesLegends")}
             </p>
@@ -119,7 +119,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
         <ProgressBar percentage={percentageBarDiamond} type="diamond" />
       </div>
 
-      {myStatistics && (
+      {!readOnly && (
         <div className="flex flex-row-reverse">
           <Button type={"primary"} callback={() => push(link)}>
             {t("statistics.add").replace("%label%", label)}
