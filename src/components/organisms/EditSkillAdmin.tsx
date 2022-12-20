@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import {
   EditSkillMutation,
-  GetAllCategoriesQuery,
+  GetAllCategoriesAllPropertiesQuery,
   GetTopicsInfosQuery,
   SetVerifiedSkillMutationMutationFn,
   SkillMandatoryFieldsQuery,
@@ -14,7 +14,7 @@ import {
   EDIT_SKILL,
   UPDATE_SKILL_VERIFIED_MUTATION,
 } from "../../graphql/mutations/skills";
-import { GET_ALL_CATEGORIES } from "../../graphql/queries/categories";
+import { GET_ALL_CATEGORIES_ALL_PROPERTIES } from "../../graphql/queries/categories";
 import { GET_SKILL_MANDATORY_FIELDS } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
@@ -46,7 +46,9 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
     data: categories,
     loading: loadingCategories,
     error,
-  } = useQuery<GetAllCategoriesQuery>(GET_ALL_CATEGORIES);
+  } = useQuery<GetAllCategoriesAllPropertiesQuery>(
+    GET_ALL_CATEGORIES_ALL_PROPERTIES
+  );
 
   const {
     data: skillSelected,

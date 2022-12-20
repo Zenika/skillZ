@@ -2,19 +2,19 @@ import { useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import SearchBar from "../components/atoms/SearchBar/SearchBar";
-import Modal from "../components/molecules/Modal";
-import SkillAdminPanel from "../components/molecules/SkillAdminPanel";
-import EditSkillAdmin from "../components/organisms/EditSkillAdmin";
-import CommonPage from "../components/templates/CommonPage";
-import { config } from "../env";
-import { GetAllVerifiedSkillsQuery } from "../generated/graphql";
-import { GET_ALL_VERIFIED_SKILL } from "../graphql/queries/skills";
-import { i18nContext } from "../utils/i18nContext";
-import { FetchedSkill } from "../utils/types";
-import Custom404 from "./404";
+import SearchBar from "../../components/atoms/SearchBar/SearchBar";
+import Modal from "../../components/molecules/Modal";
+import SkillAdminPanel from "../../components/molecules/SkillAdminPanel";
+import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
+import AdminPage from "../../components/templates/AdminPage";
+import { config } from "../../env";
+import { GetAllVerifiedSkillsQuery } from "../../generated/graphql";
+import { GET_ALL_VERIFIED_SKILL } from "../../graphql/queries/skills";
+import { i18nContext } from "../../utils/i18nContext";
+import { FetchedSkill } from "../../utils/types";
+import Custom404 from "../404";
 
-export default function AdminPage() {
+export default function AdminSkillsPage() {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -71,7 +71,7 @@ export default function AdminPage() {
   if (authorize == false) return <Custom404 />;
 
   return (
-    <CommonPage page={"Admin"} backBar={false}>
+    <AdminPage>
       <div className={`flex justify-center ${selectedSkill && "opacity-25"}`}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
@@ -143,6 +143,6 @@ export default function AdminPage() {
           <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
         </Modal>
       ) : null}
-    </CommonPage>
+    </AdminPage>
   );
 }

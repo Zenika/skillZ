@@ -57,6 +57,10 @@ export type CategoryItem = {
   id: string;
   label: string;
   color: string;
+  x: string;
+  y: string;
+  index: number;
+  description?: string | null;
 };
 
 export type Tag = {
