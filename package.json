@@ -63,7 +63,7 @@
     "@types/react": "17.0.17",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
-    "autoprefixer": "^10.4.2",
+    "autoprefixer": "^10.4.13",
     "ava": "^4.0.1",
     "cypress": "^10.9.0",
     "dotenv": "^10.0.0",
