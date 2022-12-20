@@ -1,18 +1,15 @@
 import { useQuery } from "@apollo/client";
-import { useAuth0 } from "@auth0/auth0-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchBar from "../../components/atoms/SearchBar/SearchBar";
 import Modal from "../../components/molecules/Modal";
 import SkillAdminPanel from "../../components/molecules/SkillAdminPanel";
 import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
 import AdminPage from "../../components/templates/AdminPage";
-import { config } from "../../env";
 import { GetAllVerifiedSkillsQuery } from "../../generated/graphql";
 import { GET_ALL_VERIFIED_SKILL } from "../../graphql/queries/skills";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
-import Custom404 from "../404";
 
 export default function AdminSkillsPage() {
   const isDesktop = useMediaQuery({
@@ -22,13 +19,11 @@ export default function AdminSkillsPage() {
   /*
    * AUTH
    */
-  const { user } = useAuth0();
   const { t } = useContext(i18nContext);
 
   /*
    * STATES
    */
-  const [authorize, setAuthorize] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | null>(null);
 
@@ -55,20 +50,6 @@ export default function AdminSkillsPage() {
   const onModalClick = (skill: FetchedSkill) => {
     setSelectedSkill(skill);
   };
-
-  /*
-   * HOOKS
-   */
-  useEffect(() => {
-    if (
-      user.email ===
-      config.nextPublicAdmins.split(";").find((admin) => admin === user.email)
-    ) {
-      setAuthorize(true);
-    }
-  }, [user]);
-
-  if (authorize == false) return <Custom404 />;
 
   return (
     <AdminPage>
