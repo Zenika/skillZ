@@ -16,7 +16,6 @@ updates:
       - "MailyLehoux"
       - "benjaminbrgs"
 
-
   # Manifest of Skillz slack bot
   - package-ecosystem: "npm"
     directory: "bot-slack/"
