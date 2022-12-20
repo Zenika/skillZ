@@ -6,7 +6,6 @@ export const ADD_USER_SKILL_MUTATION = gql`
     $skillId: uuid!
     $skillLevel: Int!
     $desireLevel: Int!
-    $updated_at: date!
   ) {
     insert_UserSkillDesire(
       objects: {
@@ -14,11 +13,10 @@ export const ADD_USER_SKILL_MUTATION = gql`
         skillLevel: $skillLevel
         desireLevel: $desireLevel
         userEmail: $email
-        updated_at: $updated_at
       }
       on_conflict: {
         constraint: UserSkillDesire_userEmail_skillId_created_at_key
-        update_columns: [skillLevel, desireLevel, updated_at]
+        update_columns: [skillLevel, desireLevel]
       }
     ) {
       affected_rows

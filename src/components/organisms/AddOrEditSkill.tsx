@@ -126,9 +126,9 @@ const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
               </button>
             ))}
           </div>
-          {skill.updated_at && (
+          {skill.created_at && (
             <p className="mb-3 text-xs text-light-graytext dark:text-dark-graytext">
-              {`${t("skills.lastUpdate")} : ${skill.updated_at.toLocaleString(
+              {`${t("skills.lastUpdate")} : ${skill.created_at.toLocaleString(
                 [],
                 { dateStyle: "short" }
               )}`}

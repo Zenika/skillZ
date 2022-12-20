@@ -98,6 +98,7 @@ const SkillListOverview = ({
     userEmail,
     `%${debouncedSearchFilterValue}%`
   );
+  console.log("skillData", skillsData);
 
   /*
    * MUTATIONS
@@ -113,7 +114,7 @@ const SkillListOverview = ({
           email: userEmail,
           skillLevel,
           desireLevel,
-          updated_at: new Date(),
+          created_at: new Date(),
         },
       })
         .then(() => {
