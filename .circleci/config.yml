@@ -239,10 +239,8 @@ jobs:
           name: Deploy
           command: |
             cd bot-slack
-            sudo npm install --global clever-tools
-            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
-            clever link << parameters.clever-app-id >>
-            clever deploy --force
+            pwd
+            ls
 
 workflows:
   qc-test-deploy-staging:
