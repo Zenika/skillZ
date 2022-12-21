@@ -228,6 +228,24 @@ jobs:
             clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
             clever link << parameters.clever-app-id >>
             clever deploy --force
+  deploy-bot:
+    executor: clever-cloud-deployer
+    working_directory: bot-slack
+    parameters:
+      clever-app-id:
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.clever-app-id >>
+            clever deploy --force
+
 workflows:
   qc-test-deploy-staging:
     jobs:
@@ -241,36 +259,6 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
-      # - hasura-test-apply-migrations:
-      #     requires:
-      #       - install-dependencies
-      # - cypress/install:
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      # - cypress/run:
-      #     name: chrome-cypress-run
-      #     requires:
-      #       - cypress/install
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      #     start: npm run dev
-      #     wait-on: "http://localhost:3000"
-      #     executor: cypress/browsers-chrome78-ff70
-      #     browser: chrome
-      #     parallel: true
-      #     parallelism: 2
-      # - cypress/run:
-      #     name: firefox-cypress-run
-      #     requires:
-      #       - cypress/install
-      #     cache-key: >-
-      #       v4-packaging-dependencies-cypress-{{ checksum "package-lock.json" }}
-      #     start: npm run dev
-      #     wait-on: "http://localhost:3000"
-      #     executor: cypress/browsers-chrome78-ff70
-      #     browser: firefox
-      #     parallel: true
-      #     parallelism: 2
       - build:
           name: build
           requires:
@@ -311,6 +299,17 @@ workflows:
           clever-app-id: app_ca84588b-5a62-4b57-a5f0-86260c6382a5
           context: clever-cloud2-zenika-dev
           filters: *deploy-staging-filters
+      - deploy-bot:
+          name: deploy-staging
+          requires:
+            - qc-prettier
+            - eslint
+            - unit-test
+          clever-app-id: app_f3ae1d9d-d9ad-4ce3-a019-d18a99e5c73a
+          context: clever-cloud2-zenika-dev
+          filters:
+            branches:
+              only: main
 
   qc-test-deploy:
     jobs:
@@ -371,36 +370,3 @@ workflows:
           clever-app-id: $CLEVER_APP_ID_PROD
           context: clever-cloud2-zenika-dev
           filters: *deploy-filters
-      - node/run:
-          name: prettier
-          npm-run: prettier:check
-          filters:
-            tags:
-              only: /^v.*/
-      - node/test:
-          name: tests
-          filters:
-            tags:
-              only: /^v.*/
-      - deploy:
-          name: deploy-staging
-          requires:
-            - prettier
-            - tests
-          clever-app-id: app_f3ae1d9d-d9ad-4ce3-a019-d18a99e5c73a
-          context: clever-cloud2-zenika-dev
-          filters:
-            branches:
-              only: main
-      - deploy:
-          name: deploy-production
-          requires:
-            - prettier
-            - tests
-          clever-app-id: app_fe53126e-88fa-4a72-9e47-366b0ffed556
-          context: clever-cloud2-zenika-dev
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
