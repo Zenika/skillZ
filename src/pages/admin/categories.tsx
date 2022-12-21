@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
-import AdminCategoriePanel from "../../components/molecules/AdminCategoriePanel";
+import AdminCategoryPanel from "../../components/molecules/AdminCategoryPanel";
 import Loading from "../../components/molecules/Loading";
 import AdminPage from "../../components/templates/AdminPage";
 import ErrorPage from "../../components/templates/ErrorPage";
@@ -50,7 +50,7 @@ export default function AdminCategoriesPage() {
             </p>
           </div>
           {categories.Category.map((category) => (
-            <AdminCategoriePanel key={category.id} category={category} />
+            <AdminCategoryPanel key={category.id} category={category} />
           ))}
         </div>
       </div>

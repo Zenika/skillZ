@@ -9,12 +9,12 @@ import { CategoryItem } from "../../utils/types";
 import Button from "../atoms/Button";
 import TextArea from "../atoms/TextArea";
 
-type AdminCategoriePanelProps = {
+type AdminCategoryPanelProps = {
   category: CategoryItem;
   key: string;
 };
 
-const SkillAdminPanel = ({ category, key }: AdminCategoriePanelProps) => {
+const AdminCategoryPanel = ({ category, key }: AdminCategoryPanelProps) => {
   const { t } = useContext(i18nContext);
 
   /*
@@ -79,4 +79,4 @@ const SkillAdminPanel = ({ category, key }: AdminCategoriePanelProps) => {
   );
 };
 
-export default SkillAdminPanel;
+export default AdminCategoryPanel;
