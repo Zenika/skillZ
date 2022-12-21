@@ -300,7 +300,7 @@ workflows:
           context: clever-cloud2-zenika-dev
           filters: *deploy-staging-filters
       - deploy-bot:
-          name: deploy-staging
+          name: deploy-staging-bot
           requires:
             - qc-prettier
             - eslint
