@@ -8,11 +8,16 @@ export const GET_CATEGORIE_ID_BY_NAME = gql`
   }
 `;
 
-export const GET_ALL_CATEGORIES = gql`
-  query getAllCategories {
+export const GET_ALL_CATEGORIES_ALL_PROPERTIES = gql`
+  query getAllCategoriesAllProperties {
     Category {
       id
       label
+      x
+      y
+      color
+      index
+      description
     }
   }
 `;
