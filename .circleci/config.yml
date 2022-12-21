@@ -236,7 +236,15 @@ jobs:
     steps:
       - checkout
       - run:
+        name: Package
+        command: |
+          mkdir deploy-bot
+          cp -r public deploy-bot
+          cp package.json deploy-bot
+          cp package-lock.json deploy-bot
+      - run:
           name: Deploy
+          working_directory: deploy-bot
           command: |
             cd bot-slack
             sudo npm install --global clever-tools
