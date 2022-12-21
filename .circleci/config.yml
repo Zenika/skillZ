@@ -236,17 +236,19 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Package
-        command: |
-          mkdir deploy-bot
-          cp -r public deploy-bot
-          cp package.json deploy-bot
-          cp package-lock.json deploy-bot
+          name: Package
+          command: |
+            mkdir deploy-bot
+            cp -r ./bot-slack/* deploy-bot
       - run:
           name: Deploy
           working_directory: deploy-bot
           command: |
-            cd bot-slack
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
             sudo npm install --global clever-tools
             clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
             clever link << parameters.clever-app-id >>
@@ -314,7 +316,7 @@ workflows:
           context: clever-cloud2-zenika-dev
           filters:
             branches:
-              only: ci/build_bot
+              only: main
 
   qc-test-deploy:
     jobs:
@@ -358,6 +360,15 @@ workflows:
           hasura-endpoint: $HASURA_ENDPOINT_PROD
           requires:
             - deploy-hasura
+          filters: *deploy-filters
+      - deploy-bot:
+          name: deploy-production-bot
+          requires:
+            - qc-prettier
+            - eslint
+            - unit-test
+          clever-app-id: app_fe53126e-88fa-4a72-9e47-366b0ffed556
+          context: clever-cloud2-zenika-dev
           filters: *deploy-filters
       - deploy:
           name: deploy
