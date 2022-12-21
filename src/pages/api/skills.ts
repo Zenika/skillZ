@@ -1,43 +1,5 @@
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-
-async function getAllSkills() {
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_URL;
-  const headers = {
-    "content-type": "application/json",
-    "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET,
-  };
-
-  const graphqlQuery = {
-    operationName: "getAllSkills",
-    query: `query getAllSkills {
-                Skill(where: {verified: {_eq: true}}, order_by: {name: asc}) {
-                  id
-                  categoryId
-                  description
-                  name
-                  verified
-                }
-              }
-            `,
-    variables: {},
-  };
-
-  const response = await axios({
-    url: endpoint,
-    method: "post",
-    headers: headers,
-    data: graphqlQuery,
-  });
-
-  if (!response.data) {
-    return null;
-  }
-
-  const { Skill } = response.data.data;
-
-  return Skill;
-}
+import { GetAllSkillsFetcher } from "../../utils/fetchers/getAllSkillsFetcher";
 
 export default async function handler(
   req: NextApiRequest,
@@ -59,11 +21,13 @@ export default async function handler(
     return res.status(401).json({ message: "Wrong bearer token." });
   }
 
-  try {
-    const skills = await getAllSkills();
+  const result = await GetAllSkillsFetcher();
 
-    res.status(200).json({ skills });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+  if (!result) {
+    return res.status(500).json({ message: "Internal Server Error" });
   }
+
+  const { Skill } = result.data;
+
+  res.status(200).json({ skills: Skill });
 }
