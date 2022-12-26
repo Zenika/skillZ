@@ -179,7 +179,7 @@ const Profile = ({
     return <Loading />;
   } else if (error) {
     return <ErrorPage />;
-  } else if (!data?.User?.length) {
+  } else if (!data?.User?.length && readOnly) {
     return <Custom404 />;
   } else {
     return (
