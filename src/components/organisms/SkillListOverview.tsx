@@ -98,7 +98,6 @@ const SkillListOverview = ({
     userEmail,
     `%${debouncedSearchFilterValue}%`
   );
-  console.log("skillData", skillsData);
 
   /*
    * MUTATIONS
