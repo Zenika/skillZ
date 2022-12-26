@@ -113,7 +113,7 @@ const SkillListOverview = ({
           email: userEmail,
           skillLevel,
           desireLevel,
-          updated_at: new Date(),
+          created_at: new Date(),
         },
       })
         .then(() => {

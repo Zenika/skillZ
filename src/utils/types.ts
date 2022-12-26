@@ -23,7 +23,7 @@ export type FetchedSkill = {
   description?: string;
   verified?: boolean;
   categoryId?: string;
-  updated_at?: Date;
+  created_at?: Date;
   SkillTags?: SkillTag[];
   SkillTopics?: SkillTopics[];
 };
