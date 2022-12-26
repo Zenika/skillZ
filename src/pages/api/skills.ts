@@ -17,6 +17,10 @@ export default async function handler(
     return res.status(500).json({ message: "Missing environment variables" });
   }
 
+  console.log(req.headers.authorization);
+  console.log(process.env.NEXT_API_BEARER_TOKEN);
+  console.log(req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN);
+
   if (req.headers.authorization !== process.env.NEXT_API_BEARER_TOKEN) {
     return res.status(401).json({ message: "Wrong bearer token." });
   }
