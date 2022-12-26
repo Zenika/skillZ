@@ -314,9 +314,7 @@ workflows:
             - unit-test
           clever-app-id: app_f3ae1d9d-d9ad-4ce3-a019-d18a99e5c73a
           context: clever-cloud2-zenika-dev
-          filters:
-            branches:
-              only: main
+          filters: *deploy-staging-filters
 
   qc-test-deploy:
     jobs:
