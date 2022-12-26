@@ -68,7 +68,7 @@
     "cypress": "^10.9.0",
     "dotenv": "^10.0.0",
     "eslint": "8.27.0",
-    "eslint-config-next": "13.0.3",
+    "eslint-config-next": "13.1.1",
     "eslint-config-prettier": "^8.5.0",
     "faker": "5.5.3",
     "hasura-cli": "^2.8.4",
