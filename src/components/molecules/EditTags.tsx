@@ -24,9 +24,10 @@ import Loading from "./Loading";
 type EditTags = {
   skill: FetchedSkill;
   refetchSkill: () => void;
+  description?: string;
 };
 
-const EditTags = ({ skill, refetchSkill }: EditTags) => {
+const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
   const [existingTagsIds, setExistingTagsIds] = useState([]);
@@ -101,7 +102,10 @@ const EditTags = ({ skill, refetchSkill }: EditTags) => {
   return (
     <div className="w-full rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2">
       <div className="flex flex-row items-center">
-        <p className="text-xl p-2">Tags</p>
+        <div className="flex flex-col items-align p-2">
+          <p className="text-xl">{t("skills.tags.tags")}</p>
+          <p className="text-sm opacity-50">{description}</p>
+        </div>
         {tagsBySkill?.SkillTag.length === 0 && (
           <div className="flex flex-row items-center">
             <RiErrorWarningFill color="#bf1d67" />

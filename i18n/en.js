@@ -140,6 +140,14 @@ export default {
       title: "Here is the graph of %category% from",
     },
     lastUpdate: "Last update",
+    topics: {
+      topics: "Associated topics",
+    },
+    tags: {
+      tags: "Associated tags",
+      description:
+        "Create or modify tags that you feel are associated with this skill. Your contribution will help us improve the classification of Skillz data 🚀",
+    },
   },
   myProfile: {
     onboardingButton: "Let's go !",

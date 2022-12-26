@@ -142,6 +142,14 @@ export default {
       title: "Voici le graphique %category% de",
     },
     lastUpdate: "Dernière mise à jour",
+    topics: {
+      topics: "Sujets associés",
+    },
+    tags: {
+      tags: "Tags associés",
+      description:
+        "Créez ou modifiez les tags que vous jugez être associés à cette compétence. Votre contribution nous permettra d'améliorer la classification des données de Skillz 🚀",
+    },
   },
   myProfile: {
     onboardingButton: "C'est parti !",
