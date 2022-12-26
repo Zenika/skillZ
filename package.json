@@ -54,7 +54,7 @@
     "@graphql-codegen/cli": "^2.8.0",
     "@graphql-codegen/introspection": "^2.2.0",
     "@graphql-codegen/typescript": "^2.7.1",
-    "@graphql-codegen/typescript-operations": "^2.5.1",
+    "@graphql-codegen/typescript-operations": "^2.5.10",
     "@graphql-codegen/typescript-react-apollo": "^3.3.1",
     "@testing-library/cypress": "^8.0.3",
     "@types/faker": "5.5.7",
