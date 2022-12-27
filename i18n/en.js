@@ -145,6 +145,7 @@ export default {
     },
     tags: {
       tags: "Associated tags",
+      create: "Create new tag : ",
       description:
         "Create or modify tags that you feel are associated with this skill. Your contribution will help us improve the classification of Skillz data 🚀",
     },

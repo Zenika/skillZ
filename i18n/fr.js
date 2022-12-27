@@ -147,6 +147,7 @@ export default {
     },
     tags: {
       tags: "Tags associés",
+      create: "Créer un nouveau tag : ",
       description:
         "Créez ou modifiez les tags que vous jugez être associés à cette compétence. Votre contribution nous permettra d'améliorer la classification des données de Skillz 🚀",
     },
