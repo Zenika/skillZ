@@ -27,10 +27,10 @@ const AutoCompleteList = ({
   return (
     <div
       ref={ref}
-      className="w-full h-12 z-10"
+      className="w-full h-12"
       style={{ width: size.width, height: size.height }}
     >
-      <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark">
+      <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-dark">
         {search && (
           <div
             className="flex flex-row leading-6 hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"

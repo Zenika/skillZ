@@ -101,7 +101,6 @@ const EditTags = ({
       insertTag({
         variables: { skillId: skill.id, tagId: refetchedSkill.data.Tag[0]?.id },
       }).then((res) => {
-        console.log("res", res);
         if (res.data.affected_rows === 0) {
           displayNotification(`${t("error.refetch")}`, "red", 5000);
         } else {

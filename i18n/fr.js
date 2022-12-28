@@ -34,7 +34,7 @@ export default {
     description: "Description",
     notification: {
       descriptionEmpty: "La description ne peut pas être vide",
-      descriptionSuccess: "La description de %skill% a été changée avec succés",
+      descriptionSuccess: "La description de %skill% a été changée avec succès",
       descriptionError: "Erreur, essayez encore",
     },
   },
@@ -149,9 +149,9 @@ export default {
     tags: {
       tags: "Tags associés",
       create: "Créer un nouveau tag : ",
-      tagDeleted: "Le tag a été supprimé avec succés",
+      tagDeleted: "Le tag a été supprimé avec succès",
       tagAdded: "Le tag %tag% a été ajouté dans la liste de tags",
-      tagLinked: "Le tag %tag% a été lié à %skill% avec succés",
+      tagLinked: "Le tag %tag% a été lié à %skill% avec succès",
       description:
         "Créez ou modifiez les tags que vous jugez être associés à cette compétence. Votre contribution nous permettra d'améliorer la classification des données de Skillz 🚀",
     },

@@ -317,7 +317,6 @@ const SkillListOverview = ({
                     )}
                   </div>
                 )}
-                {console.log("seected", selectedSkill)}
                 {selectedSkill && editPanelOpened ? (
                   <Modal closeModal={() => setEditPanelOpened(false)}>
                     <AddOrEditSkill
