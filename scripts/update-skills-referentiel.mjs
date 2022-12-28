@@ -5,28 +5,28 @@ import fs from "fs";
  * ENVIRONMENT CHECK
  */
 if (!process.env.NEXT_PUBLIC_BASE_URL) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
-  );
+    throw new Error(
+        "ERROR: App couldn't start because NEXT_PUBLIC_BASE_URL isn't defined"
+    );
 }
 
 if (!process.env.NEXT_API_BEARER_TOKEN) {
-  throw new Error(
-    "ERROR: App couldn't start because NEXT_API_BEARER_TOKEN isn't defined"
-  );
+    throw new Error(
+        "ERROR: App couldn't start because NEXT_API_BEARER_TOKEN isn't defined"
+    );
 }
 
 /*
  * GET ALL SKILLS FROM API
  */
 const response = await fetch(
-  `${process.env.NEXT_PUBLIC_BASE_URL}/api/skills`,
-  {
-    method: "GET",
-    headers: {
-        Authorization: process.env.NEXT_API_BEARER_TOKEN,
-    },
-  }
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/skills`,
+    {
+        method: "GET",
+        headers: {
+            Authorization: process.env.NEXT_API_BEARER_TOKEN,
+        },
+    }
 );
 
 const {skills: skillsData} = await response.json()
