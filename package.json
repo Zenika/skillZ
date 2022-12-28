@@ -48,7 +48,7 @@
     "react-swipeable": "6.1.2",
     "recharts": "^2.1.16",
     "sharp": "^0.30.7",
-    "use-debounce": "7.0.0"
+    "use-debounce": "9.0.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.8.0",
