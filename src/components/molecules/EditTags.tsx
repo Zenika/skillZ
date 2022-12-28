@@ -28,9 +28,15 @@ type EditTags = {
   skill: FetchedSkill;
   refetchSkill: () => void;
   description?: string;
+  adminView: boolean;
 };
 
-const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
+const EditTags = ({
+  skill,
+  refetchSkill,
+  description,
+  adminView,
+}: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
   const { user } = useAuth0();
@@ -149,7 +155,7 @@ const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
           <p className="text-xl">{t("skills.tags.tags")}</p>
           <p className="text-sm opacity-50">{description}</p>
         </div>
-        {tagsBySkill?.SkillTag.length === 0 && (
+        {tagsBySkill?.SkillTag.length === 0 && adminView && (
           <div className="flex flex-row items-center">
             <RiErrorWarningFill color="#bf1d67" />
             <p className="text-light-red pl-1">{t("error.tagRequired")}</p>

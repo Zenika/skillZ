@@ -53,6 +53,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
               skill={skill}
               refetchSkill={refetchSkillDetails}
               description={t("skills.tags.description")}
+              adminView={false}
             ></EditTags>
           </div>
         )}

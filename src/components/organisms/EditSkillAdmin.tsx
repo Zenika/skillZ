@@ -174,7 +174,11 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
             }}
           />
         </div>
-        <EditTags skill={skill} refetchSkill={refetchSkillSelected} />
+        <EditTags
+          skill={skill}
+          refetchSkill={refetchSkillSelected}
+          adminView={true}
+        />
         <Topics
           topics={topics.Topic.map((topic) => {
             return { id: topic.id, name: topic.name };
