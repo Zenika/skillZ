@@ -1,5 +1,5 @@
+import { faker } from "@faker-js/faker";
 import { writeFile } from "fs/promises";
-import { datatype, date, image, name, random } from "faker";
 import newJsonSql from "json-sql";
 
 const jsonSql = newJsonSql();
@@ -56,7 +56,7 @@ const generateUniqueDate = (
 ) => {
   let proposedDate = "";
   do {
-    proposedDate = date
+    proposedDate = faker.date
       .between(config.dateStart, config.dateEnd)
       .toISOString()
       .split("T")[0];
@@ -72,32 +72,32 @@ const generateUniqueDate = (
 };
 
 const generateUser = (): User => {
-  const firstName = name.firstName().replace("'", "");
-  const lastName = name.lastName().replace("'", "");
+  const firstName = faker.name.firstName().replace("'", "");
+  const lastName = faker.name.lastName().replace("'", "");
   return {
     email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@zenika.com`,
     name: `${firstName} ${lastName}`,
-    picture: image.avatar(),
+    picture: faker.image.avatar(),
   };
 };
 
 const generateUserAgency = (userEmail: string): UserAgency => {
   return {
     userEmail,
-    agency: random.arrayElement(agencies).name,
+    agency: faker.helpers.arrayElement(agencies).name,
     created_at: "2020/01/01",
   };
 };
 
 const generateUserSkillAndDesire = (userEmail: string): UserSkillDesire => {
   const skillId =
-    skills[datatype.number({ min: 0, max: skills.length - 1 })].id;
+    skills[faker.datatype.number({ min: 0, max: skills.length - 1 })].id;
   const created_at = generateUniqueDate(userSkillDesires, userEmail, skillId);
   return {
     userEmail,
     skillId,
-    skillLevel: datatype.number({ min: 1, max: 5 }),
-    desireLevel: datatype.number({ min: 1, max: 5 }),
+    skillLevel: faker.datatype.number({ min: 1, max: 5 }),
+    desireLevel: faker.datatype.number({ min: 1, max: 5 }),
     created_at,
   };
 };

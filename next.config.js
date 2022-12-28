@@ -6,6 +6,7 @@ module.exports = withPWA({
     domains: [
       "lh3.googleusercontent.com",
       "cdn.fakercloud.com",
+      "loremflickr.com",
       "s.gravatar.com",
     ],
   },
