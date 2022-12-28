@@ -71,6 +71,7 @@ export type Tag = {
 export type SkillTag = {
   tagId: number;
   skillId?: any;
+  // Tag?: Tag;
 };
 
 export type Skill = {

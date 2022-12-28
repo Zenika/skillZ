@@ -94,7 +94,22 @@ const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
       });
       insertTag({
         variables: { skillId: skill.id, tagId: refetchedSkill.data.Tag[0]?.id },
-      }).then(() => refetchTags({ skillId: skill.id }));
+      }).then((res) => {
+        console.log("res", res);
+        if (res.data.affected_rows === 0) {
+          displayNotification(`${t("error.refetch")}`, "red", 5000);
+        } else {
+          displayNotification(
+            `${t("skills.tags.tagLinked")
+              .replace("%tag%", tagName)
+              .replace("%skill%", skill.name)}`,
+            "green",
+            5000
+          );
+        }
+
+        refetchTags({ skillId: skill.id });
+      });
     }
   };
 
@@ -104,7 +119,14 @@ const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
         skillId: skill.id,
         tagId: tag.tagId,
       },
-    }).then(() => refetchTags({ skillId: skill.id }));
+    }).then((res) => {
+      if (res.data.affected_rows === 0) {
+        displayNotification(`${t("error.refetch")}`, "red", 5000);
+      } else {
+        displayNotification(`${t("skills.tags.tagDeleted")}`, "green", 5000);
+      }
+      refetchTags({ skillId: skill.id });
+    });
   };
 
   useEffect(() => {

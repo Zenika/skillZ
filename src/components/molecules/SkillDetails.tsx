@@ -47,7 +47,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
             </>
           )}
         </div>
-        {skillDetails.Skill[0].SkillTags.length > 0 && (
+        {skillDetails && (
           <div className="flex flex-row flex-wrap justify-start items-center my-2">
             <EditTags
               skill={skill}

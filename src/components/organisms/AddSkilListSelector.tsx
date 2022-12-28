@@ -77,6 +77,7 @@ const AddSkillListSelector = ({
               className={
                 "flex flex-col justify-center items-center p-4 mx-0.5 bg-light-light border border-light-light dark:border-dark-light hover:border-light-graybutton dark:bg-dark-light hover:bg-light-dark hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton cursor-pointer rounded-lg"
               }
+              onClick={() => selectSkill(skill)}
             >
               <div className="flex flex-row justify-between w-full items-center">
                 <span
