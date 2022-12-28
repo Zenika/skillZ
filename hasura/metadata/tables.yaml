@@ -260,6 +260,13 @@
           table:
             schema: public
             name: SkillTag
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - creator
+          - name
   select_permissions:
     - role: world
       permission:

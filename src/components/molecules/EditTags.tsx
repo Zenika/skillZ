@@ -10,6 +10,7 @@ import {
   DELETE_SKILL_TO_TAG,
   INSERT_SKILL_TO_TAG,
 } from "../../graphql/mutations/skills";
+import { INSERT_NEW_TAG } from "../../graphql/mutations/tags";
 import {
   GET_SKILLTAGS_BY_SKILL,
   GET_TAG_FROM_TAGNAME,
@@ -20,6 +21,8 @@ import { FetchedSkill, SkillTag } from "../../utils/types";
 import AutoCompleteList from "../atoms/AutoCompleteList";
 import Chip from "../atoms/Chip";
 import Loading from "./Loading";
+import { useAuth0 } from "@auth0/auth0-react";
+import { displayNotification } from "../../utils/displayNotification";
 
 type EditTags = {
   skill: FetchedSkill;
@@ -30,6 +33,7 @@ type EditTags = {
 const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
   const { t } = useContext(i18nContext);
   const [tagInput, setTagInput] = useState("");
+  const { user } = useAuth0();
   const [existingTagsIds, setExistingTagsIds] = useState([]);
 
   /*
@@ -48,33 +52,50 @@ const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
   const { refetch: refetchTagFromName, loading: loadingtagFromName } =
     useQuery<GetTagFromTagNameQuery>(GET_TAG_FROM_TAGNAME);
 
-  const { data: searchAllTags } = useQuery<SearchAllTagsQuery>(
-    SEARCH_IN_ALL_TAGS,
-    {
+  const { data: searchAllTags, refetch: refetchSearch } =
+    useQuery<SearchAllTagsQuery>(SEARCH_IN_ALL_TAGS, {
       fetchPolicy: "network-only",
       variables: {
         search: `%${tagInput}%`,
         tagIds: existingTagsIds,
       },
-    }
-  );
+    });
 
   /*
    * MUTATIONS
    */
   const [insertTag] = useMutation(INSERT_SKILL_TO_TAG);
+  const [insertNewTag] = useMutation(INSERT_NEW_TAG);
   const [deleteTag] = useMutation(DELETE_SKILL_TO_TAG);
 
   /*
    * FUNCTIONS
    */
-  const addTag = async (tagName: string) => {
-    const refetchedSkill = await refetchTagFromName({
-      tagName: tagName,
-    });
-    insertTag({
-      variables: { skillId: skill.id, tagId: refetchedSkill.data.Tag[0]?.id },
-    }).then(() => refetchTags({ skillId: skill.id }));
+
+  const addTag = async (tagName: string, addNew: boolean) => {
+    if (addNew) {
+      insertNewTag({
+        variables: { tagName: tagName, creatorEmail: user.email },
+      }).then((res) => {
+        if (res.data.insert_Tag.affected_rows === 0) {
+          displayNotification(`${t("error.duplicatedTag")}`, "red", 5000);
+        } else {
+          displayNotification(
+            `${t("skills.tags.tagAdded").replace("%tag%", tagName)}`,
+            "green",
+            5000
+          );
+        }
+        refetchSearch();
+      });
+    } else {
+      const refetchedSkill = await refetchTagFromName({
+        tagName: tagName,
+      });
+      insertTag({
+        variables: { skillId: skill.id, tagId: refetchedSkill.data.Tag[0]?.id },
+      }).then(() => refetchTags({ skillId: skill.id }));
+    }
   };
 
   const removeTag = (tag: SkillTag) => {
@@ -141,8 +162,9 @@ const EditTags = ({ skill, refetchSkill, description }: EditTags) => {
         ></input>
         <AutoCompleteList
           choices={searchAllTags?.Tag.map((tag) => tag.name) ?? []}
-          onChange={(tag) => addTag(tag)}
+          onChange={(tag, addNew) => addTag(tag, addNew)}
           search={tagInput}
+          newType={t("skills.tags.create")}
         />
       </div>
     </div>

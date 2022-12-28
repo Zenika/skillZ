@@ -12,6 +12,7 @@ export default {
     requiredField: "This field is required",
     tagRequired: "Add at least 1 tag",
     topicRequired: "Add at least 1 topic",
+    duplicatedTag: "This tag already exists, you can't create it",
   },
   nav: {
     mySkills: "My skills",
@@ -146,6 +147,7 @@ export default {
     tags: {
       tags: "Associated tags",
       create: "Create new tag : ",
+      tagAdded: "The tag %tag% has been added in the tag list",
       description:
         "Create or modify tags that you feel are associated with this skill. Your contribution will help us improve the classification of Skillz data 🚀",
     },
