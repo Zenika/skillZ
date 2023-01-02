@@ -31,10 +31,12 @@ const response = await fetch(
 
 const {skills: skillsData} = await response.json()
 
+console.log(skillsData.length())
+
 /*
  * FORMAT DATA
  */
-const skills = skillsData.map((skill) => `('${skill.name}', '${skill.categoryId}', ${skill.verified}, '${skill.description?.replaceAll("'", "''") ?? ""}')`)
+const skills = skillsData.map((skill) => `('${skill.name}', '${skill.categoryId}', ${skill.verified}, '${skill.description ? skill.description.replaceAll("'", "''") : ""}')`)
 
 /*
  * WRITE DATA TO FILE
