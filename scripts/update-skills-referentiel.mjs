@@ -31,8 +31,6 @@ const response = await fetch(
 
 const {skills: skillsData} = await response.json()
 
-console.log(skillsData.length)
-
 /*
  * FORMAT DATA
  */
@@ -53,4 +51,4 @@ writer.write("\n ON CONFLICT (\"name\") DO UPDATE SET \"categoryId\" = EXCLUDED.
 
 writer.close()
 
-console.log("Referential Skills successfully updated.")
+console.log(`Referential Skills successfully updated (${skillsData.length} skills).`)
