@@ -31,7 +31,7 @@ const response = await fetch(
 
 const {skills: skillsData} = await response.json()
 
-console.log(skillsData.length())
+console.log(skillsData.length)
 
 /*
  * FORMAT DATA
