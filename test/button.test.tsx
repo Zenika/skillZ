@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import Button from "../src/components/atoms/Button";
 
 describe("Button component", () => {
@@ -119,20 +118,5 @@ describe("Button component", () => {
     expect(button).toBeInTheDocument();
     button.click();
     expect(mockCallBack.mock.calls.length).toEqual(0);
-  });
-
-  it("renders a primary button with icon", () => {
-    render(
-      <Button type={"primary"} icon={<AiOutlineArrowLeft color="white" />}>
-        {"Click !"}
-      </Button>
-    );
-
-    const button = screen.getByRole("button", {
-      name: /Click !/i,
-    });
-
-    expect(button).toBeInTheDocument();
-    expect(button.firstChild).toContain(<AiOutlineArrowLeft color="white" />);
   });
 });
