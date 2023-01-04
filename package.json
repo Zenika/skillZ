@@ -21,7 +21,7 @@
     "prettier:write": "npm run prettier -- --write",
     "lint": "next lint --max-warnings=0",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "jest --watch",
+    "test:unit": "jest",
     "test:integration": "npm run cypress:run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
