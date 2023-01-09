@@ -61,7 +61,7 @@
     "@types/node": "16.6.1",
     "@types/object-path": "0.11.1",
     "@types/react": "17.0.17",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.42.1",
     "autoprefixer": "^10.4.13",
     "ava": "^4.0.1",
