@@ -14,8 +14,6 @@ services:
     depends_on:
       - "postgres"
     restart: always
-    env_file:
-      - ./.env.local
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
