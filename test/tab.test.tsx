@@ -1,16 +1,19 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-import Tab from "../src/components/atoms/Tab";
+import Tab, { tabClasses } from "../src/components/atoms/Tab";
 import { createMockRouter } from "./utils/createMockRouter";
 
 describe("Tab component", () => {
   it("renders a tab", () => {
-    render(<Tab current={true} href={"/test"} title={"Current tab"} />);
+    render(<Tab current={false} href={"/test"} title={"Tab"} />);
 
-    const tab = screen.getByText("Current tab");
+    const tab = screen.getByText("Tab");
 
     expect(tab).toBeInTheDocument();
+
+    expect(tab).toHaveClass(tabClasses.base);
+    expect(tab).toHaveClass(tabClasses.hover);
   });
 
   it("renders a tab, click and check href", () => {
@@ -32,5 +35,15 @@ describe("Tab component", () => {
       scroll: undefined,
       shallow: undefined,
     });
+  });
+
+  it("renders a current tab", () => {
+    render(<Tab current={true} href={"/test"} title={"Current tab"} />);
+
+    const tab = screen.getByText("Current tab");
+
+    expect(tab).toBeInTheDocument();
+
+    expect(tab).toHaveClass(tabClasses.border);
   });
 });

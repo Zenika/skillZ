@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Button from "../src/components/atoms/Button";
+import Button, { buttonClasses } from "../src/components/atoms/Button";
 
 describe("Button component", () => {
   it("renders a primary button with text", () => {
@@ -13,7 +13,7 @@ describe("Button component", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent("Click !");
     expect(button).toHaveClass(
-      "text-light-ultrawhite gradient-red hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid"
+      `${buttonClasses.base} ${buttonClasses.disabled} ${buttonClasses.uppercase} ${buttonClasses.variant["primary"]}`
     );
   });
 
@@ -27,7 +27,7 @@ describe("Button component", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent("Click !");
     expect(button).toHaveClass(
-      "text-dark-red bg-transparent border border-dark-red dark:border-dark-red hover:bg-light-red hover:text-light-light"
+      `${buttonClasses.base} ${buttonClasses.disabled} ${buttonClasses.uppercase} ${buttonClasses.variant["secondary"]}`
     );
   });
 
@@ -41,7 +41,7 @@ describe("Button component", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent("Click !");
     expect(button).toHaveClass(
-      "bg-light-graybutton hover:bg-light-radargrid dark:bg-dark-graybutton dark:hover:bg-dark-radargrid"
+      `${buttonClasses.base} ${buttonClasses.disabled} ${buttonClasses.uppercase} ${buttonClasses.variant["tertiary"]}`
     );
   });
 
@@ -55,7 +55,7 @@ describe("Button component", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent("Click !");
     expect(button).toHaveClass(
-      "gradient-red-faded text-light-ultrawhite hover:shadow-xl hover:shadow-light-graybutton hover:dark:shadow-lg hover:dark:shadow-dark-radargrid"
+      `${buttonClasses.base} ${buttonClasses.disabled} ${buttonClasses.uppercase} ${buttonClasses.variant["faded"]}`
     );
   });
 
