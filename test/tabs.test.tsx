@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 import Tab from "../src/components/atoms/Tab";
 import Tabs, { tabsClasses } from "../src/components/atoms/Tabs";
+import { createMockRouter } from "./utils/createMockRouter";
 
 describe("Tabs component", () => {
   it("renders a tabs", () => {
@@ -33,8 +35,6 @@ describe("Tabs component", () => {
     const tab2 = screen.getByText("Tab2");
     const tab3 = screen.getByText("Tab3");
 
-    console.log(tabs.children);
-
     expect(tabs.children).toHaveLength(1);
 
     expect(tabs).toBeInTheDocument();
@@ -43,34 +43,26 @@ describe("Tabs component", () => {
     expect(tab3).toBeInTheDocument();
   });
 
-  // it("renders a tabs, with multiple tabs", () => {
-  //   const mockPush = jest.fn();
-  //   const mockRouter = createMockRouter({ push: mockPush });
-  //
-  //   render(
-  //     <RouterContext.Provider value={mockRouter}>
-  //       <Tab current={true} href={"/test"} title={"Current tab"} />
-  //     </RouterContext.Provider>
-  //   );
-  //
-  //   const tab = screen.getByText("Current tab");
-  //
-  //   tab.click();
-  //
-  //   expect(mockPush).toHaveBeenCalledWith("/test", "/test", {
-  //     locale: undefined,
-  //     scroll: undefined,
-  //     shallow: undefined,
-  //   });
-  // });
-  //
-  // it("renders a current tab", () => {
-  //   render(<Tab current={true} href={"/test"} title={"Current tab"} />);
-  //
-  //   const tab = screen.getByText("Current tab");
-  //
-  //   expect(tab).toBeInTheDocument();
-  //
-  //   expect(tab).toHaveClass(tabClasses.border);
-  // });
+  it("renders a tabs, with multiple tabs and click on second tab", () => {
+    const mockPush = jest.fn();
+    const mockRouter = createMockRouter({ push: mockPush });
+
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Tab current={false} href={"/test"} title={"Tab"} />
+        <Tab current={true} href={"/current-tab"} title={"Current tab"} />
+        <Tab current={false} href={"/test3"} title={"Tab3"} />
+      </RouterContext.Provider>
+    );
+
+    const tab = screen.getByText("Current tab");
+
+    tab.click();
+
+    expect(mockPush).toHaveBeenCalledWith("/current-tab", "/current-tab", {
+      locale: undefined,
+      scroll: undefined,
+      shallow: undefined,
+    });
+  });
 });
