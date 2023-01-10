@@ -13,6 +13,15 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   testEnvironment: "jest-environment-jsdom",
   testMatch: ["<rootDir>/test/*.test.tsx"],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "!**/node_modules/**",
+    "!**/vendor/**",
+  ],
+  // An array of regexp pattern strings of files to skip.
+  coveragePathIgnorePatterns: [],
+  coverageReporters: ["json", "lcov", "text", "clover"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
