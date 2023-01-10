@@ -10,7 +10,7 @@ describe("AutoCompleteList component", () => {
     render(
       <AutoCompleteList
         choices={["Choice 1", "Choice2"]}
-        onChange={(choice) => {}}
+        onChange={() => {}}
         search={"C"}
       ></AutoCompleteList>
     );
@@ -46,7 +46,7 @@ describe("AutoCompleteList component", () => {
     render(
       <AutoCompleteList
         choices={["Choice 1", "Choice 2", "Choice 3", "Choice 4", "Choice 5"]}
-        onChange={(choice) => {}}
+        onChange={() => {}}
         search={""}
       ></AutoCompleteList>
     );
