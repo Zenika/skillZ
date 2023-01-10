@@ -45,6 +45,7 @@ const Topics = ({
             <Topic
               topic={topic}
               key={key}
+              keyId={key}
               type={selected ? "selected" : "common"}
               callback={
                 selected
