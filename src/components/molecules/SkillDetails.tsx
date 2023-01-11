@@ -40,6 +40,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
                 <Topic
                   topic={topic.Topic}
                   keyId={topic.Topic.id}
+                  key={topic.Topic.id}
                   type={"selected"}
                   readOnly
                 />
