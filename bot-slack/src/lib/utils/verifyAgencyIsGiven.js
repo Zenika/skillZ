@@ -1,8 +1,6 @@
-const { getSpecificArgument } = require("./getSpecificArgument");
 const { getAllAgencies } = require("../requestsHasura/getAllAgencies");
 
 async function verifyAgencyIsGiven(text) {
-  let agency = "";
   try {
     const response = await getAllAgencies();
     const tmp = text.split(" ");

@@ -40,7 +40,7 @@ async function request(query, variables) {
   try {
     checkStatus(response);
   } catch (e) {
-    console.error(e); //voir avec les queries nouvelles erreurs
+    console.error(e);
     const errorBody = await error.response.text();
     console.error(`Error body: ${errorBody}`);
   }

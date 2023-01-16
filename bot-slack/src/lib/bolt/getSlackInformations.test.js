@@ -90,11 +90,6 @@ it("the getUserID fetch fails with an error", async () => {
   }
 });
 
-// it("test getUserID return value success", async () => {
-//   const result = await getUserID("testID", myAppClientUsersIsOk, "testToken");
-//   expect(result).toBe("result");
-// });
-
 it("the getUserID return fails", async () => {
   const result = await getUserID(
     "testID",
