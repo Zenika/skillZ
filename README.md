@@ -20,38 +20,32 @@ Install dependencies using `npm install` at the root of the project.
 
 ### Create an env file
 
-Create an file named `.env.local`, then add these variables :
+Create an file named `.env`, then add these variables :
 
 ```
 # If you're using Linux, your local (or distant) hasura endpoint url should looks like this :
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
-HASURA_ADMIN_SECRET=key
 NEXT_API_BEARER_TOKEN=Bearer key
+NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
+
+## HASURA
+SKILLZ_GRAPHQL_JWT_SECRET={"type": "RS512", "key": "{your-certificate}"}
 HASURA_ACHIEVEMENTS_ENDPOINT=http://172.17.0.1:3000/api/achievement
-
-NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
-NEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com
-NEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt
-NEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/
-NEXT_PUBLIC_AUTH0_CALLBACK=/auth
-```
-
-```
-# If you're using Windows, your local (or distant) hasura endpoint url should looks like this :
-NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
 HASURA_ADMIN_SECRET=key
-NEXT_API_BEARER_TOKEN=Bearer key
-HASURA_ACHIEVEMENTS_ENDPOINT=http://host.docker.internal:3000/api/achievement
 
+## AUTH0
 NEXT_PUBLIC_AUTH0_CONNECTION=google-oauth2
-NEXT_PUBLIC_AUTH0_DOMAIN=zenika.eu.auth0.com
-NEXT_PUBLIC_AUTH0_CLIENT_ID=DgnUjXulP4ijDqQLsFTDKw3e12wHN2Gt
-NEXT_PUBLIC_AUTH0_AUDIENCE=https://zenika.eu.auth0.com/api/v2/
+NEXT_PUBLIC_AUTH0_DOMAIN=
+NEXT_PUBLIC_AUTH0_CLIENT_ID=
+NEXT_PUBLIC_AUTH0_AUDIENCE=
 NEXT_PUBLIC_AUTH0_CALLBACK=/auth
+
+## GOOGLE
+GOOGLE_AUTH_EMAIL=
+GOOGLE_AUTH_CLIENT_ID=
+GOOGLE_AUTH_PRIVATE_KEY=
+
 ```
 
 If you want to be an admin, think to replace or add your email address at `NEXT_PUBLIC_ADMINS=john.doe@zenika.com;`
@@ -72,11 +66,13 @@ In order to initialize / update the database run :
 # npm run hasura seed apply # Optional : seeds/cleans up the database with referential data
 ```
 
-Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the correct port (to keep track of schema changes in the hasura/migrations folder)).
+Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the
+correct port (to keep track of schema changes in the hasura/migrations folder)).
 
 ### Develop with hasura
 
-For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine and console.
+For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine
+and console.
 
 ```
 # npm install --global hasura-cli # Installs the hasura console globally
@@ -87,7 +83,7 @@ For hasura to generate the migration files properly the hasura console must be r
 ### Launch the app
 
 Run the dev server using `npm run dev`.
-The application should be available at the URL specified in your .env.local file under `NEXT_PUBLIC_BASE_URL`.
+The application should be available at the URL specified in your .env file under `NEXT_PUBLIC_BASE_URL`.
 
 ### Generate local seeds
 
@@ -100,7 +96,7 @@ And `npm run seeds:apply` to apply the random data to the database
 
 ### E2E with Cypress
 
-Create a file named `.env.test`, with the same content as the .env.local.
+Create a file named `.env.test`, with the same content as the .env.
 Replace the value of the variable `NEXT_PUBLIC_AUTH0_CONNECTION` with `Username-Password-Authentication`
 
 Create a file named `cypress.env.json` at the root of the project with the following content :
@@ -139,7 +135,8 @@ Slack bot for Skillz App - Keep updated about the new releases of the app, and y
 
 ## 📖 Documentation
 
-All the informations about this bot (configuration, etc) are in [this file](https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY).
+All the informations about this bot (configuration, etc) are
+in [this file](https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY).
 
 Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9jNgzQbMpmeW5tOe-XJ6Q1VFPw1HawUwxJXSqzA).
 
@@ -148,7 +145,8 @@ Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9
 ### Configuration
 
 1/ Start by running : `npm i`
-2/ Create an file named `.env`, then find variables thanks to the documentation : https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY/edit#
+2/ Create an file named `.env`, then find variables thanks to the
+documentation : https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY/edit#
 3/ Launch the app : `npm run dev`
 
 ### Testing
@@ -157,8 +155,10 @@ Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9
 
 The test library used is [Jest](https://jestjs.io/fr/). You can use tests with this command : `npm run test`.
 
-The [`coverage`](https://www.npmjs.com/package/coverage) library is installed on this project. You can check the coverage of this project with this command : `npm run coverage`.
+The [`coverage`](https://www.npmjs.com/package/coverage) library is installed on this project. You can check the
+coverage of this project with this command : `npm run coverage`.
 
 ### Versioning
 
-_Check the actual version of the bots thanks to /skillz-version-{ENV}_. If you want to update it, change the "version" field from the package.json
+_Check the actual version of the bots thanks to /skillz-version-{ENV}_. If you want to update it, change the "version"
+field from the package.json
