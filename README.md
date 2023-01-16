@@ -131,7 +131,7 @@ See all rules in `doc/rg.md`. You can find the part of the code corresponding to
 
 # Slackbot
 
-Slack bot for Skillz App - Keep updated about the new releases of the app, and your activity
+Slack bot for Skillz App - Keep updated about the new releases of the app, and your activity. The bot's scripts are placed in the folder `./bot-slack.`.
 
 ## 📖 Documentation
 

@@ -7,7 +7,6 @@ async function getCategoryById(categoryId) {
     categoryId: categoryId,
   };
   const response = await request(GET_CATEGORY_BY_ID, variables);
-  console.log("response.data", response.data);
   return response.data.Category_by_pk;
 }
 module.exports.getCategoryById = getCategoryById;
