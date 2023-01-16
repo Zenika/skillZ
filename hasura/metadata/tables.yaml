@@ -260,6 +260,13 @@
           table:
             schema: public
             name: SkillTag
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - creator
+          - name
   select_permissions:
     - role: world
       permission:
@@ -570,7 +577,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30
@@ -633,7 +640,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         num_retries: 5
         interval_sec: 30

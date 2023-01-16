@@ -6,6 +6,7 @@ import { GET_SKILL_DETAILS } from "../../graphql/queries/skills";
 import { i18nContext } from "../../utils/i18nContext";
 import { Skill } from "../../utils/types";
 import Topic from "../atoms/Topic";
+import EditTags from "./EditTags";
 
 const SkillDetails = ({ skill }: { skill: Skill }) => {
   const { user } = useAuth0();
@@ -14,6 +15,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
     data: skillDetails,
     error,
     loading,
+    refetch: refetchSkillDetails,
   } = useQuery<SkillDetailsQuery>(GET_SKILL_DETAILS, {
     variables: { skillId: skill.id || skill.skillId, email: user.email },
     fetchPolicy: "network-only",
@@ -31,7 +33,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
           <p>{skillDetails.Skill[0].UserSkillDesires[0].created_at}</p>
         )} */}
         <div className="flex flex-row flex-wrap justify-start items-center my-2">
-          {skillDetails.Skill[0].SkillTopics.length > 0 ? (
+          {skillDetails.Skill[0].SkillTopics.length > 0 && (
             <>
               <p className="text-m my-2 mx-2">{t("admin.topics")} : </p>
               {skillDetails.Skill[0].SkillTopics.map((topic) => (
@@ -43,8 +45,18 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
                 />
               ))}
             </>
-          ) : null}
+          )}
         </div>
+        {skillDetails && (
+          <div className="flex flex-row flex-wrap justify-start items-center my-2">
+            <EditTags
+              skill={skill}
+              refetchSkill={refetchSkillDetails}
+              description={t("skills.tags.description")}
+              adminView={false}
+            ></EditTags>
+          </div>
+        )}
       </div>
     ) : (
       <div>{t("error.noData")}</div>

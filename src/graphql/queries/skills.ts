@@ -340,6 +340,11 @@ export const GET_SKILL_DETAILS = gql`
       UserSkillDesires(where: { userEmail: { _eq: $email } }) {
         created_at
       }
+      SkillTags {
+        Tag {
+          name
+        }
+      }
     }
   }
 `;

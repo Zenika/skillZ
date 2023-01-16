@@ -12,6 +12,7 @@ export default {
     requiredField: "This field is required",
     tagRequired: "Add at least 1 tag",
     topicRequired: "Add at least 1 topic",
+    duplicatedTag: "This tag already exists, you can't create it",
   },
   nav: {
     mySkills: "My skills",
@@ -140,6 +141,18 @@ export default {
       title: "Here is the graph of %category% from",
     },
     lastUpdate: "Last update",
+    topics: {
+      topics: "Associated topics",
+    },
+    tags: {
+      tags: "Associated tags",
+      create: "Create new tag : ",
+      tagDeleted: "The tag has been removed with success",
+      tagAdded: "The tag %tag% has been added in the tag list",
+      tagLinked: "The tag %tag% has been linked to %skill% with success",
+      description:
+        "Create or modify tags that you feel are associated with this skill. Your contribution will help us improve the classification of Skillz data 🚀",
+    },
   },
   myProfile: {
     onboardingButton: "Let's go !",
