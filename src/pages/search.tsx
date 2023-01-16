@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useDebounce } from "use-debounce";
 import CustomSelect from "../components/atoms/CustomSelect/CustomSelect";
 import SearchBar from "../components/atoms/SearchBar/SearchBar";
 import UserPanel from "../components/molecules/UserPanel";
@@ -32,6 +33,7 @@ const Search = () => {
    */
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(choicesSorter[0]);
+  const [debouncedSearchValue] = useDebounce(search, 500);
   const [skillsToDisplay, setSkillsToDisplay] = useState([]);
 
   /*
@@ -40,7 +42,7 @@ const Search = () => {
   const { data, error: profilesError } = useQuery<SearchSkillsAndProfilesQuery>(
     SEARCH_SKILLS_AND_PROFILES_QUERY,
     {
-      variables: { search: `%${search}%` },
+      variables: { search: `%${debouncedSearchValue}%` },
     }
   );
 
@@ -54,12 +56,12 @@ const Search = () => {
       const xSkills = [...skills];
       switch (filter.label) {
         case "default":
-          if (search === "") {
+          if (debouncedSearchValue === "") {
             return xSkills.slice(0, 10);
           }
           return skills;
         case "trendsAsc":
-          if (search === "") {
+          if (debouncedSearchValue === "") {
             return xSkills
               .sort(
                 (a, b) =>
@@ -74,7 +76,7 @@ const Search = () => {
               Number(a.desireLevel + a.skillLevel) / 2
           );
         case "mostNoted":
-          if (search === "") {
+          if (debouncedSearchValue === "") {
             return xSkills
               .sort((a, b) => b.userCount - a.userCount)
               .slice(0, 10);
@@ -86,7 +88,7 @@ const Search = () => {
     } else {
       return [];
     }
-  }, [filter.label, search, skills]);
+  }, [filter.label, debouncedSearchValue, skills]);
 
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
@@ -144,7 +146,7 @@ const Search = () => {
             )}
           </div>
           <div className={"mt-20"}>
-            {search && search !== "" && (
+            {debouncedSearchValue && debouncedSearchValue !== "" && (
               <div>
                 <div className="flex flex-col mb-8">
                   <h1 className="text-xl">{t("search.profiles")}</h1>

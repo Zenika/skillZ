@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useDebounce } from "use-debounce";
 import SearchBar from "../../components/atoms/SearchBar/SearchBar";
 import Modal from "../../components/molecules/Modal";
 import SkillAdminPanel from "../../components/molecules/SkillAdminPanel";
@@ -25,6 +26,7 @@ export default function AdminSkillsPage() {
    * STATES
    */
   const [search, setSearch] = useState("");
+  const [debouncedSearchValue] = useDebounce(search, 500);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | null>(null);
 
   const closeModal = () => {
@@ -41,7 +43,7 @@ export default function AdminSkillsPage() {
     refetch,
   } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL, {
     fetchPolicy: "network-only",
-    variables: { search: `%${search}%` },
+    variables: { search: `%${debouncedSearchValue}%` },
   });
 
   /*
