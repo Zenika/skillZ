@@ -4,8 +4,8 @@ A progressive web app to store your proficiency and desire to learn different sk
 
 ## Requirements
 
-- Node 16.x
-- Npm 9.x
+- Node 16.13.1
+- Npm 8.1.2
 - Docker
 
 ## Quick start
@@ -72,11 +72,13 @@ In order to initialize / update the database run :
 # npm run hasura seed apply # Optional : seeds/cleans up the database with referential data
 ```
 
-Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the correct port (to keep track of schema changes in the hasura/migrations folder)).
+Connect to the Hasura console by running `npm run hasura console` (it should open the console in your browser with the
+correct port (to keep track of schema changes in the hasura/migrations folder)).
 
 ### Develop with hasura
 
-For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine and console.
+For hasura to generate the migration files properly the hasura console must be run apart from the "in-app" hasura engine
+and console.
 
 ```
 # npm install --global hasura-cli # Installs the hasura console globally
@@ -139,7 +141,8 @@ Slack bot for Skillz App - Keep updated about the new releases of the app, and y
 
 ## 📖 Documentation
 
-All the informations about this bot (configuration, etc) are in [this file](https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY).
+All the informations about this bot (configuration, etc) are
+in [this file](https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY).
 
 Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9jNgzQbMpmeW5tOe-XJ6Q1VFPw1HawUwxJXSqzA).
 
@@ -148,7 +151,8 @@ Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9
 ### Configuration
 
 1/ Start by running : `npm i`
-2/ Create an file named `.env`, then find variables thanks to the documentation : https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY/edit#
+2/ Create an file named `.env`, then find variables thanks to the
+documentation : https://docs.google.com/document/d/1VNHepiCHvmf6mLz2AZmaUNJzSKHFuQS4N2nUNNzKepY/edit#
 3/ Launch the app : `npm run dev`
 
 ### Testing
@@ -157,8 +161,10 @@ Architecture schéma is in [this file](https://docs.google.com/drawings/d/19-DK9
 
 The test library used is [Jest](https://jestjs.io/fr/). You can use tests with this command : `npm run test`.
 
-The [`coverage`](https://www.npmjs.com/package/coverage) library is installed on this project. You can check the coverage of this project with this command : `npm run coverage`.
+The [`coverage`](https://www.npmjs.com/package/coverage) library is installed on this project. You can check the
+coverage of this project with this command : `npm run coverage`.
 
 ### Versioning
 
-_Check the actual version of the bots thanks to /skillz-version-{ENV}_. If you want to update it, change the "version" field from the package.json
+_Check the actual version of the bots thanks to /skillz-version-{ENV}_. If you want to update it, change the "version"
+field from the package.json
