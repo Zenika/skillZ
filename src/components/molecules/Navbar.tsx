@@ -117,13 +117,13 @@ const Navbar = () => {
         config.nextPublicAdmins
           .split(";")
           .find((admin) => admin === user.email) && (
-        <Link href="/admin">
+        <Link href="/admin/skills">
           <div className="flex flex-initial flex-col justify-between cursor-pointer relative items-center">
             {isDesktop ? (
               <>
                 <Image
                   src={
-                    pathname === "/admin"
+                    pathname.startsWith("/admin")
                       ? `/icons/${
                           darkMode ? "dark" : "light"
                         }/zenika-selected.svg`
@@ -142,7 +142,7 @@ const Navbar = () => {
               <>{numberOfNotifications}</>
             )}
             <span className="text-center">Admin</span>
-            {pathname === "/admin" && (
+            {pathname.startsWith("/admin") && (
               <div className="flex flex-row justify-center w-full h-0.5">
                 <div className="w-3/4 h-full gradient-red" />
               </div>

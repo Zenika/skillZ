@@ -187,11 +187,11 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     .split(";")
                     .find((admin) => admin === user.email) && (
                   <div className="w-36">
-                    <Link href="/admin">
+                    <Link href="/admin/skills">
                       <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid">
                         <Image
                           src={
-                            pathname === "/admin"
+                            pathname.startsWith("/admin")
                               ? `/icons/${
                                   darkMode ? "dark" : "light"
                                 }/zenika-selected.svg`
@@ -215,7 +215,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                         )}
 
                         <span className="text-center">Admin</span>
-                        {pathname === "/admin" && (
+                        {pathname.startsWith("/admin") && (
                           <div className="flex flex-row justify-center w-full h-0.5">
                             <div className="w-3/4 h-full gradient-red" />
                           </div>
