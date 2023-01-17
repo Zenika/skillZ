@@ -15,7 +15,7 @@ executors:
         name: postgres
         environment:
           POSTGRES_PASSWORD: postgrespassword
-      - image: hasura/graphql-engine:v2.8.4.cli-migrations-v3
+      - image: hasura/graphql-engine:v2.16.1.cli-migrations-v3
         name: hasura
         environment:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
