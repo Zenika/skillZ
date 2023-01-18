@@ -169,15 +169,15 @@ Slack bot for Skillz App - Keep updated about the new releases of the app, and y
 
 This bot in only available in the Slack Zenika workspace.
 
-## Install bot <a name="intallbot"></a>
+## Install bot <a name="installbot"></a>
 
 The usage of the bot is only available on the Zenika's Slack. So, click on your channels settings in side bar, the on "Apps" such as the screenshot below :
 
-![](/home/mai-ly/Téléchargements/tuto1.png)
+![1](https://zupimages.net/up/23/03/lsdk.png)
 
 Then, search "Skillz-bot" on the search bar. It will purpose you the bot. Just click on it to install it to your workspace.
 
-![](/home/mai-ly/Images/tuto2.png)
+![2](https://zupimages.net/up/23/03/81bk.png)
 
 It's done ! You can now use the bot. Go on the bot's section "About" to know how use the commands.
 
