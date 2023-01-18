@@ -1,9 +1,12 @@
 name: Update Skills referential
 
 on:
-  schedule:
-    # At 06:00 on Monday
-    - cron: '0 6 * * 1'
+  #  schedule:
+  #    # At 06:00 on Monday
+  #    - cron: '0 6 * * 1'
+  push:
+    # only trigger on branches, not on tags
+    branches: 'chore/automated_skill_pr'
 
 jobs:
   update-referential:
@@ -66,5 +69,5 @@ jobs:
               owner,
               repo,
               pull_number: result.data.number,
-              reviewers: ['benjamin.bourgeois@zenika.com']
+              reviewers: ['benjaminbrgs']
             });
