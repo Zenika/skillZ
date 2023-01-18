@@ -42,7 +42,9 @@ const AutoCompleteList = ({
       style={{ width: size.width, height: size.height }}
       data-testid={"autocompletelist"}
     >
-      <div className={`${autoCompleteListParentChildrenClasses.base} ${autoCompleteListParentChildrenClasses.dark}`}>
+      <div
+        className={`${autoCompleteListParentChildrenClasses.base} ${autoCompleteListParentChildrenClasses.dark}`}
+      >
         {search && (
           <div
             className="flex flex-row leading-6 hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
@@ -56,7 +58,7 @@ const AutoCompleteList = ({
           </div>
         )}
         {search && choices && (
-          <>
+          <div>
             {choices.map((choice, i) => (
               <div
                 className={`${autoCompleteListChildrenClasses.base} ${autoCompleteListChildrenClasses.hover} ${autoCompleteListChildrenClasses.dark}`}
@@ -66,7 +68,7 @@ const AutoCompleteList = ({
                 {choice}
               </div>
             ))}
-          </>
+          </div>
         )}
       </div>
     </div>
