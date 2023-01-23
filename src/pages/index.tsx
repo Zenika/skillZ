@@ -7,6 +7,9 @@ import ErrorPage from "../components/templates/ErrorPage";
 import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import Loading from "../components/molecules/Loading";
 import { config } from "../env";
+import React, { useContext } from "react";
+import { i18nContext } from "../utils/i18nContext";
+import Image from "next/image";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -21,6 +24,8 @@ const Home = () => {
    * HOOKS
    */
   const { push, replace } = useRouter();
+  const { t } = useContext(i18nContext);
+
   const { user, isLoading: authLoading, error: authError } = useAuth0();
   const link = new URL(`${config.nextPublicBaseUrl}/profile`);
 
@@ -82,6 +87,23 @@ const Home = () => {
   }
   return (
     <CommonPage page={"Home"} backBar={false}>
+          <div className="flex flex-row mb-4 p-2 w-full gradient-red  rounded">
+      <Image
+        className="w-16 h-16 rounded-full"
+        height="64"
+        width="64"
+        src={"/../public/fusee.png"}
+        // alt={userName}
+      />
+      <div className="flex flex-col mx-4 justify-center">
+        <p className="">{t("onboarding.home.welcome")}</p>
+        <p
+          className="opacity-70"
+        >
+          {t("onboarding.home.remind")}
+        </p>
+      </div>
+    </div>
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&
           homePanelData.map((computedDataSkill) => (

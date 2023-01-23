@@ -76,6 +76,11 @@ export default {
     skip: "Skip",
     addSkillsDescription: "Add and manage your skills",
     discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
+    home: {
+      welcome: "You haven't scored any skills yet. Do you need help ? We'll be happy to help you find your way around !",
+      remind: "You can find our tutorial at any time in the settings.",
+      startTutorial: "Let's start !"
+    }
   },
   loading: {
     loadingText: "Loading...",

@@ -76,6 +76,11 @@ export default {
     addSkillsDescription: "Ajoutez et gérez vos compétences",
     discoverZenikaSkillsDescription:
       "Découvrez les compétences des collaborateurs Zenika",
+    home: {
+      welcome: "Tu n'as pas encore noté de compétences. As tu besoin d'aide ? Nous serons ravis de t'aider à t'y retrouver !",
+      remind: "Tu pourras retrouver notre tutoriel à tout moment dans les paramètres.",
+      startTutorial: "C'est parti !"
+    }
   },
   loading: {
     loadingText: "Chargement...",
