@@ -47,7 +47,7 @@
     "react-icons": "^4.7.1",
     "react-responsive": "9.0.2",
     "react-swipeable": "6.1.2",
-    "recharts": "^2.1.16",
+    "recharts": "^2.3.2",
     "sharp": "^0.30.7",
     "use-debounce": "9.0.2"
   },
