@@ -81,5 +81,5 @@ export const useFetchZenikaPageData = (
   agency: string | undefined
 ) =>
   !agency || agency === "World"
-    ? fetchZenikaPageData(email)
+    ? fetchZenikaPageData()
     : fetchZenikaPageDataByAgency(email, agency);
