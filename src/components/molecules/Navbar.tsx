@@ -35,119 +35,123 @@ const Navbar = () => {
 
   return (
     <header className="p-2 z-50 flex flex-auto flex-row justify-evenly h-16 bg-red-800 bg-light-light dark:bg-dark-dark text-light-graytext dark:text-dark-graytext inset-x-0 bottom-0 overflow-hidden fixed shadow-2xl">
-      <Link href="/">
-        <div className="flex flex-initial flex-col justify-between cursor-pointer">
-          {pathname === "/" ? (
-            <Image
-              src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
-              alt={"Line"}
-              width="25"
-              height="2"
-            />
-          ) : (
-            <div className="h-px" />
-          )}
+      <Link
+        href="/"
+        className="flex flex-initial flex-col justify-between cursor-pointer items-center"
+      >
+        {pathname === "/" ? (
           <Image
-            src={
-              pathname === "/"
-                ? `/icons/${darkMode ? "dark" : "light"}/skills-selected.svg`
-                : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
-            }
+            src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
             alt={"Line"}
             width="25"
-            height="25"
-            className="p-1"
+            height="2"
           />
-          <span className="text-center">{t("nav.mySkills")}</span>
-        </div>
+        ) : (
+          <div className="h-px" />
+        )}
+        <Image
+          src={
+            pathname === "/"
+              ? `/icons/${darkMode ? "dark" : "light"}/skills-selected.svg`
+              : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
+          }
+          alt={"Line"}
+          width="25"
+          height="25"
+          className="p-1"
+        />
+        <span className="text-center">{t("nav.mySkills")}</span>
       </Link>
-      <Link href="/zenika">
-        <div className="flex flex-initial flex-col justify-between cursor-pointer">
-          {pathname === "/zenika" ? (
-            <Image
-              src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
-              alt={"Line"}
-              width="25"
-              height="2"
-            />
-          ) : (
-            <div className="h-px" />
-          )}
+      <Link
+        href="/zenika"
+        className="flex flex-initial flex-col justify-between cursor-pointer items-center"
+      >
+        {pathname === "/zenika" ? (
           <Image
-            src={
-              pathname === "/zenika"
-                ? `/icons/${darkMode ? "dark" : "light"}/zenika-selected.svg`
-                : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
-            }
+            src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
             alt={"Line"}
             width="25"
-            height="25"
-            className="p-1"
+            height="2"
           />
-          <span className="text-center">{t("nav.zenikaSkills")}</span>
-        </div>
+        ) : (
+          <div className="h-px" />
+        )}
+        <Image
+          src={
+            pathname === "/zenika"
+              ? `/icons/${darkMode ? "dark" : "light"}/zenika-selected.svg`
+              : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
+          }
+          alt={"Line"}
+          width="25"
+          height="25"
+          className="p-1"
+        />
+        <span className="text-center">{t("nav.zenikaSkills")}</span>
       </Link>
-      <Link href="/search">
-        <div className="flex flex-initial flex-col justify-between cursor-pointer">
-          {pathname === "/search" ? (
-            <Image
-              src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
-              alt={"Line"}
-              width="25"
-              height="2"
-            />
-          ) : (
-            <div className="h-px" />
-          )}
+      <Link
+        href="/search"
+        className="flex flex-initial flex-col justify-between cursor-pointer items-center"
+      >
+        {pathname === "/search" ? (
           <Image
-            src={
-              pathname === "/search"
-                ? `/icons/${darkMode ? "dark" : "light"}/search-selected.svg`
-                : `/icons/${darkMode ? "dark" : "light"}/search.svg`
-            }
+            src={`/icons/${darkMode ? "dark" : "light"}/nav-selected.svg`}
             alt={"Line"}
             width="25"
-            height="25"
-            className="p-1"
+            height="2"
           />
-          <span className="text-center">{t("nav.search")}</span>
-        </div>
+        ) : (
+          <div className="h-px" />
+        )}
+        <Image
+          src={
+            pathname === "/search"
+              ? `/icons/${darkMode ? "dark" : "light"}/search-selected.svg`
+              : `/icons/${darkMode ? "dark" : "light"}/search.svg`
+          }
+          alt={"Line"}
+          width="25"
+          height="25"
+          className="p-1"
+        />
+        <span className="text-center">{t("nav.search")}</span>
       </Link>
       {user.email ===
         config.nextPublicAdmins
           .split(";")
           .find((admin) => admin === user.email) && (
-        <Link href="/admin/skills">
-          <div className="flex flex-initial flex-col justify-between cursor-pointer relative items-center">
-            {isDesktop ? (
-              <>
-                <Image
-                  src={
-                    pathname.startsWith("/admin")
-                      ? `/icons/${
-                          darkMode ? "dark" : "light"
-                        }/zenika-selected.svg`
-                      : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
-                  }
-                  alt={"admin"}
-                  width="25"
-                  height="25"
-                  className="p-1"
-                />
-                <div className={"absolute top-0 right-5"}>
-                  {numberOfNotifications}
-                </div>
-              </>
-            ) : (
-              <>{numberOfNotifications}</>
-            )}
-            <span className="text-center">Admin</span>
-            {pathname.startsWith("/admin") && (
-              <div className="flex flex-row justify-center w-full h-0.5">
-                <div className="w-3/4 h-full gradient-red" />
+        <Link
+          href="/admin/skills"
+          className="flex flex-initial flex-col justify-between cursor-pointer relative items-center"
+        >
+          {isDesktop ? (
+            <>
+              <Image
+                src={
+                  pathname.startsWith("/admin")
+                    ? `/icons/${
+                        darkMode ? "dark" : "light"
+                      }/zenika-selected.svg`
+                    : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
+                }
+                alt={"admin"}
+                width="25"
+                height="25"
+                className="p-1"
+              />
+              <div className={"absolute top-0 right-5"}>
+                {numberOfNotifications}
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <>{numberOfNotifications}</>
+          )}
+          <span className="text-center">Admin</span>
+          {pathname.startsWith("/admin") && (
+            <div className="flex flex-row justify-center w-full h-0.5">
+              <div className="w-3/4 h-full gradient-red" />
+            </div>
+          )}
         </Link>
       )}
     </header>
