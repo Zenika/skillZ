@@ -27,7 +27,7 @@ const GraphQLProvider = ({
       return;
     }
     (async () => {
-      const [token, err] = await of(getAccessTokenSilently());
+      const [token] = await of(getAccessTokenSilently());
 
       const httpLink = createHttpLink({
         uri: config.nextPublicGraphqlUrl,
