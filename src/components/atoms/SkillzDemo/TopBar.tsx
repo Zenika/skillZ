@@ -2,31 +2,45 @@ import React, { useContext, useState } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import Button from "../Button";
 import Image from "next/image";
-import { useRef } from "react";
 import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { GET_USER_SKILLS_ID } from "../../../graphql/queries/skills";
+import { GetUserSkillsIdQuery } from "../../../generated/graphql";
+import { useQuery } from "@apollo/client";
 
-const TopBar = ({ demoParent, setDemoParent }) => {
+const TopBar = () => {
   const { t } = useContext(i18nContext);
-  const childRef = useRef();
-  //change this with parameter
+  const { user } = useAuth0();
+  const { data: userSkillsId } = useQuery<GetUserSkillsIdQuery>(
+    GET_USER_SKILLS_ID,
+    {
+      variables: { email: user.email },
+    }
+  );
   const [openDemo, setOpenDemo] = useState(true);
 
   useEffect(() => {
-      if (openDemo)
-        localStorage.setItem("demo", "true")
-    else 
-        localStorage.setItem("demo", "false")
-  }, [openDemo, setOpenDemo])
+    if (userSkillsId?.UserSkillDesire.length > 0 || localStorage.getItem("demo") === "true") {
+      localStorage.setItem("demo", "true");
+      setOpenDemo(true)
+    }
+    else {
+      localStorage.setItem("demo", "false");
+      setOpenDemo(false)
+    }
+  }, [openDemo, setOpenDemo]);
 
   const openDemoHandler = () => {
-    setOpenDemo(true)
+    setOpenDemo(true);
   };
 
   const closeDemoHandler = () => {
-    setOpenDemo(false)
-  }
+    setOpenDemo(false);
+  };
 
   return (
+    <>
+    {openDemo  &&
     <div className="flex justify-between mb-4 p-2 w-full gradient-red-faded rounded">
       <div className="flex flex-row">
         <Image
@@ -42,17 +56,13 @@ const TopBar = ({ demoParent, setDemoParent }) => {
         </div>
       </div>
       <div className="flex">
-        {!openDemo ? (
-          <Button type={"secondary"} callback={openDemoHandler}>
-            {t("onboarding.home.startTutorial")}
-          </Button>
-        ) : (
           <Button type={"secondary"} callback={closeDemoHandler}>
             {t("onboarding.home.stopTutorial")}
           </Button>
-        )}
       </div>
     </div>
+    }
+    </>
   );
 };
 

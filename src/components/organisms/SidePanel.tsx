@@ -8,6 +8,7 @@ import { i18nContext } from "../../utils/i18nContext";
 import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
+import { SlidingCheckbox } from "../atoms/SlidingCheckbox";
 
 const SidePanel = () => {
   const { locale } = useRouter();
@@ -84,6 +85,11 @@ const SidePanel = () => {
         </li>
         <li className="p-4">
           <BotNotifications t={t}></BotNotifications>
+        </li>
+        <li className="p-4">
+          <li>
+          </li>
+          <li></li>
         </li>
       </ul>
     </div>

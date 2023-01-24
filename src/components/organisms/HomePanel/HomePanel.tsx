@@ -72,7 +72,7 @@ const HomePanel = ({
       4: "w-4",
     },
   };
-  const tourConfig = [
+  const tourConfigMine = [
     {
       target: ".step1-total-number",
       content: t("onboarding.demo.home.step1"),
@@ -90,17 +90,35 @@ const HomePanel = ({
     },
   ];
 
+  const tourConfigZenika = [
+    {
+      target: ".step1-total-number",
+      content: t("onboarding.demo.zenika.step1"),
+      title: t("onboarding.demo.zenika.titlestep1"),
+
+    },
+    {
+      target: ".step2-5bestskills",
+      content: t("onboarding.demo.zenika.step2"),
+    },
+    {
+      target: ".step3-graph",
+      content: t("onboarding.demo.zenika.step3"),
+      title: t("onboarding.demo.zenika.titlestep3"),
+    },
+  ];
+
   return (
     <>
-      <Joyride
-        steps={tourConfig}
+      {localStorage.getItem("demo") === "true" && <Joyride
+        steps={context === "mine" ? tourConfigMine : tourConfigZenika}
         continuous={true}
         styles={{
           options: {
             zIndex: 10000,
           },
         }}
-      />
+      />}
       <div
         className={`flex flex-auto flex-col bg-light-panel dark:bg-dark-panel
          border border-light-panel dark:border-dark-panel 

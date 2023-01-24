@@ -81,9 +81,6 @@ const Home = () => {
 
   const [openDemo, setOpenDemo] = useState(localStorage.getItem("demo"));
 
-  // useEffect(() => {
-  //   console.log("f")
-  // }, [localStorage.getItem("demo")])
   if (authLoading || userLoading || dataLoading) {
     return <Loading />;
   } else if (authError || userError || dataError) {
@@ -91,8 +88,7 @@ const Home = () => {
   }
   return (
     <CommonPage page={"Home"} backBar={false}>
-      <TopBar demoParent={openDemo} setDemoParent={setOpenDemo} />
-      {/* {console.log(openDemo)} */}
+      <TopBar />
  
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&

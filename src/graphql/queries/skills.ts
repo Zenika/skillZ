@@ -390,3 +390,11 @@ export const GET_TAG_FROM_TAGNAME = gql`
     }
   }
 `;
+
+export const GET_USER_SKILLS_ID = gql`
+query getUserSkillsId($email: String!) {
+  UserSkillDesire(where: {userEmail: {_eq: $email}}) {
+    id
+  }
+}
+`;
