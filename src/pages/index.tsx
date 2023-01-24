@@ -1,15 +1,14 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import CommonPage from "../components/templates/CommonPage";
 import ErrorPage from "../components/templates/ErrorPage";
 import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import Loading from "../components/molecules/Loading";
 import { config } from "../env";
-import React, { useContext } from "react";
-import { i18nContext } from "../utils/i18nContext";
-import Image from "next/image";
+import React from "react";
+import TopBar from "../components/atoms/SkillzDemo/TopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -18,13 +17,13 @@ import {
   GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
   GET_USER_QUERY,
 } from "../graphql/queries/userInfos";
+import Joyride from "react-joyride";
 
 const Home = () => {
   /*
    * HOOKS
    */
   const { push, replace } = useRouter();
-  const { t } = useContext(i18nContext);
 
   const { user, isLoading: authLoading, error: authError } = useAuth0();
   const link = new URL(`${config.nextPublicBaseUrl}/profile`);
@@ -80,6 +79,22 @@ const Home = () => {
     certifs: 0,
   }));
 
+  const tourConfig = [
+    {
+      target: ".my-first-step",
+      content: "This is my awesome feature!",
+    },
+    {
+      target: ".my-other-step",
+      content: "This another awesome feature!",
+    },
+  ];
+  const [openDemo, setOpenDemo] = useState(false);
+
+  useEffect(() => {
+    console.log("demo : ", openDemo)
+  }, [setOpenDemo, openDemo])
+
   if (authLoading || userLoading || dataLoading) {
     return <Loading />;
   } else if (authError || userError || dataError) {
@@ -87,23 +102,16 @@ const Home = () => {
   }
   return (
     <CommonPage page={"Home"} backBar={false}>
-          <div className="flex flex-row mb-4 p-2 w-full gradient-red  rounded">
-      <Image
-        className="w-16 h-16 rounded-full"
-        height="64"
-        width="64"
-        src={"/../public/fusee.png"}
-        // alt={userName}
+      <TopBar demoParent={openDemo} setDemoParent={setOpenDemo} />
+
+      <Joyride
+        steps={tourConfig}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
       />
-      <div className="flex flex-col mx-4 justify-center">
-        <p className="">{t("onboarding.home.welcome")}</p>
-        <p
-          className="opacity-70"
-        >
-          {t("onboarding.home.remind")}
-        </p>
-      </div>
-    </div>
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&
           homePanelData.map((computedDataSkill) => (

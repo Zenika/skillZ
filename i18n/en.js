@@ -79,7 +79,8 @@ export default {
     home: {
       welcome: "You haven't scored any skills yet. Do you need help ? We'll be happy to help you find your way around !",
       remind: "You can find our tutorial at any time in the settings.",
-      startTutorial: "Let's start !"
+      startTutorial: "Let's start !",
+      noTutorial: "No thanks"
     }
   },
   loading: {

@@ -79,7 +79,9 @@ export default {
     home: {
       welcome: "Tu n'as pas encore noté de compétences. As tu besoin d'aide ? Nous serons ravis de t'aider à t'y retrouver !",
       remind: "Tu pourras retrouver notre tutoriel à tout moment dans les paramètres.",
-      startTutorial: "C'est parti !"
+      startTutorial: "C'est parti !",
+      noTutorial: "Non merci",
+      stopTutorial: "Arrêter le tutoriel"
     }
   },
   loading: {
