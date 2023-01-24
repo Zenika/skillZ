@@ -89,7 +89,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
           !isDesktop ? "p-4" : ""
         }`}
       >
-        <div className="flex cursor-pointer justify-start w-1/3">
+        <div className="flex items-center cursor-pointer justify-start w-1/3">
           <Link href="/">
             <Image
               src={`/icons/${darkMode ? "dark" : "light"}/logo.svg`}
@@ -104,82 +104,83 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             <div className="flex flex-col justify-center px-4 h-full">
               <div className="flex flex-row justify-around h-full items-center">
                 <div className="w-36">
-                  <Link href="/">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                      <Image
-                        src={
-                          context === "mine" || pathname === "/"
-                            ? `/icons/${
-                                darkMode ? "dark" : "light"
-                              }/skills-selected.svg`
-                            : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
-                        }
-                        alt={"Skill"}
-                        width="25"
-                        height="25"
-                        className="p-1"
-                      />
-                      <span className="text-center">{t("nav.mySkills")}</span>
-                      {context === "mine" ||
-                        (pathname === "/" && (
-                          <div className="flex flex-row justify-center w-full h-0.5">
-                            <div className="w-3/4 h-full gradient-red" />
-                          </div>
-                        ))}
-                    </div>
-                  </Link>
-                </div>
-                <div className="w-36">
-                  <Link href="/zenika">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                      <Image
-                        src={
-                          context === "zenika" || pathname === "/zenika"
-                            ? `/icons/${
-                                darkMode ? "dark" : "light"
-                              }/zenika-selected.svg`
-                            : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
-                        }
-                        alt={"Zenika"}
-                        width="25"
-                        height="25"
-                        className="p-1"
-                      />
-                      <span className="text-center">
-                        {t("nav.zenikaSkills")}
-                      </span>
-                      {context === "zenika" ||
-                        (pathname === "/zenika" && (
-                          <div className="flex flex-row justify-center w-full h-0.5">
-                            <div className="w-3/4 h-full gradient-red" />
-                          </div>
-                        ))}
-                    </div>
-                  </Link>
-                </div>
-                <div className="w-36">
-                  <Link href="/search">
-                    <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                      <Image
-                        src={
-                          pathname === "/search"
-                            ? `/icons/${
-                                darkMode ? "dark" : "light"
-                              }/search-selected.svg`
-                            : `/icons/${darkMode ? "dark" : "light"}/search.svg`
-                        }
-                        alt={"Search"}
-                        width="25"
-                        height="25"
-                        className="p-1"
-                      />
-                      <span className="text-center">{t("nav.search")}</span>
-                      {pathname === "/search" && (
+                  <Link
+                    href="/"
+                    className="flex flex-initial flex-col justify-between items-center cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid"
+                  >
+                    <Image
+                      src={
+                        context === "mine" || pathname === "/"
+                          ? `/icons/${
+                              darkMode ? "dark" : "light"
+                            }/skills-selected.svg`
+                          : `/icons/${darkMode ? "dark" : "light"}/skills.svg`
+                      }
+                      alt={"Skill"}
+                      width="25"
+                      height="25"
+                      className="p-1"
+                    />
+                    <span className="text-center">{t("nav.mySkills")}</span>
+                    {context === "mine" ||
+                      (pathname === "/" && (
                         <div className="flex flex-row justify-center w-full h-0.5">
                           <div className="w-3/4 h-full gradient-red" />
                         </div>
-                      )}
-                    </div>
+                      ))}
+                  </Link>
+                </div>
+                <div className="w-36">
+                  <Link
+                    href="/zenika"
+                    className="flex flex-initial flex-col justify-between items-center cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid"
+                  >
+                    <Image
+                      src={
+                        context === "zenika" || pathname === "/zenika"
+                          ? `/icons/${
+                              darkMode ? "dark" : "light"
+                            }/zenika-selected.svg`
+                          : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
+                      }
+                      alt={"Zenika"}
+                      width="25"
+                      height="25"
+                      className="p-1"
+                    />
+                    <span className="text-center">{t("nav.zenikaSkills")}</span>
+                    {context === "zenika" ||
+                      (pathname === "/zenika" && (
+                        <div className="flex flex-row justify-center w-full h-0.5">
+                          <div className="w-3/4 h-full gradient-red" />
+                        </div>
+                      ))}
+                  </Link>
+                </div>
+                <div className="w-36">
+                  <Link
+                    href="/search"
+                    className="flex flex-initial flex-col justify-between items-center cursor-pointer h-full py-4 hover:bg-light-dark hover:dark:bg-dark-radargrid"
+                  >
+                    <Image
+                      src={
+                        pathname === "/search"
+                          ? `/icons/${
+                              darkMode ? "dark" : "light"
+                            }/search-selected.svg`
+                          : `/icons/${darkMode ? "dark" : "light"}/search.svg`
+                      }
+                      alt={"Search"}
+                      width="25"
+                      height="25"
+                      className="p-1"
+                    />
+                    <span className="text-center">{t("nav.search")}</span>
+                    {pathname === "/search" && (
+                      <div className="flex flex-row justify-center w-full h-0.5">
+                        <div className="w-3/4 h-full gradient-red" />
+                      </div>
+                    )}
                   </Link>
                 </div>
                 {user.email ===
@@ -187,40 +188,39 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     .split(";")
                     .find((admin) => admin === user.email) && (
                   <div className="w-36">
-                    <Link href="/admin/skills">
-                      <div className="flex flex-initial flex-col justify-between cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                        <Image
-                          src={
-                            pathname.startsWith("/admin")
-                              ? `/icons/${
-                                  darkMode ? "dark" : "light"
-                                }/zenika-selected.svg`
-                              : `/icons/${
-                                  darkMode ? "dark" : "light"
-                                }/zenika.svg`
+                    <Link
+                      href="/admin/skills"
+                      className="flex flex-initial flex-col justify-between items-center cursor-pointer h-full py-4 relative hover:bg-light-dark hover:dark:bg-dark-radargrid"
+                    >
+                      <Image
+                        src={
+                          pathname.startsWith("/admin")
+                            ? `/icons/${
+                                darkMode ? "dark" : "light"
+                              }/zenika-selected.svg`
+                            : `/icons/${darkMode ? "dark" : "light"}/zenika.svg`
+                        }
+                        alt={"admin"}
+                        width="25"
+                        height="25"
+                        className="p-1"
+                      />
+                      {skills && (
+                        <div
+                          className={
+                            "absolute top-1 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
                           }
-                          alt={"admin"}
-                          width="25"
-                          height="25"
-                          className="p-1"
-                        />
-                        {skills && (
-                          <div
-                            className={
-                              "absolute top-1 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
-                            }
-                          >
-                            {skills.Skill.length}
-                          </div>
-                        )}
+                        >
+                          {skills.Skill.length}
+                        </div>
+                      )}
 
-                        <span className="text-center">Admin</span>
-                        {pathname.startsWith("/admin") && (
-                          <div className="flex flex-row justify-center w-full h-0.5">
-                            <div className="w-3/4 h-full gradient-red" />
-                          </div>
-                        )}
-                      </div>
+                      <span className="text-center">Admin</span>
+                      {pathname.startsWith("/admin") && (
+                        <div className="flex flex-row justify-center w-full h-0.5">
+                          <div className="w-3/4 h-full gradient-red" />
+                        </div>
+                      )}
                     </Link>
                   </div>
                 )}
@@ -279,33 +279,33 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
               >
                 <ul className="flex flex-col justify-around h-full p-2 rounded-b-md border border-light-ultrawhite dark:border-dark-ultradark">
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                    <Link href={`/profile`}>
-                      <div className="flex flex-row cursor-pointer">
-                        <Image
-                          src={`/icons/${
-                            darkMode ? "dark" : "light"
-                          }/profile.svg`}
-                          alt={"Profile"}
-                          width="16"
-                          height="16"
-                        />
-                        <p className="pl-4">{t("sidepanel.profile")}</p>
-                      </div>
+                    <Link
+                      href={`/profile`}
+                      className="flex flex-row cursor-pointer"
+                    >
+                      <Image
+                        src={`/icons/${
+                          darkMode ? "dark" : "light"
+                        }/profile.svg`}
+                        alt={"Profile"}
+                        width="16"
+                        height="16"
+                      />
+                      <p className="pl-4">{t("sidepanel.profile")}</p>
                     </Link>
                   </li>
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
-                    <Link href="/logout">
-                      <div className="flex flex-row cursor-pointer">
-                        <Image
-                          src={`/icons/${
-                            darkMode ? "dark" : "light"
-                          }/logout.svg`}
-                          alt={"Sign out"}
-                          width="18"
-                          height="18"
-                        />
-                        <p className="pl-4">{t("sidepanel.logout")}</p>
-                      </div>
+                    <Link
+                      href="/logout"
+                      className="flex flex-row cursor-pointer"
+                    >
+                      <Image
+                        src={`/icons/${darkMode ? "dark" : "light"}/logout.svg`}
+                        alt={"Sign out"}
+                        width="18"
+                        height="18"
+                      />
+                      <p className="pl-4">{t("sidepanel.logout")}</p>
                     </Link>
                   </li>
                   {/*Separator*/}

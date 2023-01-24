@@ -67,7 +67,7 @@ export const categoryCompletionAchievement = async (
       skillCount >= achievement.step &&
       categoryLabel === achievement.additionalInfo
   ).map((achievement) => ({ ...achievement, userEmail }));
-  const [mutationResult, mutationErr] = await of(
+  const [mutationErr] = await of(
     fetcher(InsertCategoryCompletionAchievementMutation, {
       data: achievementsObtained,
     })

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from "@apollo/client";
 import {
   GetAgenciesAverageCurrentSkillsAndDesiresByCategoryQuery,

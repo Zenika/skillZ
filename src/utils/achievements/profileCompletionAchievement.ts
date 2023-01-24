@@ -38,7 +38,7 @@ si > 5 => 1er palier, si > 10 => 2er palier
 export const categoryProfileAchievement = async (
   payload: AchievementRequestData
 ) => {
-  const { userEmail, data } = payload;
+  const { userEmail } = payload;
   const [response, err] = await of(
     fetcher(GetPreferedTopicsQuery, {
       userEmail,
@@ -55,7 +55,7 @@ export const categoryProfileAchievement = async (
       topicsCount >= achievement.step &&
       achievement.additionalInfo === "preferedTopics"
   ).map((achievement) => ({ ...achievement, userEmail }));
-  const [mutationResult, mutationErr] = await of(
+  const [mutationErr] = await of(
     fetcher(InsertCategoryCompletionAchievementMutation, {
       data: achievementsObtained,
     })
