@@ -31,6 +31,13 @@ If you have any questions about the diferents projects, don't hesitate to open i
    2. [Development](#development)
       1. [Configuration](#configuration)
       2. [Versionning](#versionning)
+3. [Github](#github)
+   1. [Actions](#actions)
+      1. [Update Skills referential](#skills-referential)
+   2. [Dependabot](#dependabot)
+
+
+
 
 # Skillz web app <a name="skillzwebapp"></a>
 
@@ -210,3 +217,25 @@ coverage of this project with this command : `npm run coverage`.
 
 _Check the actual version of the bots thanks to /skillz-version-{ENV}_. If you want to update it, change the "version"
 field from the package.json
+
+# Github <a name="github"></a>
+
+## Actions <a name="actions"></a>
+
+### Update Skills referential <a name="skills-referential"></a>
+
+This Github Actions is located in .github/workflows/update-skills-referential.yml
+
+- Run every monday à 6:00am UTC
+- Get all approved skills from skills.zenika.com
+- Update the file located in hasura/seeds/05-skills.sql with new approved skills
+- Create a merge request
+
+## Dependabot <a name="dependabot"></a>
+
+Dependabot helps us keep our dependencies up to date. It checks our dependency files for outdated requirements and opens individual PRs.
+
+The configuration file is located in .github/dependabot.yml
+
+- Run every monday at 7:00 am UTC
+- Create PR for skills-app and skills-bot
