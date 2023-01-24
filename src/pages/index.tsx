@@ -17,7 +17,6 @@ import {
   GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
   GET_USER_QUERY,
 } from "../graphql/queries/userInfos";
-import Joyride from "react-joyride";
 
 const Home = () => {
   /*
@@ -79,22 +78,12 @@ const Home = () => {
     certifs: 0,
   }));
 
-  const tourConfig = [
-    {
-      target: ".my-first-step",
-      content: "This is my awesome feature!",
-    },
-    {
-      target: ".my-other-step",
-      content: "This another awesome feature!",
-    },
-  ];
-  const [openDemo, setOpenDemo] = useState(false);
 
-  useEffect(() => {
-    console.log("demo : ", openDemo)
-  }, [setOpenDemo, openDemo])
+  const [openDemo, setOpenDemo] = useState(localStorage.getItem("demo"));
 
+  // useEffect(() => {
+  //   console.log("f")
+  // }, [localStorage.getItem("demo")])
   if (authLoading || userLoading || dataLoading) {
     return <Loading />;
   } else if (authError || userError || dataError) {
@@ -103,15 +92,8 @@ const Home = () => {
   return (
     <CommonPage page={"Home"} backBar={false}>
       <TopBar demoParent={openDemo} setDemoParent={setOpenDemo} />
-
-      <Joyride
-        steps={tourConfig}
-        styles={{
-          options: {
-            zIndex: 10000,
-          },
-        }}
-      />
+      {/* {console.log(openDemo)} */}
+ 
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&
           homePanelData.map((computedDataSkill) => (

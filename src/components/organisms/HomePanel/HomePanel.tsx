@@ -8,6 +8,7 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
+import Joyride from "react-joyride";
 
 type HomePanelProps = {
   props: {
@@ -71,43 +72,66 @@ const HomePanel = ({
       4: "w-4",
     },
   };
+  const tourConfig = [
+    {
+      target: ".step1-total-number",
+      content: t("onboarding.demo.home.step1"),
+      title: t("onboarding.demo.home.titlestep1"),
+
+    },
+    {
+      target: ".step2-5bestskills",
+      content: t("onboarding.demo.home.step2"),
+    },
+    {
+      target: ".step3-graph",
+      content: t("onboarding.demo.home.step3"),
+      title: t("onboarding.demo.home.titlestep3"),
+    },
+  ];
 
   return (
-    <Link
-      href={{
-        pathname: `/skills/${context}/${name}`,
-        query: !data.length && context === "mine" && { add: true },
-      }}
-    >
+    <>
+      <Joyride
+        steps={tourConfig}
+        continuous={true}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
       <div
-        className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel
-        hover:bg-light-dark border border-light-panel dark:border-dark-panel hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton
-        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"} ${
+        className={`flex flex-auto flex-col bg-light-panel dark:bg-dark-panel
+         border border-light-panel dark:border-dark-panel 
+        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"}  ${
           y && x ? roundTable[y][x] : ""
-        } m-1 w-2/5`}
+        } m-1 w-2/5 `}
       >
         <div
           className={`flex flex-auto ${
             y === "bot" ? "flex-col-reverse" : "flex-col"
-          }`}
+          } `}
         >
           <div
             className={`flex flex-auto ${
               x === "right" ? "flex-row-reverse" : ""
-            }`}
+            } `}
           >
             <div
-              className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+              className={`flex flex-auto flex-col ${
+                isDesktop ? "w-2/5" : ""
+              }`}
             >
               {data.length > 0 ? (
                 <div
-                  className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
+                  className={`flex flex-auto step1-total-number justify-around py-4 text-4xl h-1/3 ${
                     y === "bot" ? "order-11" : "order-1"
                   }`}
                 >
                   {certifs > 0 ? (
                     <div
-                      className={`text-lg text-center text-light-graytext dark:text-dark-graytext ${
+                      className={`text-lg text-center hover:cursor-pointer text-light-graytext dark:text-dark-graytext ${
                         styles.certifs
                       } ${x === "right" ? "order-last" : ""}`}
                     >
@@ -140,7 +164,7 @@ const HomePanel = ({
               )}
               {data.length > 0 ? (
                 <div
-                  className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
+                  className={`flex flex-auto flex-col justify-around step2-5bestskills py-4 px-2 order-6 h-1/3 `}
                 >
                   <div
                     className={`mb-2 ${
@@ -149,11 +173,11 @@ const HomePanel = ({
                       !isDesktop && "text-sm"
                     }`}
                   >
-                    <FaTrophy className={`mr-2`} />
+                    <FaTrophy className={`mr-2 `} />
                     {t("home.bestSkills")}
                   </div>
                   {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
-                    <div key={i} className="flex flex-auto flex-row">
+                    <div key={i} className="flex  flex-auto flex-row">
                       <div
                         className={`${x === "right" ? "order-last" : ""} ${
                           x === "right" ? "text-right" : "text-left"
@@ -202,16 +226,22 @@ const HomePanel = ({
                 </span>
               </div>
             </div>
-
-            {isDesktop && (
-              <div className={`flex flex-auto flex-col w-4/5 h-full`}>
-                <SkillzScatterChart
-                  data={data}
-                  color={colorTable[color]}
-                  axisLabels={false}
-                />
-              </div>
-            )}
+            <Link
+              href={{
+                pathname: `/skills/${context}/${name}`,
+                query: !data.length && context === "mine" && { add: true },
+              }}
+            >
+              {isDesktop && (
+                <div className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}>
+                  <SkillzScatterChart
+                    data={data}
+                    color={colorTable[color]}
+                    axisLabels={false}
+                  />
+                </div>
+              )}
+            </Link>
           </div>
           {isDesktop && (
             <div
@@ -245,7 +275,7 @@ const HomePanel = ({
           } h-0.5`}
         ></div>
       </div>
-    </Link>
+    </>
   );
 };
 

@@ -77,12 +77,20 @@ export default {
     discoverZenikaSkillsDescription:
       "Découvrez les compétences des collaborateurs Zenika",
     home: {
-      welcome: "Tu n'as pas encore noté de compétences. As tu besoin d'aide ? Nous serons ravis de t'aider à t'y retrouver !",
-      remind: "Tu pourras retrouver notre tutoriel à tout moment dans les paramètres.",
+      welcome: "Tu es actuellement en mode tutoriel. Nous serons ravis de t'aider à t'y retrouver !",
+      remind: "Tu peux le désactiver, et le réactiver à tout moment dans ta barre de tâches.",
       startTutorial: "C'est parti !",
-      noTutorial: "Non merci",
       stopTutorial: "Arrêter le tutoriel"
-    }
+    },
+    demo: {
+      home: {
+        titlestep1: "Le nombre total de tes skills notés",
+        step1: "Ici, tu peux voir le nombre total des compétences que tu as noté pour cette catégorie",
+        step2: "Ce sont les 5 meilleurs compétences que tu as pu noter en fonction de tes niveaux de désire, et de compétence",
+        titlestep3: "C'est parti ! 🚀",
+        step3: "Ici, tu peux voir la représentation graphique de tes 5 meilleurs compétences. Mais en cliquant dessus, tu pourra noter de nouvelles compétences, ou modifier celles que tu souhaites !"
+      }
+    },
   },
   loading: {
     loadingText: "Chargement...",

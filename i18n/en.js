@@ -77,11 +77,21 @@ export default {
     addSkillsDescription: "Add and manage your skills",
     discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
     home: {
-      welcome: "You haven't scored any skills yet. Do you need help ? We'll be happy to help you find your way around !",
-      remind: "You can find our tutorial at any time in the settings.",
+      welcome: "You are currently in tutorial mode. We'll be happy to help you find your way around !",
+      remind: "You can deactivate it, and reactivate it at any time in your taskbar.",
       startTutorial: "Let's start !",
-      noTutorial: "No thanks"
-    }
+      noTutorial: "No thanks",
+      stopTutorial: "Stop tutorial"
+    },
+    demo: {
+      home: {
+        titlestep1: "The total number of your rated skills",
+        step1: "Here you can see the total number of skills you have scored for this category",
+        step2: "These are the top 5 skills you could rate based on your desire and skill levels",
+        titlestep3: "Let's note some skills ! 🚀",
+        step3: "Here you can see the graphic representation of your top 5 skills. But by clicking on it, you will be able to note new skills, or modify the ones you want!"
+      }
+    },
   },
   loading: {
     loadingText: "Loading...",

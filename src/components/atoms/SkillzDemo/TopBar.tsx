@@ -8,17 +8,23 @@ import { useEffect } from "react";
 const TopBar = ({ demoParent, setDemoParent }) => {
   const { t } = useContext(i18nContext);
   const childRef = useRef();
-  const [openDemo, setOpenDemo] = useState(demoParent);
+  //change this with parameter
+  const [openDemo, setOpenDemo] = useState(true);
 
   useEffect(() => {
-    setDemoParent(openDemo);
-    console.log("change");
-  }, [openDemo, setOpenDemo]);
+      if (openDemo)
+        localStorage.setItem("demo", "true")
+    else 
+        localStorage.setItem("demo", "false")
+  }, [openDemo, setOpenDemo])
 
   const openDemoHandler = () => {
-    setOpenDemo(true);
-    console.log("prout");
+    setOpenDemo(true)
   };
+
+  const closeDemoHandler = () => {
+    setOpenDemo(false)
+  }
 
   return (
     <div className="flex justify-between mb-4 p-2 w-full gradient-red-faded rounded">
@@ -36,12 +42,12 @@ const TopBar = ({ demoParent, setDemoParent }) => {
         </div>
       </div>
       <div className="flex">
-        {demoParent === false ? (
+        {!openDemo ? (
           <Button type={"secondary"} callback={openDemoHandler}>
             {t("onboarding.home.startTutorial")}
           </Button>
         ) : (
-          <Button type={"secondary"} callback={openDemoHandler}>
+          <Button type={"secondary"} callback={closeDemoHandler}>
             {t("onboarding.home.stopTutorial")}
           </Button>
         )}
