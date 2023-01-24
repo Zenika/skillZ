@@ -13,7 +13,7 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   testEnvironment: "jest-environment-jsdom",
   testMatch: ["<rootDir>/test/*.test.tsx"],
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "!**/node_modules/**",
