@@ -13,6 +13,7 @@ export const createMockRouter = (router: Partial<NextRouter>): NextRouter => {
     prefetch: jest.fn(),
     push: jest.fn(),
     reload: jest.fn(),
+    forward: jest.fn,
     replace: jest.fn(),
     events: {
       on: jest.fn(),
