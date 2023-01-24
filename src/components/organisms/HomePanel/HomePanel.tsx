@@ -146,7 +146,7 @@ const HomePanel = ({
                   }`}
                 >
                   <FaTrophy className={`mr-2`} />
-                  {t("home.bestSkills")}
+                  <p className={"truncate"}>{t("home.bestSkills")}</p>
                 </div>
                 {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
                   <div key={i} className="flex flex-auto flex-row">
