@@ -6,7 +6,6 @@ import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
 import Notification from "../atoms/Notification";
 import Navbar from "../molecules/Navbar";
-import SidePanel from "../organisms/SidePanel";
 import TopBar from "../organisms/TopBar";
 
 type CommonPageProps = {
@@ -71,9 +70,7 @@ const CommonPage = ({ children, page, backBar = true }: CommonPageProps) => {
         className={`z-20 fixed inset-y-0 right-0 h-screen ${
           panelOpened ? "w-3/4" : "w-0"
         } bg-light-panel dark:bg-dark-panel duration-500`}
-      >
-        <SidePanel />
-      </div>
+      ></div>
       <Notification />
     </div>
   );

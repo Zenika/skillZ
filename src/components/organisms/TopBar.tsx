@@ -21,6 +21,7 @@ import { i18nContext } from "../../utils/i18nContext";
 import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
+import { TutorialMode } from "../molecules/TutorialMode";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -333,6 +334,9 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   </li>
                   <li className="p-2">
                     <BotNotifications t={t}></BotNotifications>
+                  </li>
+                  <li>
+                    <TutorialMode t={t}></TutorialMode>
                   </li>
                 </ul>
               </div>

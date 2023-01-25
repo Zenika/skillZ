@@ -1,14 +1,14 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import CommonPage from "../components/templates/CommonPage";
 import ErrorPage from "../components/templates/ErrorPage";
 import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import Loading from "../components/molecules/Loading";
 import { config } from "../env";
 import React from "react";
-import TopBar from "../components/atoms/SkillzDemo/TopBar";
+import TopBar from "../components/atoms/SkillzTutorial/TopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -78,9 +78,6 @@ const Home = () => {
     certifs: 0,
   }));
 
-
-  const [openDemo, setOpenDemo] = useState(localStorage.getItem("demo"));
-
   if (authLoading || userLoading || dataLoading) {
     return <Loading />;
   } else if (authError || userError || dataError) {
@@ -89,7 +86,6 @@ const Home = () => {
   return (
     <CommonPage page={"Home"} backBar={false}>
       <TopBar />
- 
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&
           homePanelData.map((computedDataSkill) => (

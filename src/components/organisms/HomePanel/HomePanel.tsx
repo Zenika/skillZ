@@ -77,7 +77,6 @@ const HomePanel = ({
       target: ".step1-total-number",
       content: t("onboarding.demo.home.step1"),
       title: t("onboarding.demo.home.titlestep1"),
-
     },
     {
       target: ".step2-5bestskills",
@@ -95,7 +94,6 @@ const HomePanel = ({
       target: ".step1-total-number",
       content: t("onboarding.demo.zenika.step1"),
       title: t("onboarding.demo.zenika.titlestep1"),
-
     },
     {
       target: ".step2-5bestskills",
@@ -110,15 +108,17 @@ const HomePanel = ({
 
   return (
     <>
-      {localStorage.getItem("demo") === "true" && <Joyride
-        steps={context === "mine" ? tourConfigMine : tourConfigZenika}
-        continuous={true}
-        styles={{
-          options: {
-            zIndex: 10000,
-          },
-        }}
-      />}
+      {localStorage.getItem("demo") === "true" && (
+        <Joyride
+          steps={context === "mine" ? tourConfigMine : tourConfigZenika}
+          continuous={true}
+          styles={{
+            options: {
+              zIndex: 10000,
+            },
+          }}
+        />
+      )}
       <div
         className={`flex flex-auto flex-col bg-light-panel dark:bg-dark-panel
          border border-light-panel dark:border-dark-panel 
@@ -137,9 +137,7 @@ const HomePanel = ({
             } `}
           >
             <div
-              className={`flex flex-auto flex-col ${
-                isDesktop ? "w-2/5" : ""
-              }`}
+              className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
             >
               {data.length > 0 ? (
                 <div
@@ -251,7 +249,9 @@ const HomePanel = ({
               }}
             >
               {isDesktop && (
-                <div className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}>
+                <div
+                  className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
+                >
                   <SkillzScatterChart
                     data={data}
                     color={colorTable[color]}

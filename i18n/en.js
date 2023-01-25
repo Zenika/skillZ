@@ -52,6 +52,7 @@ export default {
     language: "Language",
     darkMode: "Dark mode",
     logout: "Logout",
+    tutorial: "Tutorial mode",
     botNotifications: "Slack bot notifications",
   },
   home: {
@@ -77,26 +78,34 @@ export default {
     addSkillsDescription: "Add and manage your skills",
     discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
     home: {
-      welcome: "You are currently in tutorial mode. We'll be happy to help you find your way around !",
-      remind: "You can desactivate it, and reactivate it at any time in your taskbar.",
+      welcome:
+        "You are currently in tutorial mode. We'll be happy to help you find your way around !",
+      remind:
+        "You can desactivate it, and reactivate it at any time in your taskbar.",
       startTutorial: "Let's start !",
-      stopTutorial: "Stop tutorial"
+      stopTutorial: "Stop tutorial",
     },
     demo: {
       home: {
         titlestep1: "The total number of your rated skills",
-        step1: "Here you can see the total number of skills you have scored for this category",
-        step2: "These are the top 5 skills you could rate based on your desire and skill levels",
+        step1:
+          "Here you can see the total number of skills you have scored for this category",
+        step2:
+          "These are the top 5 skills you could rate based on your desire and skill levels",
         titlestep3: "Let's note some skills ! 🚀",
-        step3: "Here you can see the graphic representation of your top 5 skills. But by clicking on it, you will be able to note new skills, or modify the ones you want !"
+        step3:
+          "Here you can see the graphic representation of your top 5 skills. But by clicking on it, you will be able to note new skills, or modify the ones you want !",
       },
       zenika: {
         titlestep1: "The total number of the rated skills",
-        step1: "Here you can see the total number of skills for this category in the agency that you have selected",
-        step2: "These are the top 5 skills rated based on the desire and skill levels",
+        step1:
+          "Here you can see the total number of skills for this category in the agency that you have selected",
+        step2:
+          "These are the top 5 skills rated based on the desire and skill levels",
         titlestep3: "Let's see skills that the agency has noted ! 🚀",
-        step3: "Here you can see the graphic representation of the top 5 skills of the agency mentioned. But by clicking on it, you will be able to all skills noted !"
-      }
+        step3:
+          "Here you can see the graphic representation of the top 5 skills of the agency mentioned. But by clicking on it, you will be able to all skills noted !",
+      },
     },
   },
   loading: {
