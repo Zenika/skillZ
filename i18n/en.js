@@ -78,7 +78,7 @@ export default {
     discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
     home: {
       welcome: "You are currently in tutorial mode. We'll be happy to help you find your way around !",
-      remind: "You can deactivate it, and reactivate it at any time in your taskbar.",
+      remind: "You can desactivate it, and reactivate it at any time in your taskbar.",
       startTutorial: "Let's start !",
       stopTutorial: "Stop tutorial"
     },
