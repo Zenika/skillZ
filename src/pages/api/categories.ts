@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { GetAllSkillsFetcher } from "../../utils/fetchers/getAllSkillsFetcher";
+import { GetAllCategoriesFetcher } from "../../utils/fetchers/getAllCategoriesFetcher";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,13 +21,13 @@ export default async function handler(
     return res.status(401).json({ message: "Wrong bearer token." });
   }
 
-  const result = await GetAllSkillsFetcher();
+  const result = await GetAllCategoriesFetcher();
 
   if (!result) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 
-  const { Skill } = result.data;
+  const { Category } = result.data;
 
-  res.status(200).json({ skills: Skill });
+  res.status(200).json({ categories: Category });
 }
