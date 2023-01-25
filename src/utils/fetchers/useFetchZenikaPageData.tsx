@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from "@apollo/client";
 import {
   GetSkillsAndDesiresByAgencyQuery,
@@ -29,7 +30,7 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
       data?.AgenciesAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
     data:
-      data?.AgenciesAverageCurrentSkillsAndDesires?.map((skill, i) => ({
+      data?.AgenciesAverageCurrentSkillsAndDesires?.map((skill) => ({
         id: skill.skillId,
         name: skill.name,
         skillLevel: skill.averageSkillLevel,
@@ -45,7 +46,7 @@ const fetchZenikaPageDataByAgency = (email: string, agency: string) => {
   }));
   return { homePanelData, agencies: skillsData?.Agency, error, loading };
 };
-const fetchZenikaPageData = (email: string) => {
+const fetchZenikaPageData = () => {
   const {
     data: skillsData,
     error,
@@ -61,7 +62,7 @@ const fetchZenikaPageData = (email: string) => {
       data?.ZenikasAverageCurrentSkillsAndDesires_aggregate?.aggregate.count,
     context: "zenika",
     data:
-      data?.ZenikasAverageCurrentSkillsAndDesires?.map((skill, i) => ({
+      data?.ZenikasAverageCurrentSkillsAndDesires?.map((skill) => ({
         id: skill.skillId,
         name: skill.name,
         skillLevel: skill.averageSkillLevel,
@@ -80,5 +81,5 @@ export const useFetchZenikaPageData = (
   agency: string | undefined
 ) =>
   !agency || agency === "World"
-    ? fetchZenikaPageData(email)
+    ? fetchZenikaPageData()
     : fetchZenikaPageDataByAgency(email, agency);

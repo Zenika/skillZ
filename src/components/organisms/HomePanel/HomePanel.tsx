@@ -247,17 +247,14 @@ const HomePanel = ({
                 pathname: `/skills/${context}/${name}`,
                 query: !data.length && context === "mine" && { add: true },
               }}
+              className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
             >
               {isDesktop && (
-                <div
-                  className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
-                >
-                  <SkillzScatterChart
-                    data={data}
-                    color={colorTable[color]}
-                    axisLabels={false}
-                  />
-                </div>
+                <SkillzScatterChart
+                  data={data}
+                  color={colorTable[color]}
+                  axisLabels={false}
+                />
               )}
             </Link>
           </div>
@@ -286,7 +283,6 @@ const HomePanel = ({
             </div>
           )}
         </div>
-
         <div
           className={`gradient-${color} ${
             y === "bot" ? "order-first" : "order-last"
