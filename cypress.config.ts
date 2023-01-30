@@ -12,6 +12,5 @@ export default defineConfig({
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,
     video: false,
-    experimentalSessionAndOrigin: true,
   },
 });

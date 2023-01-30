@@ -24,7 +24,6 @@ const TopBar = () => {
       userSkillsId?.UserSkillDesire.length === 0 ||
       localStorage.getItem("demo") === "true"
     ) {
-      console.log("kikou");
       localStorage.setItem("demo", "true");
       setOpenDemo(true);
     } else {
