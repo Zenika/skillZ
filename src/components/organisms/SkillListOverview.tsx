@@ -20,6 +20,7 @@ import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import SkillPanel from "./SkillPanel";
+import Joyride from "react-joyride";
 
 type SkillListOverviewProps = {
   userEmail: string;
@@ -188,8 +189,36 @@ const SkillListOverview = ({
         ]
       : undefined;
 
+  /*
+   * TUTORIAL CONFIG
+   */
+  const tourConfigMySkills = [
+    {
+      target: ".step1-my-skills-tab",
+      content: t("onboarding.demo.mine.step1"),
+      title: t("onboarding.demo.mine.titlestep1"),
+    },
+    {
+      target: ".step2-add-tab",
+      content: t("onboarding.demo.mine.step2"),
+      title: t("onboarding.demo.mine.titlestep2"),
+    },
+  ];
+
   return (
     <div className="flex flex-row justify-center mt-4 mb-20">
+      {localStorage.getItem("demo") === "true" && context === "mine" && (
+        <Joyride
+          steps={tourConfigMySkills}
+          continuous={true}
+          disableScrolling={true}
+          styles={{
+            options: {
+              zIndex: 10,
+            },
+          }}
+        />
+      )}
       <div className="flex flex-row justify-center max-w-screen-xl w-full p-4">
         <div className="flex flex-col w-full">
           {filters && (
@@ -221,7 +250,7 @@ const SkillListOverview = ({
               {context === "mine" && (
                 <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700">
                   <ul className="flex flex-wrap -mb-px">
-                    <li className="w-1/2 cursor-pointer">
+                    <li className="w-1/2 cursor-pointer step1-my-skills-tab">
                       <div
                         onClick={() =>
                           router.push({
@@ -235,7 +264,7 @@ const SkillListOverview = ({
                         {t("skills.mySkills")}
                       </div>
                     </li>
-                    <li className="w-1/2 cursor-pointer">
+                    <li className="w-1/2 cursor-pointer step2-add-tab">
                       <div
                         onClick={() =>
                           router.push({

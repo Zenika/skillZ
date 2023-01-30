@@ -18,18 +18,20 @@ const TopBar = () => {
   );
   const [openDemo, setOpenDemo] = useState(true);
 
+  // MG_TUTORIAL_MODE
   useEffect(() => {
     if (
       userSkillsId?.UserSkillDesire.length === 0 ||
       localStorage.getItem("demo") === "true"
     ) {
+      console.log("kikou");
       localStorage.setItem("demo", "true");
       setOpenDemo(true);
     } else {
       localStorage.setItem("demo", "false");
       setOpenDemo(false);
     }
-  }, [openDemo, userSkillsId]);
+  }, [openDemo]);
 
   return (
     <>

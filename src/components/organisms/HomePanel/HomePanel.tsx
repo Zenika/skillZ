@@ -72,6 +72,9 @@ const HomePanel = ({
       4: "w-4",
     },
   };
+  /*
+   * TUTORIAL CONFIG
+   */
   const tourConfigMine = [
     {
       target: ".step1-total-number",
@@ -89,16 +92,7 @@ const HomePanel = ({
     },
   ];
 
-  const tourConfigZenika = [
-    {
-      target: ".step1-total-number",
-      content: t("onboarding.demo.zenika.step1"),
-      title: t("onboarding.demo.zenika.titlestep1"),
-    },
-    {
-      target: ".step2-5bestskills",
-      content: t("onboarding.demo.zenika.step2"),
-    },
+  const tourConfigNoSkill = [
     {
       target: ".step3-graph",
       content: t("onboarding.demo.zenika.step3"),
@@ -108,9 +102,9 @@ const HomePanel = ({
 
   return (
     <>
-      {localStorage.getItem("demo") === "true" && (
+      {localStorage.getItem("demo") === "true" && context === "mine" && (
         <Joyride
-          steps={context === "mine" ? tourConfigMine : tourConfigZenika}
+          steps={data.length === 0 ? tourConfigNoSkill : tourConfigMine}
           continuous={true}
           styles={{
             options: {
