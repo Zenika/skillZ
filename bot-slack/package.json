@@ -15,7 +15,7 @@
   "dependencies": {
     "@octokit/auth-oauth-device": "^3.1.2",
     "@octokit/plugin-create-or-update-text-file": "^1.0.4",
-    "@octokit/request": "^5.6.2",
+    "@octokit/request": "^6.2.3",
     "@octokit/rest": "^19.0.7",
     "@slack/bolt": "^3.8.1",
     "body-parser": "^1.19.1",
