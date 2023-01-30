@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import React from "react";
 
-type ButtonType = "primary" | "secondary" | "tertiary" | "faded";
+export type ButtonType = "primary" | "secondary" | "tertiary" | "faded";
 
-interface ButtonProps {
+export interface ButtonProps {
   type: ButtonType;
   callback?: () => void;
   children?: JSX.Element | JSX.Element[] | string | string[];
@@ -12,7 +12,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const buttonTypeClasses: Record<ButtonType, string> = {
+export const buttonTypeClasses: Record<ButtonType, string> = {
   primary:
     "text-light-ultrawhite gradient-red hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid",
   secondary:
@@ -23,7 +23,7 @@ const buttonTypeClasses: Record<ButtonType, string> = {
     "gradient-red-faded text-light-ultrawhite hover:shadow-xl hover:shadow-light-graybutton hover:dark:shadow-lg hover:dark:shadow-dark-radargrid",
 };
 
-const classes = {
+export const buttonClasses = {
   base: "text-base font-bold py-2 px-5 rounded-full",
   disabled: "disabled:opacity-25 disabled:pointer-events-none",
   uppercase: "uppercase",
@@ -41,9 +41,9 @@ const Button = ({
   return (
     <button
       className={clsx(
-        `${classes.base} ${classes.disabled} ${
-          uppercase && classes.uppercase
-        } ${classes.variant[type]}`
+        `${buttonClasses.base} ${buttonClasses.disabled} ${
+          uppercase && buttonClasses.uppercase
+        } ${buttonClasses.variant[type]}`
       )}
       disabled={disabled}
       onClick={callback}

@@ -166,11 +166,7 @@ const EditTags = ({
           tagsBySkill.SkillTag.map((tag, i) => {
             return (
               <div className="px-2" key={i}>
-                <Chip
-                  type="primary"
-                  style="contained"
-                  callback={() => removeTag(tag)}
-                >
+                <Chip type="primary" callback={() => removeTag(tag)}>
                   {tag.Tag.name}
                 </Chip>
               </div>

@@ -1,6 +1,12 @@
-import { useContext } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
 import styles from "./SearchBar.module.css";
+
+export const searchBarClasses = {
+  base: "bg-light-ultrawhite border border-light-light w-full rounded-full p-4 bg-right outline-none",
+  dark: "dark:bg-dark-light dark:border-dark-light",
+  hover:
+    "hover:border-light-graybutton hover:bg-light-dark hover:dark:border-dark-graybutton hover:dark:bg-dark-radargrid",
+  focus: "focus-visible:outline-light-red dark:focus-visible:outline-dark-red",
+};
 
 const SearchBar = ({
   setSearch,
@@ -13,14 +19,13 @@ const SearchBar = ({
   initialValue?: string;
   placeholder?: string;
 }) => {
-  const { t } = useContext(i18nContext);
   return (
     <input
       type="text"
       value={value ?? initialValue}
-      placeholder={placeholder ?? t("skills.searchPlaceholder")}
+      placeholder={placeholder}
       onChange={(e) => setSearch(e?.target?.value || "")}
-      className={`bg-light-ultrawhite dark:bg-dark-light border border-light-light dark:border-dark-light hover:border-light-graybutton hover:bg-light-dark hover:dark:border-dark-graybutton hover:dark:bg-dark-radargrid w-full rounded-full p-4 bg-right outline-none focus-visible:outline-light-red dark:focus-visible:outline-dark-red ${styles.search}`}
+      className={`${searchBarClasses.base} ${searchBarClasses.dark} ${searchBarClasses.hover} ${searchBarClasses.focus} ${styles.search}`}
     />
   );
 };

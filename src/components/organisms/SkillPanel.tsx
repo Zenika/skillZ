@@ -79,7 +79,7 @@ const SkillPanel = ({
               {context === "search" && (
                 <Tag
                   name={skill.Category.label}
-                  key={skill.Category.id}
+                  keyId={skill.Category.id}
                   color={skill.Category.color as TagColor}
                   callback={() => push(linkToCategory)}
                   uppercase
