@@ -30,7 +30,7 @@ const TopBar = () => {
       localStorage.setItem("demo", "false");
       setOpenDemo(false);
     }
-  }, [openDemo]);
+  }, [openDemo, userSkillsId]);
 
   return (
     <>
