@@ -39,6 +39,7 @@ const SkillDetails = ({ skill }: { skill: Skill }) => {
               {skillDetails.Skill[0].SkillTopics.map((topic) => (
                 <Topic
                   topic={topic.Topic}
+                  keyId={topic.Topic.id}
                   key={topic.Topic.id}
                   type={"selected"}
                   readOnly

@@ -12,6 +12,33 @@ type CustomSelectProps = {
   onChange: (choice: any) => void;
 };
 
+export const customSelectClasses = {
+  base: "w-auto z-10 h-12",
+  placeholder: {
+    parent: {
+      base: "bg-light-light w-full p-3 appearance-none rounded-lg border border-solid border-light-dark max-h-16 text-ellipsis overflow-hidden",
+      dark: "dark:bg-dark-light dark:border-dark-light dark:border-dark-graybutton",
+      hover:
+        "hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid",
+      readonly: "cursor-pointer bg-rightDropdown",
+    },
+  },
+  dropdown: {
+    base: "flex flex-row justify-center w-full duration-500",
+    opened: "h-0",
+    children: {
+      parent: {
+        base: "flex w-full flex-col z-10 bg-light-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark",
+        dark: "dark:bg-dark-light dark:border-dark-graybutton",
+      },
+      child: {
+        base: "py-2 px-4 cursor-pointer",
+        hover: "hover:bg-light-dark hover:dark:bg-dark-radargrid",
+      },
+    },
+  },
+};
+
 const CustomSelect = ({
   keyFn,
   labelFn,
@@ -36,30 +63,30 @@ const CustomSelect = ({
   };
 
   return (
-    <div className="w-auto z-10 h-12">
+    <div className={`${customSelectClasses.base}`}>
       <div
-        className={`bg-light-light dark:bg-dark-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:border-dark-graybutton w-full p-3 appearance-none rounded-lg border border-solid border-light-dark ${
-          readOnly ? "" : "cursor-pointer bg-rightDropdown "
-        }${
-          readOnly ? "" : darkMode ? styles.selectDark : styles.selectLight
-        } max-h-16 text-ellipsis overflow-hidden`}
+        className={`${customSelectClasses.placeholder.parent.base} ${
+          customSelectClasses.placeholder.parent.dark
+        } ${customSelectClasses.placeholder.parent.hover} ${
+          !readOnly && customSelectClasses.placeholder.parent.readonly
+        } ${readOnly ? "" : darkMode ? styles.selectDark : styles.selectLight}`}
         onClick={() => setOpened(!opened)}
       >
-        <span className="">
-          {selected !== undefined ? labelFn(selected) : placeholder}
-        </span>
+        <span>{selected !== undefined ? labelFn(selected) : placeholder}</span>
       </div>
       <div
-        className={`flex flex-row justify-center w-full ${
-          opened ? "" : "h-0"
-        } duration-500`}
+        className={`${customSelectClasses.dropdown.base} ${
+          !opened && customSelectClasses.dropdown.opened
+        }`}
       >
         {!readOnly && opened && (
-          <div className="flex w-full flex-col z-10 bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-graybutton">
+          <div
+            className={`${customSelectClasses.dropdown.children.parent.base} ${customSelectClasses.dropdown.children.parent.dark}`}
+          >
             {choices.map((choice) => (
               <span
                 key={keyFn(choice)}
-                className="hover:bg-light-dark hover:dark:bg-dark-radargrid py-2 px-4 cursor-pointer"
+                className={`${customSelectClasses.dropdown.children.child.base} ${customSelectClasses.dropdown.children.child.hover}`}
                 onClick={() => onItemClick(choice)}
               >
                 {labelFn(choice)}

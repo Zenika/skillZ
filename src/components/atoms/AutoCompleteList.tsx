@@ -8,6 +8,17 @@ type AutoCompleteList = {
   newType: string;
 };
 
+export const autoCompleteListChildrenClasses = {
+  base: "py-2 px-4 cursor-pointer",
+  hover: "hover:bg-light-med",
+  dark: "dark:hover:bg-dark-med",
+};
+
+export const autoCompleteListParentChildrenClasses = {
+  base: "flex w-full flex-col bg-light-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark",
+  dark: "dark:bg-dark-light",
+};
+
 const AutoCompleteList = ({
   choices,
   onChange,
@@ -29,8 +40,11 @@ const AutoCompleteList = ({
       ref={ref}
       className="w-full h-12"
       style={{ width: size.width, height: size.height }}
+      data-testid={"autocompletelist"}
     >
-      <div className="flex w-full flex-col bg-light-light dark:bg-dark-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark dark:border-dark-dark">
+      <div
+        className={`${autoCompleteListParentChildrenClasses.base} ${autoCompleteListParentChildrenClasses.dark}`}
+      >
         {search && (
           <div
             className="flex flex-row leading-6 hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
@@ -44,17 +58,17 @@ const AutoCompleteList = ({
           </div>
         )}
         {search && choices && (
-          <>
+          <div>
             {choices.map((choice, i) => (
               <div
-                className="hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
+                className={`${autoCompleteListChildrenClasses.base} ${autoCompleteListChildrenClasses.hover} ${autoCompleteListChildrenClasses.dark}`}
                 onClick={() => onChange(choice, false)}
                 key={i}
               >
                 {choice}
               </div>
             ))}
-          </>
+          </div>
         )}
       </div>
     </div>

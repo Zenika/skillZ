@@ -8,13 +8,19 @@ export type TabProps = {
   title: string;
 };
 
+export const tabClasses = {
+  base: "w-full inline-block p-4 rounded-t-lg border-transparent",
+  hover: "hover:bg-light-dark hover:dark:bg-dark-radargrid",
+  border: "border-b-2 border-dark-red",
+};
+
 const Tab = ({ current, href, title }: TabProps) => {
   return (
     <div className="grow cursor-pointer">
       <Link href={href}>
         <div
-          className={`w-full inline-block p-4 rounded-t-lg border-transparent hover:bg-light-dark hover:dark:bg-dark-radargrid ${
-            current && "border-b-2 border-dark-red"
+          className={`${tabClasses.base} ${tabClasses.hover} ${
+            current && tabClasses.border
           }`}
         >
           {title}

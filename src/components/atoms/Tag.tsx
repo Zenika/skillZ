@@ -3,7 +3,7 @@ export type TagColor = "green" | "red" | "blue" | "yellow";
 type TagRequiredProps = {
   color: TagColor;
   name: string;
-  key: string | number;
+  keyId: string | number;
   uppercase?: boolean;
 };
 
@@ -19,34 +19,34 @@ type TagOptionalProps =
 
 export type TagProps = TagRequiredProps & TagOptionalProps;
 
-const topicColorClasses: Record<TagColor, string> = {
+export const tagColorClasses: Record<TagColor, string> = {
   green: "gradient-green",
   red: "gradient-red",
   blue: "gradient-blue",
   yellow: "gradient-yellow",
 };
 
-const classes = {
+export const tagClasses = {
   base: "text-base font-bold py-1 px-5 rounded-full text-light-dark text-light-ultrawhite hover:drop-shadow-xl hover:dark:shadow-lg hover:dark:shadow-dark-radargrid",
   disabled: "disabled:pointer-events-none",
-  color: topicColorClasses,
+  color: tagColorClasses,
   uppercase: "uppercase",
 };
 
 const Tag = ({
   color,
   name,
-  key,
+  keyId,
   readOnly,
   callback,
   uppercase = false,
 }: TagProps) => {
   return (
-    <div className="flex-inital py-2" key={`tag-${key}`}>
+    <div className="flex-initial py-2" key={`tag-${keyId}`}>
       <button
-        className={`${classes.base} ${classes.disabled} ${
-          classes.color[color]
-        } ${uppercase && classes.uppercase}`}
+        className={`${tagClasses.base} ${tagClasses.disabled} ${
+          tagClasses.color[color]
+        } ${uppercase && tagClasses.uppercase}`}
         disabled={readOnly}
         onClick={() => callback()}
       >

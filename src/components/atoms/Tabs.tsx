@@ -5,9 +5,17 @@ type TabsProps = {
   children: React.ReactElement<TabProps> | React.ReactElement<TabProps>[];
 };
 
+export const tabsClasses = {
+  base: "text-sm font-medium text-center text-gray-500 mb-8",
+  dark: "dark:text-gray-400 dark:border-gray-700",
+};
+
 const Tabs = ({ children }: TabsProps) => {
   return (
-    <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700 mb-8">
+    <div
+      className={`${tabsClasses.base} ${tabsClasses.dark}`}
+      data-testid="tabs"
+    >
       <div className={"flex"}>{children}</div>
     </div>
   );
