@@ -1,7 +1,6 @@
 name: Update Skills referential
 
 on:
-  push:
   workflow_dispatch:
   schedule:
     # At 06:00 on Monday
@@ -72,7 +71,6 @@ jobs:
                 reviewers: ['benjaminbrgs', 'ZenikAdrien', 'MailyLehoux']
               });
             } catch (error) {
-              console.error(error.status);
               if (error.status != 422) {
                 core.setFailed(error);
               }
