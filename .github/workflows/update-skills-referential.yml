@@ -1,6 +1,7 @@
 name: Update Skills referential
 
 on:
+  workflow_dispatch:
   schedule:
     # At 06:00 on Monday
     - cron: '0 6 * * 1'
