@@ -72,5 +72,8 @@ jobs:
                 reviewers: ['benjaminbrgs', 'ZenikAdrien', 'MailyLehoux']
               });
             } catch (error) {
-              console.error(error.resource);
+              console.error(error.status);
+              if (error.status != 422) {
+                core.setFailed(error);
+              }
             }
