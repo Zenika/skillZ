@@ -73,7 +73,7 @@ jobs:
               });
             } catch (error) {
               console.error(error);
-              if (error.status != 204) {
+              if (error.message != "Validation Failed") {
                 core.setFailed(error);
               }
             }
