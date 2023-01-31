@@ -8,7 +8,7 @@ import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import Loading from "../components/molecules/Loading";
 import { config } from "../env";
 import React from "react";
-import TopBar from "../components/atoms/SkillzTutorial/TopBar";
+import TopBar from "../components/atoms/TutorialMode/TutorialTopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,

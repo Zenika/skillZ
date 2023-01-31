@@ -9,6 +9,7 @@ import { i18nContext } from "../../../utils/i18nContext";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
 import Joyride from "react-joyride";
+import { getTutorialStep } from "../../../constants/demo";
 
 type HomePanelProps = {
   props: {
@@ -72,44 +73,28 @@ const HomePanel = ({
       4: "w-4",
     },
   };
-  /*
-   * TUTORIAL CONFIG
-   */
-  const tourConfigMine = [
-    {
-      target: ".step1-total-number",
-      content: t("onboarding.demo.home.step1"),
-      title: t("onboarding.demo.home.titlestep1"),
-    },
-    {
-      target: ".step2-5bestskills",
-      content: t("onboarding.demo.home.step2"),
-    },
-    {
-      target: ".step3-graph",
-      content: t("onboarding.demo.home.step3"),
-      title: t("onboarding.demo.home.titlestep3"),
-    },
-  ];
-
-  const tourConfigNoSkill = [
-    {
-      target: ".step3-graph",
-      content: t("onboarding.demo.zenika.step3"),
-      title: t("onboarding.demo.zenika.titlestep3"),
-    },
-  ];
 
   return (
     <>
       {localStorage.getItem("demo") === "true" && context === "mine" && (
         <Joyride
-          steps={data.length === 0 ? tourConfigNoSkill : tourConfigMine}
+          steps={
+            data.length === 0
+              ? getTutorialStep(t, "homeNoSkill")
+              : getTutorialStep(t, "homeGraph")
+          }
           continuous={true}
           styles={{
             options: {
               zIndex: 10000,
             },
+          }}
+          locale={{
+            back: t("onboarding.demo.steps.back"),
+            next: t("onboarding.demo.steps.next"),
+            last: t("onboarding.demo.steps.last"),
+            skip: t("onboarding.demo.steps.skip"),
+            close: t("onboarding.demo.steps.close"),
           }}
         />
       )}

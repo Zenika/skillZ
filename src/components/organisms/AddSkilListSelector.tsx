@@ -9,6 +9,7 @@ import Button from "../atoms/Button";
 import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
+import { getTutorialStep } from "../../constants/demo";
 
 const AddSkillListSelector = ({
   skills,
@@ -66,31 +67,25 @@ const AddSkillListSelector = ({
       });
   };
 
-  const tourConfig = [
-    {
-      target: ".step1-infos",
-      content: t("onboarding.demo.mine.step3"),
-      title: t("onboarding.demo.mine.titlestep3"),
-    },
-    {
-      target: ".step2-add-skill",
-      content: t("onboarding.demo.mine.step4"),
-      title: t("onboarding.demo.mine.titlestep4"),
-    },
-  ];
-
   if (!skills) return <></>;
 
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
       {localStorage.getItem("demo") === "true" && (
         <Joyride
-          steps={tourConfig}
+          steps={getTutorialStep(t, "listSelector")}
           continuous={true}
           styles={{
             options: {
               zIndex: 10,
             },
+          }}
+          locale={{
+            back: t("onboarding.demo.steps.back"),
+            next: t("onboarding.demo.steps.next"),
+            last: t("onboarding.demo.steps.last"),
+            skip: t("onboarding.demo.steps.skip"),
+            close: t("onboarding.demo.steps.close"),
           }}
         />
       )}

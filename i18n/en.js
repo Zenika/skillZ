@@ -86,6 +86,13 @@ export default {
       stopTutorial: "Stop tutorial",
     },
     demo: {
+      steps: {
+        back: "Back",
+        next: "Next",
+        last: "Close",
+        skip: "Skip",
+        close: "Close"
+      },
       home: {
         titlestep1: "The total number of your rated skills",
         step1:
@@ -111,10 +118,12 @@ export default {
         step1: "This is your skills tab. All the ones you have already noted, and which are represented on the graph, are put in this list.",
         titelstep2: "Add",
         step2: "This tab allows you to note new skills that are already created. But it is also possible to create new ones thanks to the search bar.",
-        titlestep3: "Topics and tags",
-        step3: "By clicking on a skill, you will be able to access its description, its Topics and Tags. They allow to improve the understanding, and to implement a skill suggestion system.",
-        titlestep4: "Let's go ! 🚀",
-        step4: "This button allows you to rate a skill, and thus add it to your chart. You will be able to modify it at any time !"
+        mySkills: {
+          titlestep1: "Topics and tags",
+          step1: "By clicking on a skill, you will be able to access its description, its Topics and Tags. They allow to improve the understanding, and to implement a skill suggestion system.",
+          titlestep2: "Let's go ! 🚀",
+          step2: "This button allows you to rate a skill, and thus add it to your chart. You will be able to modify it at any time !"  
+        },
       },
     },
   },

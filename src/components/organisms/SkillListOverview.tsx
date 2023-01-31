@@ -21,6 +21,7 @@ import AddSkillListSelector from "./AddSkilListSelector";
 import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import SkillPanel from "./SkillPanel";
 import Joyride from "react-joyride";
+import { getTutorialStep } from "../../constants/demo";
 
 type SkillListOverviewProps = {
   userEmail: string;
@@ -189,33 +190,24 @@ const SkillListOverview = ({
         ]
       : undefined;
 
-  /*
-   * TUTORIAL CONFIG
-   */
-  const tourConfigMySkills = [
-    {
-      target: ".step1-my-skills-tab",
-      content: t("onboarding.demo.mine.step1"),
-      title: t("onboarding.demo.mine.titlestep1"),
-    },
-    {
-      target: ".step2-add-tab",
-      content: t("onboarding.demo.mine.step2"),
-      title: t("onboarding.demo.mine.titlestep2"),
-    },
-  ];
-
   return (
     <div className="flex flex-row justify-center mt-4 mb-20">
       {localStorage.getItem("demo") === "true" && context === "mine" && (
         <Joyride
-          steps={tourConfigMySkills}
+          steps={getTutorialStep(t, "configMySkills")}
           continuous={true}
           disableScrolling={true}
           styles={{
             options: {
               zIndex: 10,
             },
+          }}
+          locale={{
+            back: t("onboarding.demo.steps.back"),
+            next: t("onboarding.demo.steps.next"),
+            last: t("onboarding.demo.steps.last"),
+            skip: t("onboarding.demo.steps.skip"),
+            close: t("onboarding.demo.steps.close"),
           }}
         />
       )}

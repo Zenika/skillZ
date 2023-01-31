@@ -86,6 +86,13 @@ export default {
       stopTutorial: "Arrêter le tutoriel",
     },
     demo: {
+      steps: {
+        back: "Retour",
+        next: "Suivant",
+        last: "Fermer",
+        skip: "Passer",
+        close: "Fermer"
+      },
       home: {
         titlestep1: "Le nombre total de tes skills notés",
         step1:
@@ -111,11 +118,14 @@ export default {
         step1: "C'est l'onglet de tes compétences. Toutes celles que tu as déjà noté, et qui sont représentés sur le graphique, se mettent dans cette liste.",
         titlestep2: "Ajouter",
         step2: "Cet onglet permet de noter de nouvelles compétences qui sont déjà créées. Mais il est aussi possible d'en créer de nouvelles grâce à la barre de recherche.",
-        titlestep3: "Sujets et tags",
-        step3: "En cliquant sur une compétence, tu pourra accéder à sa description, ses Sujets et Tags. Ils permettent d'améliorer la compréhension, et d'implémenter un système de suggestion de compétence.",
-        titlestep4: "Allonz-y ! 🚀",
-        step4: "Ce bouton permet de noter une compétence, et donc de l'ajouter dans ton graphique. Tu pourra la modifier à tout moment !"
+        mySkills: {
+          titlestep1: "Sujets et tags",
+          step1: "En cliquant sur une compétence, tu pourra accéder à sa description, ses Sujets et Tags. Ils permettent d'améliorer la compréhension, et d'implémenter un système de suggestion de compétence.",
+          titlestep2: "Allonz-y ! 🚀",
+          step2: "Ce bouton permet de noter une compétence, et donc de l'ajouter dans ton graphique. Tu pourra la modifier à tout moment !"
+        },
       },
+
     },
   },
   loading: {
