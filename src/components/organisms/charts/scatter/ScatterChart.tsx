@@ -72,7 +72,7 @@ const SkillzScatterChart = ({
           left: 20,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke={"#666"} />
+        <CartesianGrid strokeDasharray="4 4" stroke={"#666"} />
         <XAxis
           type="number"
           dataKey="x"
@@ -108,7 +108,7 @@ const SkillzScatterChart = ({
           })}
         />
         <Tooltip
-          cursor={{ strokeDasharray: "3 3", stroke: color }}
+          cursor={{ strokeDasharray: "4 4", stroke: color, strokeWidth: 3 }}
           content={<CustomTooltip />}
           contentStyle={{ color: color }}
         />
