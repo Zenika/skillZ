@@ -8,7 +8,7 @@
     "start": "node app.js",
     "test": "jest",
     "coverage": "coverage app.js",
-    "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\" \".circleci/config.yml\"",
+    "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write"
   },
@@ -42,6 +42,6 @@
   ],
   "devDependencies": {
     "jest": "^29.4.1",
-    "prettier": "2.5.1"
+    "prettier": "2.8.3"
   }
 }
