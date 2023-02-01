@@ -86,5 +86,6 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('TOGAF 9 Certified', 'The Open Group', true),
 ('TOGAF 9 Foundation', 'The Open Group', true),
 ('Lean Green Belt', 'APMG International', true),
-('FinOps Certified Practitioner', 'The Linux Foundation', true)
+('FinOps Certified Practitioner', 'The Linux Foundation', true),
+('Google UX Design Professional Certificate', 'Google', true)
 ON CONFLICT DO NOTHING;
