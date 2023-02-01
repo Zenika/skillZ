@@ -21,6 +21,7 @@ import { i18nContext } from "../../utils/i18nContext";
 import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
+import { TutorialMode } from "../molecules/TutorialMode";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -241,7 +242,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
             </button>
           )}
           {isDesktop && (
-            <div className="divide-y divide-dark-radargrid divide-light-radargrid hover:bg-light-dark hover:dark:bg-dark-radargrid">
+            <div className="divide-y divide-light-radargrid hover:bg-light-dark hover:dark:bg-dark-radargrid">
               <button
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex flex-row items-center px-2 py-4 justify-between h-full"
@@ -332,7 +333,10 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     />
                   </li>
                   <li className="p-2">
-                    <BotNotifications t={t}></BotNotifications>
+                    <BotNotifications t={t} />
+                  </li>
+                  <li>
+                    <TutorialMode t={t} />
                   </li>
                 </ul>
               </div>

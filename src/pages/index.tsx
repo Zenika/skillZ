@@ -7,6 +7,8 @@ import ErrorPage from "../components/templates/ErrorPage";
 import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import Loading from "../components/molecules/Loading";
 import { config } from "../env";
+import React from "react";
+import TopBar from "../components/atoms/TutorialMode/TutorialTopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -21,6 +23,7 @@ const Home = () => {
    * HOOKS
    */
   const { push, replace } = useRouter();
+
   const { user, isLoading: authLoading, error: authError } = useAuth0();
   const link = new URL(`${config.nextPublicBaseUrl}/profile`);
 
@@ -82,6 +85,7 @@ const Home = () => {
   }
   return (
     <CommonPage page={"Home"} backBar={false}>
+      <TopBar />
       <div className="flex flex-row mx-4 flex-wrap mb-20">
         {homePanelData &&
           homePanelData.map((computedDataSkill) => (

@@ -52,6 +52,7 @@ export default {
     language: "Language",
     darkMode: "Dark mode",
     logout: "Logout",
+    tutorial: "Tutorial mode",
     botNotifications: "Slack bot notifications",
   },
   home: {
@@ -76,6 +77,55 @@ export default {
     skip: "Skip",
     addSkillsDescription: "Add and manage your skills",
     discoverZenikaSkillsDescription: "Discover all Zenika collabs skills",
+    home: {
+      welcome:
+        "You are currently in tutorial mode. We'll be happy to help you find your way around !",
+      remind:
+        "You can desactivate it, and reactivate it at any time in your taskbar.",
+      startTutorial: "Let's start !",
+      stopTutorial: "Stop tutorial",
+    },
+    demo: {
+      steps: {
+        back: "Back",
+        next: "Next",
+        last: "Close",
+        skip: "Skip",
+        close: "Close"
+      },
+      home: {
+        titlestep1: "The total number of your rated skills",
+        step1:
+          "Here you can see the total number of skills you have scored for this category.",
+        step2:
+          "These are the top 5 skills you could rate based on your desire and skill levels.",
+        titlestep3: "Let's note some skills ! 🚀",
+        step3:
+          "Here you can see the graphic representation of your top 5 skills. But by clicking on it, you will be able to note new skills, or modify the ones you want !",
+      },
+      zenika: {
+        titlestep1: "Amount of rated skills",
+        step1:
+          "Here you can see the total number of skills for this category in the agency that you have selected.",
+        step2:
+          "These are the top 5 skills rated based on the desire and skill levels.",
+        titlestep3: "Let's see skills that the agency has noted ! 🚀",
+        step3:
+          "Here you can see the graphic representation of the top 5 skills of the agency mentioned. But by clicking on it, you will be able to all skills noted !",
+      },
+      mine: {
+        titlestep1: "My skills",
+        step1: "This is your skills tab. All the ones you have already noted, and which are represented on the graph, are put in this list.",
+        titelstep2: "Add",
+        step2: "This tab allows you to note new skills that are already created. But it is also possible to create new ones thanks to the search bar.",
+        mySkills: {
+          titlestep1: "Topics and tags",
+          step1: "By clicking on a skill, you will be able to access its description, its Topics and Tags. They allow to improve the understanding, and to implement a skill suggestion system.",
+          titlestep2: "Let's go ! 🚀",
+          step2: "This button allows you to rate a skill, and thus add it to your chart. You will be able to modify it at any time !"  
+        },
+      },
+    },
   },
   loading: {
     loadingText: "Loading...",
