@@ -8,6 +8,8 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
+import Joyride from "react-joyride";
+import { getTutorialStep } from "../../../constants/demo";
 
 type HomePanelProps = {
   props: {
@@ -73,172 +75,200 @@ const HomePanel = ({
   };
 
   return (
-    <Link
-      href={{
-        pathname: `/skills/${context}/${name}`,
-        query: !data.length && context === "mine" && { add: true },
-      }}
-      className={`flex flex-auto cursor-pointer flex-col bg-light-panel dark:bg-dark-panel
-        hover:bg-light-dark border border-light-panel dark:border-dark-panel hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton
-        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"} ${
-        y && x ? roundTable[y][x] : ""
-      } m-1 w-2/5`}
-    >
+    <>
+      {localStorage.getItem("demo") === "true" && context === "mine" && (
+        <Joyride
+          steps={
+            data.length === 0
+              ? getTutorialStep(t, "homeNoSkill")
+              : getTutorialStep(t, "homeGraph")
+          }
+          continuous={true}
+          styles={{
+            options: {
+              zIndex: 10000,
+            },
+          }}
+          locale={{
+            back: t("onboarding.demo.steps.back"),
+            next: t("onboarding.demo.steps.next"),
+            last: t("onboarding.demo.steps.last"),
+            skip: t("onboarding.demo.steps.skip"),
+            close: t("onboarding.demo.steps.close"),
+          }}
+        />
+      )}
       <div
-        className={`flex flex-auto ${
-          y === "bot" ? "flex-col-reverse" : "flex-col"
-        }`}
+        className={`flex flex-auto flex-col bg-light-panel dark:bg-dark-panel
+         border border-light-panel dark:border-dark-panel 
+        ${!isDesktop ? "min-h-homePanel-mobile" : "min-h-homePanel"}  ${
+          y && x ? roundTable[y][x] : ""
+        } m-1 w-2/5 `}
       >
         <div
           className={`flex flex-auto ${
-            x === "right" ? "flex-row-reverse" : ""
-          }`}
+            y === "bot" ? "flex-col-reverse" : "flex-col"
+          } `}
         >
           <div
-            className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+            className={`flex flex-auto ${
+              x === "right" ? "flex-row-reverse" : ""
+            } `}
           >
-            {data.length > 0 ? (
-              <div
-                className={`flex flex-auto justify-around py-4 text-4xl h-1/3 ${
-                  y === "bot" ? "order-11" : "order-1"
-                }`}
-              >
-                {certifs > 0 ? (
-                  <div
-                    className={`text-lg text-center text-light-graytext dark:text-dark-graytext ${
-                      styles.certifs
-                    } ${x === "right" ? "order-last" : ""}`}
-                  >
-                    {certifs}
-                  </div>
-                ) : (
-                  <div className={x === "right" ? "order-last" : ""}></div>
-                )}
-                <div>{count}</div>
-              </div>
-            ) : (
-              <div
-                className={`flex flex-auto flex-row justify-center py-4 h-1/3 ${
-                  y === "bot" ? "order-11" : "order-1"
-                }`}
-              >
-                {context !== "mine" ? (
-                  <div style={{ width: 48, height: 48 }}></div>
-                ) : (
-                  <Image
-                    src={`/icons/${darkMode ? "dark" : "light"}/add-skill.svg`}
-                    alt={"add"}
-                    width="48"
-                    height="48"
-                  />
-                )}
-              </div>
-            )}
-            {data.length > 0 ? (
-              <div
-                className={`flex flex-auto flex-col justify-around py-4 px-2 order-6 h-1/3`}
-              >
+            <div
+              className={`flex flex-auto flex-col ${isDesktop ? "w-2/5" : ""}`}
+            >
+              {data.length > 0 ? (
                 <div
-                  className={`mb-2 ${
-                    tailwindColorTable[color]
-                  } flex items-center ${x === "right" && "justify-end"} ${
-                    !isDesktop && "text-sm"
+                  className={`flex flex-auto step1-total-number justify-around py-4 text-4xl h-1/3 ${
+                    y === "bot" ? "order-11" : "order-1"
                   }`}
                 >
-                  <FaTrophy className={`mr-2`} />
-                  <p className={"truncate"}>{t("home.bestSkills")}</p>
-                </div>
-                {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
-                  <div key={i} className="flex flex-auto flex-row">
+                  {certifs > 0 ? (
                     <div
-                      className={`${x === "right" ? "order-last" : ""} ${
-                        x === "right" ? "text-right" : "text-left"
-                      } font-bold ${
-                        data[i]
-                          ? `${
-                              widthTable[isDesktop ? "desktop" : "mobile"][i]
-                            } gradient-${color}`
-                          : ""
-                      } ${
-                        x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
-                      } h-6 m-0.5 text-light-light p-0.5`}
+                      className={`text-lg text-center hover:cursor-pointer text-light-graytext dark:text-dark-graytext ${
+                        styles.certifs
+                      } ${x === "right" ? "order-last" : ""}`}
                     >
-                      {data[i] ? i + 1 : ""}
+                      {certifs}
                     </div>
-                    <span
-                      className={`px-2 ${isDesktop ? "truncate w-full" : ""}`}
-                    >
-                      {data[i]?.name ?? ""}
-                    </span>
+                  ) : (
+                    <div className={x === "right" ? "order-last" : ""}> </div>
+                  )}
+                  <div>{count}</div>
+                </div>
+              ) : (
+                <div
+                  className={`flex flex-auto flex-row justify-center py-4 h-1/3 ${
+                    y === "bot" ? "order-11" : "order-1"
+                  }`}
+                >
+                  {context !== "mine" ? (
+                    <div style={{ width: 48, height: 48 }}></div>
+                  ) : (
+                    <Image
+                      src={`/icons/${
+                        darkMode ? "dark" : "light"
+                      }/add-skill.svg`}
+                      alt={"add"}
+                      width="48"
+                      height="48"
+                    />
+                  )}
+                </div>
+              )}
+              {data.length > 0 ? (
+                <div
+                  className={`flex flex-auto flex-col justify-around step2-5bestskills py-4 px-2 order-6 h-1/3 `}
+                >
+                  <div
+                    className={`mb-2 ${
+                      tailwindColorTable[color]
+                    } flex items-center ${x === "right" && "justify-end"} ${
+                      !isDesktop && "text-sm"
+                    }`}
+                  >
+                    <FaTrophy className={`mr-2 `} />
+                    {t("home.bestSkills")}
                   </div>
-                ))}
+                  {(!isDesktop ? [0, 1, 2] : [0, 1, 2, 3, 4]).map((i) => (
+                    <div key={i} className="flex  flex-auto flex-row">
+                      <div
+                        className={`${x === "right" ? "order-last" : ""} ${
+                          x === "right" ? "text-right" : "text-left"
+                        } font-bold ${
+                          data[i]
+                            ? `${
+                                widthTable[isDesktop ? "desktop" : "mobile"][i]
+                              } gradient-${color}`
+                            : ""
+                        } ${
+                          x === "right" ? "rounded-l-2xl" : "rounded-r-2xl"
+                        } h-6 m-0.5 text-light-light p-0.5`}
+                      >
+                        {data[i] ? i + 1 : ""}
+                      </div>
+                      <span
+                        className={`px-2 ${isDesktop ? "truncate w-full" : ""}`}
+                      >
+                        {data[i]?.name ?? ""}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
+                  <p className="text-center">
+                    {context !== "mine"
+                      ? t("home.noSkill")
+                      : t("home.addSkill")}
+                  </p>
+                </div>
+              )}
+              <div
+                className={`flex flex-col ${
+                  y === "bot" ? "justify-start" : "justify-end"
+                } flex-row py-4 px-1 h-1/3 ${
+                  y === "bot" ? "order-1" : "order-12"
+                }`}
+              >
+                <span
+                  className={`text-xl px-2 w-full ${
+                    x === "left" ? "text-right" : "text-left"
+                  } ${tailwindColorTable[color]}`}
+                >
+                  {isDesktop ? "" : t(`home.${name}`)}
+                </span>
               </div>
-            ) : (
-              <div className="flex flex-auto flex-row justify-center py-4 px-2 order-6 h-1/3">
-                <p className="text-center">
-                  {context !== "mine" ? t("home.noSkill") : t("home.addSkill")}
-                </p>
-              </div>
-            )}
+            </div>
+            <Link
+              href={{
+                pathname: `/skills/${context}/${name}`,
+                query: !data.length && context === "mine" && { add: true },
+              }}
+              className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
+            >
+              {isDesktop && (
+                <SkillzScatterChart
+                  data={data}
+                  color={colorTable[color]}
+                  axisLabels={false}
+                />
+              )}
+            </Link>
+          </div>
+          {isDesktop && (
             <div
-              className={`flex flex-col ${
-                y === "bot" ? "justify-start" : "justify-end"
-              } flex-row py-4 px-1 h-1/3 ${
-                y === "bot" ? "order-1" : "order-12"
+              className={`py-2 flex ${description ? "flex-col" : ""} ${
+                y != "bot" ? "items-end" : ""
               }`}
             >
-              <span
+              <p
                 className={`text-xl px-2 w-full ${
                   x === "left" ? "text-right" : "text-left"
                 } ${tailwindColorTable[color]}`}
               >
-                {isDesktop ? "" : t(`home.${name}`)}
-              </span>
-            </div>
-          </div>
-
-          {isDesktop && (
-            <div className={`flex flex-auto flex-col w-4/5 h-full`}>
-              <SkillzScatterChart
-                data={data}
-                color={colorTable[color]}
-                axisLabels={false}
-              />
+                {t(`home.${name}`)}
+              </p>
+              {description && (
+                <p
+                  className={`text-xs px-2 w-full ${
+                    x === "left" ? "text-right" : "text-left"
+                  } ${tailwindColorTable[color]}`}
+                >
+                  {description}
+                </p>
+              )}
             </div>
           )}
         </div>
-        {isDesktop && (
-          <div
-            className={`py-2 flex ${description ? "flex-col" : ""} ${
-              y != "bot" ? "items-end" : ""
-            }`}
-          >
-            <p
-              className={`text-xl px-2 w-full ${
-                x === "left" ? "text-right" : "text-left"
-              } ${tailwindColorTable[color]}`}
-            >
-              {t(`home.${name}`)}
-            </p>
-            {description && (
-              <p
-                className={`text-xs px-2 w-full ${
-                  x === "left" ? "text-right" : "text-left"
-                } ${tailwindColorTable[color]}`}
-              >
-                {description}
-              </p>
-            )}
-          </div>
-        )}
+        <div
+          className={`gradient-${color} ${
+            y === "bot" ? "order-first" : "order-last"
+          } h-0.5`}
+        ></div>
       </div>
-
-      <div
-        className={`gradient-${color} ${
-          y === "bot" ? "order-first" : "order-last"
-        } h-0.5`}
-      ></div>
-    </Link>
+    </>
   );
 };
 

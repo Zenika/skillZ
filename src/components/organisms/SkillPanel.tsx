@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { VscSettings } from "react-icons/vsc";
@@ -151,7 +151,10 @@ const SkillPanel = ({
         {(context === "zenika" || context === "search") && (
           <div
             className="flex w-1/6 justify-end cursor-pointer"
-            onClick={() => push(link)}
+            onClick={(e) => {
+              e.stopPropagation();
+              push(link);
+            }}
           >
             <AiFillEye
               className="p-1 rounded-2xl hover:bg-dark-light hover:text-light-light hover:dark:bg-light-light hover:dark:text-light-graytext"

@@ -8,6 +8,8 @@ import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
 import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
+import Joyride from "react-joyride";
+import { getTutorialStep } from "../../constants/demo";
 
 const AddSkillListSelector = ({
   skills,
@@ -69,26 +71,46 @@ const AddSkillListSelector = ({
 
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
+      {localStorage.getItem("demo") === "true" && (
+        <Joyride
+          steps={getTutorialStep(t, "listSelector")}
+          continuous={true}
+          styles={{
+            options: {
+              zIndex: 10,
+            },
+          }}
+          locale={{
+            back: t("onboarding.demo.steps.back"),
+            next: t("onboarding.demo.steps.next"),
+            last: t("onboarding.demo.steps.last"),
+            skip: t("onboarding.demo.steps.skip"),
+            close: t("onboarding.demo.steps.close"),
+          }}
+        />
+      )}
       {skills && skills.length > 0 && (
         <div className="flex flex-col gap-y-2">
           {skills.map((skill) => (
             <div
               key={skill.id}
               className={
-                "flex flex-col justify-center items-center p-4 mx-0.5 bg-light-light border border-light-light dark:border-dark-light hover:border-light-graybutton dark:bg-dark-light hover:bg-light-dark hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton cursor-pointer rounded-lg"
+                "flex flex-col  justify-center items-center p-4 mx-0.5 bg-light-light border border-light-light dark:border-dark-light hover:border-light-graybutton dark:bg-dark-light hover:bg-light-dark hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton cursor-pointer rounded-lg"
               }
               onClick={() => selectSkill(skill)}
             >
-              <div className="flex flex-row justify-between w-full items-center">
+              <div className="flex flex-row step1-infos justify-between w-full items-center">
                 <span
                   className="text-l cursor-pointer"
                   onClick={() => selectSkill(skill)}
                 >
                   {skill.name}
                 </span>
-                <Button type={"secondary"} callback={() => action(skill)}>
-                  {t("skills.add")}
-                </Button>
+                <div className="step2-add-skill">
+                  <Button type={"secondary"} callback={() => action(skill)}>
+                    {t("skills.add")}
+                  </Button>
+                </div>
               </div>
             </div>
           ))}

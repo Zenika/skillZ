@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useContext, useEffect, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import {
   GetTagFromTagNameQuery,
@@ -16,13 +17,11 @@ import {
   GET_TAG_FROM_TAGNAME,
   SEARCH_IN_ALL_TAGS,
 } from "../../graphql/queries/skills";
+import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill, SkillTag } from "../../utils/types";
 import AutoCompleteList from "../atoms/AutoCompleteList";
 import Chip from "../atoms/Chip";
-import Loading from "./Loading";
-import { useAuth0 } from "@auth0/auth0-react";
-import { displayNotification } from "../../utils/displayNotification";
 
 type EditTags = {
   skill: FetchedSkill;
@@ -145,7 +144,7 @@ const EditTags = ({
     refetchSkill();
   }, [tagsBySkill, refetchSkill]);
 
-  if (loadingTagsBySkill || loadingtagFromName) return <Loading />;
+  if (loadingTagsBySkill || loadingtagFromName) return <></>;
 
   return (
     <div className="w-full rounded-lg dark:bg-dark-dark bg-light-dark my-2 p-2">

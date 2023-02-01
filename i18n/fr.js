@@ -51,6 +51,7 @@ export default {
     language: "Langue",
     darkMode: "Mode sombre",
     logout: "Se déconnecter",
+    tutorial: "Mode tutoriel",
     botNotifications: "Notifications du bot Slack",
   },
   home: {
@@ -76,6 +77,56 @@ export default {
     addSkillsDescription: "Ajoutez et gérez vos compétences",
     discoverZenikaSkillsDescription:
       "Découvrez les compétences des collaborateurs Zenika",
+    home: {
+      welcome:
+        "Tu es actuellement en mode tutoriel. Nous serons ravis de t'aider à t'y retrouver !",
+      remind:
+        "Tu peux le désactiver, et le réactiver à tout moment dans ta barre de tâches.",
+      startTutorial: "C'est parti !",
+      stopTutorial: "Arrêter le tutoriel",
+    },
+    demo: {
+      steps: {
+        back: "Retour",
+        next: "Suivant",
+        last: "Fermer",
+        skip: "Passer",
+        close: "Fermer"
+      },
+      home: {
+        titlestep1: "Le nombre total de tes skills notés",
+        step1:
+          "Ici, tu peux voir le nombre total des compétences que tu as noté pour cette catégorie.",
+        step2:
+          "Ce sont les 5 meilleurs compétences que tu as pu noter en fonction de tes niveaux de désire, et de compétence.",
+        titlestep3: "C'est parti ! 🚀",
+        step3:
+          "Ici, tu peux voir la représentation graphique de tes 5 meilleurs compétences. Mais en cliquant dessus, tu pourra noter de nouvelles compétences, ou modifier celles que tu souhaites !",
+      },
+      zenika: {
+        titlestep1: "Total des skills notés",
+        step1:
+          "Ici, tu peux voir le nombre total des compétences notée par agence, pour cette catégorie.",
+        step2:
+          "Ce sont les 5 meilleurs compétences notées en fonction des niveaux de désire, et de compétence.",
+        titlestep3: "C'est parti ! 🚀",
+        step3:
+          "Ici, tu peux voir la représentation graphique des 5 meilleurs compétences par rapport à l'agence selectionnée. Mais en cliquant dessus, tu pourra voir tous les skills notés !",
+      },
+      mine: {
+        titlestep1: "Mes compétences",
+        step1: "C'est l'onglet de tes compétences. Toutes celles que tu as déjà noté, et qui sont représentés sur le graphique, se mettent dans cette liste.",
+        titlestep2: "Ajouter",
+        step2: "Cet onglet permet de noter de nouvelles compétences qui sont déjà créées. Mais il est aussi possible d'en créer de nouvelles grâce à la barre de recherche.",
+        mySkills: {
+          titlestep1: "Sujets et tags",
+          step1: "En cliquant sur une compétence, tu pourra accéder à sa description, ses Sujets et Tags. Ils permettent d'améliorer la compréhension, et d'implémenter un système de suggestion de compétence.",
+          titlestep2: "Allonz-y ! 🚀",
+          step2: "Ce bouton permet de noter une compétence, et donc de l'ajouter dans ton graphique. Tu pourra la modifier à tout moment !"
+        },
+      },
+
+    },
   },
   loading: {
     loadingText: "Chargement...",
