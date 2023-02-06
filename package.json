@@ -57,7 +57,7 @@
     "@graphql-codegen/typescript": "^3.0.0",
     "@graphql-codegen/typescript-operations": "^2.5.12",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@testing-library/cypress": "^8.0.3",
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/node": "18.11.18",
