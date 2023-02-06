@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
 import { FaTrophy } from "react-icons/fa";
+import Joyride from "react-joyride";
 import { useMediaQuery } from "react-responsive";
 import { colorTable } from "../../../constants/colorTable";
+import { getTutorialStep } from "../../../constants/demo";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
-import Joyride from "react-joyride";
-import { getTutorialStep } from "../../../constants/demo";
 
 type HomePanelProps = {
   props: {
@@ -133,7 +133,7 @@ const HomePanel = ({
                       {certifs}
                     </div>
                   ) : (
-                    <div className={x === "right" ? "order-last" : ""}> </div>
+                    <div className={x === "right" ? "order-last" : ""}></div>
                   )}
                   <div>{count}</div>
                 </div>
@@ -226,7 +226,7 @@ const HomePanel = ({
                 pathname: `/skills/${context}/${name}`,
                 query: !data.length && context === "mine" && { add: true },
               }}
-              className={`flex step3-graph flex-auto flex-col w-4/5 h-full cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
+              className={`flex step3-graph flex-auto flex-col w-4/5 cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
             >
               {isDesktop && (
                 <SkillzScatterChart
