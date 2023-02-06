@@ -1,4 +1,4 @@
-name: Update Categories referential
+name: Update Referential
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   update-referential:
-    name: Update Categories referential
+    name: Update referentials
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,24 +22,29 @@ jobs:
           node-version: 16
           cache: "npm"
 
-      - name: Update referential
+      - name: Update referentials
         env:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           NEXT_API_BEARER_TOKEN: ${{ secrets.NEXT_API_BEARER_TOKEN }}
         run: |
           cd scripts
           npm ci
-          node update-categories-referential.mjs
+          node update-agencies-referentiel.mjs
+          node update-categories-referentiel.mjs
+          node update-certifications-referentiel.mjs
+          node update-skills-referentiel.mjs
+          node update-tags-referentiel.mjs
+          node update-topics-referentiel.mjs
           cd ..
-          git checkout -b chore/update_categories_referential
+          git checkout -b chore/update_referentials
 
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
-          git commit -m "🌱 Update Categories referential"
-          git push --set-upstream origin chore/update_categories_referential -f
+          git commit -m "🌱 Update referentials"
+          git push --set-upstream origin chore/update_referentials -f
 
       - name: Create Pull Request
         uses: actions/github-script@v6
@@ -48,14 +53,14 @@ jobs:
             const { repo, owner } = context.repo;
             try {
               const result = await github.rest.pulls.create({
-                title: '🌱 Update Categories referential',
+                title: '🌱 Update referentials',
                 owner,
                 repo,
-                head: 'chore/update_categories_referential',
+                head: 'chore/update_referentials',
                 base: 'main',
                 body: [
                   'This is an automated PR.',
-                  'It updates the referential with categories data.'
+                  'It updates all referentials with new data validated by the admins.'
                 ].join('\n')
               });
               github.rest.issues.addLabels({

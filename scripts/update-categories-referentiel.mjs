@@ -17,7 +17,7 @@ if (!process.env.NEXT_API_BEARER_TOKEN) {
 }
 
 /*
- * GET ALL SKILLS FROM API
+ * GET ALL CATEGORIES FROM API
  */
 const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`,
@@ -34,7 +34,7 @@ const {categories: categoriesData} = await response.json()
 /*
  * FORMAT DATA
  */
-const categories = categoriesData.map((cat) => `('${cat.id}', '${cat.label}', ${cat.x}, '${cat.y}', '${cat.color}', '${cat.index}')`)
+const categories = categoriesData.map((cat) => `('${cat.id}', '${cat.label}', ${cat.x}, '${cat.y}', '${cat.color}', ${cat.index})`)
 
 /*
  * WRITE DATA TO FILE
