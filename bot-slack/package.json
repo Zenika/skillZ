@@ -13,7 +13,7 @@
     "prettier:write": "npm run prettier -- --write"
   },
   "dependencies": {
-    "@octokit/auth-oauth-device": "^3.1.2",
+    "@octokit/auth-oauth-device": "^4.0.4",
     "@octokit/plugin-create-or-update-text-file": "^1.0.4",
     "@octokit/request": "^5.6.2",
     "@octokit/rest": "^19.0.7",
