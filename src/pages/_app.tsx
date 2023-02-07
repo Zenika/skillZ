@@ -29,11 +29,20 @@ const App = ({ Component, pageProps }) => {
     ? window.localStorage.getItem("locale")
     : locale;
 
+  const storedTutorialMode = process.browser
+    ? window.localStorage.getItem("tutorialMode")
+    : "false";
+
   const [darkMode, setDarkMode] = useState(storedDarkMode === "true");
-  const [tutorialMode, setTutorialMode] = useState(false);
+  const [tutorialMode, setTutorialMode] = useState(
+    storedTutorialMode === "true"
+  );
 
   const changeTutorialMode = (tutorialMode: boolean) => {
     setTutorialMode(tutorialMode);
+    if (process.browser) {
+      window.localStorage.setItem("tutorialMode", `${tutorialMode}`);
+    }
   };
 
   const changeDarkMode = (darkMode: boolean) => {
