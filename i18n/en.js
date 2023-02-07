@@ -80,8 +80,10 @@ export default {
     home: {
       welcome:
         "You are currently in tutorial mode. We'll be happy to help you find your way around !",
+
       remind:
         "You can desactivate it, and reactivate it at any time in your taskbar.",
+      remindBeginner: "Start by note your first skill !",
       startTutorial: "Let's start !",
       stopTutorial: "Stop tutorial",
     },
@@ -91,7 +93,7 @@ export default {
         next: "Next",
         last: "Close",
         skip: "Skip",
-        close: "Close"
+        close: "Close",
       },
       home: {
         titlestep1: "The total number of your rated skills",
@@ -115,14 +117,18 @@ export default {
       },
       mine: {
         titlestep1: "My skills",
-        step1: "This is your skills tab. All the ones you have already noted, and which are represented on the graph, are put in this list.",
+        step1:
+          "This is your skills tab. All the ones you have already noted, and which are represented on the graph, are put in this list.",
         titelstep2: "Add",
-        step2: "This tab allows you to note new skills that are already created. But it is also possible to create new ones thanks to the search bar.",
+        step2:
+          "This tab allows you to note new skills that are already created. But it is also possible to create new ones thanks to the search bar.",
         mySkills: {
           titlestep1: "Topics and tags",
-          step1: "By clicking on a skill, you will be able to access its description, its Topics and Tags. They allow to improve the understanding, and to implement a skill suggestion system.",
+          step1:
+            "By clicking on a skill, you will be able to access its description, its Topics and Tags. They allow to improve the understanding, and to implement a skill suggestion system.",
           titlestep2: "Let's go ! 🚀",
-          step2: "This button allows you to rate a skill, and thus add it to your chart. You will be able to modify it at any time !"  
+          step2:
+            "This button allows you to rate a skill, and thus add it to your chart. You will be able to modify it at any time !",
         },
       },
     },

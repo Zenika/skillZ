@@ -36,9 +36,6 @@ If you have any questions about the diferents projects, don't hesitate to open i
       1. [Update Skills referential](#skills-referential)
    2. [Dependabot](#dependabot)
 
-
-
-
 # Skillz web app <a name="skillzwebapp"></a>
 
 A progressive web app to store your proficiency and desire to learn different skills.

@@ -7,6 +7,7 @@ import "../styles/404.css";
 import "../styles/globals.css";
 import { DarkModeProvider } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
+import { TutorialModeProvider } from "../utils/tutorialMode";
 import { usei18n } from "../utils/usei18n";
 
 const App = ({ Component, pageProps }) => {
@@ -29,6 +30,13 @@ const App = ({ Component, pageProps }) => {
     : locale;
 
   const [darkMode, setDarkMode] = useState(storedDarkMode === "true");
+  const [tutorialMode, setTutorialMode] = useState(false);
+
+  const changeTutorialMode = (tutorialMode: boolean) => {
+    setTutorialMode(tutorialMode);
+
+    //query check
+  };
 
   const changeDarkMode = (darkMode: boolean) => {
     setDarkMode(darkMode);
@@ -69,20 +77,22 @@ const App = ({ Component, pageProps }) => {
     <AuthProvider>
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
         <i18nContext.Provider value={{ t, changeLocale }}>
-          <GraphQLProvider>
-            <Head>
-              <title>skillZ</title>
-              <meta
-                name="viewport"
-                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-              />
-            </Head>
-            <div className={`${darkMode ? "dark" : ""}`}>
-              <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
-                <Component {...{ pathName, ...pageProps }} />
+          <TutorialModeProvider value={{ tutorialMode, changeTutorialMode }}>
+            <GraphQLProvider>
+              <Head>
+                <title>skillZ</title>
+                <meta
+                  name="viewport"
+                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                />
+              </Head>
+              <div className={`${darkMode ? "dark" : ""}`}>
+                <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
+                  <Component {...{ pathName, ...pageProps }} />
+                </div>
               </div>
-            </div>
-          </GraphQLProvider>
+            </GraphQLProvider>
+          </TutorialModeProvider>
         </i18nContext.Provider>
       </DarkModeProvider>
     </AuthProvider>

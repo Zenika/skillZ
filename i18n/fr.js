@@ -82,6 +82,7 @@ export default {
         "Tu es actuellement en mode tutoriel. Nous serons ravis de t'aider à t'y retrouver !",
       remind:
         "Tu peux le désactiver, et le réactiver à tout moment dans ta barre de tâches.",
+      remindBeginner: "Commence par noter ta première compétence !",
       startTutorial: "C'est parti !",
       stopTutorial: "Arrêter le tutoriel",
     },
@@ -91,7 +92,7 @@ export default {
         next: "Suivant",
         last: "Fermer",
         skip: "Passer",
-        close: "Fermer"
+        close: "Fermer",
       },
       home: {
         titlestep1: "Le nombre total de tes skills notés",
@@ -115,17 +116,20 @@ export default {
       },
       mine: {
         titlestep1: "Mes compétences",
-        step1: "C'est l'onglet de tes compétences. Toutes celles que tu as déjà noté, et qui sont représentés sur le graphique, se mettent dans cette liste.",
+        step1:
+          "C'est l'onglet de tes compétences. Toutes celles que tu as déjà noté, et qui sont représentés sur le graphique, se mettent dans cette liste.",
         titlestep2: "Ajouter",
-        step2: "Cet onglet permet de noter de nouvelles compétences qui sont déjà créées. Mais il est aussi possible d'en créer de nouvelles grâce à la barre de recherche.",
+        step2:
+          "Cet onglet permet de noter de nouvelles compétences qui sont déjà créées. Mais il est aussi possible d'en créer de nouvelles grâce à la barre de recherche.",
         mySkills: {
           titlestep1: "Sujets et tags",
-          step1: "En cliquant sur une compétence, tu pourra accéder à sa description, ses Sujets et Tags. Ils permettent d'améliorer la compréhension, et d'implémenter un système de suggestion de compétence.",
-          titlestep2: "Allonz-y ! 🚀",
-          step2: "Ce bouton permet de noter une compétence, et donc de l'ajouter dans ton graphique. Tu pourra la modifier à tout moment !"
+          step1:
+            "En cliquant sur une compétence, tu pourra accéder à sa description, ses Sujets et Tags. Ils permettent d'améliorer la compréhension, et d'implémenter un système de suggestion de compétence.",
+          titlestep2: "Allons-y ! 🚀",
+          step2:
+            "Ce bouton permet de noter une compétence, et donc de l'ajouter dans ton graphique. Tu pourra la modifier à tout moment !",
         },
       },
-
     },
   },
   loading: {

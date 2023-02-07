@@ -10,6 +10,7 @@ import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
+import { TutorialModeContext } from "../../../utils/tutorialMode";
 
 type HomePanelProps = {
   props: {
@@ -35,6 +36,8 @@ const HomePanel = ({
 }: HomePanelProps) => {
   const { t } = useContext(i18nContext);
   const { darkMode } = useDarkMode();
+  const tutorialModeValue = useContext(TutorialModeContext);
+
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
@@ -76,7 +79,7 @@ const HomePanel = ({
 
   return (
     <>
-      {localStorage.getItem("demo") === "true" && context === "mine" && (
+      {tutorialModeValue?.tutorialMode && context === "mine" && (
         <Joyride
           steps={
             data.length === 0

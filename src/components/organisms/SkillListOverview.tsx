@@ -22,6 +22,7 @@ import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import SkillPanel from "./SkillPanel";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
+import { TutorialModeContext } from "../../utils/tutorialMode";
 
 type SkillListOverviewProps = {
   userEmail: string;
@@ -71,6 +72,7 @@ const SkillListOverview = ({
   const [searchFilter, setSearchFilter] = useState("");
   const [debouncedSearchValue] = useDebounce(search, 500);
   const [debouncedSearchFilterValue] = useDebounce(searchFilter, 500);
+  const tutorialModeValue = useContext(TutorialModeContext);
 
   /*
    * QUERIES
@@ -192,7 +194,7 @@ const SkillListOverview = ({
 
   return (
     <div className="flex flex-row justify-center mt-4 mb-20">
-      {localStorage.getItem("demo") === "true" && context === "mine" && (
+      {tutorialModeValue?.tutorialMode && context === "mine" && (
         <Joyride
           steps={getTutorialStep(t, "configMySkills")}
           continuous={true}

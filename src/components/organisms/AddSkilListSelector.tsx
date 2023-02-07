@@ -10,6 +10,7 @@ import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
+import { TutorialModeContext } from "../../utils/tutorialMode";
 
 const AddSkillListSelector = ({
   skills,
@@ -30,6 +31,7 @@ const AddSkillListSelector = ({
   });
   const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
+  const tutorialModeValue = useContext(TutorialModeContext);
 
   const closeModal = () => {
     setOpenSkillDetails(false);
@@ -71,7 +73,7 @@ const AddSkillListSelector = ({
 
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
-      {localStorage.getItem("demo") === "true" && (
+      {tutorialModeValue?.tutorialMode && (
         <Joyride
           steps={getTutorialStep(t, "listSelector")}
           continuous={true}
