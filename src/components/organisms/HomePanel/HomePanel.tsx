@@ -39,6 +39,11 @@ const HomePanel = ({
     query: "(min-device-width: 1280px)",
   });
 
+  const linkUrl = new URL(window.location.origin, `/skills/${context}/${name}`);
+  const currentUrl = new URL(window.location.href);
+  if (currentUrl.searchParams.get("agency"))
+    linkUrl.searchParams.set("agency", currentUrl.searchParams.get("agency"));
+
   const roundTable = {
     top: {
       left: "rounded-tl-2xl",
@@ -222,10 +227,7 @@ const HomePanel = ({
               </div>
             </div>
             <Link
-              href={{
-                pathname: `/skills/${context}/${name}`,
-                query: !data.length && context === "mine" && { add: true },
-              }}
+              href={linkUrl}
               className={`flex step3-graph flex-auto flex-col w-4/5 cursor-pointer hover:border-light-graybutton hover:dark:bg-dark-radargrid dark:hover:border-dark-graybutton hover:bg-light-dark`}
             >
               {isDesktop && (
