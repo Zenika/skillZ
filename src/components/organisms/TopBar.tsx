@@ -22,6 +22,9 @@ import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
 import { TutorialMode } from "../molecules/TutorialMode";
+import { useTutorialMode } from "../../utils/tutorialMode";
+import { GET_USER_SKILLS_ID } from "../../graphql/queries/skills";
+import { GetUserSkillsIdQuery } from "../../generated/graphql";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -31,6 +34,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
   const { t, changeLocale } = useContext(i18nContext);
   const { darkMode, changeDarkMode } = useDarkMode();
+  const { tutorialMode, changeTutorialMode } = useTutorialMode();
   const { locale, query, pathname } = useRouter();
   let { context } = query;
 
@@ -47,6 +51,12 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
     {
       variables: { email: user.email },
       fetchPolicy: "network-only",
+    }
+  );
+  const { data: userSkills } = useQuery<GetUserSkillsIdQuery>(
+    GET_USER_SKILLS_ID,
+    {
+      variables: { email: user.email, fetchPolicy: "network-only" },
     }
   );
 
@@ -335,9 +345,15 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   <li className="p-2">
                     <BotNotifications t={t} />
                   </li>
-                  <li>
-                    <TutorialMode t={t} />
-                  </li>
+                  {userSkills?.UserSkillDesire?.length > 0 && (
+                    <li>
+                      <TutorialMode
+                        t={t}
+                        tutorialMode={tutorialMode}
+                        changeTutorialMode={changeTutorialMode}
+                      />
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

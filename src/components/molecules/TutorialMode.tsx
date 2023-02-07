@@ -1,27 +1,24 @@
 import { SlidingCheckbox } from "../atoms/SlidingCheckbox";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 
-export const TutorialMode = ({ t }: { t: (path: string) => string }) => {
+export const TutorialMode = ({
+  t,
+  tutorialMode,
+  changeTutorialMode,
+}: {
+  t: (path: string) => string;
+  tutorialMode: boolean;
+  changeTutorialMode: (tutorialMode: boolean) => void;
+}) => {
   const values: [any, any] = [false, true];
-  const router = useRouter();
-  const [tutorialMode, setTutorialMode] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("demo") === "true") setTutorialMode(true);
-    else setTutorialMode(false);
-  }, []);
-
-  function changeTutorialMode() {
-    if (tutorialMode === values[0]) {
-      localStorage.setItem("demo", "true");
-    } else localStorage.setItem("demo", "false");
-    router.reload();
-  }
 
   return (
     <>
-      <div className="cursor" onClick={() => changeTutorialMode()}>
+      <div
+        className="cursor"
+        onClick={() =>
+          changeTutorialMode(tutorialMode === values[0] ? values[1] : values[0])
+        }
+      >
         <span>{t("sidepanel.tutorial")}</span>
         <ul className="flex flex-row justify-around">
           <li>🛑</li>

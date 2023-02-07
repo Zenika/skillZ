@@ -11,6 +11,7 @@ import { ADD_USER_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../../graphql/queries/skills";
 import { computeFilterUrl } from "../../utils/computeFilterUrl";
+import { TutorialModeContext } from "../../utils/tutorialMode";
 import { displayNotification } from "../../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { i18nContext } from "../../utils/i18nContext";
@@ -71,6 +72,7 @@ const SkillListOverview = ({
   const [searchFilter, setSearchFilter] = useState("");
   const [debouncedSearchValue] = useDebounce(search, 500);
   const [debouncedSearchFilterValue] = useDebounce(searchFilter, 500);
+  const tutorialModeValue = useContext(TutorialModeContext);
 
   /*
    * QUERIES
@@ -192,7 +194,7 @@ const SkillListOverview = ({
 
   return (
     <div className="flex flex-row justify-center mt-4 mb-20">
-      {localStorage.getItem("demo") === "true" && context === "mine" && (
+      {tutorialModeValue?.tutorialMode && context === "mine" && (
         <Joyride
           steps={getTutorialStep(t, "configMySkills")}
           continuous={true}

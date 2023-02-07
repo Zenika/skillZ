@@ -1,40 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import Image from "next/image";
-import { useEffect } from "react";
+import { TutorialModeContext } from "../../../utils/tutorialMode";
+import { useQuery } from "@apollo/client";
+import { GetUserSkillsIdQuery } from "../../../generated/graphql";
 import { useAuth0 } from "@auth0/auth0-react";
 import { GET_USER_SKILLS_ID } from "../../../graphql/queries/skills";
-import { GetUserSkillsIdQuery } from "../../../generated/graphql";
-import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useTutorialMode } from "../../../utils/tutorialMode";
 
-const TopBar = () => {
+const TutorialTopBar = () => {
   const { t } = useContext(i18nContext);
+  const tutorialModeValue = useContext(TutorialModeContext);
+  const { changeTutorialMode } = useTutorialMode();
   const { user } = useAuth0();
-  const { data: userSkillsId } = useQuery<GetUserSkillsIdQuery>(
-    GET_USER_SKILLS_ID,
-    {
-      variables: { email: user.email },
-    }
-  );
-  const [openDemo, setOpenDemo] = useState(true);
+  const { data: userSkills, refetch: refetchUserSkills } =
+    useQuery<GetUserSkillsIdQuery>(GET_USER_SKILLS_ID, {
+      variables: { email: user.email, fetchPolicy: "network-only" },
+    });
 
-  // MG_TUTORIAL_MODE
   useEffect(() => {
-    if (
-      userSkillsId?.UserSkillDesire.length === 0 ||
-      localStorage.getItem("demo") === "true"
-    ) {
-      localStorage.setItem("demo", "true");
-      setOpenDemo(true);
-    } else {
-      localStorage.setItem("demo", "false");
-      setOpenDemo(false);
+    refetchUserSkills();
+    if (userSkills?.UserSkillDesire?.length === 0) {
+      changeTutorialMode(true);
     }
-  }, [openDemo, userSkillsId]);
+  }, [userSkills, refetchUserSkills, changeTutorialMode]);
 
   return (
     <>
-      {openDemo && (
+      {tutorialModeValue?.tutorialMode && (
         <div className="flex justify-between mb-4 p-2 w-full gradient-red-faded rounded">
           <div className="flex flex-row">
             <Image
@@ -46,7 +40,11 @@ const TopBar = () => {
             />
             <div className="flex flex-col mx-4 justify-center">
               <p className="">{t("onboarding.home.welcome")}</p>
-              <p className="opacity-70">{t("onboarding.home.remind")}</p>
+              <p className="opacity-70">
+                {userSkills?.UserSkillDesire?.length === 0
+                  ? t("onboarding.home.remindBeginner")
+                  : t("onboarding.home.remind")}
+              </p>
             </div>
           </div>
         </div>
@@ -55,4 +53,4 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+export default TutorialTopBar;
