@@ -1,6 +1,8 @@
 # SkillZ
 
-SkillZ is an application for managing the skills and competences of Zenika's different collaborators. It aims at gathering the feedbacks in order to match the different profiles with missions or trainings that correspond the best. Actually there is 3 diferents applications all functional, and linked to each other :
+SkillZ is an application for managing the skills and competences of Zenika's different collaborators. It aims at
+gathering the feedbacks in order to match the different profiles with missions or trainings that correspond the best.
+Actually there is 3 diferents applications all functional, and linked to each other :
 
 - [Skillz web app](https://skillz.zenika.com/) <br/>
 - [Skillz Slack bot](#installbot) <br/>
@@ -8,7 +10,8 @@ SkillZ is an application for managing the skills and competences of Zenika's dif
 
 In this repository, you can access to **Skillz web app** and **Skillz Slack bot** scripts.
 
-If you have any questions about the diferents projects, don't hesitate to open issues on this repository, or ask your questions on the channel #project-skillz in the Zenika's Slack.
+If you have any questions about the diferents projects, don't hesitate to open issues on this repository, or ask your
+questions on the channel #project-skillz in the Zenika's Slack.
 
 # Table of contents
 
@@ -33,7 +36,7 @@ If you have any questions about the diferents projects, don't hesitate to open i
       2. [Versionning](#versionning)
 3. [Github](#github)
    1. [Actions](#actions)
-      1. [Update Skills referential](#skills-referential)
+      1. [Update referentials](#update-referentials)
    2. [Dependabot](#dependabot)
 
 # Skillz web app <a name="skillzwebapp"></a>
@@ -169,17 +172,20 @@ See all rules in `doc/rg.md`. You can find the part of the code corresponding to
 
 # Skillz Slack bot <a name="slackbot"></a>
 
-Slack bot for Skillz App - Keep updated about the new releases of the app, and your activity. The bot's scripts are placed in the folder `./bot-slack/`.
+Slack bot for Skillz App - Keep updated about the new releases of the app, and your activity. The bot's scripts are
+placed in the folder `./bot-slack/`.
 
 This bot in only available in the Slack Zenika workspace.
 
 ## Install bot <a name="installbot"></a>
 
-The usage of the bot is only available on the Zenika's Slack. So, click on your channels settings in side bar, the on "Apps" such as the screenshot below :
+The usage of the bot is only available on the Zenika's Slack. So, click on your channels settings in side bar, the on "
+Apps" such as the screenshot below :
 
 ![1](https://zupimages.net/up/23/03/lsdk.png)
 
-Then, search "Skillz-bot" on the search bar. It will purpose you the bot. Just click on it to install it to your workspace.
+Then, search "Skillz-bot" on the search bar. It will purpose you the bot. Just click on it to install it to your
+workspace.
 
 ![2](https://zupimages.net/up/23/03/81bk.png)
 
@@ -219,18 +225,19 @@ field from the package.json
 
 ## Actions <a name="actions"></a>
 
-### Update Skills referential <a name="skills-referential"></a>
+### Update referentials <a name="update-referentials"></a>
 
-This Github Actions is located in .github/workflows/update-skills-referential.yml
+This Github Actions is located in .github/workflows/update-referentials.yml
 
 - Run every monday à 6:00am UTC
-- Get all approved skills from skills.zenika.com
-- Update the file located in hasura/seeds/05-skills.sql with new approved skills
+- Get all approved data from skills.zenika.com
+- Update files located in hasura/seeds with new approved data
 - Create a merge request
 
 ## Dependabot <a name="dependabot"></a>
 
-Dependabot helps us keep our dependencies up to date. It checks our dependency files for outdated requirements and opens individual PRs.
+Dependabot helps us keep our dependencies up to date. It checks our dependency files for outdated requirements and opens
+individual PRs.
 
 The configuration file is located in .github/dependabot.yml
 

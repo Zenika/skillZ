@@ -59,8 +59,7 @@ describe("AutoCompleteList component", () => {
     expect(autocompletelist).toBeInTheDocument();
 
     // Expect structure to be correct
-    expect(autocompletelist.children).toHaveLength(1);
-    expect(autocompletelist.children[0].children).toHaveLength(0);
+    expect(autocompletelist.children).toHaveLength(0);
   });
 
   it("renders an AutoCompleteList and click", () => {

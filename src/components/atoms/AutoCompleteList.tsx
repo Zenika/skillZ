@@ -42,10 +42,10 @@ const AutoCompleteList = ({
       style={{ width: size.width, height: size.height }}
       data-testid={"autocompletelist"}
     >
-      <div
-        className={`${autoCompleteListParentChildrenClasses.base} ${autoCompleteListParentChildrenClasses.dark}`}
-      >
-        {search && (
+      {search && (
+        <div
+          className={`${autoCompleteListParentChildrenClasses.base} ${autoCompleteListParentChildrenClasses.dark}`}
+        >
           <div
             className="flex flex-row leading-6 hover:bg-light-med dark:hover:bg-dark-med py-2 px-4 cursor-pointer"
             onClick={() => onChange(search, true)}
@@ -56,21 +56,22 @@ const AutoCompleteList = ({
             <p className="pr-2">{newType}</p>
             <p className="opacity-50">{search}</p>
           </div>
-        )}
-        {search && choices && (
-          <div>
-            {choices.map((choice, i) => (
-              <div
-                className={`${autoCompleteListChildrenClasses.base} ${autoCompleteListChildrenClasses.hover} ${autoCompleteListChildrenClasses.dark}`}
-                onClick={() => onChange(choice, false)}
-                key={i}
-              >
-                {choice}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+          {choices && (
+            <div>
+              {choices.map((choice, i) => (
+                <div
+                  className={`${autoCompleteListChildrenClasses.base} ${autoCompleteListChildrenClasses.hover} ${autoCompleteListChildrenClasses.dark}`}
+                  onClick={() => onChange(choice, false)}
+                  key={i}
+                >
+                  {choice}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
