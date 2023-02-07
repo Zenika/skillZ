@@ -82,7 +82,7 @@ export default {
         "Tu es actuellement en mode tutoriel. Nous serons ravis de t'aider à t'y retrouver !",
       remind:
         "Tu peux le désactiver, et le réactiver à tout moment dans ta barre de tâches.",
-      remindBeginner: "Commence par noter ta première compétence !",
+      remindBeginner: "Commence par noter ta première compétence",
       startTutorial: "C'est parti !",
       stopTutorial: "Arrêter le tutoriel",
     },

@@ -83,7 +83,7 @@ export default {
 
       remind:
         "You can desactivate it, and reactivate it at any time in your taskbar.",
-      remindBeginner: "Start by note your first skill !",
+      remindBeginner: "Start by note your first skill",
       startTutorial: "Let's start !",
       stopTutorial: "Stop tutorial",
     },

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { i18nContext } from "../../../utils/i18nContext";
 import Image from "next/image";
 import { TutorialModeContext } from "../../../utils/tutorialMode";
@@ -14,18 +14,17 @@ const TutorialTopBar = () => {
   const tutorialModeValue = useContext(TutorialModeContext);
   const { changeTutorialMode } = useTutorialMode();
   const { user } = useAuth0();
-  const { data: userSkillsId } = useQuery<GetUserSkillsIdQuery>(
-    GET_USER_SKILLS_ID,
-    {
+  const { data: userSkills, refetch: refetchUserSkills } =
+    useQuery<GetUserSkillsIdQuery>(GET_USER_SKILLS_ID, {
       variables: { email: user.email, fetchPolicy: "network-only" },
-    }
-  );
+    });
 
   useEffect(() => {
-    if (userSkillsId?.UserSkillDesire?.length == 0) {
+    refetchUserSkills();
+    if (userSkills?.UserSkillDesire?.length === 0) {
       changeTutorialMode(true);
     }
-  }, [userSkillsId, TutorialModeContext]);
+  }, [userSkills, refetchUserSkills, changeTutorialMode]);
 
   return (
     <>
@@ -42,7 +41,7 @@ const TutorialTopBar = () => {
             <div className="flex flex-col mx-4 justify-center">
               <p className="">{t("onboarding.home.welcome")}</p>
               <p className="opacity-70">
-                {userSkillsId?.UserSkillDesire?.length === 0
+                {userSkills?.UserSkillDesire?.length === 0
                   ? t("onboarding.home.remindBeginner")
                   : t("onboarding.home.remind")}
               </p>

@@ -34,8 +34,6 @@ const App = ({ Component, pageProps }) => {
 
   const changeTutorialMode = (tutorialMode: boolean) => {
     setTutorialMode(tutorialMode);
-
-    //query check
   };
 
   const changeDarkMode = (darkMode: boolean) => {
