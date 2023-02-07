@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import Joyride from "react-joyride";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import { colorTable } from "../../constants/colorTable";
+import { getTutorialStep } from "../../constants/demo";
 import { SearchSkillsByCategoryQuery, Skill } from "../../generated/graphql";
 import { ADD_USER_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../../graphql/mutations/userInfos";
@@ -20,8 +22,6 @@ import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import SkillPanel from "./SkillPanel";
-import Joyride from "react-joyride";
-import { getTutorialStep } from "../../constants/demo";
 
 type SkillListOverviewProps = {
   userEmail: string;
@@ -278,6 +278,7 @@ const SkillListOverview = ({
                 <SearchBar
                   setSearch={add ? setSearch : setSearchFilter}
                   value={add ? search : searchFilter}
+                  placeholder={t("skills.searchPlaceholder")}
                 />
                 {add && context != "zenika" && (
                   <div
