@@ -105,16 +105,6 @@ export default {
         step3:
           "Here you can see the graphic representation of your top 5 skills. But by clicking on it, you will be able to note new skills, or modify the ones you want !",
       },
-      zenika: {
-        titlestep1: "Amount of rated skills",
-        step1:
-          "Here you can see the total number of skills for this category in the agency that you have selected.",
-        step2:
-          "These are the top 5 skills rated based on the desire and skill levels.",
-        titlestep3: "Let's see skills that the agency has noted ! 🚀",
-        step3:
-          "Here you can see the graphic representation of the top 5 skills of the agency mentioned. But by clicking on it, you will be able to all skills noted !",
-      },
       mine: {
         titlestep1: "My skills",
         step1:

@@ -104,16 +104,6 @@ export default {
         step3:
           "Ici, tu peux voir la représentation graphique de tes 5 meilleurs compétences. Mais en cliquant dessus, tu pourra noter de nouvelles compétences, ou modifier celles que tu souhaites !",
       },
-      zenika: {
-        titlestep1: "Total des skills notés",
-        step1:
-          "Ici, tu peux voir le nombre total des compétences notée par agence, pour cette catégorie.",
-        step2:
-          "Ce sont les 5 meilleurs compétences notées en fonction des niveaux de désire, et de compétence.",
-        titlestep3: "C'est parti ! 🚀",
-        step3:
-          "Ici, tu peux voir la représentation graphique des 5 meilleurs compétences par rapport à l'agence selectionnée. Mais en cliquant dessus, tu pourra voir tous les skills notés !",
-      },
       mine: {
         titlestep1: "Mes compétences",
         step1:
