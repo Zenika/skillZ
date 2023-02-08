@@ -35,8 +35,8 @@ export function getTutorialStep(t: (path: string) => string, stepName: String) {
     return [
       {
         target: ".step3-graph",
-        content: t("onboarding.demo.zenika.step3"),
-        title: t("onboarding.demo.zenika.titlestep3"),
+        content: t("onboarding.demo.home.step3"),
+        title: t("onboarding.demo.home.titlestep3"),
       },
     ];
   if (stepName === "homeGraph")
