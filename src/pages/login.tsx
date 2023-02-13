@@ -60,7 +60,6 @@ const Login = () => {
   }, [user, userData, push, query.returnTo, updateLastLoginMutation]);
 
   if (error || errorUserData) {
-    console.log(error, errorUserData);
     return <ErrorPage />;
   }
 
