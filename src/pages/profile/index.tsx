@@ -24,6 +24,4 @@ const ProfilePage = () => {
   }
 };
 
-export default withAuthenticationRequired(ProfilePage, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(ProfilePage);

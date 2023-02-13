@@ -2,11 +2,11 @@ import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import CommonPage from "../../../../components/templates/CommonPage";
-import ErrorPage from "../../../../components/templates/ErrorPage";
-import HomePanel from "../../../../components/organisms/HomePanel/HomePanel";
 import Loading from "../../../../components/molecules/Loading";
 import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
+import HomePanel from "../../../../components/organisms/HomePanel/HomePanel";
+import CommonPage from "../../../../components/templates/CommonPage";
+import ErrorPage from "../../../../components/templates/ErrorPage";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -104,6 +104,4 @@ const HomePanelByUser = () => {
   );
 };
 
-export default withAuthenticationRequired(HomePanelByUser, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(HomePanelByUser);

@@ -2,11 +2,11 @@ import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import Loading from "../../../../components/molecules/Loading";
+import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
+import SkillListOverview from "../../../../components/organisms/SkillListOverview";
 import CommonPage from "../../../../components/templates/CommonPage";
 import ErrorPage from "../../../../components/templates/ErrorPage";
-import Loading from "../../../../components/molecules/Loading";
-import SkillListOverview from "../../../../components/organisms/SkillListOverview";
-import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
 import {
   GetCategoryIdByNameQuery,
   GetUserQuery,
@@ -89,6 +89,4 @@ const ListSkillsPage = () => {
   );
 };
 
-export default withAuthenticationRequired(ListSkillsPage, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(ListSkillsPage);

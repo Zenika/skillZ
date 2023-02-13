@@ -26,12 +26,15 @@ const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
     <Auth0Provider
       domain={config.nextPublicAuth0Domain}
       clientId={config.nextPublicAuth0ClientId}
-      redirectUri={`${config.nextPublicBaseUrl}${config.nextPublicAuth0Callback}`}
-      scope="read:current_user"
+      authorizationParams={{
+        redirect_uri: `${config.nextPublicBaseUrl}${config.nextPublicAuth0Callback}`,
+        audience: config.nextPublicAuth0Audience,
+        scope: "read:current_user openid profile email",
+        connection: config.nextPublicAuth0Connection,
+        prompt: "login",
+      }}
       onRedirectCallback={onRedirectCallback}
-      audience={config.nextPublicAuth0Audience}
       useRefreshTokens
-      connection={config.nextPublicAuth0Connection}
     >
       {children}
     </Auth0Provider>

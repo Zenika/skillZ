@@ -3,7 +3,7 @@ import { config } from "../env";
 
 const Logout = () => {
   const { logout } = useAuth0();
-  logout({ returnTo: config.nextPublicBaseUrl });
+  logout({ logoutParams: { returnTo: config.nextPublicBaseUrl } });
   return <></>;
 };
 
