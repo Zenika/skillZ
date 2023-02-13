@@ -119,32 +119,38 @@ const AddSkillListSelector = ({
         </div>
       )}
       {search.length > 0 && skills.length === 0 && (
-        <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
+        <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark">
           <div className="flex flex-col justify-around">
             <span className="text-center my-2">
               {t("skills.noMatchingSkills")}
             </span>
           </div>
-          <span className="p-2 text-center font-bold">
-            {t("skills.addNewSkill").replace("%skill%", search)}
-          </span>
-          <Button
-            type={"primary"}
-            callback={addSkillButtonClick}
-            uppercase={false}
-          >
-            {t("skills.addButton").replace("%skill%", search)}
-          </Button>
-          <span className="p-2 text-center font-bold">
-            {t("skills.addNewSkill").replace("%skill%", search)}
-          </span>
-          <Button
-            type={"primary"}
-            callback={addSkillButtonClick}
-            uppercase={false}
-          >
-            {t("skills.addButton").replace("%skill%", search)}
-          </Button>
+          <div className="grid grid-cols-1 divide-y">
+            <div className="flex flex-col justify-center px-2 py-4">
+              <span className="p-2 text-center font-bold">
+                {t("skills.globalSkillSearch").replace("%skill%", search)}
+              </span>
+              <Button
+                type={"primary"}
+                callback={addSkillButtonClick}
+                uppercase={false}
+              >
+                {t("skills.globalSkillResult").replace("%result%", "4")}
+              </Button>
+            </div>
+            <div className="flex flex-col justify-center px-2 py-4">
+              <span className="p-2 text-center font-bold">
+                {t("skills.addNewSkill").replace("%skill%", search)}
+              </span>
+              <Button
+                type={"primary"}
+                callback={addSkillButtonClick}
+                uppercase={false}
+              >
+                {t("skills.addButton").replace("%skill%", search)}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
       {didYouMeanSkills && didYouMeanSkills.length > 0 && (

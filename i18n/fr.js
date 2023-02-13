@@ -162,11 +162,11 @@ export default {
     skillLevel: "Niveau de compétence",
     searchPlaceholder: "Rechercher une compétence",
     noMatchingSkills:
-      "Il n'y a pas de compétences correspondants à votre recherche",
+      "Il n'y a pas de compétences dans cette catégorie correspondant à votre recherche.",
     didYouMean: "Vouliez-vous dire :",
     addNewSkill: "Ajoutez %skill% comme nouvelle compétence de cette catégorie",
     globalSkillSearch: "Rechercher %skill% dans d'autres catégories",
-    globalSkillResult: "%result% résulat(s)",
+    globalSkillResult: "Voir les %result% résulat(s)",
     addButton: "Ajouter %skill%",
     modal: {
       knowledge: "Niveau de connaissance",
