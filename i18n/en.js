@@ -162,7 +162,9 @@ export default {
     skillLevel: "Skill level",
     searchPlaceholder: "Search for a skill",
     noMatchingSkills: "There is no skill matching your search",
-    addNewSkill: "Add %skill% as a new skill",
+    addNewSkill: "Add %skill% as a new skill from this category",
+    globalSkillSearch: "Searching %skill% in other categories",
+    globalSkillResult: "%result% result(s)",
     addButton: "Add %skill%",
     didYouMean: "Did you mean :",
     modal: {

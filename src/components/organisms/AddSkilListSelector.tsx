@@ -135,6 +135,16 @@ const AddSkillListSelector = ({
           >
             {t("skills.addButton").replace("%skill%", search)}
           </Button>
+          <span className="p-2 text-center font-bold">
+            {t("skills.addNewSkill").replace("%skill%", search)}
+          </span>
+          <Button
+            type={"primary"}
+            callback={addSkillButtonClick}
+            uppercase={false}
+          >
+            {t("skills.addButton").replace("%skill%", search)}
+          </Button>
         </div>
       )}
       {didYouMeanSkills && didYouMeanSkills.length > 0 && (

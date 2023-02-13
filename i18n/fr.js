@@ -164,7 +164,9 @@ export default {
     noMatchingSkills:
       "Il n'y a pas de compétences correspondants à votre recherche",
     didYouMean: "Vouliez-vous dire :",
-    addNewSkill: "Ajoutez %skill% comme nouvelle compétence",
+    addNewSkill: "Ajoutez %skill% comme nouvelle compétence de cette catégorie",
+    globalSkillSearch: "Rechercher %skill% dans d'autres catégories",
+    globalSkillResult: "%result% résulat(s)",
     addButton: "Ajouter %skill%",
     modal: {
       knowledge: "Niveau de connaissance",
