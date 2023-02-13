@@ -1,14 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import TopBar from "../components/atoms/TutorialMode/TutorialTopBar";
+import Loading from "../components/molecules/Loading";
+import HomePanel from "../components/organisms/HomePanel/HomePanel";
 import CommonPage from "../components/templates/CommonPage";
 import ErrorPage from "../components/templates/ErrorPage";
-import HomePanel from "../components/organisms/HomePanel/HomePanel";
-import Loading from "../components/molecules/Loading";
 import { config } from "../env";
-import React from "react";
-import TopBar from "../components/atoms/TutorialMode/TutorialTopBar";
 import {
   GetCurrentUserSkillsAndDesiresQuery,
   GetUserQuery,
@@ -99,6 +98,4 @@ const Home = () => {
   );
 };
 
-export default withAuthenticationRequired(Home, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(Home);

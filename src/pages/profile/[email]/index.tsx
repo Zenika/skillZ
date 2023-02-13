@@ -10,6 +10,4 @@ const ViewProfilePage = () => {
   return <Profile userEmail={userEmail as string} readOnly={true} />;
 };
 
-export default withAuthenticationRequired(ViewProfilePage, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(ViewProfilePage);

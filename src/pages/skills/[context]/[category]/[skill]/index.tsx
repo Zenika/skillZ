@@ -1,8 +1,8 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
-import CommonPage from "../../../../../components/templates/CommonPage";
 import UserSkillPanel from "../../../../../components/molecules/UserSkillPanel";
+import CommonPage from "../../../../../components/templates/CommonPage";
 import { displayNotification } from "../../../../../utils/displayNotification";
 import { useFetchUsersForSkill } from "../../../../../utils/fetchers/useFetchUsersForSkill";
 
@@ -67,6 +67,4 @@ const SkillPage = () => {
   );
 };
 
-export default withAuthenticationRequired(SkillPage, {
-  loginOptions: { prompt: "login" },
-});
+export default withAuthenticationRequired(SkillPage);

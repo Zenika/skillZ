@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
       authorizationParams={{
         redirect_uri: `${config.nextPublicBaseUrl}${config.nextPublicAuth0Callback}`,
         audience: config.nextPublicAuth0Audience,
-        scope: "read:current_user",
+        scope: "read:current_user openid profile email",
         connection: config.nextPublicAuth0Connection,
       }}
       onRedirectCallback={onRedirectCallback}
