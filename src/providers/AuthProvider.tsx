@@ -31,6 +31,7 @@ const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
         audience: config.nextPublicAuth0Audience,
         scope: "read:current_user openid profile email",
         connection: config.nextPublicAuth0Connection,
+        prompt: "login",
       }}
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens
