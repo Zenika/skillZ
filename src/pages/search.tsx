@@ -1,18 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import CustomSelect from "../components/atoms/CustomSelect/CustomSelect";
 import SearchBar from "../components/atoms/SearchBar/SearchBar";
 import UserPanel from "../components/molecules/UserPanel";
+import CertificationPanel from "../components/organisms/CertificationPanel";
 import SkillPanel from "../components/organisms/SkillPanel";
 import CommonPage from "../components/templates/CommonPage";
 import ErrorPage from "../components/templates/ErrorPage";
-import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
-import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
+import { SearchSkillsProfilesCertificationsQuery } from "../generated/graphql";
+import { SEARCH_SKILLS_PROFILES_CERTIFICATIONS_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
-import { useRouter } from "next/router";
 
 const Search = () => {
   /*
@@ -41,8 +42,8 @@ const Search = () => {
   /*
    * QUERIES
    */
-  const { data, error: profilesError } = useQuery<SearchSkillsAndProfilesQuery>(
-    SEARCH_SKILLS_AND_PROFILES_QUERY,
+  const { data, error } = useQuery<SearchSkillsProfilesCertificationsQuery>(
+    SEARCH_SKILLS_PROFILES_CERTIFICATIONS_QUERY,
     {
       variables: { search: `%${debouncedSearchValue}%` },
     }
@@ -50,6 +51,7 @@ const Search = () => {
 
   const skills = data?.skills;
   const profiles = data?.profiles;
+  const certifications = data?.certificatons;
 
   // MG_TRENDING_SKILL_LIMIT
   // Sort skills as Trends, Most noted, and Alphabetical order
@@ -102,13 +104,13 @@ const Search = () => {
     }
   }, [router]);
 
-  if (profilesError) {
+  if (error) {
     return <ErrorPage />;
   }
 
   return (
     <CommonPage page={"search"} backBar={true}>
-      <div className={"flex justify-center"}>
+      <div className={"flex justify-center mb-20"}>
         <div className={`${isDesktop ? "w-2/3" : "w-full"}`}>
           <SearchBar
             initialValue={search}
@@ -153,36 +155,62 @@ const Search = () => {
               <span className="text-sm">{t("search.noSkill")}</span>
             )}
           </div>
-          <div className={"mt-20"}>
-            {debouncedSearchValue && debouncedSearchValue !== "" && (
-              <div>
-                <div className="flex flex-col mb-8">
-                  <h1 className="text-xl">{t("search.profiles")}</h1>
-                  {profiles?.length > 0 && (
-                    <p className="opacity-50">
-                      {profiles.length} {t("search.result")}
-                    </p>
+          {debouncedSearchValue && debouncedSearchValue.length && (
+            <>
+              <div className={"mt-20"}>
+                <div>
+                  <div className="flex flex-col mb-8">
+                    <h1 className="text-xl">{t("search.profiles")}</h1>
+                    {profiles?.length > 0 && (
+                      <p className="opacity-50">
+                        {profiles.length} {t("search.result")}
+                      </p>
+                    )}
+                  </div>
+                  {profiles?.length > 0 ? (
+                    profiles.map((profile, index) => (
+                      <UserPanel
+                        key={index}
+                        context=""
+                        user={{
+                          name: profile.name,
+                          agency: profile.UserLatestAgency?.agency,
+                          picture: profile.picture,
+                          email: profile.email,
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <span className="text-sm">{t("search.noProfile")}</span>
                   )}
                 </div>
-                {profiles?.length > 0 ? (
-                  profiles.map((profile, index) => (
-                    <UserPanel
-                      key={index}
-                      context=""
-                      user={{
-                        name: profile.name,
-                        agency: profile.UserLatestAgency?.agency,
-                        picture: profile.picture,
-                        email: profile.email,
-                      }}
-                    />
-                  ))
-                ) : (
-                  <span className="text-sm">{t("search.noProfile")}</span>
-                )}
               </div>
-            )}
-          </div>
+              <div className={"mt-20"}>
+                <div>
+                  <div className="flex flex-col mb-8">
+                    <h1 className="text-xl">{t("search.certifications")}</h1>
+                    {certifications?.length > 0 && (
+                      <p className="opacity-50">
+                        {certifications.length} {t("search.result")}
+                      </p>
+                    )}
+                  </div>
+                  {certifications?.length > 0 ? (
+                    certifications.map((certification, index) => (
+                      <CertificationPanel
+                        certification={certification}
+                        key={index}
+                      />
+                    ))
+                  ) : (
+                    <span className="text-sm">
+                      {t("search.noCertification")}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </CommonPage>
