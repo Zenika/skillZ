@@ -2,15 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
 import { FaTrophy } from "react-icons/fa";
+import { HiInformationCircle } from "react-icons/hi";
 import Joyride from "react-joyride";
 import { useMediaQuery } from "react-responsive";
 import { colorTable } from "../../../constants/colorTable";
 import { getTutorialStep } from "../../../constants/demo";
 import { useDarkMode } from "../../../utils/darkMode";
 import { i18nContext } from "../../../utils/i18nContext";
+import { TutorialModeContext } from "../../../utils/tutorialMode";
+import { Tooltip } from "../../atoms/Tooltip";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
-import { TutorialModeContext } from "../../../utils/tutorialMode";
 
 type HomePanelProps = {
   props: {
@@ -242,26 +244,21 @@ const HomePanel = ({
           </div>
           {isDesktop && (
             <div
-              className={`py-2 flex ${description ? "flex-col" : ""} ${
-                y != "bot" ? "items-end" : ""
+              className={`py-2 flex items-center ${
+                x === "left" ? "justify-end" : "justify-start"
               }`}
             >
               <p
-                className={`text-xl px-2 w-full ${
+                className={`text-xl px-2 ${
                   x === "left" ? "text-right" : "text-left"
                 } ${tailwindColorTable[color]}`}
+
               >
                 {t(`home.${name}`)}
               </p>
-              {description && (
-                <p
-                  className={`text-xs px-2 w-full ${
-                    x === "left" ? "text-right" : "text-left"
-                  } ${tailwindColorTable[color]}`}
-                >
-                  {description}
-                </p>
-              )}
+              <Tooltip message={description}>
+                <HiInformationCircle />
+              </Tooltip>
             </div>
           )}
         </div>
