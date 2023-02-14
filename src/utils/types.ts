@@ -1,3 +1,5 @@
+import { UserLatestAgency } from "../generated/graphql";
+
 export type AuthenticationResult = {
   token?: string;
   user?: any;
@@ -9,6 +11,24 @@ export type FetchResult<T> = {
   data?: T;
   error?: Error;
   isLoading: Boolean;
+};
+
+export type User = {
+  email: string;
+
+  name: string;
+
+  picture: string;
+
+  botNotification: boolean;
+
+  active: boolean;
+
+  last_login: Date;
+
+  current_login: Date;
+
+  userLatestAgency?: UserLatestAgency;
 };
 
 export type FilterData<T> = { name: string; values: T[]; selected?: T };
@@ -45,7 +65,8 @@ export type UserCertification = {
   to?: string;
   obtained: boolean;
   url?: string;
-  Certification: Certification;
+  Certification?: Certification;
+  User?: User;
 };
 
 export type TopicItem = {

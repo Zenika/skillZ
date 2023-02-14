@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "../../utils/types";
 
-type User = { name: string; picture: string; agency: string; email: string };
-const UserPanel = ({ user, context }: { user: User; context: string }) => {
+const UserPanel = ({
+  user,
+  context,
+}: {
+  user: Partial<User> & { agency: string };
+  context: string;
+}) => {
   const { name, picture, agency } = user;
 
   return (
