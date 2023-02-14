@@ -1,7 +1,11 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { InsertSkillMutationMutation, Skill } from "../../generated/graphql";
+import {
+  InsertSkillMutationMutation,
+  SearchSkillsVerifiedQuery,
+  Skill,
+} from "../../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
@@ -11,6 +15,10 @@ import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
 import { TutorialModeContext } from "../../utils/tutorialMode";
+import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
+import { useDebounce } from "use-debounce";
+import { config } from "../../env";
+import { useRouter } from "next/router";
 
 const AddSkillListSelector = ({
   skills,
@@ -32,6 +40,9 @@ const AddSkillListSelector = ({
   const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const tutorialModeValue = useContext(TutorialModeContext);
+  const [debouncedSearchValue] = useDebounce(search, 500);
+  const { push, reload } = useRouter();
+  const searchPageLink = `${config.nextPublicBaseUrl}/search`;
 
   const closeModal = () => {
     setOpenSkillDetails(false);
@@ -41,6 +52,16 @@ const AddSkillListSelector = ({
     setSelectedSkill(skill);
     setOpenSkillDetails(true);
   };
+
+  /*
+   * QUERIES
+   */
+  const { data, error } = useQuery<SearchSkillsVerifiedQuery>(
+    SEARCH_SKILLS_VERIFIED,
+    {
+      variables: { search: `%${debouncedSearchValue}%` },
+    }
+  );
 
   /*
    * MUTATIONS
@@ -132,10 +153,18 @@ const AddSkillListSelector = ({
               </span>
               <Button
                 type={"primary"}
-                callback={addSkillButtonClick}
+                callback={() =>
+                  push({
+                    pathname: searchPageLink,
+                    query: { skill: search },
+                  })
+                }
                 uppercase={false}
               >
-                {t("skills.globalSkillResult").replace("%result%", "4")}
+                {t("skills.globalSkillResult").replace(
+                  "%result%",
+                  data?.Skill.length.toString()
+                )}
               </Button>
             </div>
             <div className="flex flex-col justify-center px-2 py-4">

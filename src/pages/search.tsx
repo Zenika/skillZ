@@ -12,6 +12,7 @@ import ErrorPage from "../components/templates/ErrorPage";
 import { SearchSkillsAndProfilesQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_AND_PROFILES_QUERY } from "../graphql/queries/skills";
 import { i18nContext } from "../utils/i18nContext";
+import { useRouter } from "next/router";
 
 const Search = () => {
   /*
@@ -21,6 +22,7 @@ const Search = () => {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
+  const router = useRouter();
 
   const choicesSorter = [
     { label: "trendsAsc", value: `${t("search.trends")}` },
@@ -93,6 +95,12 @@ const Search = () => {
   useEffect(() => {
     setSkillsToDisplay(sortedSkills());
   }, [skills, filter, sortedSkills]);
+
+  useEffect(() => {
+    if (router.query.skill) {
+      setSearch(router.query.skill.toString());
+    }
+  }, []);
 
   if (profilesError) {
     return <ErrorPage />;

@@ -166,7 +166,7 @@ export default {
     didYouMean: "Vouliez-vous dire :",
     addNewSkill: "Ajoutez %skill% comme nouvelle compétence de cette catégorie",
     globalSkillSearch: "Rechercher %skill% dans d'autres catégories",
-    globalSkillResult: "Voir les %result% résulat(s)",
+    globalSkillResult: "Voir %result% résulat(s)",
     addButton: "Ajouter %skill%",
     modal: {
       knowledge: "Niveau de connaissance",
