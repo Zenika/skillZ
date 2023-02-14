@@ -100,7 +100,7 @@ const Search = () => {
     if (router.query.skill) {
       setSearch(router.query.skill.toString());
     }
-  }, []);
+  }, [router]);
 
   if (profilesError) {
     return <ErrorPage />;

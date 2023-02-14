@@ -41,7 +41,7 @@ const AddSkillListSelector = ({
   const [selectedSkill, setSelectedSkill] = useState(null);
   const tutorialModeValue = useContext(TutorialModeContext);
   const [debouncedSearchValue] = useDebounce(search, 500);
-  const { push, reload } = useRouter();
+  const { push } = useRouter();
   const searchPageLink = `${config.nextPublicBaseUrl}/search`;
 
   const closeModal = () => {
@@ -56,12 +56,9 @@ const AddSkillListSelector = ({
   /*
    * QUERIES
    */
-  const { data, error } = useQuery<SearchSkillsVerifiedQuery>(
-    SEARCH_SKILLS_VERIFIED,
-    {
-      variables: { search: `%${debouncedSearchValue}%` },
-    }
-  );
+  const { data } = useQuery<SearchSkillsVerifiedQuery>(SEARCH_SKILLS_VERIFIED, {
+    variables: { search: `%${debouncedSearchValue}%` },
+  });
 
   /*
    * MUTATIONS
@@ -147,26 +144,28 @@ const AddSkillListSelector = ({
             </span>
           </div>
           <div className="grid grid-cols-1 divide-y">
-            <div className="flex flex-col justify-center px-2 py-4">
-              <span className="p-2 text-center font-bold">
-                {t("skills.globalSkillSearch").replace("%skill%", search)}
-              </span>
-              <Button
-                type={"primary"}
-                callback={() =>
-                  push({
-                    pathname: searchPageLink,
-                    query: { skill: search },
-                  })
-                }
-                uppercase={false}
-              >
-                {t("skills.globalSkillResult").replace(
-                  "%result%",
-                  data?.Skill.length.toString()
-                )}
-              </Button>
-            </div>
+            {data?.Skill.length > 0 && (
+              <div className="flex flex-col justify-center px-2 py-4">
+                <span className="p-2 text-center font-bold">
+                  {t("skills.globalSkillSearch").replace("%skill%", search)}
+                </span>
+                <Button
+                  type={"primary"}
+                  callback={() =>
+                    push({
+                      pathname: searchPageLink,
+                      query: { skill: search },
+                    })
+                  }
+                  uppercase={false}
+                >
+                  {t("skills.globalSkillResult").replace(
+                    "%result%",
+                    data?.Skill.length.toString()
+                  )}
+                </Button>
+              </div>
+            )}
             <div className="flex flex-col justify-center px-2 py-4">
               <span className="p-2 text-center font-bold">
                 {t("skills.addNewSkill").replace("%skill%", search)}
