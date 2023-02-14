@@ -16,7 +16,6 @@ import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
 import { TutorialModeContext } from "../../utils/tutorialMode";
 import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
-import { useDebounce } from "use-debounce";
 import { config } from "../../env";
 import { useRouter } from "next/router";
 
@@ -40,7 +39,6 @@ const AddSkillListSelector = ({
   const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const tutorialModeValue = useContext(TutorialModeContext);
-  const [debouncedSearchValue] = useDebounce(search, 500);
   const { push } = useRouter();
   const searchPageLink = `${config.nextPublicBaseUrl}/search`;
 
@@ -57,7 +55,7 @@ const AddSkillListSelector = ({
    * QUERIES
    */
   const { data } = useQuery<SearchSkillsVerifiedQuery>(SEARCH_SKILLS_VERIFIED, {
-    variables: { search: `%${debouncedSearchValue}%` },
+    variables: { search: `%${search}%` },
   });
 
   /*
