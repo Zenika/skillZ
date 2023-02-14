@@ -252,7 +252,6 @@ const HomePanel = ({
                 className={`text-xl px-2 ${
                   x === "left" ? "text-right" : "text-left"
                 } ${tailwindColorTable[color]}`}
-
               >
                 {t(`home.${name}`)}
               </p>
