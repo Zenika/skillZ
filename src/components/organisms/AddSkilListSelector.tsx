@@ -1,7 +1,11 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { InsertSkillMutationMutation, Skill } from "../../generated/graphql";
+import {
+  InsertSkillMutationMutation,
+  SearchSkillsVerifiedQuery,
+  Skill,
+} from "../../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
@@ -11,6 +15,9 @@ import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
 import { TutorialModeContext } from "../../utils/tutorialMode";
+import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
+import { config } from "../../env";
+import { useRouter } from "next/router";
 
 const AddSkillListSelector = ({
   skills,
@@ -32,6 +39,8 @@ const AddSkillListSelector = ({
   const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const tutorialModeValue = useContext(TutorialModeContext);
+  const { push } = useRouter();
+  const searchPageLink = `${config.nextPublicBaseUrl}/search`;
 
   const closeModal = () => {
     setOpenSkillDetails(false);
@@ -41,6 +50,13 @@ const AddSkillListSelector = ({
     setSelectedSkill(skill);
     setOpenSkillDetails(true);
   };
+
+  /*
+   * QUERIES
+   */
+  const { data } = useQuery<SearchSkillsVerifiedQuery>(SEARCH_SKILLS_VERIFIED, {
+    variables: { search: `%${search}%` },
+  });
 
   /*
    * MUTATIONS
@@ -119,22 +135,48 @@ const AddSkillListSelector = ({
         </div>
       )}
       {search.length > 0 && skills.length === 0 && (
-        <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark my-2">
+        <div className="flex flex-col justify-center px-2 py-4 rounded-lg bg-light-dark dark:bg-dark-dark">
           <div className="flex flex-col justify-around">
             <span className="text-center my-2">
               {t("skills.noMatchingSkills")}
             </span>
           </div>
-          <span className="p-2 text-center font-bold">
-            {t("skills.addNewSkill").replace("%skill%", search)}
-          </span>
-          <Button
-            type={"primary"}
-            callback={addSkillButtonClick}
-            uppercase={false}
-          >
-            {t("skills.addButton").replace("%skill%", search)}
-          </Button>
+          <div className="grid grid-cols-1 divide-y">
+            {data?.Skill.length > 0 && (
+              <div className="flex flex-col justify-center px-2 py-4">
+                <span className="p-2 text-center font-bold">
+                  {t("skills.globalSkillSearch").replace("%skill%", search)}
+                </span>
+                <Button
+                  type={"primary"}
+                  callback={() =>
+                    push({
+                      pathname: searchPageLink,
+                      query: { skill: search },
+                    })
+                  }
+                  uppercase={false}
+                >
+                  {t("skills.globalSkillResult").replace(
+                    "%result%",
+                    data?.Skill.length.toString()
+                  )}
+                </Button>
+              </div>
+            )}
+            <div className="flex flex-col justify-center px-2 py-4">
+              <span className="p-2 text-center font-bold">
+                {t("skills.addNewSkill").replace("%skill%", search)}
+              </span>
+              <Button
+                type={"primary"}
+                callback={addSkillButtonClick}
+                uppercase={false}
+              >
+                {t("skills.addButton").replace("%skill%", search)}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
       {didYouMeanSkills && didYouMeanSkills.length > 0 && (
