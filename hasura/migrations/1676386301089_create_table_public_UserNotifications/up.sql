@@ -1,0 +1,1 @@
+CREATE TABLE "public"."UserNotifications" ("id" uuid NOT NULL, "checked" boolean NOT NULL, "user_email" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));COMMENT ON TABLE "public"."UserNotifications" IS E'Skill verified - last skills';
