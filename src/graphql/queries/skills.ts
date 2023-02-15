@@ -95,6 +95,14 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
   }
 `;
 
+export const SEARCH_SKILLS_VERIFIED = gql`
+  query searchSkillsVerified($search: String!) {
+    Skill(where: { name: { _ilike: $search }, verified: { _eq: true } }) {
+      name
+    }
+  }
+`;
+
 export const GET_ZENIKA_AVERAGE_CURRENT_SKILLS_AND_DESIRES_BY_CATEGORY_QUERY = gql`
   query getZenikaAverageCurrentSkillsAndDesiresByCategory(
     $category: String!
