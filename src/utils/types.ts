@@ -58,7 +58,7 @@ export type Certification = {
   name: string;
   verified: boolean;
   certBody: string;
-  UserCertifications_aggregate: Partial<{
+  UserCertifications_aggregate?: Partial<{
     aggregate: {
       count: number;
     };
