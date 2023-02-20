@@ -1,6 +1,6 @@
 - table:
-    schema: public
     name: AgenciesAverageCurrentSkillsAndDesires
+    schema: public
   select_permissions:
     - role: world
       permission:
@@ -15,16 +15,16 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: Agency
+    schema: public
   array_relationships:
     - name: UserAgencies
       using:
         foreign_key_constraint_on:
           column: agency
           table:
-            schema: public
             name: UserAgency
+            schema: public
   select_permissions:
     - role: world
       permission:
@@ -33,43 +33,43 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: Category
+    schema: public
   array_relationships:
     - name: AgenciesAverageCurrentSkillsAndDesires
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: AgenciesAverageCurrentSkillsAndDesires
-          insertion_order: null
           column_mapping:
             id: categoryId
+          insertion_order: null
+          remote_table:
+            name: AgenciesAverageCurrentSkillsAndDesires
+            schema: public
     - name: CurrentSkillsAndDesires
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: UsersCurrentSkillsAndDesires
-          insertion_order: null
           column_mapping:
             id: categoryId
+          insertion_order: null
+          remote_table:
+            name: UsersCurrentSkillsAndDesires
+            schema: public
     - name: Skills
       using:
         foreign_key_constraint_on:
           column: categoryId
           table:
-            schema: public
             name: Skill
+            schema: public
     - name: ZenikasAverageCurrentSkillsAndDesires
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: ZenikasAverageCurrentSkillsAndDesires
-          insertion_order: null
           column_mapping:
             id: categoryId
+          insertion_order: null
+          remote_table:
+            name: ZenikasAverageCurrentSkillsAndDesires
+            schema: public
   select_permissions:
     - role: world
       permission:
@@ -96,8 +96,8 @@
         filter: {}
         check: {}
 - table:
-    schema: public
     name: Certification
+    schema: public
   select_permissions:
     - role: world
       permission:
@@ -109,11 +109,11 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: CertificationSkill
-- table:
     schema: public
+- table:
     name: Skill
+    schema: public
   object_relationships:
     - name: Category
       using:
@@ -124,45 +124,47 @@
         foreign_key_constraint_on:
           column: skillId
           table:
-            schema: public
             name: SkillTag
+            schema: public
     - name: SkillTopics
       using:
         foreign_key_constraint_on:
           column: skillId
           table:
-            schema: public
             name: SkillTopic
+            schema: public
     - name: UserSkillDesires
       using:
         foreign_key_constraint_on:
           column: skillId
           table:
-            schema: public
             name: UserSkillDesire
+            schema: public
     - name: UsersCurrentSkillsAndDesires
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: UsersCurrentSkillsAndDesires
-          insertion_order: null
           column_mapping:
             id: skillId
+          insertion_order: null
+          remote_table:
+            name: UsersCurrentSkillsAndDesires
+            schema: public
   insert_permissions:
     - role: world
       permission:
         check: {}
         columns:
           - categoryId
+          - creator
           - id
-          - verified
           - name
+          - verified
   select_permissions:
     - role: world
       permission:
         columns:
           - categoryId
+          - creator
           - description
           - id
           - name
@@ -183,11 +185,10 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter: {}
 - table:
-    schema: public
     name: SkillTag
+    schema: public
   object_relationships:
     - name: Skill
       using:
@@ -212,11 +213,10 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter: {}
 - table:
-    schema: public
     name: SkillTopic
+    schema: public
   object_relationships:
     - name: Skill
       using:
@@ -247,19 +247,18 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter: {}
 - table:
-    schema: public
     name: Tag
+    schema: public
   array_relationships:
     - name: SkillTags
       using:
         foreign_key_constraint_on:
           column: tagId
           table:
-            schema: public
             name: SkillTag
+            schema: public
   insert_permissions:
     - role: world
       permission:
@@ -275,23 +274,23 @@
           - name
         filter: {}
 - table:
-    schema: public
     name: Topic
+    schema: public
   array_relationships:
     - name: SkillTopics
       using:
         foreign_key_constraint_on:
           column: topicId
           table:
-            schema: public
             name: SkillTopic
+            schema: public
     - name: UserTopics
       using:
         foreign_key_constraint_on:
           column: topicId
           table:
-            schema: public
             name: UserTopic
+            schema: public
   select_permissions:
     - role: world
       permission:
@@ -302,40 +301,40 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: User
+    schema: public
   object_relationships:
     - name: UserLatestAgency
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: UserLatestAgency
-          insertion_order: null
           column_mapping:
             email: userEmail
+          insertion_order: null
+          remote_table:
+            name: UserLatestAgency
+            schema: public
   array_relationships:
     - name: UserAgencies
       using:
         foreign_key_constraint_on:
           column: userEmail
           table:
-            schema: public
             name: UserAgency
+            schema: public
     - name: UserSkillDesires
       using:
         foreign_key_constraint_on:
           column: userEmail
           table:
-            schema: public
             name: UserSkillDesire
+            schema: public
     - name: UserTopics
       using:
         foreign_key_constraint_on:
           column: userEmail
           table:
-            schema: public
             name: UserTopic
+            schema: public
   insert_permissions:
     - role: world
       permission:
@@ -376,8 +375,8 @@
             _eq: x-hasura-user-email
         check: null
 - table:
-    schema: public
     name: UserAchievements
+    schema: public
   object_relationships:
     - name: User
       using:
@@ -413,8 +412,8 @@
           userEmail:
             _eq: x-hasura-user-email
 - table:
-    schema: public
     name: UserAgency
+    schema: public
   object_relationships:
     - name: Agency
       using:
@@ -455,8 +454,8 @@
           userEmail:
             _eq: x-hasura-user-email
 - table:
-    schema: public
     name: UserCertification
+    schema: public
   object_relationships:
     - name: Certification
       using:
@@ -501,13 +500,12 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter:
           userEmail:
             _eq: x-hasura-user-email
 - table:
-    schema: public
     name: UserLatestAgency
+    schema: public
   select_permissions:
     - role: world
       permission:
@@ -517,21 +515,21 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: UserNotifications
+    schema: public
   object_relationships:
     - name: skill
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: Skill
-          insertion_order: null
           column_mapping:
             skill_id: id
+          insertion_order: null
+          remote_table:
+            name: Skill
+            schema: public
 - table:
-    schema: public
     name: UserSkillDesire
+    schema: public
   object_relationships:
     - name: Skill
       using:
@@ -581,7 +579,6 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter:
           userEmail:
             _eq: x-hasura-user-email
@@ -592,16 +589,16 @@
         insert:
           columns: '*'
       retry_conf:
-        num_retries: 5
         interval_sec: 30
+        num_retries: 5
         timeout_sec: 60
       webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
       headers:
         - name: authorization
           value_from_env: NEXT_API_BEARER_TOKEN
 - table:
-    schema: public
     name: UserTopic
+    schema: public
   object_relationships:
     - name: Topic
       using:
@@ -644,7 +641,6 @@
   delete_permissions:
     - role: world
       permission:
-        backend_only: false
         filter:
           userEmail:
             _eq: x-hasura-user-email
@@ -655,26 +651,26 @@
         insert:
           columns: '*'
       retry_conf:
-        num_retries: 5
         interval_sec: 30
+        num_retries: 5
         timeout_sec: 60
       webhook_from_env: HASURA_ACHIEVEMENTS_ENDPOINT
       headers:
         - name: authorization
           value_from_env: NEXT_API_BEARER_TOKEN
 - table:
-    schema: public
     name: UsersCurrentSkillsAndDesires
+    schema: public
   object_relationships:
     - name: User
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: User
-          insertion_order: null
           column_mapping:
             userEmail: email
+          insertion_order: null
+          remote_table:
+            name: User
+            schema: public
   select_permissions:
     - role: world
       permission:
@@ -689,18 +685,18 @@
         filter: {}
         allow_aggregations: true
 - table:
-    schema: public
     name: ZenikasAverageCurrentSkillsAndDesires
+    schema: public
   object_relationships:
     - name: Category
       using:
         manual_configuration:
-          remote_table:
-            schema: public
-            name: Category
-          insertion_order: null
           column_mapping:
             categoryId: id
+          insertion_order: null
+          remote_table:
+            name: Category
+            schema: public
   select_permissions:
     - role: world
       permission:

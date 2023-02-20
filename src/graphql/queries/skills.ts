@@ -324,6 +324,7 @@ export const GET_SKILL_MANDATORY_FIELDS = gql`
         topicId
         skillId
       }
+      creator
       description
       name
       categoryId

@@ -2,11 +2,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import {
-  InsertSkillMutationMutation,
   SearchSkillsVerifiedQuery,
   Skill,
+  InsertSkillMutation,
 } from "../../generated/graphql";
-import { INSERT_SKILL_MUTATION } from "../../graphql/mutations/skills";
+import { INSERT_SKILL } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
 import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
@@ -17,6 +17,7 @@ import { getTutorialStep } from "../../constants/demo";
 import { TutorialModeContext } from "../../utils/tutorialMode";
 import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
 import { config } from "../../env";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 
 const AddSkillListSelector = ({
@@ -41,6 +42,7 @@ const AddSkillListSelector = ({
   const tutorialModeValue = useContext(TutorialModeContext);
   const { push } = useRouter();
   const searchPageLink = `${config.nextPublicBaseUrl}/search`;
+  const { user } = useAuth0();
 
   const closeModal = () => {
     setOpenSkillDetails(false);
@@ -61,15 +63,15 @@ const AddSkillListSelector = ({
   /*
    * MUTATIONS
    */
-  const [insertSkill] = useMutation<InsertSkillMutationMutation>(
-    INSERT_SKILL_MUTATION
-  );
+  const [insertSkill] = useMutation<InsertSkillMutation>(INSERT_SKILL);
 
   const addSkillButtonClick = async () => {
     if (!categoryId || !search || search === "") {
       return;
     }
-    await insertSkill({ variables: { name: search, categoryId } })
+    await insertSkill({
+      variables: { name: search, categoryId, creator: user?.email },
+    })
       .then((response) => {
         if (!response.data.insert_Skill?.returning) {
           return;
@@ -77,6 +79,7 @@ const AddSkillListSelector = ({
         action(response.data.insert_Skill?.returning[0]);
       })
       .catch(({ graphQLErrors }) => {
+        console.log("error", graphQLErrors);
         if (graphQLErrors) {
           displayNotification(`${t("error.insertSkillError")}`, "red", 5000);
         } else {

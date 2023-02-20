@@ -11,3 +11,7 @@
 ### MG_TUTORIAL_MODE
 
 > If the user has no skill in base, the tutorial mode will be automatically set as true
+
+### MG_NOTIFICATIONS
+
+> If admin approve a skill added by a user, the user receive a notification
