@@ -98,6 +98,14 @@
 - table:
     name: Certification
     schema: public
+  array_relationships:
+    - name: UserCertifications
+      using:
+        foreign_key_constraint_on:
+          column: certId
+          table:
+            name: UserCertification
+            schema: public
   select_permissions:
     - role: world
       permission:

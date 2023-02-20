@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { AiFillEye } from "react-icons/ai";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { VscSettings } from "react-icons/vsc";
 import { config } from "../../env";
@@ -86,20 +85,6 @@ const SkillPanel = ({
                 />
               )}
             </div>
-            {(count || certif) && (
-              <div className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med h-8">
-                <span>{count}</span>
-                <BsFillPersonCheckFill />
-                {certif && (
-                  <Image
-                    src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
-                    alt={"Certifications"}
-                    height="30"
-                    width="30"
-                  />
-                )}
-              </div>
-            )}
           </div>
           <div className="flex flex-row justify-around">
             <div className="flex flex-col">
@@ -148,18 +133,24 @@ const SkillPanel = ({
             />
           </div>
         )}
-        {(context === "zenika" || context === "search") && (
+        {(count || certif) && (
           <div
-            className="flex w-1/6 justify-end cursor-pointer"
+            className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med h-8 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               push(link);
             }}
           >
-            <AiFillEye
-              className="p-1 rounded-2xl hover:bg-dark-light hover:text-light-light hover:dark:bg-light-light hover:dark:text-light-graytext"
-              size={30}
-            />
+            <span>{count}</span>
+            <BsFillPersonCheckFill />
+            {certif && (
+              <Image
+                src={`/icons/${darkMode ? "dark" : "light"}/certifs.svg`}
+                alt={"Certifications"}
+                height="30"
+                width="30"
+              />
+            )}
           </div>
         )}
       </div>

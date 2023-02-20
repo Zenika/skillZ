@@ -99,6 +99,11 @@ export const SEARCH_SKILLS_PROFILES_CERTIFICATIONS_QUERY = gql`
       id
       name
       certBody
+      UserCertifications_aggregate(where: { obtained: { _eq: true } }) {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `;

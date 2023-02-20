@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { AiFillEye } from "react-icons/ai";
+import { BsFillPersonCheckFill } from "react-icons/bs";
 import { config } from "../../env";
 import { Certification } from "../../utils/types";
 
@@ -19,6 +19,10 @@ const CertificationPanel = ({
     <>
       <div
         className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center cursor-pointer border border-light-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton`}
+        onClick={(e) => {
+          e.stopPropagation();
+          push(linkToCertification);
+        }}
       >
         <div className={`flex flex-col w-full`}>
           <div className="flex flex-row justify-between">
@@ -27,17 +31,11 @@ const CertificationPanel = ({
             </div>
           </div>
         </div>
-        <div
-          className="flex w-1/6 justify-end cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            push(linkToCertification);
-          }}
-        >
-          <AiFillEye
-            className="p-1 rounded-2xl hover:bg-dark-light hover:text-light-light hover:dark:bg-light-light hover:dark:text-light-graytext"
-            size={30}
-          />
+        <div className="flex flex-row items-center justify-around rounded-full w-16 px-1 py-1 bg-light-med dark:bg-dark-med h-8">
+          <span>
+            {certification.UserCertifications_aggregate.aggregate.count}
+          </span>
+          <BsFillPersonCheckFill />
         </div>
       </div>
     </>
