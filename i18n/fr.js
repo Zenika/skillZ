@@ -50,6 +50,7 @@ export default {
     profile: "Profil",
     language: "Langue",
     darkMode: "Mode sombre",
+    notifications: "Notifications",
     logout: "Se déconnecter",
     tutorial: "Mode tutoriel",
     botNotifications: "Notifications du bot Slack",

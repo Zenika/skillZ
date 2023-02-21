@@ -21,7 +21,7 @@ export default function AdminPage({ children }: AdminPageProps) {
 
   if (
     pathname.startsWith("/admin") &&
-    !config.nextPublicAdmins.split(";").find((admin) => admin === user.email)
+    !config.nextPublicAdmins.split(";").find((admin) => admin === user?.email)
   ) {
     push("/");
     return <Loading></Loading>;

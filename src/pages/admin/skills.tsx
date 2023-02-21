@@ -67,7 +67,7 @@ export default function AdminSkillsPage() {
             <div>
               <div className="flex flex-col mb-5 mt-5 p-4">
                 <h1 className="text-xl">{t("admin.skillsPending")}</h1>
-                {skills.Skill && (
+                {skills?.Skill && (
                   <p className="opacity-50">
                     {
                       skills.Skill.filter((field) => field.verified === false)
@@ -77,7 +77,7 @@ export default function AdminSkillsPage() {
                   </p>
                 )}
               </div>
-              {skills.Skill.length > 0 &&
+              {skills?.Skill.length > 0 &&
                 skills.Skill.filter((field) => field.verified == false).map(
                   (skill, index) => (
                     <SkillAdminPanel

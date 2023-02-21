@@ -96,7 +96,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
           variables: {
             userEmail: skillSelected?.Skill[0].creator,
             skillId: skillId,
-            adminEmail: user?.Email,
+            adminEmail: user?.email,
             checked: false,
           },
         });

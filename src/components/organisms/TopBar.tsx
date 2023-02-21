@@ -49,14 +49,14 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
-      variables: { email: user.email },
+      variables: { email: user?.email },
       fetchPolicy: "network-only",
     }
   );
   const { data: userSkills } = useQuery<GetUserSkillsIdQuery>(
     GET_USER_SKILLS_ID,
     {
-      variables: { email: user.email, fetchPolicy: "network-only" },
+      variables: { email: user?.email, fetchPolicy: "network-only" },
     }
   );
 
@@ -291,7 +291,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 <ul className="flex flex-col justify-around h-full p-2 rounded-b-md border border-light-ultrawhite dark:border-dark-ultradark">
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link
-                      href={`/profile`}
+                      href="/profile"
                       className="flex flex-row cursor-pointer"
                     >
                       <Image
@@ -305,6 +305,22 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                       <p className="pl-4">{t("sidepanel.profile")}</p>
                     </Link>
                   </li>
+                  {/*Separator*/}
+                  <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
+                    <Link
+                      href="/notifications"
+                      className="flex flex-row cursor-pointer"
+                    >
+                      <Image
+                        src={`/icons/${darkMode ? "dark" : "light"}/logout.svg`}
+                        alt={"Notifications"}
+                        width="18"
+                        height="18"
+                      />
+                      <p className="pl-4">{t("sidepanel.notifications")}</p>
+                    </Link>
+                  </li>
+                  {/*Separator*/}
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link
                       href="/logout"

@@ -527,6 +527,26 @@
           remote_table:
             name: Skill
             schema: public
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - admin_email
+          - checked
+          - created_at
+          - skill_id
+          - user_email
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - admin_email
+          - checked
+          - created_at
+          - skill_id
+          - user_email
+        filter: {}
 - table:
     name: UserSkillDesire
     schema: public

@@ -183,7 +183,7 @@ const Profile = ({
     return <Custom404 />;
   } else {
     return (
-      <CommonPage page={"profile"}>
+      <CommonPage page={"Profile"}>
         <div className={`flex flex-row justify-center mt-4 mb-20`}>
           <div className={`flex flex-col max-w-screen-md w-full p-4`}>
             {/* ONBOARDING */}
