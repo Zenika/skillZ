@@ -15,7 +15,7 @@ export const autoCompleteListChildrenClasses = {
 };
 
 export const autoCompleteListParentChildrenClasses = {
-  base: "flex w-full flex-col bg-light-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark",
+  base: "relative flex w-full flex-col bg-light-light overflow-y-scroll max-h-96 mt-1 rounded-lg border border-solid border-light-dark",
   dark: "dark:bg-dark-light",
 };
 
