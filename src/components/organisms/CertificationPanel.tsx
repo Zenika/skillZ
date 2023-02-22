@@ -18,7 +18,7 @@ const CertificationPanel = ({
   return (
     <>
       <div
-        className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center cursor-pointer border border-light-light dark:border-dark-light hover:bg-light-dark hover:border-light-graybutton hover:dark:bg-dark-radargrid hover:dark:border-dark-graybutton`}
+        className={`flex flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg items-center border border-light-light dark:border-dark-light`}
         onClick={(e) => {
           e.stopPropagation();
           push(linkToCertification);
