@@ -544,9 +544,17 @@
           - admin_email
           - checked
           - created_at
+          - id
           - skill_id
           - user_email
         filter: {}
+  update_permissions:
+    - role: world
+      permission:
+        columns:
+          - checked
+        filter: {}
+        check: null
 - table:
     name: UserSkillDesire
     schema: public
@@ -607,7 +615,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         interval_sec: 30
         num_retries: 5
@@ -669,7 +677,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         interval_sec: 30
         num_retries: 5

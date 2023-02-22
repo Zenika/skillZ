@@ -123,6 +123,12 @@ export default {
       },
     },
   },
+  notification: {
+    notificationText:
+      "L'administrateur adminMail a approuvé votre compétence skillName comme nouvelle compétence Skillz",
+    new: "Nouveau",
+    notificationTypeAccepted: "Une de tes compétence a été acceptée",
+  },
   loading: {
     loadingText: "Chargement...",
   },

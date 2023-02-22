@@ -19,3 +19,14 @@ export const INSERT_NOTIFICATION = gql`
     }
   }
 `;
+
+export const UPDATE_NOTIFICATION_CHECK = gql`
+  mutation updateNotificationCheck($id: uuid) {
+    update_UserNotifications(
+      where: { id: { _eq: $id } }
+      _set: { checked: true }
+    ) {
+      affected_rows
+    }
+  }
+`;
