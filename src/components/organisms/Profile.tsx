@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { GoGraph } from "react-icons/go";
 import { config } from "../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";

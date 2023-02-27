@@ -280,12 +280,14 @@ export default {
   search: {
     placeholder: "Search for a skill",
     skills: "Skills",
+    profiles: "Profiles",
+    certifications: "Certifications",
     placeHolderFilterSelect: "Alphabetical order",
     trends: "Best rated",
     alphabetical: "Alphabetical order",
-    profiles: "Profiles",
     noSkill: "No skill found",
     noProfile: "No profile found",
+    noCertification: "No certification found",
     mostNoted: "Most noted",
     pageSkillzGraphs: {
       title: "These are the Skillz graphs of ",

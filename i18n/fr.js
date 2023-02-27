@@ -282,11 +282,13 @@ export default {
     placeholder: "Rechercher une compétence",
     skills: "Compétences",
     profiles: "Profils",
+    certifications: "Certifications",
     placeHolderFilterSelect: "Ordre alphabétique",
     trends: "Les mieux notés",
     alphabetical: "Ordre alphabétique",
     noSkill: "Aucune compétence trouvée",
     noProfile: "Aucun profil trouvé",
+    noCertification: "Aucune certification trouvée",
     mostNoted: "Les plus notés",
     pageSkillzGraphs: {
       title: "Ce sont les graphiques Skillz de ",

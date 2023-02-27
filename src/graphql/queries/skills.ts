@@ -67,8 +67,8 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
   }
 `;
 
-export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
-  query searchSkillsAndProfiles($search: String!) {
+export const SEARCH_SKILLS_PROFILES_CERTIFICATIONS_QUERY = gql`
+  query searchSkillsProfilesCertifications($search: String!) {
     skills: ZenikasAverageCurrentSkillsAndDesires(
       where: { name: { _ilike: $search } }
       order_by: { name: asc }
@@ -90,6 +90,19 @@ export const SEARCH_SKILLS_AND_PROFILES_QUERY = gql`
       picture
       UserLatestAgency {
         agency
+      }
+    }
+    certificatons: Certification(
+      order_by: { name: asc }
+      where: { name: { _ilike: $search } }
+    ) {
+      id
+      name
+      certBody
+      UserCertifications_aggregate(where: { obtained: { _eq: true } }) {
+        aggregate {
+          count
+        }
       }
     }
   }

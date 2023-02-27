@@ -14,7 +14,7 @@ const Notifications = ({}) => {
   /*
    * QUERIES
    */
-  const { data: notifications, error } = useQuery<GetNotificationsQuery>(
+  const { data: notifications } = useQuery<GetNotificationsQuery>(
     GET_NOTIFICATIONS,
     {
       variables: {
