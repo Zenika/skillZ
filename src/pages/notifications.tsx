@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import CommonPage from "../components/templates/CommonPage";
 import { GET_NOTIFICATIONS } from "../graphql/queries/notifications";
 import { GetNotificationsQuery } from "../generated/graphql";
@@ -28,8 +28,8 @@ const Notifications = ({}) => {
     <CommonPage page={"Notifications"}>
       <div>
         {notifications?.UserNotifications.length > 0 &&
-          notifications.UserNotifications.map((notification) => (
-            <NotificationsPanel notification={notification} />
+          notifications.UserNotifications.map((notification, key) => (
+            <NotificationsPanel notification={notification} key={key} />
           ))}
       </div>
     </CommonPage>

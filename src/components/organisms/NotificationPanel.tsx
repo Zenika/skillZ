@@ -4,12 +4,13 @@ import { i18nContext } from "../../utils/i18nContext";
 import { Notifications } from "../../utils/types";
 import { useMutation } from "@apollo/client";
 import { UPDATE_NOTIFICATION_CHECK } from "../../graphql/mutations/notifications";
-// import { } from "../../generated/graphql";
 
 const NotificationsPanel = ({
   notification,
+  key,
 }: {
   notification: Notifications;
+  key: number;
 }) => {
   /*
    * STATES
@@ -28,15 +29,15 @@ const NotificationsPanel = ({
       id: notification.id,
     },
   });
-  console.log("coucou");
 
   useEffect(() => {
     updateNotificationCheck();
-  }, []);
+  }, [updateNotificationCheck]);
 
   return (
     <div
       className={`flex relative flex-row bg-light-light dark:bg-dark-light px-4 py-4 mx-2 my-1 rounded-lg border border-light-light dark:border-dark-light`}
+      key={key}
     >
       {notification.checked === false && (
         <div className="absolute top-0 right-0 inline-flex justify-center items-center w-15 h-15 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900">

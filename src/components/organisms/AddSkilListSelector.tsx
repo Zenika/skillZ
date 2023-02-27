@@ -79,7 +79,6 @@ const AddSkillListSelector = ({
         action(response.data.insert_Skill?.returning[0]);
       })
       .catch(({ graphQLErrors }) => {
-        console.log("error", graphQLErrors);
         if (graphQLErrors) {
           displayNotification(`${t("error.insertSkillError")}`, "red", 5000);
         } else {

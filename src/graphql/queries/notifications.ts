@@ -20,3 +20,13 @@ export const GET_NOTIFICATIONS = gql`
     }
   }
 `;
+
+export const GET_UNREAD_NOTIFICATIONS = gql`
+  query getUnreadNotifications($userEmail: String!) {
+    UserNotifications(
+      where: { user_email: { _eq: $userEmail }, checked: { _eq: false } }
+    ) {
+      id
+    }
+  }
+`;
