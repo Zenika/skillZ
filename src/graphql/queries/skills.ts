@@ -240,13 +240,16 @@ export const GET_SKILLS_AND_DESIRES_QUERY = gql`
       ZenikasAverageCurrentSkillsAndDesires(
         order_by: { averageSkillLevel: desc, averageDesireLevel: desc }
         limit: 5
+        where: { userCount: { _neq: "0" } }
       ) {
         skillId
         name
         averageSkillLevel
         averageDesireLevel
       }
-      ZenikasAverageCurrentSkillsAndDesires_aggregate {
+      ZenikasAverageCurrentSkillsAndDesires_aggregate(
+        where: { userCount: { _neq: "0" } }
+      ) {
         aggregate {
           count(columns: skillId, distinct: true)
         }
