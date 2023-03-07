@@ -163,14 +163,16 @@
         check: {}
         columns:
           - categoryId
+          - creator
           - id
-          - verified
           - name
+          - verified
   select_permissions:
     - role: world
       permission:
         columns:
           - categoryId
+          - creator
           - description
           - id
           - name
@@ -524,6 +526,47 @@
         filter: {}
         allow_aggregations: true
 - table:
+    name: UserNotifications
+    schema: public
+  object_relationships:
+    - name: skill
+      using:
+        manual_configuration:
+          column_mapping:
+            skill_id: id
+          insertion_order: null
+          remote_table:
+            name: Skill
+            schema: public
+  insert_permissions:
+    - role: world
+      permission:
+        check: {}
+        columns:
+          - admin_email
+          - checked
+          - created_at
+          - skill_id
+          - user_email
+  select_permissions:
+    - role: world
+      permission:
+        columns:
+          - admin_email
+          - checked
+          - created_at
+          - id
+          - skill_id
+          - user_email
+        filter: {}
+  update_permissions:
+    - role: world
+      permission:
+        columns:
+          - checked
+        filter: {}
+        check: null
+- table:
     name: UserSkillDesire
     schema: public
   object_relationships:
@@ -583,7 +626,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         interval_sec: 30
         num_retries: 5
@@ -645,7 +688,7 @@
       definition:
         enable_manual: false
         insert:
-          columns: '*'
+          columns: "*"
       retry_conf:
         interval_sec: 30
         num_retries: 5

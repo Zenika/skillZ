@@ -63,11 +63,11 @@ export default function AdminSkillsPage() {
             setSearch={setSearch}
             placeholder={t("search.placeholder")}
           />
-          {!loading && (
+          {!loading && skills && skills.Skill && (
             <div>
               <div className="flex flex-col mb-5 mt-5 p-4">
                 <h1 className="text-xl">{t("admin.skillsPending")}</h1>
-                {skills.Skill && (
+                {skills?.Skill && (
                   <p className="opacity-50">
                     {
                       skills.Skill.filter((field) => field.verified === false)

@@ -24,12 +24,15 @@ export const ADD_USER_SKILL_MUTATION = gql`
   }
 `;
 
-export const INSERT_SKILL_MUTATION = gql`
-  mutation insertSkillMutation($name: String!, $categoryId: uuid!) {
-    insert_Skill(objects: { name: $name, categoryId: $categoryId }) {
+export const INSERT_SKILL = gql`
+  mutation insertSkill($name: String!, $categoryId: uuid!, $creator: String!) {
+    insert_Skill(
+      objects: { name: $name, categoryId: $categoryId, creator: $creator }
+    ) {
       returning {
         id
         name
+        creator
       }
     }
   }
@@ -119,6 +122,17 @@ export const UPDATE_SKILL_DESCRIPTION = gql`
       returning {
         description
       }
+    }
+  }
+`;
+
+export const UPDATE_SKILL_CREATOR = gql`
+  mutation updateSkillCreator($creator: String!, $skillId: uuid!) {
+    update_Skill(
+      where: { id: { _eq: $skillId } }
+      _set: { creator: $creator }
+    ) {
+      affected_rows
     }
   }
 `;

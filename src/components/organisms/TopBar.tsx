@@ -10,6 +10,7 @@ import {
   GetAllNotVerifiedSkillsQuery,
   GetUserAgencyQuery,
   GetUserQuery,
+  GetUnreadNotificationsQuery,
 } from "../../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../../graphql/queries/skills";
 import {
@@ -25,6 +26,8 @@ import { TutorialMode } from "../molecules/TutorialMode";
 import { useTutorialMode } from "../../utils/tutorialMode";
 import { GET_USER_SKILLS_ID } from "../../graphql/queries/skills";
 import { GetUserSkillsIdQuery } from "../../generated/graphql";
+import { GET_UNREAD_NOTIFICATIONS } from "../../graphql/queries/notifications";
+import { MdNotifications } from "react-icons/md";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -49,14 +52,21 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { data: userAgencyResult } = useQuery<GetUserAgencyQuery>(
     GET_USER_AGENCY_QUERY,
     {
-      variables: { email: user.email },
+      variables: { email: user?.email },
+      fetchPolicy: "network-only",
+    }
+  );
+  const { data: unreadNotifications } = useQuery<GetUnreadNotificationsQuery>(
+    GET_UNREAD_NOTIFICATIONS,
+    {
+      variables: { userEmail: user?.email },
       fetchPolicy: "network-only",
     }
   );
   const { data: userSkills } = useQuery<GetUserSkillsIdQuery>(
     GET_USER_SKILLS_ID,
     {
-      variables: { email: user.email, fetchPolicy: "network-only" },
+      variables: { email: user?.email, fetchPolicy: "network-only" },
     }
   );
 
@@ -275,6 +285,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     )}`}</p>
                   )}
                 </div>
+
                 <Image
                   src={user?.picture || ""}
                   alt={user?.name}
@@ -282,7 +293,17 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                   height="64"
                   width="64"
                 />
+                {unreadNotifications?.UserNotifications.length > 0 && (
+                  <div
+                    className={
+                      "relative top-2 right-5 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
+                    }
+                  >
+                    {unreadNotifications?.UserNotifications.length}
+                  </div>
+                )}
               </button>
+
               <div
                 className={`relative bg-light-ultrawhite dark:bg-dark-med shadow rounded-b-md z-50 ${
                   !openMenu && "hidden"
@@ -291,7 +312,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                 <ul className="flex flex-col justify-around h-full p-2 rounded-b-md border border-light-ultrawhite dark:border-dark-ultradark">
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link
-                      href={`/profile`}
+                      href="/profile"
                       className="flex flex-row cursor-pointer"
                     >
                       <Image
@@ -305,6 +326,29 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                       <p className="pl-4">{t("sidepanel.profile")}</p>
                     </Link>
                   </li>
+                  {/*Separator*/}
+                  <li className="align-middle p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
+                    <Link
+                      href="/notifications"
+                      className="flex flex-row cursor-pointer"
+                    >
+                      <div className="flex items-center">
+                        {unreadNotifications?.UserNotifications.length > 0 ? (
+                          <div
+                            className={
+                              "inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-light-ultrawhite bg-dark-red rounded-full dark:border-gray-900"
+                            }
+                          >
+                            {unreadNotifications?.UserNotifications.length}
+                          </div>
+                        ) : (
+                          <MdNotifications size={18}></MdNotifications>
+                        )}
+                      </div>
+                      <p className="pl-4">{t("sidepanel.notifications")}</p>
+                    </Link>
+                  </li>
+                  {/*Separator*/}
                   <li className="p-2 hover:bg-light-dark hover:dark:bg-dark-radargrid">
                     <Link
                       href="/logout"

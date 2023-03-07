@@ -82,10 +82,10 @@ export type TopicItem = {
 export type CategoryItem = {
   id: string;
   label: string;
-  color: string;
-  x: string;
-  y: string;
-  index: number;
+  color?: string | null | undefined;
+  x?: string | null | undefined;
+  y?: string | null | undefined;
+  index?: number | null | undefined;
   description?: string | null;
 };
 
@@ -108,4 +108,12 @@ export type Skill = {
   desireLevel?: any | null | undefined;
   UserSkillDesires?: any | null;
   Category?: CategoryItem | null;
+};
+
+export type Notifications = {
+  admin_email: string;
+  id: string;
+  checked: boolean;
+  created_at: string;
+  skill?: Skill | null | undefined;
 };

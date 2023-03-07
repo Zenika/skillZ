@@ -27,6 +27,8 @@ import Loading from "../molecules/Loading";
 import SkillDescription from "../molecules/SkillDescription";
 import Topics from "../molecules/Topics";
 import ErrorPage from "../templates/ErrorPage";
+import { INSERT_NOTIFICATION } from "../../graphql/mutations/notifications";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type EditSkillAdminProps = {
   skillId: string;
@@ -35,7 +37,7 @@ type EditSkillAdminProps = {
 const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
-
+  const { user } = useAuth0();
   /*
    * QUERIES
    */
@@ -64,6 +66,10 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
   const [editSkill] = useMutation<EditSkillMutation>(EDIT_SKILL);
   const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC);
   const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
+  const [insertNotification] = useMutation(INSERT_NOTIFICATION);
+  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
+    UPDATE_SKILL_VERIFIED_MUTATION
+  );
 
   const addTopic = (topic: TopicItem) => {
     insertTopic({
@@ -80,15 +86,20 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
     });
   };
 
-  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
-    UPDATE_SKILL_VERIFIED_MUTATION
-  );
-
+  //### MG_NOTIFICATIONS
   const updateVerifiedSkillButtonClick = async () => {
     updateVerifiedSkill({
       variables: { skillId: skillId, verified: true },
     })
       .then(() => {
+        insertNotification({
+          variables: {
+            userEmail: skillSelected?.Skill[0].creator,
+            skillId: skillId,
+            adminEmail: user?.email,
+            checked: false,
+          },
+        });
         router.reload();
       })
       .catch(() => {

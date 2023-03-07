@@ -51,6 +51,7 @@ export default {
     profile: "Profile",
     language: "Language",
     darkMode: "Dark mode",
+    notifications: "Notifications",
     logout: "Logout",
     tutorial: "Tutorial mode",
     botNotifications: "Slack bot notifications",
@@ -122,6 +123,12 @@ export default {
         },
       },
     },
+  },
+  notification: {
+    notificationText:
+      "Admin adminMail has approved your skill skillName as new Skillz's skills.",
+    new: "New",
+    notificationTypeAccepted: "One of your skill has been accepted",
   },
   loading: {
     loadingText: "Loading...",
