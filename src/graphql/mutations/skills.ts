@@ -122,3 +122,14 @@ export const UPDATE_SKILL_DESCRIPTION = gql`
     }
   }
 `;
+
+export const UPDATE_SKILL_NAME = gql`
+  mutation updateSkillName($skillId: uuid!, $name: String!) {
+    update_Skill(where: { id: { _eq: $skillId } }, _set: { name: $name }) {
+      affected_rows
+      returning {
+        name
+      }
+    }
+  }
+`;
