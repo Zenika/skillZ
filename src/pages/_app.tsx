@@ -9,6 +9,7 @@ import { DarkModeProvider } from "../utils/darkMode";
 import { i18nContext } from "../utils/i18nContext";
 import { TutorialModeProvider } from "../utils/tutorialMode";
 import { usei18n } from "../utils/usei18n";
+import { useMediaQuery } from "react-responsive";
 
 const App = ({ Component, pageProps }) => {
   /*
@@ -37,6 +38,9 @@ const App = ({ Component, pageProps }) => {
   const [tutorialMode, setTutorialMode] = useState(
     storedTutorialMode === "true"
   );
+  const isDesktop = useMediaQuery({
+    query: "(min-device-width: 1280px)",
+  });
 
   const changeTutorialMode = (tutorialMode: boolean) => {
     setTutorialMode(tutorialMode);
@@ -93,7 +97,11 @@ const App = ({ Component, pageProps }) => {
                   content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
                 />
               </Head>
-              <div className={`${darkMode ? "dark" : ""}`}>
+              <div
+                className={`${darkMode ? "dark" : ""} ${
+                  isDesktop ? "" : "mb-14"
+                }`}
+              >
                 <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
                   <Component {...{ pathName, ...pageProps }} />
                 </div>
