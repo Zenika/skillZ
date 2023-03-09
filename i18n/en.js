@@ -40,11 +40,14 @@ export default {
     placeHolderDescription: "Set the description",
     save: "Save",
     description: "Description",
+    name: "Name",
     notification: {
       descriptionEmpty: "The description can't be empty",
       descriptionSuccess:
         "The descrition of %skill% has been modified with success",
       descriptionError: "Error, try again",
+      nameEmpty: "The name can't be empty",
+      nameSuccess: "The skill has been renamed successfully",
     },
   },
   sidepanel: {

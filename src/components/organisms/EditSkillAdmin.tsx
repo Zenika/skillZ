@@ -27,6 +27,7 @@ import Loading from "../molecules/Loading";
 import SkillDescription from "../molecules/SkillDescription";
 import Topics from "../molecules/Topics";
 import ErrorPage from "../templates/ErrorPage";
+import SkillName from "../molecules/SkillName";
 
 type EditSkillAdminProps = {
   skillId: string;
@@ -129,6 +130,7 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
         )} ${skill?.name}`}</h2>
       </div>
       <div className="mt-4 pb-4">
+        <SkillName skill={skill} refetchSkill={refetchSkillSelected} />
         <SkillDescription
           skill={skill}
           title={t("admin.description")}

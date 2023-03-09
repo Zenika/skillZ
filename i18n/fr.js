@@ -32,10 +32,13 @@ export default {
     save: "Sauvegarder",
     approve: "Approuver ce skill",
     description: "Description",
+    name: "Nom",
     notification: {
       descriptionEmpty: "La description ne peut pas être vide",
       descriptionSuccess: "La description de %skill% a été changée avec succès",
       descriptionError: "Erreur, essayez encore",
+      nameEmpty: "Le nom ne peut être vide.",
+      nameSuccess: "Le skill a bien été renommé.",
     },
   },
   nav: {
