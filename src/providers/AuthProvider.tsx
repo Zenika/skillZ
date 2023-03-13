@@ -34,7 +34,7 @@ const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
         prompt: "login",
       }}
       onRedirectCallback={onRedirectCallback}
-      useRefreshTokens
+      cacheLocation={"localstorage"}
     >
       {children}
     </Auth0Provider>
