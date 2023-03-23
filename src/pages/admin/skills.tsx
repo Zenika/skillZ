@@ -5,12 +5,18 @@ import { useDebounce } from "use-debounce";
 import SearchBar from "../../components/atoms/SearchBar/SearchBar";
 import Modal from "../../components/molecules/Modal";
 import SkillAdminPanel from "../../components/molecules/SkillAdminPanel";
-import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
 import AdminPage from "../../components/templates/AdminPage";
 import { GetAllVerifiedSkillsQuery } from "../../generated/graphql";
 import { GET_ALL_VERIFIED_SKILL } from "../../graphql/queries/skills";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
+import DuplicateSkillAdmin from "../../components/organisms/DuplicateSkillAdmin";
+import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
+
+enum AdminEditSkillType {
+  EDIT = "EDIT",
+  DUPLICATE = "DUPLICATE",
+}
 
 export default function AdminSkillsPage() {
   const isDesktop = useMediaQuery({
@@ -28,6 +34,7 @@ export default function AdminSkillsPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearchValue] = useDebounce(search, 500);
   const [selectedSkill, setSelectedSkill] = useState<FetchedSkill | null>(null);
+  const [modalType, setModalType] = useState<AdminEditSkillType>(null);
 
   const closeModal = () => {
     setSelectedSkill(null);
@@ -49,7 +56,8 @@ export default function AdminSkillsPage() {
   /*
    * LISTENERS
    */
-  const onModalClick = (skill: FetchedSkill) => {
+  const onModalClick = (skill: FetchedSkill, type: AdminEditSkillType) => {
+    setModalType(type);
     setSelectedSkill(skill);
   };
 
@@ -88,7 +96,12 @@ export default function AdminSkillsPage() {
                         verified: skill.verified,
                       }}
                       approvedSkills={false}
-                      onEditClick={() => onModalClick(skill)}
+                      onEditClick={() =>
+                        onModalClick(skill, AdminEditSkillType.EDIT)
+                      }
+                      onDuplicateClick={() =>
+                        onModalClick(skill, AdminEditSkillType.DUPLICATE)
+                      }
                     ></SkillAdminPanel>
                   )
                 )}
@@ -113,7 +126,12 @@ export default function AdminSkillsPage() {
                         verified: skill.verified,
                       }}
                       approvedSkills={true}
-                      onEditClick={() => onModalClick(skill)}
+                      onEditClick={() =>
+                        onModalClick(skill, AdminEditSkillType.EDIT)
+                      }
+                      onDuplicateClick={() =>
+                        onModalClick(skill, AdminEditSkillType.DUPLICATE)
+                      }
                     ></SkillAdminPanel>
                   )
                 )}
@@ -121,11 +139,16 @@ export default function AdminSkillsPage() {
           )}
         </div>
       </div>
-      {selectedSkill ? (
+      {selectedSkill && (
         <Modal closeModal={closeModal}>
-          <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
+          {modalType === AdminEditSkillType.EDIT && (
+            <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
+          )}
+          {modalType === AdminEditSkillType.DUPLICATE && (
+            <DuplicateSkillAdmin skill={selectedSkill}></DuplicateSkillAdmin>
+          )}
         </Modal>
-      ) : null}
+      )}
     </AdminPage>
   );
 }

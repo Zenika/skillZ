@@ -133,3 +133,17 @@ export const UPDATE_SKILL_NAME = gql`
     }
   }
 `;
+
+export const MERGE_DUPLICATE_SKILL = gql`
+  mutation mergeDuplicateSkill($skillId: uuid!, $newSkillId: uuid!) {
+    update_UserSkillDesire(
+      where: { skillId: { _eq: $skillId } }
+      _set: { skillId: $newSkillId }
+    ) {
+      affected_rows
+    }
+    delete_Skill(where: { id: { _eq: $skillId } }) {
+      affected_rows
+    }
+  }
+`;

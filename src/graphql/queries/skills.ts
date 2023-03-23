@@ -329,6 +329,24 @@ export const GET_ALL_NOT_VERIFIED_SKILL = gql`
   }
 `;
 
+export const GET_ALL_SKILL = gql`
+  query getAllSkills($search: String!) {
+    Skill(where: { name: { _ilike: $search } }, order_by: { name: asc }) {
+      name
+      id
+      description
+      verified
+      categoryId
+      SkillTags {
+        tagId
+      }
+      SkillTopics {
+        topicId
+      }
+    }
+  }
+`;
+
 export const GET_SKILL_MANDATORY_FIELDS = gql`
   query skillMandatoryFields($skillId: uuid!) {
     Skill(where: { id: { _eq: $skillId } }) {
