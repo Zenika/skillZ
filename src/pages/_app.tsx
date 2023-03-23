@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AuthProvider from "../providers/AuthProvider";
 import GraphQLProvider from "../providers/GraphQLProvider";
 import "../styles/404.css";
@@ -10,6 +10,7 @@ import { i18nContext } from "../utils/i18nContext";
 import { TutorialModeProvider } from "../utils/tutorialMode";
 import { usei18n } from "../utils/usei18n";
 import { useMediaQuery } from "react-responsive";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const App = ({ Component, pageProps }) => {
   /*
@@ -41,6 +42,16 @@ const App = ({ Component, pageProps }) => {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+        },
+      }),
+    [darkMode]
+  );
 
   const changeTutorialMode = (tutorialMode: boolean) => {
     setTutorialMode(tutorialMode);
@@ -87,28 +98,30 @@ const App = ({ Component, pageProps }) => {
   return (
     <AuthProvider>
       <DarkModeProvider value={{ darkMode, changeDarkMode }}>
-        <i18nContext.Provider value={{ t, changeLocale }}>
-          <TutorialModeProvider value={{ tutorialMode, changeTutorialMode }}>
-            <GraphQLProvider>
-              <Head>
-                <title>skillZ</title>
-                <meta
-                  name="viewport"
-                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                />
-              </Head>
-              <div
-                className={`${darkMode ? "dark" : ""} ${
-                  isDesktop ? "" : "mb-14"
-                }`}
-              >
-                <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
-                  <Component {...{ pathName, ...pageProps }} />
+        <ThemeProvider theme={theme}>
+          <i18nContext.Provider value={{ t, changeLocale }}>
+            <TutorialModeProvider value={{ tutorialMode, changeTutorialMode }}>
+              <GraphQLProvider>
+                <Head>
+                  <title>skillZ</title>
+                  <meta
+                    name="viewport"
+                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                  />
+                </Head>
+                <div
+                  className={`${darkMode ? "dark" : ""} ${
+                    isDesktop ? "" : "mb-14"
+                  }`}
+                >
+                  <div className="w-full min-h-screen overflow-x-hidden flex flex-auto flex-col text-base bg-light-med dark:bg-dark-med  text-light-graytext dark:text-dark-graytext">
+                    <Component {...{ pathName, ...pageProps }} />
+                  </div>
                 </div>
-              </div>
-            </GraphQLProvider>
-          </TutorialModeProvider>
-        </i18nContext.Provider>
+              </GraphQLProvider>
+            </TutorialModeProvider>
+          </i18nContext.Provider>
+        </ThemeProvider>
       </DarkModeProvider>
     </AuthProvider>
   );
