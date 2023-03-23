@@ -12,12 +12,14 @@ type SkillAdminPanelProps = {
   skill: FetchedSkill;
   approvedSkills: boolean;
   onEditClick?: () => void;
+  onDuplicateClick?: () => void;
 };
 
 const SkillAdminPanel = ({
   skill,
   approvedSkills,
   onEditClick,
+  onDuplicateClick,
 }: SkillAdminPanelProps) => {
   const { t } = useContext(i18nContext);
   const router = useRouter();
@@ -45,31 +47,36 @@ const SkillAdminPanel = ({
         <div className="flex flex-row justify-between">
           <h2 className="text-xl">{skill.name}</h2>
         </div>
-        {!approvedSkills && (
-          <div>
-            <div className="flex flex-row justify-around">
-              <div className="flex flex-col">
-                <Button type={"secondary"} callback={deleteSkillButtonClick}>
-                  {t("admin.deleteSkill")}
-                </Button>
-              </div>
-              <div className="flex flex-col">
-                <Button type={"primary"} callback={onEditClick}>
-                  {t("admin.verified")}
-                </Button>
-              </div>
+        <div className="flex flex-row justify-end">
+          {onDuplicateClick && (
+            <div className="flex flex-col mr-2">
+              <Button type={"secondary"} callback={onDuplicateClick}>
+                {t("admin.duplicate")}
+              </Button>
             </div>
-          </div>
-        )}
-        {approvedSkills && onEditClick && (
-          <div className="flex flex-end justify-end">
-            <div className="flex flex-col">
+          )}
+          {approvedSkills && onEditClick && (
+            <div className="flex flex-col mr-2">
               <Button type={"primary"} callback={onEditClick}>
                 {t("admin.modify")}
               </Button>
             </div>
-          </div>
-        )}
+          )}
+          {!approvedSkills && (
+            <>
+              <div className="flex flex-col mr-2">
+                <Button type={"secondary"} callback={deleteSkillButtonClick}>
+                  {t("admin.deleteSkill")}
+                </Button>
+              </div>
+              <div className="flex flex-col mr-2">
+                <Button type={"primary"} callback={onEditClick}>
+                  {t("admin.verified")}
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
