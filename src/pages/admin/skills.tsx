@@ -11,6 +11,7 @@ import { GET_ALL_VERIFIED_SKILL } from "../../graphql/queries/skills";
 import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import DuplicateSkillAdmin from "../../components/organisms/DuplicateSkillAdmin";
+import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
 
 enum AdminEditSkillType {
   EDIT = "EDIT",
@@ -140,9 +141,9 @@ export default function AdminSkillsPage() {
       </div>
       {selectedSkill && (
         <Modal closeModal={closeModal}>
-          {/*{modalType === AdminEditSkillType.EDIT && (*/}
-          {/*  <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>*/}
-          {/*)}*/}
+          {modalType === AdminEditSkillType.EDIT && (
+            <EditSkillAdmin skillId={selectedSkill.id}></EditSkillAdmin>
+          )}
           {modalType === AdminEditSkillType.DUPLICATE && (
             <DuplicateSkillAdmin skill={selectedSkill}></DuplicateSkillAdmin>
           )}
