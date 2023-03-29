@@ -116,7 +116,6 @@ const Search = () => {
             initialValue={search}
             value={search}
             setSearch={setSearch}
-            placeholder={t("search.placeholder")}
           />
           <div className="flex flex-row justify-between mt-10">
             <div className="flex flex-col mb-8">
