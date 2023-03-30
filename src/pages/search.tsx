@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import CustomSelect from "../components/atoms/CustomSelect/CustomSelect";
@@ -13,13 +13,13 @@ import CommonPage from "../components/templates/CommonPage";
 import ErrorPage from "../components/templates/ErrorPage";
 import { SearchSkillsProfilesCertificationsQuery } from "../generated/graphql";
 import { SEARCH_SKILLS_PROFILES_CERTIFICATIONS_QUERY } from "../graphql/queries/skills";
-import { i18nContext } from "../utils/i18nContext";
+import { useI18n } from "../providers/I18nProvider";
 
 const Search = () => {
   /*
    * HOOKS
    */
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useDarkMode } from "../../../utils/darkMode";
+import { useDarkMode } from "../../../providers/DarkModeProvider";
 import styles from "./ProgressBar.module.css";
 
 export const ProgressBar = ({ percentage, type }) => {

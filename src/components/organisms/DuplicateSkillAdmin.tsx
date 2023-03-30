@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { i18nContext } from "../../utils/i18nContext";
+import React, { useState } from "react";
 import { FetchedSkill } from "../../utils/types";
 import { useMutation, useQuery } from "@apollo/client";
 import {
@@ -14,13 +13,14 @@ import ErrorPage from "../templates/ErrorPage";
 import Loading from "../molecules/Loading";
 import { Autocomplete, TextField } from "@mui/material";
 import Button from "../atoms/Button";
+import { useI18n } from "../../providers/I18nProvider";
 
 type DuplicateSkillAdminProps = {
   skill: FetchedSkill;
 };
 
 const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const router = useRouter();
 
   const [selectedDuplicate, setSelectedDuplicate] =

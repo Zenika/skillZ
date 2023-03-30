@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
+import { useI18n } from "../../providers/I18nProvider";
 
 const ErrorPage = () => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { reload } = useRouter();
 
   return (

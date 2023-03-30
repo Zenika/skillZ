@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext } from "react";
+import React from "react";
 import { useMediaQuery } from "react-responsive";
 import AdminCategoryPanel from "../../components/molecules/AdminCategoryPanel";
 import Loading from "../../components/molecules/Loading";
@@ -7,7 +7,7 @@ import AdminPage from "../../components/templates/AdminPage";
 import ErrorPage from "../../components/templates/ErrorPage";
 import { GetAllCategoriesAllPropertiesQuery } from "../../generated/graphql";
 import { GET_ALL_CATEGORIES_ALL_PROPERTIES } from "../../graphql/queries/categories";
-import { i18nContext } from "../../utils/i18nContext";
+import { useI18n } from "../../providers/I18nProvider";
 
 export default function AdminCategoriesPage() {
   const isDesktop = useMediaQuery({
@@ -17,7 +17,7 @@ export default function AdminCategoriesPage() {
   /*
    * AUTH
    */
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * QUERIES

@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { textColorTable } from "../../constants/colorTable";
 import { UpdateCategoryByPkMutation } from "../../generated/graphql";
 import { UPDATE_CATEGORY_BY_PK } from "../../graphql/mutations/categories";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
 import { CategoryItem } from "../../utils/types";
 import Button from "../atoms/Button";
 import TextArea from "../atoms/TextArea";
+import { useI18n } from "../../providers/I18nProvider";
 
 type AdminCategoryPanelProps = {
   category: CategoryItem;
@@ -15,7 +15,7 @@ type AdminCategoryPanelProps = {
 };
 
 const AdminCategoryPanel = ({ category, key }: AdminCategoryPanelProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * STATES

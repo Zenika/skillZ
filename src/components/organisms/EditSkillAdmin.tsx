@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React from "react";
 import {
   EditSkillMutation,
   GetAllCategoriesAllPropertiesQuery,
@@ -18,7 +18,6 @@ import { GET_ALL_CATEGORIES_ALL_PROPERTIES } from "../../graphql/queries/categor
 import { GET_SKILL_MANDATORY_FIELDS } from "../../graphql/queries/skills";
 import { GET_TOPICS_INFOS } from "../../graphql/queries/topics";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
 import { TopicItem } from "../../utils/types";
 import Button from "../atoms/Button";
 import CustomSelect from "../atoms/CustomSelect/CustomSelect";
@@ -28,13 +27,14 @@ import SkillDescription from "../molecules/SkillDescription";
 import Topics from "../molecules/Topics";
 import ErrorPage from "../templates/ErrorPage";
 import SkillName from "../molecules/SkillName";
+import { useI18n } from "../../providers/I18nProvider";
 
 type EditSkillAdminProps = {
   skillId: string;
 };
 
 const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const router = useRouter();
 
   /*

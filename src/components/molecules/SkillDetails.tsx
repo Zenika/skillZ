@@ -1,16 +1,16 @@
 import { useQuery } from "@apollo/client/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useContext } from "react";
+import React from "react";
 import { SkillDetailsQuery } from "../../generated/graphql";
 import { GET_SKILL_DETAILS } from "../../graphql/queries/skills";
-import { i18nContext } from "../../utils/i18nContext";
 import { Skill } from "../../utils/types";
 import Topic from "../atoms/Topic";
 import EditTags from "./EditTags";
+import { useI18n } from "../../providers/I18nProvider";
 
 const SkillDetails = ({ skill }: { skill: Skill }) => {
   const { user } = useAuth0();
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const {
     data: skillDetails,
     error,

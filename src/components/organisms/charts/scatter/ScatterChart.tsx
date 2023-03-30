@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
   CartesianGrid,
   LabelList,
@@ -9,11 +8,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useDarkMode } from "../../../../utils/darkMode";
-import { i18nContext } from "../../../../utils/i18nContext";
+import { useDarkMode } from "../../../../providers/DarkModeProvider";
 import { FetchedSkill } from "../../../../utils/types";
 import CustomTooltip from "../../../atoms/charts/scatter/CustomTooltip";
 import RenderDot from "../../../atoms/charts/scatter/Dot";
+import { useI18n } from "../../../../providers/I18nProvider";
 
 export type SkillzScatterChartProps = {
   data: FetchedSkill[];
@@ -33,7 +32,7 @@ const SkillzScatterChart = ({
   color,
   axisLabels,
 }: SkillzScatterChartProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
 
   // Merge all skill of same graduation into one point

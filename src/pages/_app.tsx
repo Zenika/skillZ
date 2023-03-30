@@ -5,12 +5,12 @@ import AuthProvider from "../providers/AuthProvider";
 import GraphQLProvider from "../providers/GraphQLProvider";
 import "../styles/404.css";
 import "../styles/globals.css";
-import { DarkModeProvider } from "../utils/darkMode";
-import { i18nContext } from "../utils/i18nContext";
-import { TutorialModeProvider } from "../utils/tutorialMode";
+import { DarkModeProvider } from "../providers/DarkModeProvider";
+import { TutorialModeProvider } from "../providers/TutorialModeProvider";
 import { usei18n } from "../utils/usei18n";
 import { useMediaQuery } from "react-responsive";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { I18nProvider } from "../providers/I18nProvider";
 
 const App = ({ Component, pageProps }) => {
   /*
@@ -97,9 +97,9 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <AuthProvider>
-      <DarkModeProvider value={{ darkMode, changeDarkMode }}>
-        <ThemeProvider theme={theme}>
-          <i18nContext.Provider value={{ t, changeLocale }}>
+      <I18nProvider value={{ t, changeLocale }}>
+        <DarkModeProvider value={{ darkMode, changeDarkMode }}>
+          <ThemeProvider theme={theme}>
             <TutorialModeProvider value={{ tutorialMode, changeTutorialMode }}>
               <GraphQLProvider>
                 <Head>
@@ -120,9 +120,9 @@ const App = ({ Component, pageProps }) => {
                 </div>
               </GraphQLProvider>
             </TutorialModeProvider>
-          </i18nContext.Provider>
-        </ThemeProvider>
-      </DarkModeProvider>
+          </ThemeProvider>
+        </DarkModeProvider>
+      </I18nProvider>
     </AuthProvider>
   );
 };

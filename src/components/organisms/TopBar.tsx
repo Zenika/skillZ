@@ -3,28 +3,30 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { config } from "../../env";
 import {
   GetAllNotVerifiedSkillsQuery,
   GetUserAgencyQuery,
   GetUserQuery,
+  GetUserSkillsIdQuery,
 } from "../../generated/graphql";
-import { GET_ALL_NOT_VERIFIED_SKILL } from "../../graphql/queries/skills";
+import {
+  GET_ALL_NOT_VERIFIED_SKILL,
+  GET_USER_SKILLS_ID,
+} from "../../graphql/queries/skills";
 import {
   GET_USER_AGENCY_QUERY,
   GET_USER_QUERY,
 } from "../../graphql/queries/userInfos";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
 import { TutorialMode } from "../molecules/TutorialMode";
-import { useTutorialMode } from "../../utils/tutorialMode";
-import { GET_USER_SKILLS_ID } from "../../graphql/queries/skills";
-import { GetUserSkillsIdQuery } from "../../generated/graphql";
+import { useTutorialMode } from "../../providers/TutorialModeProvider";
+import { useI18n } from "../../providers/I18nProvider";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -32,7 +34,7 @@ export type TopBarProps = {
 
 const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
-  const { t, changeLocale } = useContext(i18nContext);
+  const { t, changeLocale } = useI18n();
   const { darkMode, changeDarkMode } = useDarkMode();
   const { tutorialMode, changeTutorialMode } = useTutorialMode();
   const { locale, query, pathname } = useRouter();

@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { i18nContext } from "../../utils/i18nContext";
 import { UserCertification } from "../../utils/types";
 import Button from "../atoms/Button";
+import { useI18n } from "../../providers/I18nProvider";
 
 type CertificationsList = {
   userCertifications: UserCertification[];
@@ -16,7 +15,7 @@ const CertificationsList = ({
   onUserCertificationSelect = () => {},
   onUserCertificationAdd = () => {},
 }: CertificationsList) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   return (
     <div className="flex flex-col rounded lg bg-light-dark dark:bg-dark-dark my-2 p-2">

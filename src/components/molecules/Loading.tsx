@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { useDarkMode } from "../../utils/darkMode";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 
 const Loading = () => {
   const { darkMode } = useDarkMode();

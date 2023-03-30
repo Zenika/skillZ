@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../../../components/molecules/Loading";
 import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
 import HomePanel from "../../../../components/organisms/HomePanel/HomePanel";
@@ -15,12 +15,12 @@ import {
   GET_USER_CURRRENT_SKILLS_AND_DESIRES_QUERY,
   GET_USER_QUERY,
 } from "../../../../graphql/queries/userInfos";
-import { i18nContext } from "../../../../utils/i18nContext";
 import Custom404 from "../../../404";
+import { useI18n } from "../../../../providers/I18nProvider";
 
 const HomePanelByUser = () => {
   const { query } = useRouter();
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * STATES

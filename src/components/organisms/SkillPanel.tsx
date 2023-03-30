@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { VscSettings } from "react-icons/vsc";
 import { config } from "../../env";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import { Skill } from "../../utils/types";
 import LevelBar from "../atoms/LevelBar";
 import Tag, { TagColor } from "../atoms/Tag";
 import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
+import { useI18n } from "../../providers/I18nProvider";
 
 const SkillPanel = ({
   skill,
@@ -25,7 +25,7 @@ const SkillPanel = ({
   categoryLabel: string;
   onEditClick?: (skill: Skill) => void;
 }) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const { push, query } = useRouter();
   const [openSkillDetails, setOpenSkillDetails] = useState(false);

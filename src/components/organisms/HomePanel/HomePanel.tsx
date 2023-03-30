@@ -7,12 +7,12 @@ import Joyride from "react-joyride";
 import { useMediaQuery } from "react-responsive";
 import { colorTable } from "../../../constants/colorTable";
 import { getTutorialStep } from "../../../constants/demo";
-import { useDarkMode } from "../../../utils/darkMode";
-import { i18nContext } from "../../../utils/i18nContext";
-import { TutorialModeContext } from "../../../utils/tutorialMode";
+import { useDarkMode } from "../../../providers/DarkModeProvider";
+import { TutorialModeContext } from "../../../providers/TutorialModeProvider";
 import { Tooltip } from "../../atoms/Tooltip";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
+import { useI18n } from "../../../providers/I18nProvider";
 
 type HomePanelProps = {
   props: {
@@ -36,7 +36,7 @@ type HomePanelProps = {
 const HomePanel = ({
   props: { x, y, context, color, name, description, count, data, certifs },
 }: HomePanelProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const tutorialModeValue = useContext(TutorialModeContext);
 

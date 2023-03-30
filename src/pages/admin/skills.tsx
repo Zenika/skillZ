@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
 import SearchBar from "../../components/atoms/SearchBar/SearchBar";
@@ -8,10 +8,10 @@ import SkillAdminPanel from "../../components/molecules/SkillAdminPanel";
 import AdminPage from "../../components/templates/AdminPage";
 import { GetAllVerifiedSkillsQuery } from "../../generated/graphql";
 import { GET_ALL_VERIFIED_SKILL } from "../../graphql/queries/skills";
-import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import DuplicateSkillAdmin from "../../components/organisms/DuplicateSkillAdmin";
 import EditSkillAdmin from "../../components/organisms/EditSkillAdmin";
+import { useI18n } from "../../providers/I18nProvider";
 
 enum AdminEditSkillType {
   EDIT = "EDIT",
@@ -22,11 +22,7 @@ export default function AdminSkillsPage() {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-
-  /*
-   * AUTH
-   */
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * STATES

@@ -2,17 +2,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import { BotNotifications } from "../molecules/BotNotifications";
 import { DarkModeSelector } from "../molecules/DarkModeSelector";
 import { LocaleSelector } from "../molecules/LocaleSelector";
+import { useI18n } from "../../providers/I18nProvider";
 
 const SidePanel = () => {
   const { locale } = useRouter();
   const { error, user } = useAuth0();
-  const { t, changeLocale } = useContext(i18nContext);
+  const { t, changeLocale } = useI18n();
   const { darkMode, changeDarkMode } = useDarkMode();
 
   if (error) {
