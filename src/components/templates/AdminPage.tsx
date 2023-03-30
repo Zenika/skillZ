@@ -3,11 +3,9 @@ import React from "react";
 import Tab from "../../components/atoms/Tab";
 import Tabs from "../../components/atoms/Tabs";
 import CommonPage from "../../components/templates/CommonPage";
-import { config } from "../../env";
-import { i18nContext } from "../../utils/i18nContext";
 import Loading from "../molecules/Loading";
 import { useI18n } from "../../providers/I18nProvider";
-import {AdminContext, useAdmin} from "../../providers/AdminProvider";
+import { useAdmin } from "../../providers/AdminProvider";
 
 type AdminPageProps = {
   children: any;

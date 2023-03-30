@@ -29,7 +29,7 @@ export const AdminProvider = ({ children }: { children: any }) => {
   }, [getAccessTokenSilently]);
 
   return (
-    <AdminContext.Provider value={{ isAdmin: true }}>
+    <AdminContext.Provider value={{ isAdmin: admin }}>
       {children}
     </AdminContext.Provider>
   );

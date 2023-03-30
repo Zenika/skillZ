@@ -1,20 +1,19 @@
 import { useQuery } from "@apollo/client";
-import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
-import { config } from "../../env";
 import { GetAllNotVerifiedSkillsQuery } from "../../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../../graphql/queries/skills";
 import { useDarkMode } from "../../providers/DarkModeProvider";
 import { useI18n } from "../../providers/I18nProvider";
+import { useAdmin } from "../../providers/AdminProvider";
 
 const Navbar = () => {
   const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const { pathname } = useRouter();
-  const { user } = useAuth0();
+  const { isAdmin } = useAdmin();
 
   const { data: skills, error: errorSkills } =
     useQuery<GetAllNotVerifiedSkillsQuery>(GET_ALL_NOT_VERIFIED_SKILL, {
@@ -115,10 +114,7 @@ const Navbar = () => {
         />
         <span className="text-center">{t("nav.search")}</span>
       </Link>
-      {user.email ===
-        config.nextPublicAdmins
-          .split(";")
-          .find((admin) => admin === user.email) && (
+      {isAdmin && (
         <Link
           href="/admin/skills"
           className="flex flex-initial flex-col justify-between cursor-pointer relative items-center"
