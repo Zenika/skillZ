@@ -48,7 +48,7 @@ const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
       variables: { skillId: skill.id, newSkillId: selectedDuplicate.id },
       context: {
         headers: {
-          role: "skillz-admin",
+          role: "skillz-admins",
         },
       },
     })

@@ -2,6 +2,17 @@
     name: AgenciesAverageCurrentSkillsAndDesires
     schema: public
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - skillId
+          - categoryId
+          - agency
+          - name
+          - averageSkillLevel
+          - averageDesireLevel
+          - userCount
+        filter: {}
     - role: world
       permission:
         columns:
@@ -25,13 +36,35 @@
           table:
             name: UserAgency
             schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - name
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+        filter: {}
     - role: world
       permission:
         columns:
           - name
         filter: {}
         allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: Category
     schema: public
@@ -70,7 +103,30 @@
           remote_table:
             name: ZenikasAverageCurrentSkillsAndDesires
             schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - id
+          - label
+          - x
+          - "y"
+          - color
+          - index
+          - description
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - index
+          - color
+          - description
+          - label
+          - x
+          - "y"
+          - id
+        filter: {}
     - role: world
       permission:
         columns:
@@ -84,6 +140,18 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - index
+          - color
+          - description
+          - label
+          - x
+          - "y"
+          - id
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -95,6 +163,10 @@
           - "y"
         filter: {}
         check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: Certification
     schema: public
@@ -106,7 +178,24 @@
           table:
             name: UserCertification
             schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - verified
+          - id
+          - certBody
+          - name
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - verified
+          - id
+          - certBody
+          - name
+        filter: {}
     - role: world
       permission:
         columns:
@@ -116,9 +205,49 @@
           - name
         filter: {}
         allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - verified
+          - id
+          - certBody
+          - name
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: CertificationSkill
     schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - certId
+          - skillId
+  select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - certId
+          - skillId
+        filter: {}
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - certId
+          - skillId
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: Skill
     schema: public
@@ -158,6 +287,15 @@
             name: UsersCurrentSkillsAndDesires
             schema: public
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - categoryId
+          - description
+          - id
+          - name
+          - verified
     - role: world
       permission:
         check: {}
@@ -167,6 +305,15 @@
           - verified
           - name
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - verified
+          - description
+          - name
+          - categoryId
+          - id
+        filter: {}
     - role: world
       permission:
         columns:
@@ -178,6 +325,16 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - verified
+          - description
+          - name
+          - categoryId
+          - id
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -189,6 +346,9 @@
         filter: {}
         check: {}
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter: {}
@@ -203,6 +363,12 @@
       using:
         foreign_key_constraint_on: tagId
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - tagId
+          - skillId
     - role: world
       permission:
         check: {}
@@ -210,13 +376,30 @@
           - skillId
           - tagId
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - tagId
+          - skillId
+        filter: {}
     - role: world
       permission:
         columns:
           - skillId
           - tagId
         filter: {}
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - tagId
+          - skillId
+        filter: {}
+        check: {}
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter: {}
@@ -231,6 +414,12 @@
       using:
         foreign_key_constraint_on: topicId
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - skillId
+          - topicId
     - role: world
       permission:
         check: {}
@@ -238,6 +427,12 @@
           - skillId
           - topicId
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - skillId
+          - topicId
+        filter: {}
     - role: world
       permission:
         columns:
@@ -245,12 +440,22 @@
           - topicId
         filter: {}
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - skillId
+          - topicId
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns: []
         filter: {}
         check: {}
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter: {}
@@ -266,6 +471,13 @@
             name: SkillTag
             schema: public
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - id
+          - creator
+          - name
     - role: world
       permission:
         check: {}
@@ -273,11 +485,31 @@
           - creator
           - name
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - id
+          - creator
+          - name
+        filter: {}
     - role: world
       permission:
         columns:
           - id
           - name
+        filter: {}
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - id
+          - creator
+          - name
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
         filter: {}
 - table:
     name: Topic
@@ -297,7 +529,22 @@
           table:
             name: UserTopic
             schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - name
+          - type
+          - id
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+          - type
+          - id
+        filter: {}
     - role: world
       permission:
         columns:
@@ -306,6 +553,19 @@
           - type
         filter: {}
         allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+          - type
+          - id
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: User
     schema: public
@@ -342,6 +602,17 @@
             name: UserTopic
             schema: public
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - email
+          - name
+          - picture
+          - botNotifications
+          - active
+          - last_login
+          - current_login
     - role: world
       permission:
         check:
@@ -355,6 +626,17 @@
           - name
           - picture
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - active
+          - botNotifications
+          - email
+          - name
+          - picture
+          - current_login
+          - last_login
+        filter: {}
     - role: world
       permission:
         columns:
@@ -367,6 +649,18 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - active
+          - botNotifications
+          - email
+          - name
+          - picture
+          - current_login
+          - last_login
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -380,6 +674,10 @@
           email:
             _eq: x-hasura-user-email
         check: null
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: UserAchievements
     schema: public
@@ -388,6 +686,17 @@
       using:
         foreign_key_constraint_on: userEmail
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - id
+          - additionalInfo
+          - created_at
+          - label
+          - points
+          - step
+          - userEmail
     - role: world
       permission:
         check:
@@ -395,6 +704,17 @@
             _eq: x-hasura-user-email
         columns: []
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - points
+          - step
+          - additionalInfo
+          - label
+          - userEmail
+          - id
+        filter: {}
     - role: world
       permission:
         columns:
@@ -408,6 +728,18 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - points
+          - step
+          - additionalInfo
+          - label
+          - userEmail
+          - id
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns: []
@@ -417,6 +749,10 @@
         check:
           userEmail:
             _eq: x-hasura-user-email
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: UserAgency
     schema: public
@@ -428,6 +764,13 @@
       using:
         foreign_key_constraint_on: userEmail
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - created_at
+          - agency
+          - userEmail
     - role: world
       permission:
         check:
@@ -438,6 +781,13 @@
           - agency
           - created_at
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - agency
+          - userEmail
+        filter: {}
     - role: world
       permission:
         columns:
@@ -447,6 +797,14 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - agency
+          - userEmail
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -459,6 +817,10 @@
         check:
           userEmail:
             _eq: x-hasura-user-email
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: UserCertification
     schema: public
@@ -470,6 +832,16 @@
       using:
         foreign_key_constraint_on: userEmail
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - obtained
+          - from
+          - to
+          - certId
+          - url
+          - userEmail
     - role: world
       permission:
         check:
@@ -483,6 +855,16 @@
           - url
           - userEmail
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - obtained
+          - from
+          - to
+          - certId
+          - url
+          - userEmail
+        filter: {}
     - role: world
       permission:
         columns:
@@ -495,6 +877,17 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - obtained
+          - from
+          - to
+          - certId
+          - url
+          - userEmail
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -507,6 +900,9 @@
             _eq: x-hasura-user-email
         check: null
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter:
@@ -515,7 +911,20 @@
 - table:
     name: UserLatestAgency
     schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - agency
+          - userEmail
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - agency
+          - userEmail
+        filter: {}
     - role: world
       permission:
         columns:
@@ -523,6 +932,18 @@
           - agency
         filter: {}
         allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - agency
+          - userEmail
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
 - table:
     name: UserSkillDesire
     schema: public
@@ -534,6 +955,16 @@
       using:
         foreign_key_constraint_on: userEmail
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - created_at
+          - desireLevel
+          - skillLevel
+          - userEmail
+          - id
+          - skillId
     - role: world
       permission:
         check:
@@ -546,6 +977,16 @@
           - skillLevel
           - userEmail
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - desireLevel
+          - skillLevel
+          - userEmail
+          - id
+          - skillId
+        filter: {}
     - role: world
       permission:
         columns:
@@ -558,6 +999,17 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - desireLevel
+          - skillLevel
+          - userEmail
+          - id
+          - skillId
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -573,6 +1025,9 @@
           userEmail:
             _eq: x-hasura-user-email
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter:
@@ -603,6 +1058,13 @@
       using:
         foreign_key_constraint_on: userEmail
   insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - created_at
+          - userEmail
+          - topicId
     - role: world
       permission:
         check:
@@ -613,6 +1075,13 @@
           - topicId
           - created_at
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - userEmail
+          - topicId
+        filter: {}
     - role: world
       permission:
         columns:
@@ -622,6 +1091,14 @@
         filter: {}
         allow_aggregations: true
   update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - userEmail
+          - topicId
+        filter: {}
+        check: {}
     - role: world
       permission:
         columns:
@@ -635,6 +1112,9 @@
           userEmail:
             _eq: x-hasura-user-email
   delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
     - role: world
       permission:
         filter:
@@ -668,6 +1148,17 @@
             name: User
             schema: public
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - created_at
+          - desireLevel
+          - skillLevel
+          - name
+          - userEmail
+          - categoryId
+          - skillId
+        filter: {}
     - role: world
       permission:
         columns:
@@ -694,6 +1185,16 @@
             name: Category
             schema: public
   select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - userCount
+          - averageDesireLevel
+          - averageSkillLevel
+          - name
+          - categoryId
+          - skillId
+        filter: {}
     - role: world
       permission:
         columns:
