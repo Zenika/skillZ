@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Joyride from "react-joyride";
 import { useMediaQuery } from "react-responsive";
 import { useDebounce } from "use-debounce";
@@ -11,7 +11,7 @@ import { ADD_USER_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../../graphql/queries/skills";
 import { computeFilterUrl } from "../../utils/computeFilterUrl";
-import { TutorialModeContext } from "../../providers/TutorialModeProvider";
+import { useTutorialMode } from "../../providers/TutorialModeProvider";
 import { displayNotification } from "../../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
 import { FetchedSkill } from "../../utils/types";
@@ -72,7 +72,7 @@ const SkillListOverview = ({
   const [searchFilter, setSearchFilter] = useState("");
   const [debouncedSearchValue] = useDebounce(search, 500);
   const [debouncedSearchFilterValue] = useDebounce(searchFilter, 500);
-  const tutorialModeValue = useContext(TutorialModeContext);
+  const { tutorialMode } = useTutorialMode();
 
   /*
    * QUERIES
@@ -194,7 +194,7 @@ const SkillListOverview = ({
 
   return (
     <div className="flex flex-row justify-center mt-4 mb-20">
-      {tutorialModeValue?.tutorialMode && context === "mine" && (
+      {tutorialMode && context === "mine" && (
         <Joyride
           steps={getTutorialStep(t, "configMySkills")}
           continuous={true}

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import {
   InsertSkillMutationMutation,
@@ -13,7 +13,7 @@ import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
-import { TutorialModeContext } from "../../providers/TutorialModeProvider";
+import { useTutorialMode } from "../../providers/TutorialModeProvider";
 import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
 import { config } from "../../env";
 import { useRouter } from "next/router";
@@ -38,7 +38,7 @@ const AddSkillListSelector = ({
   });
   const [openSkillDetails, setOpenSkillDetails] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
-  const tutorialModeValue = useContext(TutorialModeContext);
+  const { tutorialMode } = useTutorialMode();
   const { push } = useRouter();
   const searchPageLink = `${config.nextPublicBaseUrl}/search`;
 
@@ -89,7 +89,7 @@ const AddSkillListSelector = ({
 
   return (
     <div className={`flex flex-col my-4 ${isDesktop ? "overflow-y-auto" : ""}`}>
-      {tutorialModeValue?.tutorialMode && (
+      {tutorialMode && (
         <Joyride
           steps={getTutorialStep(t, "listSelector")}
           continuous={true}
