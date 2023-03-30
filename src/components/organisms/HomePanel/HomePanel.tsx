@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
 import { FaTrophy } from "react-icons/fa";
 import { HiInformationCircle } from "react-icons/hi";
 import Joyride from "react-joyride";
@@ -8,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { colorTable } from "../../../constants/colorTable";
 import { getTutorialStep } from "../../../constants/demo";
 import { useDarkMode } from "../../../providers/DarkModeProvider";
-import { TutorialModeContext } from "../../../providers/TutorialModeProvider";
+import { useTutorialMode } from "../../../providers/TutorialModeProvider";
 import { Tooltip } from "../../atoms/Tooltip";
 import SkillzScatterChart from "../charts/scatter/ScatterChart";
 import styles from "./HomePanel.module.css";
@@ -38,7 +37,7 @@ const HomePanel = ({
 }: HomePanelProps) => {
   const { t } = useI18n();
   const { darkMode } = useDarkMode();
-  const tutorialModeValue = useContext(TutorialModeContext);
+  const { tutorialMode } = useTutorialMode();
 
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
@@ -81,7 +80,7 @@ const HomePanel = ({
 
   return (
     <>
-      {tutorialModeValue?.tutorialMode && context === "mine" && (
+      {tutorialMode && context === "mine" && (
         <Joyride
           steps={
             data.length === 0
