@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { GoGraph } from "react-icons/go";
 import { config } from "../../env";
 import { GetUserAgencyAndAllAgenciesQuery } from "../../generated/graphql";
@@ -16,7 +16,6 @@ import {
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from "../../graphql/queries/userInfos";
 import Custom404 from "../../pages/404";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
 import { TopicItem, UserCertification } from "../../utils/types";
 import Button from "../atoms/Button";
 import CustomSelect from "../atoms/CustomSelect/CustomSelect";
@@ -28,6 +27,7 @@ import Topics from "../molecules/Topics";
 import CommonPage from "../templates/CommonPage";
 import ErrorPage from "../templates/ErrorPage";
 import CertificationModal from "./CertificationModal";
+import { useI18n } from "../../providers/I18nProvider";
 
 type ProfileProps = {
   userEmail: string;
@@ -42,7 +42,7 @@ const Profile = ({
   userName,
   userPicture,
 }: ProfileProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   // CONTEXT
   const { push, reload } = useRouter();

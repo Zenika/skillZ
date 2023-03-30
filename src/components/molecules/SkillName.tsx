@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { UPDATE_SKILL_NAME } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../atoms/Button";
 import TextArea from "../atoms/TextArea";
+import { useI18n } from "../../providers/I18nProvider";
 
 type SkillNameProps = {
   skill: FetchedSkill;
@@ -13,7 +13,7 @@ type SkillNameProps = {
 };
 
 const SkillName = ({ skill, refetchSkill }: SkillNameProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * STATES

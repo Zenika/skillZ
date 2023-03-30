@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import {
   GetTagFromTagNameQuery,
@@ -18,7 +18,7 @@ import {
   SEARCH_IN_ALL_TAGS,
 } from "../../graphql/queries/skills";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
+import { useI18n } from "../../providers/I18nProvider";
 import { FetchedSkill, SkillTag } from "../../utils/types";
 import AutoCompleteList from "../atoms/AutoCompleteList";
 import Chip from "../atoms/Chip";
@@ -36,7 +36,7 @@ const EditTags = ({
   description,
   adminView,
 }: EditTags) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const [tagInput, setTagInput] = useState("");
   const { user } = useAuth0();
   const [existingTagsIds, setExistingTagsIds] = useState([]);

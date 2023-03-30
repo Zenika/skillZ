@@ -1,10 +1,10 @@
 import Image from "next/image";
-import React, { useContext, useState } from "react";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import React, { useState } from "react";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import { Certification, UserCertification } from "../../utils/types";
 import Button from "../atoms/Button";
 import CustomSelect from "../atoms/CustomSelect/CustomSelect";
+import { useI18n } from "../../providers/I18nProvider";
 
 type CertificationModalProps = {
   userCertificationRef?: UserCertification;
@@ -21,7 +21,7 @@ const CertificationModal = ({
   onConfirm,
   onDelete,
 }: CertificationModalProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
 
   const [userCertification, setUserCertification] =

@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
-import { i18nContext } from "../../../utils/i18nContext";
+import React, { useContext, useEffect } from "react";
 import Image from "next/image";
-import { TutorialModeContext } from "../../../utils/tutorialMode";
+import {
+  TutorialModeContext,
+  useTutorialMode,
+} from "../../../providers/TutorialModeProvider";
 import { useQuery } from "@apollo/client";
 import { GetUserSkillsIdQuery } from "../../../generated/graphql";
 import { useAuth0 } from "@auth0/auth0-react";
 import { GET_USER_SKILLS_ID } from "../../../graphql/queries/skills";
-import { useEffect } from "react";
-import { useTutorialMode } from "../../../utils/tutorialMode";
+import { useI18n } from "../../../providers/I18nProvider";
 
 const TutorialTopBar = () => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const tutorialModeValue = useContext(TutorialModeContext);
   const { changeTutorialMode } = useTutorialMode();
   const { user } = useAuth0();

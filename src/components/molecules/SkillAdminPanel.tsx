@@ -1,10 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { DeleteSkillMutation } from "../../generated/graphql";
 import { DELETE_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
+import { useI18n } from "../../providers/I18nProvider";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../atoms/Button";
 
@@ -21,7 +20,7 @@ const SkillAdminPanel = ({
   onEditClick,
   onDuplicateClick,
 }: SkillAdminPanelProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const router = useRouter();
 
   /*

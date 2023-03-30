@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { config } from "../../../env";
-import { useDarkMode } from "../../../utils/darkMode";
-import { i18nContext } from "../../../utils/i18nContext";
+import { useDarkMode } from "../../../providers/DarkModeProvider";
 import Button from "../../atoms/Button";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import styles from "./badgeLevels.module.css";
+import { useI18n } from "../../../providers/I18nProvider";
 
 export const BadgeSubojectivesCategoryCompletion = ({
   label,
@@ -23,7 +23,7 @@ export const BadgeSubojectivesCategoryCompletion = ({
   const [percentageBarGold, setPercentageBarGold] = useState(0);
   const [percentageBarDiamond, setPercentageBarDiamond] = useState(0);
   const { darkMode } = useDarkMode();
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const [badgeFilterCss, setBadgeFilterCss] = useState(
     `${styles.filterBronze}`
   );

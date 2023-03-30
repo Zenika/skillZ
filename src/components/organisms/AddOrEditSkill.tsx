@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useState } from "react";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import { FetchedSkill } from "../../utils/types";
 import Button from "../atoms/Button";
+import { useI18n } from "../../providers/I18nProvider";
 
 type AddOrEditSkillProps = {
   skill?: FetchedSkill;
@@ -12,7 +12,7 @@ type AddOrEditSkillProps = {
 };
 
 const AddOrEditSkill = ({ skill, callback, add }: AddOrEditSkillProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const [navState, setNavState] = useState("knowledge");
   const [skillLevel, setSkillLevel] = useState(skill?.skillLevel || 0);

@@ -3,16 +3,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { config } from "../../env";
 import { GetAllNotVerifiedSkillsQuery } from "../../generated/graphql";
 import { GET_ALL_NOT_VERIFIED_SKILL } from "../../graphql/queries/skills";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useDarkMode } from "../../providers/DarkModeProvider";
+import { useI18n } from "../../providers/I18nProvider";
 
 const Navbar = () => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const { pathname } = useRouter();
   const { user } = useAuth0();

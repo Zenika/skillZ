@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import Loading from "../../../../components/molecules/Loading";
 import UserInfosTopBar from "../../../../components/molecules/UserInfosTopBar";
 import SkillListOverview from "../../../../components/organisms/SkillListOverview";
@@ -13,7 +12,7 @@ import {
 } from "../../../../generated/graphql";
 import { GET_CATEGORIE_ID_BY_NAME } from "../../../../graphql/queries/categories";
 import { GET_USER_QUERY } from "../../../../graphql/queries/userInfos";
-import { i18nContext } from "../../../../utils/i18nContext";
+import { useI18n } from "../../../../providers/I18nProvider";
 
 const ListSkillsPage = () => {
   /*
@@ -21,7 +20,7 @@ const ListSkillsPage = () => {
    */
   const { user, isLoading: authLoading, error: authError } = useAuth0();
   const router = useRouter();
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   /*
    * CONTEXT

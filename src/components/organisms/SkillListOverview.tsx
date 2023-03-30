@@ -11,10 +11,9 @@ import { ADD_USER_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { DELETE_USER_SKILL_MUTATION } from "../../graphql/mutations/userInfos";
 import { SEARCH_SKILLS_BY_CATEGORY_QUERY } from "../../graphql/queries/skills";
 import { computeFilterUrl } from "../../utils/computeFilterUrl";
-import { TutorialModeContext } from "../../utils/tutorialMode";
+import { TutorialModeContext } from "../../providers/TutorialModeProvider";
 import { displayNotification } from "../../utils/displayNotification";
 import { useFetchSkillsByContextCategoryAndAgency } from "../../utils/fetchers/useFetchSkillsByContextCategoryAndAgency";
-import { i18nContext } from "../../utils/i18nContext";
 import { FetchedSkill } from "../../utils/types";
 import SearchBar from "../atoms/SearchBar/SearchBar";
 import FilterByPanel from "../molecules/FilterByPanel";
@@ -23,6 +22,7 @@ import AddOrEditSkill from "./AddOrEditSkill";
 import AddSkillListSelector from "./AddSkilListSelector";
 import SkillzScatterChart from "./charts/scatter/ScatterChart";
 import SkillPanel from "./SkillPanel";
+import { useI18n } from "../../providers/I18nProvider";
 
 type SkillListOverviewProps = {
   userEmail: string;
@@ -52,7 +52,7 @@ const SkillListOverview = ({
   /*
    * HOOKS
    */
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });

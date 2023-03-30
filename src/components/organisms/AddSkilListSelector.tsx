@@ -8,16 +8,16 @@ import {
 } from "../../generated/graphql";
 import { INSERT_SKILL_MUTATION } from "../../graphql/mutations/skills";
 import { displayNotification } from "../../utils/displayNotification";
-import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
 import Modal from "../molecules/Modal";
 import SkillDetails from "../molecules/SkillDetails";
 import Joyride from "react-joyride";
 import { getTutorialStep } from "../../constants/demo";
-import { TutorialModeContext } from "../../utils/tutorialMode";
+import { TutorialModeContext } from "../../providers/TutorialModeProvider";
 import { SEARCH_SKILLS_VERIFIED } from "../../graphql/queries/skills";
 import { config } from "../../env";
 import { useRouter } from "next/router";
+import { useI18n } from "../../providers/I18nProvider";
 
 const AddSkillListSelector = ({
   skills,
@@ -32,7 +32,7 @@ const AddSkillListSelector = ({
   categoryId: string;
   action: (skill: Partial<Skill>) => void;
 }) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });

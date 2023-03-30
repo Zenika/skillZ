@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { i18nContext } from "../../utils/i18nContext";
+import React from "react";
 import { BadgeSubojectivesCategoryCompletion } from "./Badge";
+import { useI18n } from "../../providers/I18nProvider";
 
 type StatisticsProps = {
   userAchievements: any;
@@ -13,7 +13,7 @@ export const Statistics = ({
   skillsDatas,
   readOnly,
 }: StatisticsProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   const filterCountSkills = (label) =>
     skillsDatas.find((c) => c.label === label).CurrentSkillsAndDesires_aggregate

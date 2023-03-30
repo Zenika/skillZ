@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useMediaQuery } from "react-responsive";
-import { i18nContext } from "../../utils/i18nContext";
 import Button from "../atoms/Button";
 import Notification from "../atoms/Notification";
 import Navbar from "../molecules/Navbar";
 import SidePanel from "../organisms/SidePanel";
 import TopBar from "../organisms/TopBar";
+import { useI18n } from "../../providers/I18nProvider";
 
 type CommonPageProps = {
   children: any;
@@ -16,7 +16,7 @@ type CommonPageProps = {
 };
 
 const CommonPage = ({ children, page, backBar = true }: CommonPageProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const router = useRouter();
   const [panelOpened, setPanelOpened] = useState(false);
   const togglePanel = () => setPanelOpened(!panelOpened);

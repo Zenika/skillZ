@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { i18nContext } from "../../utils/i18nContext";
 import { TopicItem } from "../../utils/types";
 import Topic from "../atoms/Topic";
+import { useI18n } from "../../providers/I18nProvider";
 
 type TopicsProps = {
   topics: TopicItem[];
@@ -23,7 +22,7 @@ const Topics = ({
   removeCallback,
   readOnly = false,
 }: TopicsProps) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
 
   return (
     <div

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDarkMode } from "../../../utils/darkMode";
+import { useDarkMode } from "../../../providers/DarkModeProvider";
 import styles from "./CustomSelect.module.css";
 
 type CustomSelectProps = {

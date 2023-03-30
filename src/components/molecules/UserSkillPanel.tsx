@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import { useDarkMode } from "../../utils/darkMode";
-import { i18nContext } from "../../utils/i18nContext";
+import { useDarkMode } from "../../providers/DarkModeProvider";
 import LevelBar from "../atoms/LevelBar";
+import { useI18n } from "../../providers/I18nProvider";
 
 const UserSkillPanel = ({
   skill,
@@ -24,7 +23,7 @@ const UserSkillPanel = ({
   };
   context: string;
 }) => {
-  const { t } = useContext(i18nContext);
+  const { t } = useI18n();
   const { darkMode } = useDarkMode();
   const { level, desire, certif } = skill;
   return (
