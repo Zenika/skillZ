@@ -68,7 +68,6 @@ Create an file named `.env`, then add these variables :
 NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_API_BEARER_TOKEN=Bearer key
-NEXT_PUBLIC_ADMINS=john.doe@zenika.com;
 
 ## HASURA
 SKILLZ_GRAPHQL_JWT_SECRET={"type": "RS512", "key": "{your-certificate}"}
@@ -81,15 +80,7 @@ NEXT_PUBLIC_AUTH0_DOMAIN=
 NEXT_PUBLIC_AUTH0_CLIENT_ID=
 NEXT_PUBLIC_AUTH0_AUDIENCE=
 NEXT_PUBLIC_AUTH0_CALLBACK=/auth
-
-## GOOGLE
-GOOGLE_AUTH_EMAIL=
-GOOGLE_AUTH_CLIENT_ID=
-GOOGLE_AUTH_PRIVATE_KEY=
-
 ```
-
-If you want to be an admin, think to replace or add your email address at `NEXT_PUBLIC_ADMINS=john.doe@zenika.com;`
 
 ### Run postgres and hasura locally with docker <a name="postgres"></a>
 
