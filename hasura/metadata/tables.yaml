@@ -152,17 +152,6 @@
           - id
         filter: {}
         check: {}
-    - role: world
-      permission:
-        columns:
-          - color
-          - description
-          - index
-          - label
-          - x
-          - "y"
-        filter: {}
-        check: {}
   delete_permissions:
     - role: skillz-admins
       permission:
@@ -301,8 +290,6 @@
         check: {}
         columns:
           - categoryId
-          - id
-          - verified
           - name
   select_permissions:
     - role: skillz-admins
@@ -335,21 +322,8 @@
           - id
         filter: {}
         check: {}
-    - role: world
-      permission:
-        columns:
-          - categoryId
-          - description
-          - id
-          - name
-          - verified
-        filter: {}
-        check: {}
   delete_permissions:
     - role: skillz-admins
-      permission:
-        filter: {}
-    - role: world
       permission:
         filter: {}
 - table:
@@ -420,12 +394,6 @@
         columns:
           - skillId
           - topicId
-    - role: world
-      permission:
-        check: {}
-        columns:
-          - skillId
-          - topicId
   select_permissions:
     - role: skillz-admins
       permission:
@@ -447,16 +415,8 @@
           - topicId
         filter: {}
         check: {}
-    - role: world
-      permission:
-        columns: []
-        filter: {}
-        check: {}
   delete_permissions:
     - role: skillz-admins
-      permission:
-        filter: {}
-    - role: world
       permission:
         filter: {}
 - table:

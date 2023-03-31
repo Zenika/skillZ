@@ -24,7 +24,13 @@ const SkillDescription = ({
   /*
    * MUTATIONS
    */
-  const [updateDescription] = useMutation(UPDATE_SKILL_DESCRIPTION);
+  const [updateDescription] = useMutation(UPDATE_SKILL_DESCRIPTION, {
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
+  });
 
   const editDescriptionAction = () => {
     if (descriptionInput.length > 0) {

@@ -13,10 +13,6 @@ export default function AdminCategoriesPage() {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 1280px)",
   });
-
-  /*
-   * AUTH
-   */
   const { t } = useI18n();
 
   /*
@@ -30,6 +26,11 @@ export default function AdminCategoriesPage() {
     GET_ALL_CATEGORIES_ALL_PROPERTIES,
     {
       fetchPolicy: "network-only",
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
     }
   );
 

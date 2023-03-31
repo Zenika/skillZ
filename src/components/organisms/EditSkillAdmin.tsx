@@ -41,14 +41,27 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
    * QUERIES
    */
   const { data: topics, loading: loadingTopics } =
-    useQuery<GetTopicsInfosQuery>(GET_TOPICS_INFOS);
+    useQuery<GetTopicsInfosQuery>(GET_TOPICS_INFOS, {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    });
 
   const {
     data: categories,
     loading: loadingCategories,
     error,
   } = useQuery<GetAllCategoriesAllPropertiesQuery>(
-    GET_ALL_CATEGORIES_ALL_PROPERTIES
+    GET_ALL_CATEGORIES_ALL_PROPERTIES,
+    {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    }
   );
 
   const {
@@ -57,14 +70,47 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
     refetch: refetchSkillSelected,
   } = useQuery<SkillMandatoryFieldsQuery>(GET_SKILL_MANDATORY_FIELDS, {
     variables: { skillId: skillId },
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
   });
 
   /*
    * MUTATIONS
    */
-  const [editSkill] = useMutation<EditSkillMutation>(EDIT_SKILL);
-  const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC);
-  const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC);
+  const [editSkill] = useMutation<EditSkillMutation>(EDIT_SKILL, {
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
+  });
+  const [insertTopic] = useMutation(ADD_SKILL_TO_TOPIC, {
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
+  });
+  const [deleteTopic] = useMutation(DELETE_SKILL_TO_TOPIC, {
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
+  });
+  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
+    UPDATE_SKILL_VERIFIED_MUTATION,
+    {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    }
+  );
 
   const addTopic = (topic: TopicItem) => {
     insertTopic({
@@ -80,10 +126,6 @@ const EditSkillAdmin = ({ skillId }: EditSkillAdminProps) => {
       });
     });
   };
-
-  const [updateVerifiedSkill] = useMutation<SetVerifiedSkillMutationMutationFn>(
-    UPDATE_SKILL_VERIFIED_MUTATION
-  );
 
   const updateVerifiedSkillButtonClick = async () => {
     updateVerifiedSkill({

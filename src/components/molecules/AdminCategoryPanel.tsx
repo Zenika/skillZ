@@ -26,7 +26,14 @@ const AdminCategoryPanel = ({ category, key }: AdminCategoryPanelProps) => {
    * MUTATIONS
    */
   const [updateCategoryByPk] = useMutation<UpdateCategoryByPkMutation>(
-    UPDATE_CATEGORY_BY_PK
+    UPDATE_CATEGORY_BY_PK,
+    {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    }
   );
 
   const onUpdateCategoryClick = async () => {

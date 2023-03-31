@@ -31,13 +31,25 @@ const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
    */
   const { data, error, loading } = useQuery<GetAllSkillsQuery>(GET_ALL_SKILL, {
     variables: { search: `%%` },
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
   });
 
   /*
    * MUTATIONS
    */
   const [mergeDuplicateSkill] = useMutation<MergeDuplicateSkillMutation>(
-    MERGE_DUPLICATE_SKILL
+    MERGE_DUPLICATE_SKILL,
+    {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    }
   );
 
   /*
@@ -46,11 +58,6 @@ const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
   const mergeDuplicateSkillButtonClick = async () => {
     await mergeDuplicateSkill({
       variables: { skillId: skill.id, newSkillId: selectedDuplicate.id },
-      context: {
-        headers: {
-          "x-hasura-role": "skillz-admins",
-        },
-      },
     })
       .then(() => {
         router.reload();
