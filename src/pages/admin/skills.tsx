@@ -47,6 +47,11 @@ export default function AdminSkillsPage() {
   } = useQuery<GetAllVerifiedSkillsQuery>(GET_ALL_VERIFIED_SKILL, {
     fetchPolicy: "network-only",
     variables: { search: `%${debouncedSearchValue}%` },
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
   });
 
   /*

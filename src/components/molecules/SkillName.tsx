@@ -23,7 +23,13 @@ const SkillName = ({ skill, refetchSkill }: SkillNameProps) => {
   /*
    * MUTATIONS
    */
-  const [updateName] = useMutation(UPDATE_SKILL_NAME);
+  const [updateName] = useMutation(UPDATE_SKILL_NAME, {
+    context: {
+      headers: {
+        "x-hasura-role": "skillz-admins",
+      },
+    },
+  });
 
   const editNameAction = () => {
     if (value.length > 0) {
