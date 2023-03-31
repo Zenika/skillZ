@@ -46,6 +46,11 @@ const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
   const mergeDuplicateSkillButtonClick = async () => {
     await mergeDuplicateSkill({
       variables: { skillId: skill.id, newSkillId: selectedDuplicate.id },
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
     })
       .then(() => {
         router.reload();

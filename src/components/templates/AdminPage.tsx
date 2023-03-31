@@ -1,28 +1,22 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import React from "react";
 import Tab from "../../components/atoms/Tab";
 import Tabs from "../../components/atoms/Tabs";
 import CommonPage from "../../components/templates/CommonPage";
-import { config } from "../../env";
 import Loading from "../molecules/Loading";
 import { useI18n } from "../../providers/I18nProvider";
+import { useAdmin } from "../../providers/AdminProvider";
 
 type AdminPageProps = {
   children: any;
 };
 
 export default function AdminPage({ children }: AdminPageProps) {
-  const { user, isLoading } = useAuth0();
   const { pathname, push } = useRouter();
+  const { isAdmin } = useAdmin();
   const { t } = useI18n();
 
-  if (isLoading) return <Loading />;
-
-  if (
-    pathname.startsWith("/admin") &&
-    !config.nextPublicAdmins.split(";").find((admin) => admin === user.email)
-  ) {
+  if (!isAdmin) {
     push("/");
     return <Loading></Loading>;
   }

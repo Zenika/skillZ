@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { config } from "../../env";
 import {
   GetAllNotVerifiedSkillsQuery,
   GetUserAgencyQuery,
@@ -27,6 +26,7 @@ import { LocaleSelector } from "../molecules/LocaleSelector";
 import { TutorialMode } from "../molecules/TutorialMode";
 import { useTutorialMode } from "../../providers/TutorialModeProvider";
 import { useI18n } from "../../providers/I18nProvider";
+import { useAdmin } from "../../providers/AdminProvider";
 
 export type TopBarProps = {
   togglePanel: () => void;
@@ -34,6 +34,7 @@ export type TopBarProps = {
 
 const TopBar = ({ togglePanel }: TopBarProps) => {
   const { isAuthenticated, error, user, loginWithRedirect } = useAuth0();
+  const { isAdmin } = useAdmin();
   const { t, changeLocale } = useI18n();
   const { darkMode, changeDarkMode } = useDarkMode();
   const { tutorialMode, changeTutorialMode } = useTutorialMode();
@@ -196,10 +197,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
                     )}
                   </Link>
                 </div>
-                {user.email ===
-                  config.nextPublicAdmins
-                    .split(";")
-                    .find((admin) => admin === user.email) && (
+                {isAdmin && (
                   <div className="w-36">
                     <Link
                       href="/admin/skills"
