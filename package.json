@@ -37,7 +37,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
-    "@mui/material": "^5.11.14",
+    "@mui/material": "^5.11.15",
     "await-of": "3.1.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
