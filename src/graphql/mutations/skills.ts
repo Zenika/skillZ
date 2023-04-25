@@ -142,8 +142,5 @@ export const MERGE_DUPLICATE_SKILL = gql`
     ) {
       affected_rows
     }
-    delete_Skill(where: { id: { _eq: $skillId } }) {
-      affected_rows
-    }
   }
 `;

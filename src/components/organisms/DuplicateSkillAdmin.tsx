@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import { FetchedSkill } from "../../utils/types";
 import { useMutation, useQuery } from "@apollo/client";
 import {
+  DeleteSkillMutation,
   GetAllSkillsQuery,
   MergeDuplicateSkillMutation,
 } from "../../generated/graphql";
 import { GET_ALL_SKILL } from "../../graphql/queries/skills";
-import { MERGE_DUPLICATE_SKILL } from "../../graphql/mutations/skills";
-import { displayNotification } from "../../utils/displayNotification";
+import {
+  DELETE_SKILL_MUTATION,
+  MERGE_DUPLICATE_SKILL,
+} from "../../graphql/mutations/skills";
 import { useRouter } from "next/router";
 import ErrorPage from "../templates/ErrorPage";
 import Loading from "../molecules/Loading";
 import { Autocomplete, TextField } from "@mui/material";
 import Button from "../atoms/Button";
 import { useI18n } from "../../providers/I18nProvider";
+import { displayNotification } from "../../utils/displayNotification";
 
 type DuplicateSkillAdminProps = {
   skill: FetchedSkill;
@@ -51,20 +55,34 @@ const DuplicateSkillAdmin = ({ skill }: DuplicateSkillAdminProps) => {
       },
     }
   );
+  const [deleteSkill] = useMutation<DeleteSkillMutation>(
+    DELETE_SKILL_MUTATION,
+    {
+      context: {
+        headers: {
+          "x-hasura-role": "skillz-admins",
+        },
+      },
+    }
+  );
 
   /*
    * CALLBACKS
    */
   const mergeDuplicateSkillButtonClick = async () => {
-    await mergeDuplicateSkill({
+    mergeDuplicateSkill({
       variables: { skillId: skill.id, newSkillId: selectedDuplicate.id },
     })
-      .then(() => {
-        router.reload();
-      })
-      .catch((e) => {
-        console.log(e);
-        displayNotification(`${t("error.unknown")}`, "red", 5000);
+      .catch(() => {})
+      .finally(() => {
+        deleteSkill({ variables: { skillId: skill.id } })
+          .then(() => {
+            router.reload();
+          })
+          .catch((e) => {
+            console.log(e);
+            displayNotification(`${t("error.unknown")}`, "red", 5000);
+          });
       });
   };
 
