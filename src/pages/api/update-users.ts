@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { GetAllUsersFromAlibeez } from "../../utils/fetchers/alibeez/getAllUserFromAlibeez";
 import { GetAllUsersFetcher } from "../../utils/fetchers/getAllUsers";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  if (req.method != "GET") {
+  if (req.method != "POST") {
     return res.status(404).json({ message: "Method not allowed." });
   }
 
@@ -21,17 +22,15 @@ export default async function handler(
     return res.status(401).json({ message: "Wrong bearer token." });
   }
 
-  const { roles } = req.query;
-
-  const result = await GetAllUsersFetcher(
-    roles ? (roles instanceof Array ? roles : [roles]) : []
-  );
+  const result = await GetAllUsersFromAlibeez();
 
   if (!result) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 
-  const { User } = result.data;
+  const usersFromAlibeez = result.map((u) => u.username);
 
-  res.status(200).json({ users: User });
+  const usersFromHasura = await GetAllUsersFetcher();
+
+  res.status(200).json(usersFromHasura);
 }
