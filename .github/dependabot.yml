@@ -12,7 +12,7 @@ updates:
       - "skillz-app"
     reviewers:
       - "MailyLehoux"
-      - "benjaminbrgs"
+      - "bengeois"
 
   # Manifest of Skillz slack bot
   - package-ecosystem: "npm"
