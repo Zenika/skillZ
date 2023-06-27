@@ -1,18 +1,18 @@
 INSERT INTO "public"."Agency" ("name") VALUES
-('Paris'),
-('Nantes'),
 ('Bordeaux'),
-('Toulouse'),
 ('Brest'),
-('La Réunion'),
-('Grenoble'),
-('Lyon'),
-('Rennes'),
-('Lille'),
-('Niort'),
+('Casablanca'),
 ('Clermont-Ferrand'),
-('Singapore'),
+('Grenoble'),
+('La Réunion'),
+('Lille'),
+('Lyon'),
 ('Montreal'),
+('Nantes'),
+('Niort'),
+('Paris'),
+('Rennes'),
+('Singapore'),
 ('Toronto'),
-('Casablanca')
-ON CONFLICT ("name") DO NOTHING;
+('Toulouse')
+ ON CONFLICT ("name") DO NOTHING;
