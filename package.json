@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",
-    "@auth0/auth0-react": "2.0.1",
+    "@auth0/auth0-react": "2.1.1",
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
