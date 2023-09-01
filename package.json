@@ -52,7 +52,7 @@
     "react-joyride": "^2.5.4",
     "react-responsive": "9.0.2",
     "recharts": "^2.5.0",
-    "use-debounce": "9.0.3",
+    "use-debounce": "9.0.4",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
