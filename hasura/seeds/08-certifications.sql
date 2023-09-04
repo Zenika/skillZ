@@ -64,6 +64,7 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('HashiCorp Certified: Vault Associate', 'Hashicorp', true),
 ('HashiCorp Certified: Vault Operations Professional', 'Hashicorp', true),
 ('ITIL 3 Foundation', 'Axelos', true),
+('ITIL 4 Foundation', 'Axelos', true),
 ('Java Foundation Certified Junior Associate', 'Oracle', true),
 ('Lean Green Belt', 'APMG International', true),
 ('Maîtrise de la qualité en projet Web', 'Opquast', true),
