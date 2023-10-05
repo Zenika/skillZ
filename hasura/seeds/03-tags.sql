@@ -1,6 +1,7 @@
 INSERT INTO "public"."Tag" ("name") VALUES
 ('3D'),
 ('agile'),
+('AGILE'),
 ('ai'),
 ('AI/ML'),
 ('analytics'),
@@ -32,6 +33,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('data'),
 ('database'),
 ('Data Engineering Pipelines'),
+('Datascience'),
 ('delivery'),
 ('design'),
 ('design system'),
@@ -86,6 +88,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('mobile'),
 ('modeling'),
 ('monitoring'),
+('Native'),
 ('network'),
 ('nocode'),
 ('nosql'),
