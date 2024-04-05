@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_USER_QUERY = gql`
   query getUser($email: String!) {
-    User(where: { email: { _eq: $email }, active: { _eq : true } }) {
+    User(where: { email: { _eq: $email }, active: { _eq: true } }) {
       email
       name
       picture
@@ -17,7 +17,7 @@ export const GET_USER_QUERY = gql`
 
 export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
   query getUserAgencyAndAllAgencies($email: String!) {
-    User(where: { email: { _eq: $email }, active: { _eq : true } }) {
+    User(where: { email: { _eq: $email }, active: { _eq: true } }) {
       email
       name
       picture
