@@ -104,5 +104,6 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('Spring Professional Certification', 'Spring', true),
 ('TensorFlow Developer', 'TensorFlow', true),
 ('TOGAF 9 Certified', 'The Open Group', true),
-('TOGAF 9 Foundation', 'The Open Group', true)
+('TOGAF 9 Foundation', 'The Open Group', true),
+('Kong Gateway Certified Associate', 'Kong', true)
  ON CONFLICT DO NOTHING;
