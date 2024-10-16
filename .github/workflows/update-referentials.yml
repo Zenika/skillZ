@@ -73,7 +73,7 @@ jobs:
                 owner,
                 repo,
                 pull_number: result.data.number,
-                reviewers: ['benjaminbrgs', 'ZenikAdrien', 'MailyLehoux']
+                reviewers: ['bengeois', 'ZenikAdrien']
               });
             } catch (error) {
               if (error.status != 422) {
