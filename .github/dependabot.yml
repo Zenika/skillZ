@@ -11,7 +11,6 @@ updates:
       - "automated pr"
       - "skillz-app"
     reviewers:
-      - "MailyLehoux"
       - "bengeois"
 
   # Manifest of Skillz slack bot
@@ -25,4 +24,4 @@ updates:
       - "automated pr"
       - "skillz-bot"
     reviewers:
-      - "MailyLehoux"
+      - "bengeois"
