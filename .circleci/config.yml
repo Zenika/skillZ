@@ -134,7 +134,7 @@ jobs:
       hasura-clever-app-id:
         type: string
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     steps:
       - checkout
       - run:
@@ -175,7 +175,7 @@ jobs:
           command: hasura-cli metadata apply --admin-secret << parameters.hasura-admin-secret >> --endpoint << parameters.hasura-endpoint >>
   deploy:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     parameters:
       graphql-url:
         type: string
