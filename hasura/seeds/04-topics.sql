@@ -1,6 +1,7 @@
 INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('sensitivity', 'Agile'),
 ('sensitivity', 'Architecture'),
+('sensitivity', 'Artificial Intelligence'),
 ('domain', 'Backend (servers)'),
 ('generic', 'Business'),
 ('sensitivity', 'Cloud'),
