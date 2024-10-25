@@ -212,9 +212,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
           UserSkillDesires: {
             User: {
               active: { _eq: true }
-              UserLatestAgency: {
-                agency: { _eq: $agency }
-              }
+              UserLatestAgency: { agency: { _eq: $agency } }
             }
           }
         }
