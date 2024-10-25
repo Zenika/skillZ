@@ -34,13 +34,15 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
     ) {
       name
       id
-      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
+      UserSkillDesires_aggregate(
+        where: { User: { email: { _eq: $email }, active: { _eq: true } } }
+      ) {
         aggregate {
           count
         }
       }
       UsersCurrentSkillsAndDesires(
-        where: { User: { email: { _eq: $email } } }
+        where: { User: { email: { _eq: $email }, active: { _eq: true } } }
       ) {
         desireLevel
         skillLevel
@@ -58,7 +60,9 @@ export const SEARCH_SKILLS_BY_CATEGORY_QUERY = gql`
     ) {
       name
       id
-      UserSkillDesires_aggregate(where: { User: { email: { _eq: $email } } }) {
+      UserSkillDesires_aggregate(
+        where: { User: { email: { _eq: $email }, active: { _eq: true } } }
+      ) {
         aggregate {
           count
         }
@@ -205,10 +209,9 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         where: {
           name: { _eq: $skill }
           UserSkillDesires: {
-            User: {
+            User(where: { active: { _eq: true } }): {
               UserLatestAgency: {
                 agency: { _eq: $agency }
-                active: { _eq: true }
               }
             }
           }
@@ -219,7 +222,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         UsersCurrentSkillsAndDesires(
           order_by: { skillLevel: desc, desireLevel: desc }
           where: {
-            User: {
+            User(where: { active: { _eq: true } }): {
               UserLatestAgency: { agency: { _eq: $agency } }
               active: { _eq: true }
             }
