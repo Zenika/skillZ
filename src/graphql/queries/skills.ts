@@ -209,7 +209,8 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         where: {
           name: { _eq: $skill }
           UserSkillDesires: {
-            User(where: { active: { _eq: true } }): {
+            User {
+              active: { _eq: true }
               UserLatestAgency: {
                 agency: { _eq: $agency }
               }
@@ -222,7 +223,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         UsersCurrentSkillsAndDesires(
           order_by: { skillLevel: desc, desireLevel: desc }
           where: {
-            User(where: { active: { _eq: true } }): {
+            User {
               UserLatestAgency: { agency: { _eq: $agency } }
               active: { _eq: true }
             }
