@@ -179,11 +179,12 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY = gql`
         id
         name
         UsersCurrentSkillsAndDesires(
-          order_by: { skillLevel: desc, desireLevel: desc }
+          where: { User: { active: { _eq: true } } }
         ) {
           skillLevel
           desireLevel
-          User(where: { active: { _eq: true } }): {
+          User {
+            active
             name
             picture
             email
@@ -231,7 +232,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         ) {
           skillLevel
           desireLevel
-          User(where: { active: { _eq: true } }): {
+          User {
             name
             picture
             email
