@@ -183,7 +183,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_QUERY = gql`
         ) {
           skillLevel
           desireLevel
-          User(where: { active: { _eq: true } }) {
+          User(where: { active: { _eq: true } }): {
             name
             picture
             email
@@ -209,7 +209,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         where: {
           name: { _eq: $skill }
           UserSkillDesires: {
-            User {
+            User: {
               active: { _eq: true }
               UserLatestAgency: {
                 agency: { _eq: $agency }
@@ -223,7 +223,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         UsersCurrentSkillsAndDesires(
           order_by: { skillLevel: desc, desireLevel: desc }
           where: {
-            User {
+            User: {
               UserLatestAgency: { agency: { _eq: $agency } }
               active: { _eq: true }
             }
@@ -231,7 +231,7 @@ export const GET_USERS_SKILLS_AND_DESIRES_DETAIL_BY_AGENCY_QUERY = gql`
         ) {
           skillLevel
           desireLevel
-          User(where: { active: { _eq: true } }) {
+          User(where: { active: { _eq: true } }): {
             name
             picture
             email
