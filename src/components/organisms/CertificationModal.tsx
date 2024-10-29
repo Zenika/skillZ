@@ -33,7 +33,7 @@ const CertificationModal = ({
     editMode && !!userCertificationRef.to
   );
   const sortedCerts = certificationsRef
-    ? certificationsRef.sort((a, b) =>
+    ? certificationsRef.toSorted((a, b) =>
         a.certBody + a.name > b.certBody + b.name ? 1 : -1
       )
     : [];
