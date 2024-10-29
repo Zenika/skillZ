@@ -32,6 +32,11 @@ const CertificationModal = ({
   const [hasExpiryDate, setHasExpiryDate] = useState<boolean>(
     editMode && !!userCertificationRef.to
   );
+  const sortedCerts = certificationsRef
+    ? certificationsRef.sort((a, b) =>
+        a.certBody + a.name > b.certBody + b.name ? 1 : -1
+      )
+    : [];
 
   return (
     <div className="flex flex-col max-h-75vh p-2 w-full">
@@ -77,9 +82,7 @@ const CertificationModal = ({
             <CustomSelect
               labelFn={(cert) => `${cert?.certBody} - ${cert?.name}`}
               keyFn={(cert) => cert.id}
-              choices={certificationsRef.sort((a, b) =>
-                a.certBody + a.name > b.certBody + b.name ? 1 : -1
-              )}
+              choices={sortedCerts}
               selectedChoice={userCertification?.Certification}
               placeholder={t("userProfile.certModal.selectCert")}
               readOnly={editMode}
