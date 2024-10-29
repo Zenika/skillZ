@@ -606,6 +606,7 @@
           - last_login
           - name
           - picture
+          - active
         filter: {}
         allow_aggregations: true
   update_permissions:
