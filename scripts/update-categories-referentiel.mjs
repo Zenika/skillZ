@@ -36,7 +36,7 @@ const { categories: categoriesData } = await response.json();
  */
 const categories = categoriesData.map(
   (cat) =>
-    `('${cat.id}', '${cat.label}', ${cat.x}, '${cat.y}', '${cat.color}', ${cat.index})`
+    `('${cat.id}', '${cat.label}', '${cat.x}', '${cat.y}', '${cat.color}', ${cat.index})`
 );
 
 /*
@@ -46,7 +46,7 @@ let writer = fs.createWriteStream("../hasura/seeds/02-categories.sql", {
   flags: "w",
 });
 
-writer.write('INSERT INTO public."Category" VALUES\n');
+writer.write('INSERT INTO "public"."Category" VALUES\n');
 
 writer.write(categories.join(",\n"));
 
