@@ -540,6 +540,11 @@ It natively supports async functions and promises.'),
 ('PostgreSQL', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('PowerAPI', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Open-source toolkit measuring power consumption at different granularity levels: global, virtual machine, container, application, processus, code.'),
 ('PRINCE2', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Prisma Cloud', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'The "Compute Edition" is a Cloud workload protection platform (CWPP) protecting hosts, containers, and serverless infrastructure running in any cloud, including on-premises and air-gapped environments.
+The "Enterprise Edition" is a Cloud Native Application Protection Platform (CNAPP) protecting applications from code to cloud, reducing risks, and preventing breaches.
+
+
+'),
 ('Prismic', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Problem Solving', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Achieving a goal by overcoming obstacles.'),
 ('Process Communication Model (PCM)', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
