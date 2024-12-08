@@ -238,6 +238,9 @@
       permission:
         filter: {}
 - table:
+    name: Role
+    schema: public
+- table:
     name: Skill
     schema: public
   object_relationships:
