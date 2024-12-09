@@ -28,6 +28,10 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
     Agency {
       name
     }
+    Role {
+      id
+      name
+    }
     Topic {
       id
       name
@@ -77,6 +81,9 @@ export const GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY = gql`
     }
     UserTopic(where: { userEmail: { _eq: $email } }) {
       topicId
+    }
+    UserRole(where: { userEmail: { _eq: $email } }) {
+      roleId
     }
   }
 `;

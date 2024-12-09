@@ -80,6 +80,24 @@ export const DELETE_USER_CERTIFICATION_MUTATION = gql`
   }
 `;
 
+export const INSERT_USER_ROLE_MUTATION = gql`
+  mutation insertUserRoleMutation($email: String!, $roleId: uuid!) {
+    insert_UserRole_one(object: { userEmail: $email, roleId: $roleId }) {
+      roleId
+    }
+  }
+`;
+
+export const DELETE_USER_ROLE_MUTATION = gql`
+  mutation deleteUserRoleMutation($email: String!, $roleId: uuid!) {
+    delete_UserRole(
+      where: { roleId: { _eq: $roleId }, userEmail: { _eq: $email } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 export const INSERT_USER_TOPIC_MUTATION = gql`
   mutation insertUserTopicMutation($email: String!, $topicId: uuid!) {
     insert_UserTopic_one(object: { userEmail: $email, topicId: $topicId }) {
