@@ -165,6 +165,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('team'),
 ('testing'),
 ('tooling'),
+('training'),
 ('transformation'),
 ('typescript'),
 ('ux'),
