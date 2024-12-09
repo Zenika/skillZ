@@ -1,5 +1,23 @@
 import { gql } from '@apollo/client'
 
+export const INSERT_USER_ROLE_MUTATION = gql`
+    mutation insertUserRoleMutation($email: String!, $roleId: uuid!) {
+        insert_UserRole_one(object: { userEmail: $email, roleId: $roleId }) {
+            roleId
+        }
+    }
+`
+
+export const DELETE_USER_ROLE_MUTATION = gql`
+    mutation deleteUserRoleMutation($email: String!, $roleId: uuid!) {
+        delete_UserRole(
+            where: { roleId: { _eq: $roleId }, userEmail: { _eq: $email } }
+        ) {
+            affected_rows
+        }
+    }
+`
+
 export const INSERT_USER_MUTATION = gql`
     mutation insertUserMutation(
         $email: String!
