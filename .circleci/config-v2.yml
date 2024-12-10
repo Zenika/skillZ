@@ -1,0 +1,88 @@
+version: 2.1
+
+orbs:
+  cypress: cypress-io/cypress@1
+  node: circleci/node@5.0.2
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:16.13.1
+  hasura:
+    docker:
+      - image: cimg/node:16.13.1
+      - image: postgres:13
+        name: postgres
+        environment:
+          POSTGRES_PASSWORD: postgrespassword
+      - image: hasura/graphql-engine:v2.16.1.cli-migrations-v3
+        name: hasura
+        environment:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+          HASURA_GRAPHQL_ADMIN_SECRET: key
+          HASURA_GRAPHQL_NO_OF_RETRIES: 30
+          HASURA_ACHIEVEMENTS_ENDPOINT: http://172.17.0.1:3000/api/achievement
+          NEXT_API_BEARER_TOKEN: key
+  docker:
+    docker:
+      - image: docker:stable
+  clever-cloud-deployer:
+    docker:
+      - image: cimg/node:lts
+
+anchors:
+  filters:
+    deploy-production:
+      tags:
+        only: /^v.*/
+      branches:
+        ignore: /.*/
+    deploy-staging:
+      branches:
+        only: main
+  reusable-steps:
+    restore-dependencies:
+      - restore_cache:
+          keys:
+            - v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+            - v4-packaging-dependencies-
+    save-dependencies:
+      - save_cache:
+          paths:
+            - node_modules
+          key: v4-packaging-dependencies-{{ checksum "package-lock.json" }}
+    install-dependencies:
+      - checkout
+      - <<: *restore-dependencies
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - <<: *save-dependencies
+    clever-deploy:
+      - run:
+          name: Deploy
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.clever-app-id >>
+            clever deploy --force
+
+jobs:
+  install-dependencies:
+    executor: node
+    steps:
+      - <<: *install-dependencies
+
+  qc-prettier:
+    executor: node
+    steps:
+      - checkout
+      - <<: *restore-dependencies
+      - run:
+          name: Check Prettier formatting
+          command: npm run prettier:check
