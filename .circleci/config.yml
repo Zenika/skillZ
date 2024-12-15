@@ -104,7 +104,7 @@ jobs:
       - checkout
       - restore-dependencies
       - run:
-          name: Check Prettier formatting
+          name: Check format
           command: npm run prettier:check
 
   lint:
@@ -113,7 +113,7 @@ jobs:
       - checkout
       - restore-dependencies
       - run:
-          name: Run ESLint
+          name: Check lint
           command: npm run lint
 
   unit-test:
@@ -251,7 +251,7 @@ jobs:
 # ---------------------------------------------------------------------------------
 
 workflows:
-  deploy-staging:
+  workflow-staging:
     jobs:
       - install-dependencies
       - format:
@@ -263,6 +263,7 @@ workflows:
       - build:
           requires: [format, lint, unit-test]
       - deploy-hasura:
+          name: deploy-hasura-staging
           requires: [build]
           clever-app-id: app_dd676b9a-5e95-4bab-9e21-ba6f9582e12b
           context: clever-cloud2-zenika-dev
@@ -270,12 +271,14 @@ workflows:
             branches:
               only: main
       - apply-hasura-migrations:
-          requires: [deploy-hasura]
+          name: apply-hasura-migrations-staging
+          requires: [deploy-hasura-staging]
           hasura-admin-secret: $HASURA_ADMIN_SECRET_STAGING
           hasura-endpoint: $HASURA_ENDPOINT_STAGING
           filters: *staging-filters
       - deploy-app:
-          requires: [apply-hasura-migrations]
+          name: deploy-app-staging
+          requires: [apply-hasura-migrations-staging]
           graphql-url: $NEXT_STAGING_PUBLIC_GRAPHQL_URL
           auth0-connection: $NEXT_STAGING_PUBLIC_AUTH0_CONNECTION
           auth0-domain: $NEXT_PUBLIC_AUTH0_DOMAIN
@@ -288,12 +291,13 @@ workflows:
           context: clever-cloud2-zenika-dev
           filters: *staging-filters
       - deploy-bot:
+          name: deploy-bot-staging
           requires: [format, lint, unit-test]
           clever-app-id: app_f3ae1d9d-d9ad-4ce3-a019-d18a99e5c73a
           context: clever-cloud2-zenika-dev
           filters: *staging-filters
 
-  deploy-prod:
+  workflow-prod:
     jobs:
       - install-dependencies:
           filters: &prod-filters
@@ -314,17 +318,20 @@ workflows:
           requires: [format, lint, unit-test]
           filters: *prod-filters
       - deploy-hasura:
+          name: deploy-hasura-prod
           requires: [build]
           filters: *prod-filters
           clever-app-id: $HASURA_CLEVER_APP_ID_PROD
           context: clever-cloud2-zenika-dev
       - apply-hasura-migrations:
-          requires: [deploy-hasura]
+          name: apply-hasura-migrations-prod
+          requires: [deploy-hasura-prod]
           hasura-admin-secret: $HASURA_ADMIN_SECRET_PROD
           hasura-endpoint: $HASURA_ENDPOINT_PROD
           filters: *prod-filters
       - deploy-app:
-          requires: [apply-hasura-migrations]
+          name: deploy-app-prod
+          requires: [apply-hasura-migrations-prod]
           graphql-url: $NEXT_PROD_PUBLIC_GRAPHQL_URL
           auth0-connection: $NEXT_PROD_PUBLIC_AUTH0_CONNECTION
           auth0-domain: $NEXT_PUBLIC_AUTH0_DOMAIN
@@ -337,6 +344,7 @@ workflows:
           context: clever-cloud2-zenika-dev
           filters: *prod-filters
       - deploy-bot:
+          name: deploy-bot-prod
           requires: [format, lint, unit-test]
           clever-app-id: app_fe53126e-88fa-4a72-9e47-366b0ffed556
           context: clever-cloud2-zenika-dev
