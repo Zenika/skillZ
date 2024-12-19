@@ -1,23 +1,22 @@
-version: "3.8"
 services:
   postgres:
     image: postgres:13
-    restart: always
+    restart: on-failure:3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_PASSWORD: password
   graphql-engine:
     image: hasura/graphql-engine:v2.16.1
     ports:
       - "8080:8080"
     depends_on:
       - "postgres"
-    restart: always
+    restart: on-failure:3
     env_file:
       - ./.env
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:password@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: key
       HASURA_GRAPHQL_JWT_SECRET: "${SKILLZ_GRAPHQL_JWT_SECRET?SKILLZ_GRAPHQL_JWT_SECRET}"

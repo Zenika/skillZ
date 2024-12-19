@@ -184,7 +184,7 @@ jobs:
           name: Package Hasura
           command: |
             mkdir -p hasura
-            cp ./hasura.Dockerfile ./hasura/Dockerfile
+            cp ./hasura/Dockerfile ./hasura/Dockerfile
       - clever-deploy:
           deploy-dir: "./hasura"
           clever-app-id: << parameters.clever-app-id >>
