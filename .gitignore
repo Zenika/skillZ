@@ -56,6 +56,9 @@ graphql.schema.json
 # IntelliJ
 .idea
 
+# VSCode
+.vscode
+
 ## SLACK-BOT
 /bot-slack/node_modules
 /bot-slack/.env
