@@ -51,8 +51,7 @@
     "react-joyride": "^2.5.5",
     "react-responsive": "9.0.2",
     "recharts": "^2.13.2",
-    "use-debounce": "9.0.4",
-    "yarn": "^1.22.19"
+    "use-debounce": "9.0.4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^3.2.1",
@@ -61,8 +60,8 @@
     "@graphql-codegen/typescript-operations": "^3.0.0",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@testing-library/cypress": "^9.0.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^15.0.7",
     "@types/node": "^18.19.68",
     "@types/object-path": "0.11.1",
     "@types/react": "^18.3.18",
