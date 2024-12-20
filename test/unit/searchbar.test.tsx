@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import SearchBar from "../src/components/atoms/SearchBar/SearchBar";
+import SearchBar from "../../src/components/atoms/SearchBar/SearchBar";
 
 describe("SearchBar component", () => {
   it("renders a SearchBar", () => {

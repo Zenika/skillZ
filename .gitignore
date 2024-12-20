@@ -3,7 +3,12 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # testing
 /coverage
@@ -26,11 +31,8 @@ yarn-error.log*
 
 # local env files
 .env
-.env.local
-.env.development.local
-.env.test.local
+.env*.local
 .env.test
-.env.production.local
 
 # relay
 /src/__generated__/
@@ -60,8 +62,15 @@ graphql.schema.json
 .vscode
 
 ## SLACK-BOT
-/bot-slack/node_modules
-/bot-slack/.env
-/bot-slack/ngrok
-/bot-slack/.DS_Store
-/bot-slack/coverage
+./bot-slack/node_modules
+./bot-slack/.env
+./bot-slack/ngrok
+./bot-slack/.DS_Store
+./bot-slack/coverage
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

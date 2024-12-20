@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Tag, { tagClasses } from "../src/components/atoms/Tag";
+import Tag, { tagClasses } from "../../src/components/atoms/Tag";
 
 describe("Tag component", () => {
   it("renders a green readonly chip", () => {

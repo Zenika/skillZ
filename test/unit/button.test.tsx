@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Button, { buttonClasses } from "../src/components/atoms/Button";
+import Button, { buttonClasses } from "../../src/components/atoms/Button";
 
 describe("Button component", () => {
   it("renders a primary button with text", () => {

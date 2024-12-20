@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Chip, { chipClasses } from "../src/components/atoms/Chip";
+import Chip, { chipClasses } from "../../src/components/atoms/Chip";
 
 describe("Chip component", () => {
   it("renders a primary chip", () => {

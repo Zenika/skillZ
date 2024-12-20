@@ -9,7 +9,6 @@ describe("profile", () => {
   });
 
   it("should successfully view profile onboarding", () => {
-    cy.session("profile");
     cy.visit("/profile");
     cy.findAllByText(
       "To fully utilize Skillz, please fill out your agency."
@@ -17,7 +16,6 @@ describe("profile", () => {
   });
 
   it("should successfully update agency", () => {
-    cy.session("profile");
     cy.visit("/profile");
     cy.findByText("Select my agency").click();
     cy.findByText("Brest").click();
@@ -27,7 +25,6 @@ describe("profile", () => {
   });
 
   it("should successfully add preferred topics", () => {
-    cy.session("profile");
     cy.visit("/profile");
 
     // Add topics
@@ -48,7 +45,6 @@ describe("profile", () => {
   });
 
   it("should successfully remove preferred topics", () => {
-    cy.session("profile");
     cy.visit("/profile");
 
     // Add topics
@@ -66,7 +62,6 @@ describe("profile", () => {
   });
 
   it("should successfully add a certification", () => {
-    cy.session("profile");
     cy.visit("/profile");
 
     // Select a certification
@@ -85,7 +80,6 @@ describe("profile", () => {
   });
 
   it("should successfully remove a certification", () => {
-    cy.session("profile");
     cy.visit("/profile");
 
     // Check that certifications section exists

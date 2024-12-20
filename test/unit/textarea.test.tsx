@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import TextArea, { textAreaClasses } from "../src/components/atoms/TextArea";
+import TextArea, { textAreaClasses } from "../../src/components/atoms/TextArea";
 
 describe("TextArea component", () => {
   it("renders a textarea component", () => {
