@@ -1,7 +1,7 @@
-import { Dot } from "recharts";
+import { Dot } from 'recharts'
 
 const RenderDot = (value) => {
-  return <Dot cx={value.cx} cy={value.cy} fill={value.fill} r={value.z * 6} />;
-};
+    return <Dot cx={value.cx} cy={value.cy} fill={value.fill} r={value.z * 6} />
+}
 
-export default RenderDot;
+export default RenderDot

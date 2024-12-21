@@ -5,5 +5,5 @@ query getUserByAgencyAndTopic($agency: String!, $topic: String!) {
       email
     }
   }
-`;
-module.exports.GET_USERS_BY_AGENCY_AND_TOPICS = GET_USERS_BY_AGENCY_AND_TOPICS;
+`
+module.exports.GET_USERS_BY_AGENCY_AND_TOPICS = GET_USERS_BY_AGENCY_AND_TOPICS

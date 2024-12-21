@@ -4,6 +4,6 @@ query getBotNotifications($email: String!) {
       botNotifications
     }
   }
-`;
+`
 
-module.exports.GET_BOT_NOTIFICATIONS = GET_BOT_NOTIFICATIONS;
+module.exports.GET_BOT_NOTIFICATIONS = GET_BOT_NOTIFICATIONS

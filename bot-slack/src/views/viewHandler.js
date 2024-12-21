@@ -1,7 +1,7 @@
-const { viewNoteSkill } = require("./noteSkill/viewNoteSkill");
+const { viewNoteSkill } = require('./noteSkill/viewNoteSkill')
 
 module.exports = {
-  viewHandler(app) {
-    viewNoteSkill(app);
-  },
-};
+    viewHandler(app) {
+        viewNoteSkill(app)
+    },
+}
