@@ -39,7 +39,7 @@ const TopBar = ({ togglePanel }: TopBarProps) => {
   const { darkMode, changeDarkMode } = useDarkMode();
   const { tutorialMode, changeTutorialMode } = useTutorialMode();
   const { locale, query, pathname } = useRouter();
-  let { context } = query;
+  const { context } = query;
 
   /*
    * STATES

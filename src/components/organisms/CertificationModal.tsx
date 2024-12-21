@@ -32,7 +32,7 @@ const CertificationModal = ({
   const [hasExpiryDate, setHasExpiryDate] = useState<boolean>(
     editMode && !!userCertificationRef.to
   );
-  let sortedCerts = certificationsRef.map((x) => x);
+  const sortedCerts = certificationsRef.map((x) => x);
   sortedCerts.sort((a, b) =>
     a.certBody + a.name > b.certBody + b.name ? 1 : -1
   );

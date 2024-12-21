@@ -135,7 +135,7 @@ const EditTags = ({
 
   useEffect(() => {
     if (!tagsBySkill) return;
-    let tagsIds = [];
+    const tagsIds = [];
 
     tagsBySkill.SkillTag.map((tag) => {
       tagsIds.push(tag.tagId);

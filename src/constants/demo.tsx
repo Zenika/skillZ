@@ -1,4 +1,4 @@
-export function getTutorialStep(t: (path: string) => string, stepName: String) {
+export function getTutorialStep(t: (path: string) => string, stepName: string) {
   /*
    * TUTORIAL CONFIG STEPS
    */

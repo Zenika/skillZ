@@ -10,7 +10,7 @@ export type AuthenticationResult = {
 export type FetchResult<T> = {
   data?: T;
   error?: Error;
-  isLoading: Boolean;
+  isLoading: boolean;
 };
 
 export type User = {

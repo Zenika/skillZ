@@ -37,7 +37,7 @@ const Login = () => {
     if (!userData || !user) return;
 
     if (!userData.User.length) {
-      // @ts-ignore
+      // @ts-expect-error - argument is not assignable to parameter
       push(query.returnTo);
       return;
     }
@@ -50,7 +50,7 @@ const Login = () => {
       },
     })
       .then(() => {
-        // @ts-ignore
+        // @ts-expect-error - argument is not assignable to parameter
         push(query.returnTo);
       })
       .catch((e) => {

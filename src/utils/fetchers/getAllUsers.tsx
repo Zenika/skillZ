@@ -11,7 +11,7 @@ query getAllUsers($whereConditions: User_bool_exp!) {
   }
 }`;
 
-export const GetAllUsersFetcher = async (roles: String[]) => {
+export const GetAllUsersFetcher = async (roles: string[]) => {
   const whereConditions = roles.length ? { role: { _in: roles } } : {};
 
   const [response, err] = await of(
