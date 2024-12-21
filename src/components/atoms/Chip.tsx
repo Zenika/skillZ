@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
 export type ChipType = "primary" | "secondary" | "tertiary";
