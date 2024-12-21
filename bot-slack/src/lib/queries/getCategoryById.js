@@ -3,6 +3,6 @@ const GET_CATEGORY_BY_ID = `query getCategoryById($categoryId: uuid!) {
       label
     }
   }
-  `;
+  `
 
-module.exports.GET_CATEGORY_BY_ID = GET_CATEGORY_BY_ID;
+module.exports.GET_CATEGORY_BY_ID = GET_CATEGORY_BY_ID

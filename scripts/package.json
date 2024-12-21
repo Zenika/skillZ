@@ -1,11 +1,11 @@
 {
-  "name": "skillz-scripts",
-  "version": "1.0.0",
-  "description": "Scripts for the skillz project",
-  "scripts": {},
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "node-fetch": "^3.3.0"
-  }
+    "name": "skillz-scripts",
+    "version": "1.0.0",
+    "description": "Scripts for the skillz project",
+    "scripts": {},
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "node-fetch": "^3.3.0"
+    }
 }

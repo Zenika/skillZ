@@ -1,111 +1,111 @@
-import { UserLatestAgency } from "../generated/graphql";
+import { UserLatestAgency } from '../generated/graphql'
 
 export type AuthenticationResult = {
-  token?: string;
-  user?: any;
-  error?: Error;
-  isLoading: boolean;
-};
+    token?: string
+    user?: any
+    error?: Error
+    isLoading: boolean
+}
 
 export type FetchResult<T> = {
-  data?: T;
-  error?: Error;
-  isLoading: Boolean;
-};
+    data?: T
+    error?: Error
+    isLoading: boolean
+}
 
 export type User = {
-  email: string;
+    email: string
 
-  name: string;
+    name: string
 
-  picture: string;
+    picture: string
 
-  botNotification: boolean;
+    botNotification: boolean
 
-  active: boolean;
+    active: boolean
 
-  last_login: Date;
+    last_login: Date
 
-  current_login: Date;
+    current_login: Date
 
-  userLatestAgency?: UserLatestAgency;
-};
+    userLatestAgency?: UserLatestAgency
+}
 
-export type FilterData<T> = { name: string; values: T[]; selected?: T };
+export type FilterData<T> = { name: string; values: T[]; selected?: T }
 
 export type FetchedSkill = {
-  id?: string;
-  name?: string;
-  desireLevel?: number;
-  skillLevel?: number;
-  userCount?: number;
-  add?: boolean;
-  description?: string;
-  verified?: boolean;
-  categoryId?: string;
-  created_at?: Date;
-  SkillTags?: SkillTag[];
-  SkillTopics?: SkillTopics[];
-};
+    id?: string
+    name?: string
+    desireLevel?: number
+    skillLevel?: number
+    userCount?: number
+    add?: boolean
+    description?: string
+    verified?: boolean
+    categoryId?: string
+    created_at?: Date
+    SkillTags?: SkillTag[]
+    SkillTopics?: SkillTopics[]
+}
 
 export type SkillTopics = {
-  topicId: number;
-  skillId?: any;
-};
+    topicId: number
+    skillId?: any
+}
 
 export type Certification = {
-  id: number;
-  name: string;
-  verified: boolean;
-  certBody: string;
-  UserCertifications_aggregate?: Partial<{
-    aggregate: {
-      count: number;
-    };
-  }>;
-};
+    id: number
+    name: string
+    verified: boolean
+    certBody: string
+    UserCertifications_aggregate?: Partial<{
+        aggregate: {
+            count: number
+        }
+    }>
+}
 
 export type UserCertification = {
-  from: string;
-  to?: string;
-  obtained: boolean;
-  url?: string;
-  Certification?: Certification;
-  User?: User;
-};
+    from: string
+    to?: string
+    obtained: boolean
+    url?: string
+    Certification?: Certification
+    User?: User
+}
 
 export type TopicItem = {
-  id: string;
-  name: string;
-};
+    id: string
+    name: string
+}
 
 export type CategoryItem = {
-  id: string;
-  label: string;
-  color: string;
-  x: string;
-  y: string;
-  index: number;
-  description?: string | null;
-};
+    id: string
+    label: string
+    color: string
+    x: string
+    y: string
+    index: number
+    description?: string | null
+}
 
 export type Tag = {
-  name: string;
-  id: any;
-};
+    name: string
+    id: any
+}
 
 export type SkillTag = {
-  tagId: number;
-  skillId?: any;
-};
+    tagId: number
+    skillId?: any
+}
 
 export type Skill = {
-  name?: string | null | undefined;
-  userCount?: any | null | undefined;
-  id?: string;
-  skillId?: string;
-  skillLevel?: any | null | undefined;
-  desireLevel?: any | null | undefined;
-  UserSkillDesires?: any | null;
-  Category?: CategoryItem | null;
-};
+    name?: string | null | undefined
+    userCount?: any | null | undefined
+    id?: string
+    skillId?: string
+    skillLevel?: any | null | undefined
+    desireLevel?: any | null | undefined
+    UserSkillDesires?: any | null
+    Category?: CategoryItem | null
+}

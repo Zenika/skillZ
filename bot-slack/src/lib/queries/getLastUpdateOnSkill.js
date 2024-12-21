@@ -4,6 +4,6 @@ query getlastInfosUpdate($email: String!) {
       created_at
     }
   }  
-`;
+`
 
-module.exports.GETLASTUPDATES = GETLASTUPDATES;
+module.exports.GETLASTUPDATES = GETLASTUPDATES

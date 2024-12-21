@@ -4,6 +4,6 @@ query getBotUsers {
       email
     }
   }  
-`;
+`
 
-module.exports.GET_BOT_USERS = GET_BOT_USERS;
+module.exports.GET_BOT_USERS = GET_BOT_USERS

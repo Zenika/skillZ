@@ -5,6 +5,6 @@ query getSkillInfos($email: String!) {
       created_at
     }
   }
-`;
+`
 
-module.exports.GET_LAST_UPDATED_SKILLS = GET_LAST_UPDATED_SKILLS;
+module.exports.GET_LAST_UPDATED_SKILLS = GET_LAST_UPDATED_SKILLS

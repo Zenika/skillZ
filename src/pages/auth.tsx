@@ -1,7 +1,7 @@
-import Loading from "../components/molecules/Loading";
+import Loading from '../components/molecules/Loading'
 
 const Auth = () => {
-  return <Loading></Loading>;
-};
+    return <Loading></Loading>
+}
 
-export default Auth;
+export default Auth

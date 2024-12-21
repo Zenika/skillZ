@@ -5,7 +5,7 @@ const GET_SKILL_NAME_AND_CATEGORY_BY_ID = `query getSkillInfosFromID($skill: uui
         label
       }
     }
-  }`;
+  }`
 
 module.exports.GET_SKILL_NAME_AND_CATEGORY_BY_ID =
-  GET_SKILL_NAME_AND_CATEGORY_BY_ID;
+    GET_SKILL_NAME_AND_CATEGORY_BY_ID
