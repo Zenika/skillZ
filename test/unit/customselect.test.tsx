@@ -2,8 +2,8 @@ import "@testing-library/jest-dom";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import CustomSelect, {
   customSelectClasses,
-} from "../src/components/atoms/CustomSelect/CustomSelect";
-import { DarkModeProvider } from "../src/providers/DarkModeProvider";
+} from "../../src/components/atoms/CustomSelect/CustomSelect";
+import { DarkModeProvider } from "../../src/providers/DarkModeProvider";
 
 describe("CustomSelect component", () => {
   it("renders a simple CustomSelect", () => {

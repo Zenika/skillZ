@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Topic, { topicClasses } from "../src/components/atoms/Topic";
+import Topic, { topicClasses } from "../../src/components/atoms/Topic";
 
 describe("Topic component", () => {
   it("renders a common readonly topic", () => {

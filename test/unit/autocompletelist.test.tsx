@@ -1,9 +1,13 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import AutoCompleteList, {
   autoCompleteListChildrenClasses,
   autoCompleteListParentChildrenClasses,
-} from "../src/components/atoms/AutoCompleteList";
+} from "../../src/components/atoms/AutoCompleteList";
 
 describe("AutoCompleteList component", () => {
   it("renders an AutoCompleteList", () => {

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Tab, { tabClasses } from "../src/components/atoms/Tab";
+import Tab, { tabClasses } from "../../src/components/atoms/Tab";
 import { createMockRouter } from "./utils/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
 
