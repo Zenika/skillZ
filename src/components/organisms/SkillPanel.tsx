@@ -97,8 +97,8 @@ const SkillPanel = ({
                   skill.skillLevel
                     ? skill.skillLevel
                     : skill.UserSkillDesires?.length > 0
-                    ? skill.UserSkillDesires[0].skillLevel
-                    : 0
+                      ? skill.UserSkillDesires[0].skillLevel
+                      : 0
                 }
               />
             </div>
@@ -112,8 +112,8 @@ const SkillPanel = ({
                   skill.desireLevel
                     ? skill.desireLevel
                     : skill.UserSkillDesires?.length > 0
-                    ? skill.UserSkillDesires[0].desireLevel
-                    : 0
+                      ? skill.UserSkillDesires[0].desireLevel
+                      : 0
                 }
               />
             </div>

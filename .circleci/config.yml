@@ -105,7 +105,7 @@ jobs:
       - restore-dependencies
       - run:
           name: Check format
-          command: npm run prettier:check
+          command: npm run prettier
 
   lint:
     executor: node

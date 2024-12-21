@@ -147,5 +147,5 @@ export const useFetchSkillsByContextCategoryAndAgency = (
   context !== "zenika"
     ? fetchMySkills(email, category, debouncedSearchValue)
     : agency && agency !== "World"
-    ? fetchZenikasSkillsByAgency(category, agency, debouncedSearchValue)
-    : fetchZenikasSkills(category, debouncedSearchValue);
+      ? fetchZenikasSkillsByAgency(category, agency, debouncedSearchValue)
+      : fetchZenikasSkills(category, debouncedSearchValue);

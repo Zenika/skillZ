@@ -26,10 +26,10 @@ const ListSkillsPage = () => {
    * CONTEXT
    */
   let { context, category, agency } = router.query;
-  context = typeof context === "string" ? context : context?.join("") ?? null;
+  context = typeof context === "string" ? context : (context?.join("") ?? null);
   category =
-    typeof category === "string" ? category : category?.join("") ?? null;
-  agency = typeof agency === "string" ? agency : agency?.join("") ?? null;
+    typeof category === "string" ? category : (category?.join("") ?? null);
+  agency = typeof agency === "string" ? agency : (agency?.join("") ?? null);
 
   /*
    * QUERIES
