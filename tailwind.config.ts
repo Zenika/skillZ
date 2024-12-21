@@ -1,11 +1,10 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+import type { Config } from "tailwindcss";
+import * as defaultTheme from "tailwindcss/defaultTheme";
 
-module.exports = {
+const config: Config = {
   important: true,
-  // Active dark mode on class basis
   darkMode: "class",
-  content: ["./src/**/*.tsx"],
-
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     filter: {
       name: "brightness",
@@ -91,3 +90,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+export default config;
