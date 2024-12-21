@@ -9,4 +9,4 @@ query getSkillCategoryAndIDByName($name: String!) {
   }`;
 
 module.exports.GET_SKILL_CATEGORY_AND_ID_BY_NAME =
-  GET_SKILL_CATEGORY_AND_ID_BY_NAME;
+    GET_SKILL_CATEGORY_AND_ID_BY_NAME;

@@ -13,9 +13,9 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import "@testing-library/cypress/add-commands";
+import '@testing-library/cypress/add-commands';
 // Import commands.js using ES2015 syntax:
-import "./commands.ts";
+import './commands.ts';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

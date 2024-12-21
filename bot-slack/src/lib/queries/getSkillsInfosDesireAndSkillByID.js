@@ -11,4 +11,4 @@ query getSkillInfosFromEmailAndID($email: String!, $id: uuid!) {
 }`;
 
 module.exports.GET_SKILLS_INFOS_DESIRE_AND_SKILL_BY_ID =
-  GET_SKILLS_INFOS_DESIRE_AND_SKILL_BY_ID;
+    GET_SKILLS_INFOS_DESIRE_AND_SKILL_BY_ID;

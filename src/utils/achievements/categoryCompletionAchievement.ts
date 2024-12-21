@@ -1,7 +1,7 @@
-import { of } from "await-of";
-import { AchievementRequestData } from "../../pages/api/achievement";
-import { fetcher } from "../fetcher";
-import { Achievement } from "./types";
+import { of } from 'await-of';
+import { AchievementRequestData } from '../../pages/api/achievement';
+import { fetcher } from '../fetcher';
+import { Achievement } from './types';
 
 export const GetSkillCountForCategoryFromSkillQuery = `
 query getSkillCountForCategoryFromSkill($skillId: uuid!, $userEmail: String!) {
@@ -25,55 +25,55 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertCategoryComp
 `;
 
 const achievementsMetadata = {
-  steps: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-  categories: ["practices", "activities", "knowledge", "behaviors"],
+    steps: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+    categories: ['practices', 'activities', 'knowledge', 'behaviors'],
 };
 export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.categories
-  .map((category) =>
-    achievementsMetadata.steps.map((step) => ({
-      label: "categoryCompletion",
-      points: 20,
-      step,
-      additionalInfo: category,
-    }))
-  )
-  .reduce((prev, curr) => [...prev, ...curr]);
+    .map((category) =>
+        achievementsMetadata.steps.map((step) => ({
+            label: 'categoryCompletion',
+            points: 20,
+            step,
+            additionalInfo: category,
+        }))
+    )
+    .reduce((prev, curr) => [...prev, ...curr]);
 
 /*
 Récupérer le nombre de skills pour la catégorie du skill qui a été inséré
 si > 5 => 1er palier, si > 10 => 2er palier
 */
 export const categoryCompletionAchievement = async (
-  payload: AchievementRequestData
+    payload: AchievementRequestData
 ) => {
-  const { userEmail, data } = payload;
-  const [response, err] = await of(
-    fetcher(GetSkillCountForCategoryFromSkillQuery, {
-      userEmail,
-      skillId: data?.skillId,
-    })
-  );
-  if (err) {
-    console.error(err);
-    return;
-  }
-  const result = await response.json();
-  const skillCount =
-    result?.data?.Skill_by_pk?.Category?.CurrentSkillsAndDesires_aggregate
-      ?.aggregate?.count;
-  const categoryLabel = result?.data?.Skill_by_pk?.Category?.label;
-  const achievementsObtained = ACHIEVEMENTS_STEPS.filter(
-    (achievement) =>
-      skillCount >= achievement.step &&
-      categoryLabel === achievement.additionalInfo
-  ).map((achievement) => ({ ...achievement, userEmail }));
-  const [mutationErr] = await of(
-    fetcher(InsertCategoryCompletionAchievementMutation, {
-      data: achievementsObtained,
-    })
-  );
-  if (mutationErr) {
-    console.error(mutationErr);
-    return;
-  }
+    const { userEmail, data } = payload;
+    const [response, err] = await of(
+        fetcher(GetSkillCountForCategoryFromSkillQuery, {
+            userEmail,
+            skillId: data?.skillId,
+        })
+    );
+    if (err) {
+        console.error(err);
+        return;
+    }
+    const result = await response.json();
+    const skillCount =
+        result?.data?.Skill_by_pk?.Category?.CurrentSkillsAndDesires_aggregate
+            ?.aggregate?.count;
+    const categoryLabel = result?.data?.Skill_by_pk?.Category?.label;
+    const achievementsObtained = ACHIEVEMENTS_STEPS.filter(
+        (achievement) =>
+            skillCount >= achievement.step &&
+            categoryLabel === achievement.additionalInfo
+    ).map((achievement) => ({ ...achievement, userEmail }));
+    const [mutationErr] = await of(
+        fetcher(InsertCategoryCompletionAchievementMutation, {
+            data: achievementsObtained,
+        })
+    );
+    if (mutationErr) {
+        console.error(mutationErr);
+        return;
+    }
 };

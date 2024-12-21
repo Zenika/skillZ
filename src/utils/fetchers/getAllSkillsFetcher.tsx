@@ -1,5 +1,5 @@
-import { of } from "await-of";
-import { fetcher } from "../fetcher";
+import { of } from 'await-of';
+import { fetcher } from '../fetcher';
 
 export const GetAllSkillsQuery = `
 query getAllSkills {
@@ -13,12 +13,12 @@ query getAllSkills {
 }`;
 
 export const GetAllSkillsFetcher = async () => {
-  const [response, err] = await of(fetcher(GetAllSkillsQuery, {}));
+    const [response, err] = await of(fetcher(GetAllSkillsQuery, {}));
 
-  if (err) {
-    console.error(err);
-    return null;
-  }
+    if (err) {
+        console.error(err);
+        return null;
+    }
 
-  return await response.json();
+    return await response.json();
 };

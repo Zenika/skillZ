@@ -1,7 +1,7 @@
-import { of } from "await-of";
-import { AchievementRequestData } from "../../pages/api/achievement";
-import { fetcher } from "../fetcher";
-import { Achievement } from "./types";
+import { of } from 'await-of';
+import { AchievementRequestData } from '../../pages/api/achievement';
+import { fetcher } from '../fetcher';
+import { Achievement } from './types';
 
 export const GetPreferedTopicsQuery = `
 query getUserTopicsCount($email: String!) {
@@ -20,15 +20,15 @@ const InsertCategoryCompletionAchievementMutation = `mutation insertProfileAchie
   `;
 
 const achievementsMetadata = {
-  steps: [3],
+    steps: [3],
 };
 export const ACHIEVEMENTS_STEPS: Achievement[] = achievementsMetadata.steps.map(
-  (step) => ({
-    label: "profileCompletion",
-    points: 20,
-    step,
-    additionalInfo: "preferedTopics",
-  })
+    (step) => ({
+        label: 'profileCompletion',
+        points: 20,
+        step,
+        additionalInfo: 'preferedTopics',
+    })
 );
 
 /*
@@ -36,32 +36,32 @@ Récupérer le nombre de skills pour la catégorie du skill qui a été inséré
 si > 5 => 1er palier, si > 10 => 2er palier
 */
 export const categoryProfileAchievement = async (
-  payload: AchievementRequestData
+    payload: AchievementRequestData
 ) => {
-  const { userEmail } = payload;
-  const [response, err] = await of(
-    fetcher(GetPreferedTopicsQuery, {
-      userEmail,
-    })
-  );
-  if (err) {
-    console.error(err);
-    return;
-  }
-  const result = await response.json();
-  const topicsCount = result?.UserTopic_aggregate?.aggregate?.count;
-  const achievementsObtained = ACHIEVEMENTS_STEPS.filter(
-    (achievement) =>
-      topicsCount >= achievement.step &&
-      achievement.additionalInfo === "preferedTopics"
-  ).map((achievement) => ({ ...achievement, userEmail }));
-  const [mutationErr] = await of(
-    fetcher(InsertCategoryCompletionAchievementMutation, {
-      data: achievementsObtained,
-    })
-  );
-  if (mutationErr) {
-    console.error(mutationErr);
-    return;
-  }
+    const { userEmail } = payload;
+    const [response, err] = await of(
+        fetcher(GetPreferedTopicsQuery, {
+            userEmail,
+        })
+    );
+    if (err) {
+        console.error(err);
+        return;
+    }
+    const result = await response.json();
+    const topicsCount = result?.UserTopic_aggregate?.aggregate?.count;
+    const achievementsObtained = ACHIEVEMENTS_STEPS.filter(
+        (achievement) =>
+            topicsCount >= achievement.step &&
+            achievement.additionalInfo === 'preferedTopics'
+    ).map((achievement) => ({ ...achievement, userEmail }));
+    const [mutationErr] = await of(
+        fetcher(InsertCategoryCompletionAchievementMutation, {
+            data: achievementsObtained,
+        })
+    );
+    if (mutationErr) {
+        console.error(mutationErr);
+        return;
+    }
 };

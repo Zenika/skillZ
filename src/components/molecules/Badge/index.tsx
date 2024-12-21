@@ -1,2 +1,2 @@
-export { BadgeSubojectivesCategoryCompletion } from "./BadgeSubojectivesCategoryCompletion";
-export { BadgeSubojectives } from "./BadgeSubojectives";
+export { BadgeSubojectivesCategoryCompletion } from './BadgeSubojectivesCategoryCompletion';
+export { BadgeSubojectives } from './BadgeSubojectives';
