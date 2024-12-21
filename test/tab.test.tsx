@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 import Tab, { tabClasses } from "../src/components/atoms/Tab";
 import { createMockRouter } from "./utils/createMockRouter";
+import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
 
 describe("Tab component", () => {
   it("renders a tab", () => {
@@ -32,7 +32,7 @@ describe("Tab component", () => {
 
     expect(mockPush).toHaveBeenCalledWith("/test", "/test", {
       locale: undefined,
-      scroll: undefined,
+      scroll: true,
       shallow: undefined,
     });
   });

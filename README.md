@@ -45,8 +45,7 @@ A progressive web app to store your proficiency and desire to learn different sk
 
 ## Requirements <a name="requirements"></a>
 
-- Node 16.13.1
-- Npm 8.1.2
+- Node 18
 - Docker
 
 ## Quick start <a name="quickstart"></a>
