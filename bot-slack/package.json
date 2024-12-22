@@ -25,7 +25,7 @@
         "request-promise": "^4.2.6"
     },
     "engines": {
-        "node": "16.x"
+        "node": "22.x"
     },
     "repository": {
         "url": "https://glitch.com/edit/#!/bolt-app-template"
