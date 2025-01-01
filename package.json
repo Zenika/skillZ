@@ -33,7 +33,7 @@
         "@auth0/auth0-react": "2.2.2",
         "@emotion/react": "^11.10.8",
         "@emotion/styled": "^11.10.6",
-        "@faker-js/faker": "^7.6.0",
+        "@faker-js/faker": "^9.3.0",
         "@mui/material": "^5.13.6",
         "await-of": "3.1.1",
         "clsx": "^1.2.1",
