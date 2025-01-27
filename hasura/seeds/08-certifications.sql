@@ -112,6 +112,7 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('Professionel Scrum Certifié - RS2396', 'Kagilum', true),
 ('Red Hat Certified Engineer (RHCE)', 'Red Hat', true),
 ('Red Hat Certified Instructor (RHCI)', 'Red Hat', true),
+('Red Hat Certified Specialist in Developing Automation with AAP', 'Red Hat', true),
 ('Red Hat Certified System Administrator (RHCSA)', 'Red Hat', true),
 ('Spring Certified Professional', 'VMware', true),
 ('Spring Core Developer 4.3', 'Spring', true),
