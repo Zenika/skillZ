@@ -8,9 +8,9 @@
         "start": "node app.js",
         "test": "jest",
         "coverage": "coverage app.js",
-        "prettier": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\"",
-        "prettier:check": "npm run prettier -- --check",
-        "prettier:write": "npm run prettier -- --write"
+        "format": "prettier *.json *.js \"src/**/*.{js,jsx,ts,tsx}\"",
+        "format:check": "npm run format -- --check",
+        "format:write": "npm run format -- --write"
     },
     "dependencies": {
         "@slack/bolt": "^3.12.2",
