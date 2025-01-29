@@ -238,6 +238,42 @@
       permission:
         filter: {}
 - table:
+    name: Role
+    schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - name
+          - id
+  select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+          - id
+        filter: {}
+    - role: world
+      permission:
+        columns:
+          - name
+          - id
+        filter: {}
+        allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - name
+          - id
+        filter: {}
+        check: {}
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
+- table:
     name: Skill
     schema: public
   object_relationships:
@@ -905,6 +941,72 @@
     - role: skillz-admins
       permission:
         filter: {}
+- table:
+    name: UserRole
+    schema: public
+  insert_permissions:
+    - role: skillz-admins
+      permission:
+        check: {}
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+    - role: world
+      permission:
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+  select_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+        filter: {}
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+        filter: {}
+        allow_aggregations: true
+  update_permissions:
+    - role: skillz-admins
+      permission:
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+        filter: {}
+        check: {}
+    - role: world
+      permission:
+        columns:
+          - userEmail
+          - created_at
+          - roleId
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
+        check:
+          userEmail:
+            _eq: x-hasura-user-email
+  delete_permissions:
+    - role: skillz-admins
+      permission:
+        filter: {}
+    - role: world
+      permission:
+        filter:
+          userEmail:
+            _eq: x-hasura-user-email
 - table:
     name: UserSkillDesire
     schema: public

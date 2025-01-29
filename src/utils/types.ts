@@ -74,6 +74,11 @@ export type UserCertification = {
     User?: User
 }
 
+export type RoleItem = {
+    id: string
+    name: string
+}
+
 export type TopicItem = {
     id: string
     name: string

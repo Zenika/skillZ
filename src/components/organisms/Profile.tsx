@@ -7,8 +7,10 @@ import { config } from '../../env'
 import { GetUserAgencyAndAllAgenciesQuery } from '../../generated/graphql'
 import {
     DELETE_USER_CERTIFICATION_MUTATION,
+    DELETE_USER_ROLE_MUTATION,
     DELETE_USER_TOPIC_MUTATION,
     INSERT_USER_MUTATION,
+    INSERT_USER_ROLE_MUTATION,
     INSERT_USER_TOPIC_MUTATION,
     UPSERT_USER_AGENCY_MUTATION,
     UPSERT_USER_CERTIFICATION_MUTATION,
@@ -16,7 +18,7 @@ import {
 import { GET_USER_AGENCY_AND_ALL_AGENCIES_QUERY } from '../../graphql/queries/userInfos'
 import Custom404 from '../../pages/404'
 import { displayNotification } from '../../utils/displayNotification'
-import { TopicItem, UserCertification } from '../../utils/types'
+import { RoleItem, TopicItem, UserCertification } from '../../utils/types'
 import Button from '../atoms/Button'
 import CustomSelect from '../atoms/CustomSelect/CustomSelect'
 import CertificationsList from '../molecules/CertificationsList'
@@ -28,6 +30,7 @@ import CommonPage from '../templates/CommonPage'
 import ErrorPage from '../templates/ErrorPage'
 import CertificationModal from './CertificationModal'
 import { useI18n } from '../../providers/I18nProvider'
+import Roles from '../molecules/Roles'
 
 type ProfileProps = {
     userEmail: string
@@ -65,6 +68,8 @@ const Profile = ({
     // MUTATIONS
     const [insertUser] = useMutation(INSERT_USER_MUTATION)
     const [upsertAgency] = useMutation(UPSERT_USER_AGENCY_MUTATION)
+    const [insertRole] = useMutation(INSERT_USER_ROLE_MUTATION)
+    const [deleteRole] = useMutation(DELETE_USER_ROLE_MUTATION)
     const [insertTopic] = useMutation(INSERT_USER_TOPIC_MUTATION)
     const [deleteTopic] = useMutation(DELETE_USER_TOPIC_MUTATION)
     const [upsertCertificationMutation] = useMutation(
@@ -89,6 +94,26 @@ const Profile = ({
                 }
             )
         })
+    }
+
+    const addRole = (role: RoleItem) => {
+        insertRole({
+            variables: { email: userEmail, roleId: role.id },
+        }).then(() =>
+            refetch({
+                variables: { email: userEmail },
+            })
+        )
+    }
+
+    const removeRole = (role: RoleItem) => {
+        deleteRole({
+            variables: { email: userEmail, roleId: role.id },
+        }).then(() =>
+            refetch({
+                variables: { email: userEmail },
+            })
+        )
     }
 
     const addTopic = (topic: TopicItem) => {
@@ -271,6 +296,25 @@ const Profile = ({
 
                         {((onboarding && readOnly) || !onboarding) && (
                             <>
+                                {/* ROLES */}
+                                <Roles
+                                    roles={data.Role.map((role) => {
+                                        return { id: role.id, name: role.name }
+                                    })}
+                                    selectedRoles={data.UserRole.map(
+                                        (r) => r.roleId
+                                    )}
+                                    title={t('userProfile.roles')}
+                                    addCallback={(role) => {
+                                        addRole(role)
+                                    }}
+                                    removeCallback={(role) => {
+                                        removeRole(role)
+                                    }}
+                                    readOnly={readOnly}
+                                />
+                                {/* ROLES */}
+
                                 {/* TOPICS */}
                                 <Topics
                                     topics={data.Topic.map((topic) => {
