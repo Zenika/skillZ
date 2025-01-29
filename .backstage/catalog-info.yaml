@@ -1,0 +1,30 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: skillz
+  title: Skillz
+  description: |
+     App to manage consultants' skills and technical appetites.
+  tags:
+    - web
+    - javascript
+    - react
+    - graphql
+    - node
+    - hasura
+    - postgres
+    - contributors-welcome
+  links:
+    - url: https://github.com/Zenika/skillZ
+      title: GitHub repository
+      type: website
+    - url: https://app.circleci.com/pipelines/github/Zenika/skillZ
+      title: CircleCI
+      type: website
+  annotations:
+    backstage.io/techdocs-ref: docs
+    backstage.io/adr-location: docs/adr
+spec:
+  type: app
+  owner: adrien.nortain@zenika.com
+  lifecycle: production
