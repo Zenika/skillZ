@@ -78,6 +78,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('Github'),
 ('github actions'),
 ('Gitlab'),
+('gitops'),
 ('Google Cloud Infra'),
 ('gouvernance'),
 ('governance'),
