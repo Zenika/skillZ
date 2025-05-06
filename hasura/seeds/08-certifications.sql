@@ -85,6 +85,7 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('Microsoft Certified: Azure Administrator Associate', 'Microsoft', true),
 ('Microsoft Certified: Azure Data Scientist Associate', 'Microsoft', true),
 ('Microsoft Certified: Azure Developer Associate (AZ-204)', 'Microsoft', true),
+('Microsoft Certified: Azure DevOps Engineer Expert (AZ-400)', 'Microsoft', true),
 ('Microsoft Certified Solutions Associate: Cloud', 'Microsoft', true),
 ('MongoDB Certified DBA', 'MongoDB', true),
 ('MongoDB Certified Developer', 'MongoDB', true),
