@@ -10,8 +10,6 @@ updates:
       - "dependencies"
       - "automated pr"
       - "skillz-app"
-    reviewers:
-      - "team-skillz"
 
   # Manifest of Skillz slack bot
   - package-ecosystem: "npm"
@@ -23,5 +21,3 @@ updates:
       - "dependencies"
       - "automated pr"
       - "skillz-bot"
-    reviewers:
-      - "team-skillz"
