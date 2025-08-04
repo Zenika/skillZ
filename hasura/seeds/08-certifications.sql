@@ -81,10 +81,12 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('LILATE English C2', 'Lingueo', true),
 ('Maîtrise de la qualité en projet Web', 'Opquast', true),
 ('Management 3.0', 'Management 3.0', true),
+('Master Figma Course: From Beginner to Figma Pro', 'SaaS Design', true),
 ('Microsoft AZ-900: Azure Fundamentals', 'Microsoft', true),
 ('Microsoft Certified: Azure Administrator Associate', 'Microsoft', true),
 ('Microsoft Certified: Azure Data Scientist Associate', 'Microsoft', true),
 ('Microsoft Certified: Azure Developer Associate (AZ-204)', 'Microsoft', true),
+('Microsoft Certified: Azure DevOps Engineer Expert (AZ-400)', 'Microsoft', true),
 ('Microsoft Certified Solutions Associate: Cloud', 'Microsoft', true),
 ('MongoDB Certified DBA', 'MongoDB', true),
 ('MongoDB Certified Developer', 'MongoDB', true),
@@ -124,6 +126,8 @@ INSERT INTO "Certification" ("name", "certBody", "verified") VALUES
 ('Spring Core Developer 5', 'Spring', true),
 ('Spring Professional Certification', 'Spring', true),
 ('TensorFlow Developer', 'TensorFlow', true),
+('The Complete Design System Course for Figma (Advanced)', 'SaaS Design', true),
+('The Complete Figma Design System Course (Advanced)', 'SaaS Design', true),
 ('TOGAF 9 Certified', 'The Open Group', true),
 ('TOGAF 9 Foundation', 'The Open Group', true)
  ON CONFLICT DO NOTHING;
