@@ -178,6 +178,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('version control'),
 ('virtual assistant'),
 ('virtualization'),
+('visual generation'),
 ('VM'),
 ('web'),
 ('whiteboard'),
