@@ -10,6 +10,13 @@ updates:
       - "dependencies"
       - "automated pr"
       - "skillz-app"
+    groups:
+      app-packages:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # Manifest of Skillz slack bot
   - package-ecosystem: "npm"
@@ -21,3 +28,10 @@ updates:
       - "dependencies"
       - "automated pr"
       - "skillz-bot"
+    groups:
+      bot-packages:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
