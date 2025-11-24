@@ -171,6 +171,7 @@ The viewpoints are organized according to their hierarchical level:
 ('Data', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Knowledge of techniques of data handling: measurement, observation, query, analysis, processing, distribution, visualization...'),
 ('Data Analysis', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Data analysis is a process of inspecting, cleansing, transforming, and modelling data with the goal of discovering useful information, informing conclusions, and supporting decision-making.'),
 ('Data anonymisation', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Batch programs to hash or encrypt critical data for usages in tests, vendors developments, public display... Can be one-way only or two-ways'),
+('Databricks', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Cloud-based data analytics and AI platform solution implementing a "data lakehouse" architecture and built on top of Apache Spark.'),
 ('Data Center Cooling', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Collective equipment, tools, systems, techniques and processes that ensure ideal temperatures and humidity levels within a data center facility.'),
 ('Data Computing Infrastructure Scaling', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Data computing infrastructure scaling is when the size and power of an IT system are scaled to accommodate workflow / processing demands.'),
 ('Datadog', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
