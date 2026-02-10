@@ -13,7 +13,7 @@
         "format:write": "npm run format -- --write"
     },
     "dependencies": {
-        "@slack/bolt": "^3.12.2",
+        "@slack/bolt": "^3.22.0",
         "body-parser": "^1.19.1",
         "coverage": "0.4.1",
         "dotenv": "^16.0.3",
