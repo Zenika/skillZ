@@ -1209,8 +1209,13 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
 --   activities = '06420261-3e78-4a91-bc6a-1a52cad5d6a1'
 
 -- =========================================================
--- ÉTAPE 1 : Création des skills
+-- ÉTAPE 1 : Création des skills et roles
 -- =========================================================
+
+INSERT INTO "public"."Role" ("name") VALUES
+('AI / ML Architect'),
+('Responsible AI Lead')
+ON CONFLICT ("name") DO NOTHING;
 
 INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") VALUES
 
