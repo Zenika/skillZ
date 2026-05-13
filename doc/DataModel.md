@@ -1054,3 +1054,417 @@ DELETE FROM "public"."SkillTopic"
     )
   );
 ```
+
+### Aller les derniers trucs manquants
+
+```SQL
+-- Nouveaux rôles
+INSERT INTO "public"."Role" ("name") VALUES
+('ML Engineer'),
+('Cloud Architect'),
+('Full Stack Developer'),
+('AI Engineer'),
+('Staff / Principal Engineer')
+ON CONFLICT ("name") DO NOTHING;
+
+-- Nouveaux topics
+INSERT INTO "public"."Topic" ("type", "name") VALUES
+('domain',      'Platform Engineering'),
+('sensitivity', 'API & Integration'),
+('sensitivity', 'Testing / Quality Engineering')
+ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
+
+
+
+sql-- =========================================================
+-- Rattachement skills → Platform Engineering
+-- =========================================================
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Platform Engineering'
+  WHERE skill.name IN (
+    'Platform Engineering',
+    'Backstage',
+    'Team Topologies'
+  )
+  ON CONFLICT DO NOTHING;
+
+
+-- =========================================================
+-- Rattachement skills → Observability
+-- =========================================================
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Observability'
+  WHERE skill.name IN (
+    'Datadog',
+    'Dynatrace',
+    'Elastic Observability',
+    'Elastic Stack',
+    'ELK',
+    'Fluent Bit',
+    'Grafana',
+    'Metrology',
+    'Monitoring',
+    'Prometheus',
+    'Thanos'
+  )
+  ON CONFLICT DO NOTHING;
+
+
+-- =========================================================
+-- Rattachement skills → API & Integration
+-- NB : OAuth2, SAML, OpenID restent aussi dans Security
+--      Kafka, RabbitMQ restent aussi dans Backend et Data
+-- =========================================================
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'API & Integration'
+  WHERE skill.name IN (
+    -- Patterns & standards
+    'API Management',
+    'REST',
+    'GraphQL',
+    'gRPC',
+    'Service Mesh',
+    'Swagger',
+    -- Gateways & ESB
+    'API Gateway',
+    'MuleSoft',
+    'Camel',
+    'IBM MQ',
+    'Istio',
+    'Linkerd',
+    -- Messaging
+    'Kafka',
+    'Kafka Streams',
+    'RabbitMQ',
+    -- Auth / Identity (standards d intégration)
+    'OAuth2',
+    'OpenID Connect',
+    'SAML'
+  )
+  ON CONFLICT DO NOTHING;
+
+
+-- =========================================================
+-- Rattachement skills → Testing / Quality Engineering
+-- NB : Jest, Cypress, Nightwatch restent aussi dans Frontend
+--      Test Driven Development reste aussi dans Craftsmanship
+-- =========================================================
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Testing / Quality Engineering'
+  WHERE skill.name IN (
+    -- Frameworks de test
+    'JUnit',
+    'Jest',
+    'Kotest',
+    'Spock',
+    'StriKT',
+    'Vitest',
+    'Testing Library',
+    -- Mocks & assertions
+    'Mockito',
+    'MockK',
+    'AssertJ',
+    -- BDD / ATDD
+    'Cucumber',
+    'Acceptance Test Driven Development',
+    'Behavior Driven Development',
+    'Test Driven Development',
+    -- E2E & performance
+    'Cypress',
+    'Playwright',
+    'Nightwatch',
+    'Gatling',
+    'Jmeter',
+    'QuickPerf',
+    -- Qualité statique
+    'Sonar',
+    'ecoCode SonarQube Plugin',
+    'EcoSonar',
+    -- Containers de test
+    'Testcontainers',
+    -- Activités
+    'Software Testing',
+    'Data Testing',
+    'Usability testing'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+### ET enfin, rajoutons l'IA
+
+``` SQL
+-- Phase 1 : Ajout des 18 skills IA/LLM manquants pour 2025
+--
+-- Category IDs :
+--   knowledge  = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
+--   practices  = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
+--   activities = '06420261-3e78-4a91-bc6a-1a52cad5d6a1'
+
+-- =========================================================
+-- ÉTAPE 1 : Création des skills
+-- =========================================================
+
+INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") VALUES
+
+-- Agents & orchestration
+('AI Agents',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Autonomous AI systems that plan, reason and use tools to complete complex tasks. Foundation of agentic workflows combining LLMs, memory and external actions.'),
+
+('LangGraph',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Framework for building stateful, multi-actor LLM applications using graph-based workflows. Enables complex agent orchestration with cycles and conditional branching.'),
+
+('CrewAI',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Python framework for orchestrating collaborative multi-agent systems where specialized agents work together to complete tasks.'),
+
+('Model Context Protocol (MCP)',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Open standard by Anthropic for connecting LLMs to external tools, data sources and services. Enables interoperable AI integrations across platforms.'),
+
+-- Données vectorielles
+('Vector databases',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Databases optimised for storing and querying high-dimensional vector embeddings. Core infrastructure for semantic search, RAG pipelines and recommendation systems.'),
+
+('Pinecone',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Managed vector database for storing and querying embeddings at scale. Widely used in production RAG architectures for low-latency semantic search.'),
+
+('Weaviate',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Open-source vector database with built-in ML model integrations. Supports hybrid search combining vector similarity and keyword-based filtering.'),
+
+('Embeddings',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Dense vector representations of text, images or other data capturing semantic meaning. Fundamental building block of RAG, semantic search and similarity tasks.'),
+
+-- Industrialisation
+('Fine-tuning',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Technique for specialising a pre-trained model on a specific domain or task using labelled data. Bridges the gap between general-purpose LLMs and production use cases.'),
+
+('LLMOps',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Operational practices for deploying, monitoring and maintaining LLM-based applications in production. Covers evaluation, observability, cost control and safety.'),
+
+('Weights & Biases',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'ML experiment tracking and visualisation platform. Used to log metrics, compare runs, debug models and collaborate on ML projects.'),
+
+('Hugging Face',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Hub for open-source models, datasets and ML applications. Provides the Transformers library and Spaces for deploying ML demos and APIs.'),
+
+-- Outils dev IA
+('GitHub Copilot',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'AI-powered coding assistant integrated into IDEs. Generates code suggestions, explains functions and automates repetitive development tasks.'),
+
+('Cursor',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'AI-native IDE built on VS Code that enables vibe coding — writing, refactoring and debugging code through natural language instructions.'),
+
+('OpenAI API',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'REST API providing access to GPT-4o, DALL-E, Whisper and other OpenAI models. Standard integration point for building LLM-powered applications.'),
+
+('Ollama',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Tool for running open-source LLMs locally (Llama, Mistral, Gemma…). Enables private, offline AI inference without cloud dependencies.'),
+
+-- Éthique & gouvernance
+('Responsible AI',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Framework for developing AI systems that are fair, transparent, explainable and free from harmful bias. Covers governance, auditability and human oversight.'),
+
+('AI Act compliance',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Knowledge of the EU AI Act (2024) risk classification, obligations and conformity requirements. Essential for advising clients on compliant AI system deployment in Europe.')
+
+ON CONFLICT ("name") DO NOTHING;
+
+
+-- =========================================================
+-- ÉTAPE 2 : Tags
+-- =========================================================
+
+-- AI Agents
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'AI Agents'
+  WHERE tag.name IN ('ai', 'Generative AI', 'IA') ON CONFLICT DO NOTHING;
+
+-- LangGraph
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'LangGraph'
+  WHERE tag.name IN ('ai', 'python', 'framework', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- CrewAI
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'CrewAI'
+  WHERE tag.name IN ('ai', 'python', 'framework', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Model Context Protocol (MCP)
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Model Context Protocol (MCP)'
+  WHERE tag.name IN ('ai', 'api', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Vector databases
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Vector databases'
+  WHERE tag.name IN ('ai', 'data', 'database', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Pinecone
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Pinecone'
+  WHERE tag.name IN ('ai', 'data', 'database', 'cloud') ON CONFLICT DO NOTHING;
+
+-- Weaviate
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Weaviate'
+  WHERE tag.name IN ('ai', 'data', 'database', 'search') ON CONFLICT DO NOTHING;
+
+-- Embeddings
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Embeddings'
+  WHERE tag.name IN ('ai', 'ml', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Fine-tuning
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Fine-tuning'
+  WHERE tag.name IN ('ai', 'ml', 'Machine Learning', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- LLMOps
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'LLMOps'
+  WHERE tag.name IN ('ai', 'ml', 'devops', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Weights & Biases
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Weights & Biases'
+  WHERE tag.name IN ('ai', 'ml', 'tooling', 'Machine Learning') ON CONFLICT DO NOTHING;
+
+-- Hugging Face
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Hugging Face'
+  WHERE tag.name IN ('ai', 'ml', 'python', 'Machine Learning', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- GitHub Copilot
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'GitHub Copilot'
+  WHERE tag.name IN ('ai', 'tooling', 'Generative AI', 'ide') ON CONFLICT DO NOTHING;
+
+-- Cursor
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Cursor'
+  WHERE tag.name IN ('ai', 'tooling', 'Generative AI', 'ide') ON CONFLICT DO NOTHING;
+
+-- OpenAI API
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'OpenAI API'
+  WHERE tag.name IN ('ai', 'api', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Ollama
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Ollama'
+  WHERE tag.name IN ('ai', 'tooling', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- Responsible AI
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'Responsible AI'
+  WHERE tag.name IN ('ai', 'governance', 'Generative AI') ON CONFLICT DO NOTHING;
+
+-- AI Act compliance
+INSERT INTO "public"."SkillTag" SELECT skill.id, tag.id FROM "public"."Tag" tag
+  JOIN "public"."Skill" skill ON skill.name = 'AI Act compliance'
+  WHERE tag.name IN ('ai', 'governance', 'Generative AI') ON CONFLICT DO NOTHING;
+
+
+-- =========================================================
+-- ÉTAPE 3 : Topics
+-- =========================================================
+
+-- Artificial Intelligence (tous)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Artificial Intelligence'
+  WHERE skill.name IN (
+    'AI Agents', 'LangGraph', 'CrewAI', 'Model Context Protocol (MCP)',
+    'Vector databases', 'Pinecone', 'Weaviate', 'Embeddings',
+    'Fine-tuning', 'LLMOps', 'Weights & Biases', 'Hugging Face',
+    'GitHub Copilot', 'Cursor', 'OpenAI API', 'Ollama',
+    'Responsible AI', 'AI Act compliance'
+  ) ON CONFLICT DO NOTHING;
+
+-- Data Science / Analytics (outils ML)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Data Science / Analytics'
+  WHERE skill.name IN (
+    'Fine-tuning', 'LLMOps', 'Weights & Biases', 'Hugging Face',
+    'Embeddings', 'Vector databases', 'Pinecone', 'Weaviate'
+  ) ON CONFLICT DO NOTHING;
+
+-- Development process (outils dev IA)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Development process'
+  WHERE skill.name IN (
+    'GitHub Copilot', 'Cursor', 'Ollama'
+  ) ON CONFLICT DO NOTHING;
+
+-- Security / Governance (éthique & conformité)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Management'
+  WHERE skill.name IN (
+    'Responsible AI', 'AI Act compliance'
+  ) ON CONFLICT DO NOTHING;
+
+-- API & Integration (MCP, OpenAI API)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'API & Integration'
+  WHERE skill.name IN (
+    'Model Context Protocol (MCP)', 'OpenAI API'
+  ) ON CONFLICT DO NOTHING;
+
+-- MLOps (LLMOps, Weights & Biases)
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'CI/CD & Automation'
+  WHERE skill.name IN (
+    'LLMOps'
+  ) ON CONFLICT DO NOTHING;
+
+
+-- =========================================================
+-- VÉRIFICATION
+-- =========================================================
+--
+ SELECT s.name, c.label as category,
+        array_agg(t.name ORDER BY t.name) as topics
+   FROM "public"."Skill" s
+   JOIN "public"."Category" c ON c.id = s."categoryId"
+   LEFT JOIN "public"."SkillTopic" st ON st."skillId" = s.id
+   LEFT JOIN "public"."Topic" t ON t.id = st."topicId"
+   WHERE s.name IN (
+     'AI Agents','LangGraph','CrewAI','Model Context Protocol (MCP)',
+     'Vector databases','Pinecone','Weaviate','Embeddings',
+     'Fine-tuning','LLMOps','Weights & Biases','Hugging Face',
+     'GitHub Copilot','Cursor','OpenAI API','Ollama',
+     'Responsible AI','AI Act compliance'
+   )
+   GROUP BY s.name, c.label
+   ORDER BY c.label, s.name;
+
+```
