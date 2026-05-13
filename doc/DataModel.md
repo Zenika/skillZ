@@ -1009,3 +1009,48 @@ SELECT name, LEFT("description", 80) as desc_preview
   ORDER BY name;
 → 20 lignes, aucune description vide
  ````
+
+
+ ### Aller on rajoute l'observabilité
+
+``` SQL
+1. Créer le topic Observability
+INSERT INTO "public"."Topic" ("type", "name")
+VALUES ('domain', 'Observability')
+ON CONFLICT ("name") DO NOTHING;
+
+
+-- 2. Rattacher les skills d'observabilité au nouveau topic
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Observability'
+  WHERE skill.name IN (
+    'Datadog',
+    'Prometheus',
+    'Thanos',
+    'Grafana',
+    'Dynatrace',
+    'Elastic Observability',
+    'Fluent Bit',
+    'Metrology',
+    'Monitoring'
+  )
+  ON CONFLICT DO NOTHING;
+
+
+-- 3. Retirer ces skills de SRE / Reliability
+--    (garder Site Reliability Engineering, Chaos Engineering,
+--     Chaos Monkey, Metrics policy, Service levels management)
+DELETE FROM "public"."SkillTopic"
+  WHERE "topicId" = (
+    SELECT id FROM "public"."Topic" WHERE name = 'SRE / Reliability'
+  )
+  AND "skillId" IN (
+    SELECT id FROM "public"."Skill" WHERE name IN (
+      'Datadog', 'Prometheus', 'Thanos', 'Grafana',
+      'Dynatrace', 'Elastic Observability', 'Fluent Bit',
+      'Metrology', 'Monitoring'
+    )
+  );
+```
