@@ -16,6 +16,7 @@
 ## Evolutions proposed
 
 ### New Data model
+Il manque le role de Formateur ! 
 
 .![alt](./NewRole.png)
 
