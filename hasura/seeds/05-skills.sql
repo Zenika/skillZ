@@ -122,6 +122,8 @@ The viewpoints are organized according to their hierarchical level:
 ('CircleCI', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Circuit breaker policy', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'In case of intrusion (or maintenance operations), policy to isolate part of a system from accessing others. Preparation of the systems to accept downed dependencies and react to them accordingly'),
 ('Classification (ML)', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, ''),
+('Claude', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Anthropic line of Generative AI Products, including assistants and LLMs.'),
+('Claude Code', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Anthropic''s agentic coding tool for developers.'),
 ('Clean Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Knowledge of the software design philosophy that consists of encapsulating business logic and keeping it separate from delivery mechanism, as described in the book from Robert C. Martin.'),
 ('Clean Code', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Knowledge of the principles, patterns and practices of writing software code from the book of Robert C. Martin.'),
 ('Clever Cloud', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
@@ -302,6 +304,8 @@ Since it is a type-1 hypervisor, it is not installed on an OS, it directly runs 
 ('GCP Dataflow', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Fully managed service for executing Apache Beam pipelines within the Google Cloud Platform ecosystem.'),
 ('GCP Security Engineering', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('GCP Vertex AI', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Gemini', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Google Generative AI line of products, including different releases of LLMs.'),
+('Gemini Enterprise', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, 'Google AI Platform that focuses on workflow automation and workspaces integration.'),
 ('Generative Artificial Intelligence', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Generative artificial intelligence or generative AI is a type of artificial intelligence system capable of generating text, images, or other media in response to prompts'),
 ('Generative Pre-trained Transformers (GPT)', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Originally, they were OpenAI''s line of Large Language Models: artificial neural networks that are used in natural language processing tasks.
 GPTs are based on the transformer architecture, pre-trained on large data sets of unlabelled text, and able to generate novel human-like content.
@@ -673,6 +677,7 @@ This can be a useful technique for proprietary or dynamic information that was n
 ('Solidity', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('SolidJS', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Solr', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
+('Solution Architecture', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'Architectural description of specific solutions, combining guidance from different enterprise architecture viewpoints (business, information and technical).'),
 ('Solution Focus', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Sonar', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Spanish', 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true, 'All accents accepted'),
