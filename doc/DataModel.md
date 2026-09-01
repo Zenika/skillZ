@@ -16,38 +16,240 @@
 ## Evolutions proposed
 
 ### New Data model
-Il manque le role de Formateur ! 
+Il manque le role de Formateur !
 
 .![alt](./NewRole.png)
 
 .![alt](./NewTopics.png)
 
 
-### Cleanings ROLE
 
-1. Split du role Devops
+---
 
-```SQL
+> **Note d'organisation.** Les évolutions ci-dessous sont regroupées en **4 phases**
+> ordonnées par dépendances : (1) dédoublonnage, (2) création des référentiels,
+> (3) correction des libellés, (4) correction de l'arbre. À exécuter dans cet ordre.
+
+## Phase 1 — Dédoublonnage des skills
+
+Objectif : supprimer les skills en double **sans perdre les données saisies** par les
+personnes (niveaux/désirs dans `UserSkillDesire`) ni les rattachements (tags, topics,
+certifications). On **migre d'abord**, on **supprime ensuite**.
+
+Tables référençant `Skill.id` et comportement des FK :
+
+| Table | Contenu | `ON DELETE` | Conséquence d'un `DELETE Skill` direct |
+|---|---|---|---|
+| `UserSkillDesire` | données utilisateurs (skillLevel, desireLevel, historisés) | **CASCADE** | ⚠️ perte **silencieuse** des données |
+| `SkillTopic` | rattachements topics | restrict | suppression bloquée |
+| `SkillTag` | rattachements tags | restrict | suppression bloquée |
+| `CertificationSkill` | rattachements certifications | restrict | suppression bloquée |
+
+Politique de fusion des conflits (même user + même date) : **`GREATEST`** — on ne
+dégrade jamais un niveau acquis.
+
+Paires validées :
+
+| Garder (canonique) | Fusionner (supprimer) | Type |
+|---|---|---|
+| `Electron` | `ElectronJS` | fusion 1→1 |
+| `Koa` | `Koa.js` | fusion 1→1 |
+| `Elastic Stack` | `ELK` | fusion 1→1 |
+| `Continuous Integration` **+** `Continuous Deployment` | `CI CD` | éclatement 1→2 |
+
+> Les fusions ne concernent que des skills de **même catégorie** (`practices`).
+> `UX`/`UI` (`knowledge`) ne sont **pas** fusionnées avec `UX Design`/`UI Design`
+> (`practices`) : ce sont des concepts « chapeaux » distincts des pratiques outillées.
+
+> ⚠️ `CI CD` étant supprimée, elle ne doit plus être référencée par nom dans les
+> rattachements tags/topics qui suivent (les `INSERT` correspondants deviendraient
+> des no-op). Exécuter cette section **après** les rattachements, ou retirer `'CI CD'`
+> des listes concernées : l'éclatement reporte déjà ses tags/topics vers CI et CD.
+
+```sql
+-- ============================================================
+-- DÉDUPLICATION DES SKILLS (migration des données avant suppression)
+-- Politique de conflit : GREATEST (on ne dégrade jamais un niveau)
+-- Ordre imposé par les FK :
+--   UserSkillDesire (ON DELETE CASCADE → perte silencieuse) : migrer en 1er
+--   SkillTopic/SkillTag/CertificationSkill (restrict) : nettoyer avant DELETE
+-- ============================================================
+BEGIN;
+
+-- ---- Fonction 1 : fusion simple d'un doublon vers une skill canonique ----
+CREATE OR REPLACE FUNCTION pg_temp.merge_skill(canon_name text, dup_name text)
+RETURNS void LANGUAGE plpgsql AS $$
+DECLARE canon_id uuid; dup_id uuid;
+BEGIN
+  SELECT id INTO canon_id FROM "public"."Skill" WHERE name = canon_name;
+  SELECT id INTO dup_id   FROM "public"."Skill" WHERE name = dup_name;
+  IF canon_id IS NULL OR dup_id IS NULL OR canon_id = dup_id THEN
+    RAISE NOTICE 'merge_skill: abandon (canon=% [%], dup=% [%])', canon_name, canon_id, dup_name, dup_id;
+    RETURN;
+  END IF;
+
+  -- UserSkillDesire : fusionner les conflits (même user + même date) au meilleur niveau
+  UPDATE "public"."UserSkillDesire" a
+     SET "skillLevel"  = GREATEST(a."skillLevel",  b."skillLevel"),
+         "desireLevel" = GREATEST(a."desireLevel", b."desireLevel")
+    FROM "public"."UserSkillDesire" b
+   WHERE b."skillId"=dup_id AND a."skillId"=canon_id
+     AND a."userEmail"=b."userEmail" AND a."created_at"=b."created_at";
+  DELETE FROM "public"."UserSkillDesire" b
+   WHERE b."skillId"=dup_id
+     AND EXISTS (SELECT 1 FROM "public"."UserSkillDesire" a
+                 WHERE a."skillId"=canon_id AND a."userEmail"=b."userEmail"
+                   AND a."created_at"=b."created_at");
+  UPDATE "public"."UserSkillDesire" SET "skillId"=canon_id WHERE "skillId"=dup_id;
+
+  -- Pivots (FK restrict → repointer sans doublon, puis purger)
+  UPDATE "public"."SkillTopic" t SET "skillId"=canon_id
+   WHERE t."skillId"=dup_id
+     AND NOT EXISTS (SELECT 1 FROM "public"."SkillTopic" x WHERE x."skillId"=canon_id AND x."topicId"=t."topicId");
+  DELETE FROM "public"."SkillTopic" WHERE "skillId"=dup_id;
+  UPDATE "public"."SkillTag" t SET "skillId"=canon_id
+   WHERE t."skillId"=dup_id
+     AND NOT EXISTS (SELECT 1 FROM "public"."SkillTag" x WHERE x."skillId"=canon_id AND x."tagId"=t."tagId");
+  DELETE FROM "public"."SkillTag" WHERE "skillId"=dup_id;
+  UPDATE "public"."CertificationSkill" t SET "skillId"=canon_id
+   WHERE t."skillId"=dup_id
+     AND NOT EXISTS (SELECT 1 FROM "public"."CertificationSkill" x WHERE x."certId"=t."certId" AND x."skillId"=canon_id);
+  DELETE FROM "public"."CertificationSkill" WHERE "skillId"=dup_id;
+
+  -- Récupérer la description si la canonique n'en a pas
+  UPDATE "public"."Skill" s SET "description" = d."description"
+    FROM "public"."Skill" d
+   WHERE s.id=canon_id AND d.id=dup_id
+     AND (s."description" IS NULL OR s."description"='')
+     AND d."description" IS NOT NULL AND d."description"<>'';
+
+  DELETE FROM "public"."Skill" WHERE id=dup_id;
+  RAISE NOTICE 'merge_skill OK : % -> %', dup_name, canon_name;
+END $$;
+
+-- ---- Fonction 2 : éclatement d'un doublon vers DEUX skills (cas CI CD) ----
+CREATE OR REPLACE FUNCTION pg_temp.split_skill(dup_name text, t1_name text, t2_name text)
+RETURNS void LANGUAGE plpgsql AS $$
+DECLARE dup_id uuid; tgt uuid; nm text;
+BEGIN
+  SELECT id INTO dup_id FROM "public"."Skill" WHERE name = dup_name;
+  IF dup_id IS NULL THEN RAISE NOTICE 'split_skill: % absent', dup_name; RETURN; END IF;
+
+  FOREACH nm IN ARRAY ARRAY[t1_name, t2_name] LOOP
+    SELECT id INTO tgt FROM "public"."Skill" WHERE name = nm;
+    IF tgt IS NULL OR tgt = dup_id THEN
+      RAISE NOTICE 'split_skill: cible % ignorée', nm; CONTINUE;
+    END IF;
+
+    -- conflits (même user + même date) → meilleur niveau
+    UPDATE "public"."UserSkillDesire" a
+       SET "skillLevel"  = GREATEST(a."skillLevel",  b."skillLevel"),
+           "desireLevel" = GREATEST(a."desireLevel", b."desireLevel")
+      FROM "public"."UserSkillDesire" b
+     WHERE b."skillId"=dup_id AND a."skillId"=tgt
+       AND a."userEmail"=b."userEmail" AND a."created_at"=b."created_at";
+    -- reporter les lignes non encore présentes sur la cible (nouvel id)
+    INSERT INTO "public"."UserSkillDesire" ("id","userEmail","skillId","skillLevel","desireLevel","created_at")
+      SELECT gen_random_uuid(), b."userEmail", tgt, b."skillLevel", b."desireLevel", b."created_at"
+        FROM "public"."UserSkillDesire" b
+       WHERE b."skillId"=dup_id
+         AND NOT EXISTS (SELECT 1 FROM "public"."UserSkillDesire" a
+                         WHERE a."skillId"=tgt AND a."userEmail"=b."userEmail" AND a."created_at"=b."created_at");
+    -- copier les rattachements vers la cible
+    INSERT INTO "public"."SkillTopic" ("skillId","topicId")
+      SELECT tgt, st."topicId" FROM "public"."SkillTopic" st WHERE st."skillId"=dup_id ON CONFLICT DO NOTHING;
+    INSERT INTO "public"."SkillTag" ("skillId","tagId")
+      SELECT tgt, sg."tagId" FROM "public"."SkillTag" sg WHERE sg."skillId"=dup_id ON CONFLICT DO NOTHING;
+    INSERT INTO "public"."CertificationSkill" ("certId","skillId")
+      SELECT cs."certId", tgt FROM "public"."CertificationSkill" cs WHERE cs."skillId"=dup_id ON CONFLICT DO NOTHING;
+  END LOOP;
+
+  -- purge du doublon éclaté
+  DELETE FROM "public"."UserSkillDesire"    WHERE "skillId"=dup_id;
+  DELETE FROM "public"."SkillTopic"         WHERE "skillId"=dup_id;
+  DELETE FROM "public"."SkillTag"           WHERE "skillId"=dup_id;
+  DELETE FROM "public"."CertificationSkill" WHERE "skillId"=dup_id;
+  DELETE FROM "public"."Skill"              WHERE id=dup_id;
+  RAISE NOTICE 'split_skill OK : % -> % + %', dup_name, t1_name, t2_name;
+END $$;
+
+-- ---- Exécution ----
+SELECT pg_temp.merge_skill('Electron',      'ElectronJS');   -- #1
+SELECT pg_temp.merge_skill('Koa',           'Koa.js');       -- #2
+SELECT pg_temp.merge_skill('Elastic Stack', 'ELK');          -- #6
+SELECT pg_temp.split_skill('CI CD', 'Continuous Integration', 'Continuous Deployment'); -- #7
+
+COMMIT;
+
+-- ---- Vérification : plus aucun de ces noms ne doit subsister (attendu : 0 ligne) ----
+-- SELECT name FROM "public"."Skill"
+--   WHERE name IN ('ElectronJS','Koa.js','ELK','CI CD');
+```
+
+
+## Phase 2 — Création des référentiels
+
+Nouveaux **rôles**, **topics** et **skills**. Ils doivent exister avant les
+rattachements de la phase 4.
+
+### Rôles
+
+_Split du rôle DevOps :_
+
+```sql
 INSERT INTO "public"."Role" ("name") VALUES
 ('SRE (Site Reliability Engineer)'),
 ('Infra / Ops Engineer'),
 ('DevOps CI-CD Engineer')
  ON CONFLICT ("name") DO NOTHING;
- ```
+```
 
-2. Ajout de role manquant
+_Rôles manquants :_
 
-```SQL
+```sql
  INSERT INTO "public"."Role" ("name") VALUES
 ('Data Engineer / Scientist'),
 ('Scrum Master'),
 ('Security Engineer')
  ON CONFLICT ("name") DO NOTHING;
- ```
+```
 
-### CLEANING TOPICS
+_Rôle Formateur (absent du référentiel) :_
 
-```SQL
+```sql
+INSERT INTO "public"."Role" ("name") VALUES
+('Trainer / Formateur')
+ ON CONFLICT ("name") DO NOTHING;
+```
+
+_Rôles métiers récents :_
+
+```sql
+-- Nouveaux rôles
+INSERT INTO "public"."Role" ("name") VALUES
+('ML Engineer'),
+('Cloud Architect'),
+('Full Stack Developer'),
+('AI Engineer'),
+('Staff / Principal Engineer')
+ON CONFLICT ("name") DO NOTHING;
+```
+
+_Rôles IA :_
+
+```sql
+INSERT INTO "public"."Role" ("name") VALUES
+('AI / ML Architect'),
+('Responsible AI Lead')
+ON CONFLICT ("name") DO NOTHING;
+
+```
+
+### Topics
+
+_Topics du split DevOps + FinOps :_
+
+```sql
 INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('domain',       'SRE / Reliability'),
 ('sensitivity',  'CI/CD & Automation'),
@@ -55,219 +257,120 @@ INSERT INTO "public"."Topic" ("type", "name") VALUES
  ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
 ```
 
-REcuperation des infos de DevOps
+_Topic Observability :_
 
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'SRE / Reliability'
-  WHERE skill.name IN (
-     Pratiques SRE core
-    'Site Reliability Engineering',
-    'Service levels management: SLA, SLI, SLO',
-    'Chaos Engineering',
-    'Chaos Monkey',
-    'Metrics policy',
-     Observabilité & monitoring
-    'Metrology',
-    'Monitoring',
-    'Prometheus',
-    'Thanos',
-    'Grafana',
-    'Datadog',
-    'Dynatrace',
-    'Elastic Observability'
-  )
-  ON CONFLICT DO NOTHING;
-  ```
-
-3. Rattachement des skills → CI/CD & Automation
-    Skills issus de DevOps + Development process
-
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'CI/CD & Automation'
-  WHERE skill.name IN (
-     Concepts
-    'Continuous Integration',
-    'Continuous Deployment',
-    'CI CD',
-    'GitOps',
-    'DevSecOps',
-    'Accelerate',
-     Outils CI
-    'Gitlab CI',
-    'Github Actions',
-    'Jenkins',
-    'Bamboo',
-    'CircleCI',
-    'Drone CI',
-     GitOps / CD
-    'ArgoCD',
-    'FluxCD',
-    'Kustomize',
-    'Helm',
-     Conteneurs (lien fort avec CI/CD)
-    'Docker',
-    'Docker Compose',
-    'Containerization'
-  )
-  ON CONFLICT DO NOTHING;
+```sql
+-- 1. Créer le topic Observability
+INSERT INTO "public"."Topic" ("type", "name")
+VALUES ('domain', 'Observability')
+ON CONFLICT ("name") DO NOTHING;
 ```
 
-4. Rattachement des skills → FinOps
+_Topics complémentaires :_
 
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'FinOps'
-  WHERE skill.name IN (
-    'AWS FinOps',
-    'Kubernetes FinOps'
-  )
-  ON CONFLICT DO NOTHING;
+```sql
+-- Nouveaux topics
+INSERT INTO "public"."Topic" ("type", "name") VALUES
+('domain',      'Platform Engineering'),
+('sensitivity', 'API & Integration'),
+('sensitivity', 'Testing / Quality Engineering')
+ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
 ```
 
-### gestion des categories vide
+### Skills (IA / LLM 2025)
 
-1. Topic : Design
-  Logique : tout skill dont l'objet principal est de
-    concevoir des interfaces, des expériences ou des visuels.
-    NB : les skills restent aussi dans Frontend (UI) si déjà
-    liés — ON CONFLICT DO NOTHING gère les doublons.
+18 nouvelles skills IA. Leurs rattachements tags/topics sont en phase 4.
 
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'Design'
-  WHERE skill.name IN (
-     Disciplines design
-    'Design',
-    'UI Design',
-    'UX Design',
-    'UX Research',
-    'UX Writing',
-    'Graphic Design',
-    'Motion Design',
-    'Game Design',
-    'Product Design',
-     Méthodes
-    'Design Thinking',
-    'Design System',
-    'Atomic UX research',
-    'Discovery (UX)',
-    'Design Management',
-    'Design Sprint',
-    'Accessibility',
-     Outils
-    'Figma',
-    'Adobe XD',
-    'Sketch',
-    'Framer',
-    'Axure',
-    'InVision',
-    'Marvel app',
-    'Zeplin',
-    'Zeroheight',
-    'Storybook',
-    'Ant Design'
-  )
-  ON CONFLICT DO NOTHING;
+```sql
+INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") VALUES
+
+-- Agents & orchestration
+('AI Agents',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Autonomous AI systems that plan, reason and use tools to complete complex tasks. Foundation of agentic workflows combining LLMs, memory and external actions.'),
+
+('LangGraph',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Framework for building stateful, multi-actor LLM applications using graph-based workflows. Enables complex agent orchestration with cycles and conditional branching.'),
+
+('CrewAI',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Python framework for orchestrating collaborative multi-agent systems where specialized agents work together to complete tasks.'),
+
+('Model Context Protocol (MCP)',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Open standard by Anthropic for connecting LLMs to external tools, data sources and services. Enables interoperable AI integrations across platforms.'),
+
+-- Données vectorielles
+('Vector databases',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Databases optimised for storing and querying high-dimensional vector embeddings. Core infrastructure for semantic search, RAG pipelines and recommendation systems.'),
+
+('Pinecone',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Managed vector database for storing and querying embeddings at scale. Widely used in production RAG architectures for low-latency semantic search.'),
+
+('Weaviate',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Open-source vector database with built-in ML model integrations. Supports hybrid search combining vector similarity and keyword-based filtering.'),
+
+('Embeddings',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Dense vector representations of text, images or other data capturing semantic meaning. Fundamental building block of RAG, semantic search and similarity tasks.'),
+
+-- Industrialisation
+('Fine-tuning',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Technique for specialising a pre-trained model on a specific domain or task using labelled data. Bridges the gap between general-purpose LLMs and production use cases.'),
+
+('LLMOps',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Operational practices for deploying, monitoring and maintaining LLM-based applications in production. Covers evaluation, observability, cost control and safety.'),
+
+('Weights & Biases',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'ML experiment tracking and visualisation platform. Used to log metrics, compare runs, debug models and collaborate on ML projects.'),
+
+('Hugging Face',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Hub for open-source models, datasets and ML applications. Provides the Transformers library and Spaces for deploying ML demos and APIs.'),
+
+-- Outils dev IA
+('GitHub Copilot',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'AI-powered coding assistant integrated into IDEs. Generates code suggestions, explains functions and automates repetitive development tasks.'),
+
+('Cursor',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'AI-native IDE built on VS Code that enables vibe coding — writing, refactoring and debugging code through natural language instructions.'),
+
+('OpenAI API',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'REST API providing access to GPT-4o, DALL-E, Whisper and other OpenAI models. Standard integration point for building LLM-powered applications.'),
+
+('Ollama',
+ '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
+ 'Tool for running open-source LLMs locally (Llama, Mistral, Gemma…). Enables private, offline AI inference without cloud dependencies.'),
+
+-- Éthique & gouvernance
+('Responsible AI',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Framework for developing AI systems that are fair, transparent, explainable and free from harmful bias. Covers governance, auditability and human oversight.'),
+
+('AI Act compliance',
+ 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
+ 'Knowledge of the EU AI Act (2024) risk classification, obligations and conformity requirements. Essential for advising clients on compliant AI system deployment in Europe.')
+
+ON CONFLICT ("name") DO NOTHING;
+
+
+-- =========================================================
 ```
 
- 2. Topic : Artificial Intelligence
-    Logique : skills couvrant l'IA, le ML, le Deep Learning,
-    les LLMs et les pratiques associées (MLOps, Prompt…).
-    Les outils cloud (SageMaker, Vertex AI) restent aussi
-    dans Cloud et Data Science / Analytics.
+## Phase 3 — Correction des libellés
 
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'Artificial Intelligence'
-  WHERE skill.name IN (
-     Concepts fondamentaux
-    'Artificial Intelligence',
-    'Machine Learning',
-    'Generative Artificial Intelligence',
-    'Large Language Model (LLM)',
-    'Generative Pre-trained Transformers (GPT)',
-    'Prompt Engineering',
-    'Retrieval Augmented Generation (RAG)',
-    'Natural Language Processing',
-    'Computer Vision',
-    'Classification (ML)',
-    'Regression (ML)',
-    'Recommendation Systems (ML)',
-    'Data Science',
-     Pratiques & ops
-    'MLOps',
-    'MLflow',
-    'Kubeflow',
-     Frameworks & librairies
-    'TensorFlow',
-    'pyTorch',
-    'Keras',
-    'Scikit-Learn',
-     Outils cloud IA
-    'AWS SageMaker',
-    'GCP Vertex AI',
-    'Azure Machine Learning',
-    'DialogFlow',
-    'Chatbot',
-     IA générale
-    'IA',
-    'Koalas'
-  )
-  ON CONFLICT DO NOTHING;
-```
+### Normalisation des tags (casse + typos)
 
-3. Topic : Organization / Collaboration
-   Logique : skills portant sur le travail collectif,
-   la transformation organisationnelle, les outils de
-   collaboration et les pratiques d'équipe.
-   Distinct de Management (qui couvre le pilotage/gestion)
-   et d'Agile (qui couvre les frameworks de delivery).
-
-```SQL
-INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
-  SELECT skill.id, topic.id
-  FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'Organization / Collaboration'
-  WHERE skill.name IN (
-     Transformation & structure
-    'Organization transformation',
-    'Change Management',
-    'IT Change Management',
-    'Team Topologies',
-    'System Thinking',
-     Pratiques d équipe
-    'Team Management',
-    'Agile Ceremonies Facilitation',
-    'Facilitation',
-    'Graphic facilitation',
-    'Liberating Structures',
-    'Non Violent Communication',
-    'Host Leadership',
-    'Management 3.0',
-     Comportements collectifs
-    'Team-first',
-     Outils de collaboration
-    'Miro',
-    'Mural',
-    'Klaxoon',
-    'Confluence'
-  )
-  ON CONFLICT DO NOTHING;
-```
-
-### Normaliser la casse /TAG
 
  Phase 2 : Normalisation des tags en doublon de casse + suppression des tags invalides (typos)
 
@@ -291,7 +394,7 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
 #### ÉTAPE 1A : tag 'agile'
    Skills liés à l'agilité sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'agile'
@@ -306,7 +409,7 @@ INSERT INTO public."SkillTag"
 #### ÉTAPE 1B : tag 'backend'
    Skills backend sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'backend'
@@ -326,7 +429,7 @@ INSERT INTO public."SkillTag"
 
 #### ÉTAPE 1C : tag 'ci/cd'   Tous les outils CI/CD sans ce tag
 
-``` SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'ci/cd'
@@ -350,7 +453,7 @@ INSERT INTO public."SkillTag"
 #### ÉTAPE 1D : tag 'javascript'
    Frameworks et libs JS sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'javascript'
@@ -392,7 +495,7 @@ INSERT INTO public."SkillTag"
 #### ÉTAPE 1E : tag 'mobile'
    Skills mobile sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'mobile'
@@ -411,7 +514,7 @@ INSERT INTO public."SkillTag"
 #### ÉTAPE 1F : tag 'python'
    Skills Python sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'python'
@@ -428,7 +531,7 @@ INSERT INTO public."SkillTag"
 #### ÉTAPE 1G : tag 'script'
    Scripts et outils de scripting sans ce tag
 
-```SQL
+```sql
 INSERT INTO public."SkillTag"
   SELECT skill.id, tag.id FROM public."Tag" tag
   JOIN public."Skill" skill ON tag.name = 'script'
@@ -450,7 +553,7 @@ INSERT INTO public."SkillTag"
    → le faire pointer vers 'python' (minuscule) avant suppression
 
 
-```SQL
+```sql
 UPDATE "public"."SkillTag"
   SET "tagId" = (SELECT id FROM "public"."Tag" WHERE name = 'python')
   WHERE "tagId" = (SELECT id FROM "public"."Tag" WHERE name = 'Python')
@@ -461,7 +564,7 @@ UPDATE "public"."SkillTag"
 #### ÉTAPE 2 : suppression des variantes en doublon
    Toutes sans SkillTag après l'étape 1 — suppression directe
 
-```SQL
+```sql
 DELETE FROM "public"."Tag" WHERE name IN (
   'AGILE',        doublon de 'agile'
   'Backend',      doublon de 'backend'
@@ -477,7 +580,7 @@ DELETE FROM "public"."Tag" WHERE name IN (
 #### ÉTAPE 3 : suppression des tags invalides (typos)
    Aucun SkillTag associé — suppression directe
 
-```SQL
+```sql
 DELETE FROM "public"."Tag" WHERE name IN (
   ',fgg',     typo évidente
   ' script'   espace en préfixe, doublon de 'script'
@@ -485,11 +588,11 @@ DELETE FROM "public"."Tag" WHERE name IN (
 ```
 #### VÉRIFICATION post-migration (à exécuter manuellement)
 
-```SQL
+```sql
  SELECT name, COUNT(*) FROM "public"."Tag"
    GROUP BY LOWER(name)
    HAVING COUNT(*) > 1;
- → doit retourner 0 lignes
+ -- → doit retourner 0 lignes
 
  SELECT t.name, COUNT(st."skillId") as nb_skills
    FROM "public"."Tag" t
@@ -497,10 +600,172 @@ DELETE FROM "public"."Tag" WHERE name IN (
    WHERE t.name IN ('python','agile','backend','language','mobile','ci/cd','javascript','script')
    GROUP BY t.name
    ORDER BY t.name;
- → python doit avoir 7 skills (6 + 1 migré), les autres inchangés
+ -- → python doit avoir 7 skills (6 + 1 migré), les autres inchangés
 ```
 
-### Skill mal classées
+
+### Descriptions manquantes
+
+
+- Phase 1/2 : Descriptions des 20 skills practices les plus connus
+--
+Format : UPDATE ciblé par nom, idempotent.
+Langue : anglais (cohérent avec les noms de skills existants)
+Longueur : 1-2 phrases, max ~30 mots — lisible dans une UI card
+
+#### Containers & Orchestration
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'Container runtime for packaging applications and their dependencies into portable, isolated environments. Used to build, ship, and run services consistently across dev and production.'
+  WHERE name = 'Docker' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Open-source container orchestration platform for automating deployment, scaling, and management of containerised workloads. Industry standard for running microservices at scale.'
+  WHERE name = 'Kubernetes' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Declarative GitOps continuous delivery tool for Kubernetes. Continuously syncs application state defined in Git repositories to target clusters, enabling automated and auditable deployments.'
+  WHERE name = 'ArgoCD' AND ("description" IS NULL OR "description" = '');
+```
+
+#### Infrastructure as Code
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'Infrastructure as Code tool for provisioning and managing cloud resources declaratively across AWS, GCP, Azure and more. Enables reproducible, version-controlled infrastructure.'
+  WHERE name = 'Terraform' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'IT automation tool for configuration management, application deployment, and orchestration using human-readable YAML playbooks. Agentless and widely adopted in DevOps pipelines.'
+  WHERE name = 'Ansible' AND ("description" IS NULL OR "description" = '');
+```
+
+#### Frontend
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'JavaScript library for building component-based user interfaces. Widely used for single-page applications thanks to its virtual DOM, rich ecosystem, and strong community.'
+  WHERE name = 'ReactJS' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Progressive JavaScript framework for building user interfaces, known for its gentle learning curve, reactivity system, and single-file component architecture.'
+  WHERE name = 'Vue.js' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Statically typed superset of JavaScript that adds optional type annotations, improving code quality and developer experience in large-scale applications.'
+  WHERE name = 'Typescript' AND ("description" IS NULL OR "description" = '');
+```
+
+#### Backend & Runtimes
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'General-purpose, high-level programming language valued for its readability and versatility. Dominant in data science, scripting, automation, and backend development.'
+  WHERE name = 'Python' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Opinionated Java framework that simplifies Spring application setup with auto-configuration and embedded servers. The standard for building production-ready Java microservices.'
+  WHERE name = 'Spring Boot' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'JavaScript runtime built on Chrome''s V8 engine for building fast, scalable server-side applications. Enables full-stack JavaScript development and real-time APIs.'
+  WHERE name = 'Node.js' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Query language and runtime for APIs that gives clients precise control over the data they request. Replaces multiple REST endpoints with a single, flexible endpoint.'
+  WHERE name = 'GraphQL' AND ("description" IS NULL OR "description" = '');
+```
+
+#### CI/CD
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'Open-source automation server for building, testing, and deploying software through configurable pipelines. The most widely deployed CI/CD tool in enterprise environments.'
+  WHERE name = 'Jenkins' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'GitLab''s built-in CI/CD system defined as code in .gitlab-ci.yml files. Enables automated build, test, and deployment pipelines tightly integrated with source control.'
+  WHERE name = 'Gitlab CI' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'GitHub''s native CI/CD automation platform triggered by repository events. Workflows defined in YAML enable seamless integration of build, test, and deployment pipelines.'
+  WHERE name = 'Github Actions' AND ("description" IS NULL OR "description" = '');
+```
+
+#### Data & Messaging
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'Distributed event streaming platform for high-throughput, fault-tolerant messaging between services. The de facto standard for real-time data pipelines and event-driven architectures.'
+  WHERE name = 'Kafka' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Powerful open-source relational database known for its reliability, rich feature set, and SQL compliance. Widely used for transactional applications and complex data workloads.'
+  WHERE name = 'PostgreSQL' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'In-memory data store used as a cache, message broker, or database. Enables sub-millisecond response times for session management, leaderboards, and real-time features.'
+  WHERE name = 'Redis' AND ("description" IS NULL OR "description" = '');
+
+UPDATE "public"."Skill" SET "description" =
+  'Distributed search and analytics engine based on Lucene. Used for full-text search, log analysis, and real-time observability at scale as part of the Elastic Stack.'
+  WHERE name = 'Elasticsearch' AND ("description" IS NULL OR "description" = '');
+```
+#### Observability
+
+```sql
+UPDATE "public"."Skill" SET "description" =
+  'Open-source monitoring and alerting toolkit that collects time-series metrics via a pull model. The standard for infrastructure and application monitoring in cloud-native environments.'
+  WHERE name = 'Prometheus' AND ("description" IS NULL OR "description" = '');
+```
+
+#### VÉRIFICATION
+
+```sql
+
+--
+SELECT name, LEFT("description", 80) as desc_preview
+  FROM "public"."Skill"
+  WHERE name IN (
+    'Docker','Kubernetes','Terraform','ReactJS','Typescript',
+    'Python','Spring Boot','GraphQL','Ansible','Jenkins',
+    'Gitlab CI','Github Actions','Kafka','PostgreSQL','Redis',
+    'Elasticsearch','Vue.js','Node.js','Prometheus','ArgoCD'
+  )
+  ORDER BY name;
+-- → 20 lignes, aucune description vide
+```
+
+
+
+### Renommage de skills (casse de marque) — À VALIDER
+
+> Décommenter après validation. Renommage sûr (les FK pointent l'`id`, pas le nom).
+
+```sql
+-- Corrections nettes :
+UPDATE "public"."Skill" SET name='GitHub' WHERE name='Github';
+UPDATE "public"."Skill" SET name='GitHub Actions' WHERE name='Github Actions';
+UPDATE "public"."Skill" SET name='GitLab CI' WHERE name='Gitlab CI';
+UPDATE "public"."Skill" SET name='JavaScript' WHERE name='Javascript';
+UPDATE "public"."Skill" SET name='TypeScript' WHERE name='Typescript';
+UPDATE "public"."Skill" SET name='PyTorch' WHERE name='pyTorch';
+UPDATE "public"."Skill" SET name='OpenShift' WHERE name='Openshift';
+UPDATE "public"."Skill" SET name='NGINX' WHERE name='Nginx';
+UPDATE "public"."Skill" SET name='JMeter' WHERE name='Jmeter';
+UPDATE "public"."Skill" SET name='WebRTC' WHERE name='webrtc';
+UPDATE "public"."Skill" SET name='Camunda' WHERE name='camunda';
+-- Renommages discutables (à trancher) :
+UPDATE "public"."Skill" SET name='Apache Kafka' WHERE name='Kafka';
+UPDATE "public"."Skill" SET name='OAuth 2.0' WHERE name='OAuth2';
+UPDATE "public"."Skill" SET name='SonarQube' WHERE name='Sonar';
+```
+
+## Phase 4 — Correction de l'arbre (rattachements)
+
+### Recatégorisation des skills mal classées
+
 
 Phase 2 : Recatégorisation des skills mal classés
 
@@ -520,7 +785,7 @@ Logique de catégorisation appliquée :
 
 UX Writing : compétence rédactionnelle métier, pas un trait de personnalité
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
   WHERE name = 'UX Writing'
@@ -533,7 +798,7 @@ UPDATE "public"."Skill"
 Configuration Management DataBase (CMDB) : outil concret (ServiceNow, iTop…)
 
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
   WHERE name = 'Configuration Management DataBase (CMDB)'
@@ -542,7 +807,7 @@ UPDATE "public"."Skill"
 
 AWS FinOps : pratique outillée AWS, cohérent avec 'Kubernetes FinOps' déjà en practices
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
     WHERE name = 'AWS FinOps'
@@ -551,7 +816,7 @@ UPDATE "public"."Skill"
 
 Secrets management : pratique d'exploitation (Vault, AWS Secrets Manager…)
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
   WHERE name = 'Secrets management'
@@ -561,7 +826,7 @@ UPDATE "public"."Skill"
 
 
 BAH model : modèle conceptuel (Booz Allen Hamilton), pas un outil
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
   WHERE name = 'BAH model'
@@ -570,7 +835,7 @@ UPDATE "public"."Skill"
 
 C4 Model : modèle de documentation d'architecture, pas un outil
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
     WHERE name = 'C4 Model'
@@ -579,7 +844,7 @@ UPDATE "public"."Skill"
 
 
 Radical Product Thinking : philosophie produit, pas une pratique outillée
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
     WHERE name = 'Radical Product Thinking'
@@ -588,7 +853,7 @@ UPDATE "public"."Skill"
 
 Scorecard-Markov model : modèle mathématique/analytique, pas un outil
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
     WHERE name = 'Scorecard-Markov model'
@@ -600,7 +865,7 @@ UPDATE "public"."Skill"
 Social Engineering : technique d'attaque/sensibilisation sécurité,
 pas une mission facturable à part entière
 
-``` SQL
+```sql
 UPDATE "public"."Skill"
   SET "categoryId" = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
     WHERE name = 'Social Engineering'
@@ -610,7 +875,7 @@ UPDATE "public"."Skill"
 
 #### VÉRIFICATION post-migration
 
-``` SQL
+```sql
 SELECT s.name, c.label as categorie
   FROM "public"."Skill" s
   JOIN "public"."Category" c ON c.id = s."categoryId"
@@ -627,21 +892,203 @@ SELECT s.name, c.label as categorie
   )
   ORDER BY c.label, s.name;
 --
-Résultat attendu :
-  knowledge  : BAH model, C4 Model, Radical Product Thinking,
-               Scorecard-Markov model, Social Engineering
-  practices  : AWS FinOps, Configuration Management DataBase (CMDB),
-               Secrets management, UX Writing
+-- Résultat attendu :
+  -- knowledge  : BAH model, C4 Model, Radical Product Thinking,
+               -- Scorecard-Markov model, Social Engineering
+  -- practices  : AWS FinOps, Configuration Management DataBase (CMDB),
+               -- Secrets management, UX Writing
 
 ```
 
 
 
-### doublons de skill
+
+### Remplissage des topics vides (Design, IA, Organization / Collaboration)
 
 
+1. Topic : Design
+  Logique : tout skill dont l'objet principal est de
+    concevoir des interfaces, des expériences ou des visuels.
+    NB : les skills restent aussi dans Frontend (UI) si déjà
+    liés — ON CONFLICT DO NOTHING gère les doublons.
 
-### Migrer les skills devops vers les nouveaux topics
+```sql
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Design'
+  WHERE skill.name IN (
+     -- Disciplines design
+    'Design',
+    'UI Design',
+    'UX Design',
+    'UX Research',
+    'UX Writing',
+    'Graphic Design',
+    'Motion Design',
+    'Game Design',
+    'Product Design',
+     -- Méthodes
+    'Design Thinking',
+    'Design System',
+    'Atomic UX research',
+    'Discovery (UX)',
+    'Design Management',
+    'Design Sprint',
+    'Accessibility',
+     -- Outils
+    'Figma',
+    'Adobe XD',
+    'Sketch',
+    'Framer',
+    'Axure',
+    'InVision',
+    'Marvel app',
+    'Zeplin',
+    'Zeroheight',
+    'Storybook',
+    'Ant Design'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+ 2. Topic : Artificial Intelligence
+    Logique : skills couvrant l'IA, le ML, le Deep Learning,
+    les LLMs et les pratiques associées (MLOps, Prompt…).
+    Les outils cloud (SageMaker, Vertex AI) restent aussi
+    dans Cloud et Data Science / Analytics.
+
+```sql
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Artificial Intelligence'
+  WHERE skill.name IN (
+     -- Concepts fondamentaux
+    'Artificial Intelligence',
+    'Machine Learning',
+    'Generative Artificial Intelligence',
+    'Large Language Model (LLM)',
+    'Generative Pre-trained Transformers (GPT)',
+    'Prompt Engineering',
+    'Retrieval Augmented Generation (RAG)',
+    'Natural Language Processing',
+    'Computer Vision',
+    'Classification (ML)',
+    'Regression (ML)',
+    'Recommendation Systems (ML)',
+    'Data Science',
+     -- Pratiques & ops
+    'MLOps',
+    'MLflow',
+    'Kubeflow',
+     -- Frameworks & librairies
+    'TensorFlow',
+    'pyTorch',
+    'Keras',
+    'Scikit-Learn',
+     -- Outils cloud IA
+    'AWS SageMaker',
+    'GCP Vertex AI',
+    'Azure Machine Learning',
+    'DialogFlow',
+    'Chatbot',
+     -- IA générale
+    'IA',
+    'Koalas'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+3. Topic : Organization / Collaboration
+   Logique : skills portant sur le travail collectif,
+   la transformation organisationnelle, les outils de
+   collaboration et les pratiques d'équipe.
+   Distinct de Management (qui couvre le pilotage/gestion)
+   et d'Agile (qui couvre les frameworks de delivery).
+
+```sql
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'Organization / Collaboration'
+  WHERE skill.name IN (
+     -- Transformation & structure
+    'Organization transformation',
+    'Change Management',
+    'IT Change Management',
+    'Team Topologies',
+    'System Thinking',
+     -- Pratiques d équipe
+    'Team Management',
+    'Agile Ceremonies Facilitation',
+    'Facilitation',
+    'Graphic facilitation',
+    'Liberating Structures',
+    'Non Violent Communication',
+    'Host Leadership',
+    'Management 3.0',
+     -- Comportements collectifs
+    'Team-first',
+     -- Outils de collaboration
+    'Miro',
+    'Mural',
+    'Klaxoon',
+    'Confluence'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+
+### Rattachements des topics du split DevOps (CI/CD & Automation, FinOps)
+
+```sql
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'CI/CD & Automation'
+  WHERE skill.name IN (
+     -- Concepts
+    'Continuous Integration',
+    'Continuous Deployment',
+    'CI CD',
+    'GitOps',
+    'DevSecOps',
+    'Accelerate',
+     -- Outils CI
+    'Gitlab CI',
+    'Github Actions',
+    'Jenkins',
+    'Bamboo',
+    'CircleCI',
+    'Drone CI',
+     -- GitOps / CD
+    'ArgoCD',
+    'FluxCD',
+    'Kustomize',
+    'Helm',
+     -- Conteneurs (lien fort avec CI/CD)
+    'Docker',
+    'Docker Compose',
+    'Containerization'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+```sql
+INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
+  SELECT skill.id, topic.id
+  FROM "public"."Topic" topic
+  JOIN "public"."Skill" skill ON topic.name = 'FinOps'
+  WHERE skill.name IN (
+    'AWS FinOps',
+    'Kubernetes FinOps'
+  )
+  ON CONFLICT DO NOTHING;
+```
+
+### Migration des skills DevOps vers les nouveaux topics
+
 
  Les 55 skills DevOps sont répartis en 4 destinations :
    SRE / Reliability    →  9 skills (observabilité, fiabilité, incidents)
@@ -659,13 +1106,14 @@ Résultat attendu :
 
 #### ÉTAPE 1A : Nouveaux liens → SRE / Reliability
 
-```SQL
+```sql
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   SELECT skill.id, topic.id
   FROM "public"."Topic" topic
   JOIN "public"."Skill" skill ON topic.name = 'SRE / Reliability'
   WHERE skill.name IN (
     'Site Reliability Engineering',
+    'Service levels management: SLA, SLI, SLO',
     'Chaos Engineering',
     'Chaos Monkey',
     'Metrics policy',
@@ -676,12 +1124,11 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'Fluent Bit'
   )
   ON CONFLICT DO NOTHING;
- ```
-
+```
 
 #### ÉTAPE 1B : Nouveaux liens → CI/CD & Automation
 
-```SQL
+```sql
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   SELECT skill.id, topic.id
   FROM "public"."Topic" topic
@@ -705,68 +1152,67 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'DevSecOps'
   )
   ON CONFLICT DO NOTHING;
-```SQL
-
+```
 
 #### ÉTAPE 1C : Nouveaux liens → Infrastructure / Ops
   (topic existant — on ajoute les skills qui n'y étaient que via DevOps)
 
-```SQL
+```sql
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   SELECT skill.id, topic.id
   FROM "public"."Topic" topic
   JOIN "public"."Skill" skill ON topic.name = 'Infrastructure / Ops'
   WHERE skill.name IN (
-    Kubernetes & dérivés
+    -- Kubernetes & dérivés
     'Kubernetes',
     'Kubespray',
     'k3s',
     'Openshift',
     'Rancher',
-    Containers
+    -- Containers
     'Docker',
     'Docker Compose',
     'Docker Swarm',
     'Docker Desktop',
     'Containerization',
-    Réseau & routing
+    -- Réseau & routing
     'Traefik',
-    Backup & disaster recovery
+    -- Backup & disaster recovery
     'Velero',
-    ML Infra
+    -- ML Infra
     'Kubeflow',
-    FinOps K8s
+    -- FinOps K8s
     'Kubernetes FinOps',
-    IaC & config management
+    -- IaC & config management
     'Ansible',
     'Chef',
     'Puppet',
     'SaltStack',
     'Terraform',
     'Infrastructure As Code',
-    Cloud K8s managés
+    -- Cloud K8s managés
     'AWS EKS',
     'Azure Kubernetes Service',
     'GKE',
-    PaaS
+    -- PaaS
     'Heroku'
   )
   ON CONFLICT DO NOTHING;
- ```
+```
 
 
 #### ÉTAPE 2 : Suppression des liens vers DevOps
   Uniquement pour les skills migrés vers d autres topics.
   Les 5 skills "transverses" conservent leur lien DevOps.
 
-```SQL
+```sql
 DELETE FROM "public"."SkillTopic"
   WHERE "topicId" = (
     SELECT id FROM "public"."Topic" WHERE name = 'DevOps'
   )
   AND "skillId" IN (
     SELECT id FROM "public"."Skill" WHERE name IN (
-      Migré vers SRE / Reliability
+      -- Migré vers SRE / Reliability
       'Site Reliability Engineering',
       'Chaos Engineering',
       'Chaos Monkey',
@@ -776,7 +1222,7 @@ DELETE FROM "public"."SkillTopic"
       'Thanos',
       'Elastic Observability',
       'Fluent Bit',
-      Migré vers CI/CD & Automation
+      -- Migré vers CI/CD & Automation
       'CI CD',
       'Continuous Integration',
       'Continuous Deployment',
@@ -793,7 +1239,7 @@ DELETE FROM "public"."SkillTopic"
       'Helm',
       'Ansible Molecule',
       'DevSecOps',
-      Migré vers Infrastructure / Ops
+      -- Migré vers Infrastructure / Ops
       'Kubernetes',
       'Kubespray',
       'k3s',
@@ -820,7 +1266,7 @@ DELETE FROM "public"."SkillTopic"
       'Heroku'
     )
   );
- ```
+```
 
 
 #### ÉTAPE 3 (optionnelle) : Supprimer le topic DevOps
@@ -829,8 +1275,8 @@ DELETE FROM "public"."SkillTopic"
   Accelerate) sont bien couverts par d autres topics.
 
 
-```SQL
- Vérifier d abord :
+```sql
+ -- Vérifier d abord :
    SELECT s.name, array_agg(t.name) as topics
      FROM "public"."Skill" s
      JOIN "public"."SkillTopic" st ON st."skillId" = s.id
@@ -838,7 +1284,7 @@ DELETE FROM "public"."SkillTopic"
      WHERE s.name IN ('DevOps','DevOps Coaching','DataOps','MLOps','Accelerate')
      GROUP BY s.name;
 --
-Si chaque skill a au moins un autre topic → supprimer DevOps :
+-- Si chaque skill a au moins un autre topic → supprimer DevOps :
 --
   DELETE FROM "public"."SkillTopic"
     WHERE "topicId" = (SELECT id FROM "public"."Topic" WHERE name = 'DevOps');
@@ -851,14 +1297,14 @@ Si chaque skill a au moins un autre topic → supprimer DevOps :
 
  VÉRIFICATION post-migration
 
-```SQL
+```sql
 
-1. Compter les skills restants dans DevOps (doit être 5) :
+-- 1. Compter les skills restants dans DevOps (doit être 5) :
     SELECT COUNT(*) FROM "public"."SkillTopic" st
       JOIN "public"."Topic" t ON t.id = st."topicId"
       WHERE t.name = 'DevOps';
 --
-2. Vérifier la répartition dans les nouveaux topics :
+-- 2. Vérifier la répartition dans les nouveaux topics :
     SELECT t.name as topic, COUNT(*) as nb_skills
       FROM "public"."Topic" t
       JOIN "public"."SkillTopic" st ON st."topicId" = t.id
@@ -871,156 +1317,18 @@ Si chaque skill a au moins un autre topic → supprimer DevOps :
       GROUP BY t.name
       ORDER BY nb_skills DESC;
 --
-Résultat attendu :
-  Infrastructure / Ops  ~59  (25 ajoutés + 36 existants)
-  CI/CD & Automation     16
-  SRE / Reliability       9  (+ Datadog, Grafana, Monitoring ajoutés en phase 1)
-  DevOps                  5  (transverses conservés)
- ```
+-- Résultat attendu :
+  -- Infrastructure / Ops  ~59  (25 ajoutés + 36 existants)
+  -- CI/CD & Automation     16
+  -- SRE / Reliability       9  (+ Datadog, Grafana, Monitoring ajoutés en phase 1)
+  -- DevOps                  5  (transverses conservés)
+```
 
 
-### Descriptions manquantes
 
-- Phase 1/2 : Descriptions des 20 skills practices les plus connus
---
-Format : UPDATE ciblé par nom, idempotent.
-Langue : anglais (cohérent avec les noms de skills existants)
-Longueur : 1-2 phrases, max ~30 mots — lisible dans une UI card
+### Rattachements Observability
 
-#### Containers & Orchestration
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'Container runtime for packaging applications and their dependencies into portable, isolated environments. Used to build, ship, and run services consistently across dev and production.'
-  WHERE name = 'Docker' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Open-source container orchestration platform for automating deployment, scaling, and management of containerised workloads. Industry standard for running microservices at scale.'
-  WHERE name = 'Kubernetes' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Container registry and artifact management server for storing Docker images, npm packages, and other build artifacts. Central hub in CI/CD pipelines.'
-  WHERE name = 'ArgoCD' AND ("description" IS NULL OR "description" = '');
-````
-
-#### Infrastructure as Code
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'Infrastructure as Code tool for provisioning and managing cloud resources declaratively across AWS, GCP, Azure and more. Enables reproducible, version-controlled infrastructure.'
-  WHERE name = 'Terraform' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'IT automation tool for configuration management, application deployment, and orchestration using human-readable YAML playbooks. Agentless and widely adopted in DevOps pipelines.'
-  WHERE name = 'Ansible' AND ("description" IS NULL OR "description" = '');
-````
-
-#### Frontend
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'JavaScript library for building component-based user interfaces. Widely used for single-page applications thanks to its virtual DOM, rich ecosystem, and strong community.'
-  WHERE name = 'ReactJS' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Progressive JavaScript framework for building user interfaces, known for its gentle learning curve, reactivity system, and single-file component architecture.'
-  WHERE name = 'Vue.js' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Statically typed superset of JavaScript that adds optional type annotations, improving code quality and developer experience in large-scale applications.'
-  WHERE name = 'Typescript' AND ("description" IS NULL OR "description" = '');
-````
-
-#### Backend & Runtimes
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'General-purpose, high-level programming language valued for its readability and versatility. Dominant in data science, scripting, automation, and backend development.'
-  WHERE name = 'Python' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Opinionated Java framework that simplifies Spring application setup with auto-configuration and embedded servers. The standard for building production-ready Java microservices.'
-  WHERE name = 'Spring Boot' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'JavaScript runtime built on Chrome''s V8 engine for building fast, scalable server-side applications. Enables full-stack JavaScript development and real-time APIs.'
-  WHERE name = 'Node.js' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Query language and runtime for APIs that gives clients precise control over the data they request. Replaces multiple REST endpoints with a single, flexible endpoint.'
-  WHERE name = 'GraphQL' AND ("description" IS NULL OR "description" = '');
- ```` SQL
-
-#### CI/CD
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'Open-source automation server for building, testing, and deploying software through configurable pipelines. The most widely deployed CI/CD tool in enterprise environments.'
-  WHERE name = 'Jenkins' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'GitLab''s built-in CI/CD system defined as code in .gitlab-ci.yml files. Enables automated build, test, and deployment pipelines tightly integrated with source control.'
-  WHERE name = 'Gitlab CI' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'GitHub''s native CI/CD automation platform triggered by repository events. Workflows defined in YAML enable seamless integration of build, test, and deployment pipelines.'
-  WHERE name = 'Github Actions' AND ("description" IS NULL OR "description" = '');
-````
-
-#### Data & Messaging
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'Distributed event streaming platform for high-throughput, fault-tolerant messaging between services. The de facto standard for real-time data pipelines and event-driven architectures.'
-  WHERE name = 'Kafka' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Powerful open-source relational database known for its reliability, rich feature set, and SQL compliance. Widely used for transactional applications and complex data workloads.'
-  WHERE name = 'PostgreSQL' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'In-memory data store used as a cache, message broker, or database. Enables sub-millisecond response times for session management, leaderboards, and real-time features.'
-  WHERE name = 'Redis' AND ("description" IS NULL OR "description" = '');
-
-UPDATE "public"."Skill" SET "description" =
-  'Distributed search and analytics engine based on Lucene. Used for full-text search, log analysis, and real-time observability at scale as part of the Elastic Stack.'
-  WHERE name = 'Elasticsearch' AND ("description" IS NULL OR "description" = '');
-````
-#### Observability
-
-```` SQL
-UPDATE "public"."Skill" SET "description" =
-  'Open-source monitoring and alerting toolkit that collects time-series metrics via a pull model. The standard for infrastructure and application monitoring in cloud-native environments.'
-  WHERE name = 'Prometheus' AND ("description" IS NULL OR "description" = '');
-````
-
-#### VÉRIFICATION
-
-```` SQL
-
---
-SELECT name, LEFT("description", 80) as desc_preview
-  FROM "public"."Skill"
-  WHERE name IN (
-    'Docker','Kubernetes','Terraform','ReactJS','Typescript',
-    'Python','Spring Boot','GraphQL','Ansible','Jenkins',
-    'Gitlab CI','Github Actions','Kafka','PostgreSQL','Redis',
-    'Elasticsearch','Vue.js','Node.js','Prometheus','ArgoCD'
-  )
-  ORDER BY name;
-→ 20 lignes, aucune description vide
- ````
-
-
- ### Aller on rajoute l'observabilité
-
-``` SQL
-1. Créer le topic Observability
-INSERT INTO "public"."Topic" ("type", "name")
-VALUES ('domain', 'Observability')
-ON CONFLICT ("name") DO NOTHING;
-
-
+```sql
 -- 2. Rattacher les skills d'observabilité au nouveau topic
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   SELECT skill.id, topic.id
@@ -1056,28 +1364,10 @@ DELETE FROM "public"."SkillTopic"
   );
 ```
 
-### Aller les derniers trucs manquants
+### Rattachements Platform Engineering / API & Integration / Testing
 
-```SQL
--- Nouveaux rôles
-INSERT INTO "public"."Role" ("name") VALUES
-('ML Engineer'),
-('Cloud Architect'),
-('Full Stack Developer'),
-('AI Engineer'),
-('Staff / Principal Engineer')
-ON CONFLICT ("name") DO NOTHING;
-
--- Nouveaux topics
-INSERT INTO "public"."Topic" ("type", "name") VALUES
-('domain',      'Platform Engineering'),
-('sensitivity', 'API & Integration'),
-('sensitivity', 'Testing / Quality Engineering')
-ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
-
-
-
-sql-- =========================================================
+```sql
+-- =========================================================
 -- Rattachement skills → Platform Engineering
 -- =========================================================
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
@@ -1199,108 +1489,9 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   ON CONFLICT DO NOTHING;
 ```
 
-### ET enfin, rajoutons l'IA
+### Rattachements IA (tags + topics)
 
-``` SQL
--- Phase 1 : Ajout des 18 skills IA/LLM manquants pour 2025
---
--- Category IDs :
---   knowledge  = 'c3341edb-3c1f-4e3d-bf89-8e795eb13690'
---   practices  = '89780de3-4a4c-40c2-bcdf-b5d15a48437a'
---   activities = '06420261-3e78-4a91-bc6a-1a52cad5d6a1'
-
--- =========================================================
--- ÉTAPE 1 : Création des skills et roles
--- =========================================================
-
-INSERT INTO "public"."Role" ("name") VALUES
-('AI / ML Architect'),
-('Responsible AI Lead')
-ON CONFLICT ("name") DO NOTHING;
-
-INSERT INTO "public"."Skill" ("name", "categoryId", "verified", "description") VALUES
-
--- Agents & orchestration
-('AI Agents',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Autonomous AI systems that plan, reason and use tools to complete complex tasks. Foundation of agentic workflows combining LLMs, memory and external actions.'),
-
-('LangGraph',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Framework for building stateful, multi-actor LLM applications using graph-based workflows. Enables complex agent orchestration with cycles and conditional branching.'),
-
-('CrewAI',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Python framework for orchestrating collaborative multi-agent systems where specialized agents work together to complete tasks.'),
-
-('Model Context Protocol (MCP)',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Open standard by Anthropic for connecting LLMs to external tools, data sources and services. Enables interoperable AI integrations across platforms.'),
-
--- Données vectorielles
-('Vector databases',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Databases optimised for storing and querying high-dimensional vector embeddings. Core infrastructure for semantic search, RAG pipelines and recommendation systems.'),
-
-('Pinecone',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Managed vector database for storing and querying embeddings at scale. Widely used in production RAG architectures for low-latency semantic search.'),
-
-('Weaviate',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Open-source vector database with built-in ML model integrations. Supports hybrid search combining vector similarity and keyword-based filtering.'),
-
-('Embeddings',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Dense vector representations of text, images or other data capturing semantic meaning. Fundamental building block of RAG, semantic search and similarity tasks.'),
-
--- Industrialisation
-('Fine-tuning',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Technique for specialising a pre-trained model on a specific domain or task using labelled data. Bridges the gap between general-purpose LLMs and production use cases.'),
-
-('LLMOps',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Operational practices for deploying, monitoring and maintaining LLM-based applications in production. Covers evaluation, observability, cost control and safety.'),
-
-('Weights & Biases',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'ML experiment tracking and visualisation platform. Used to log metrics, compare runs, debug models and collaborate on ML projects.'),
-
-('Hugging Face',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Hub for open-source models, datasets and ML applications. Provides the Transformers library and Spaces for deploying ML demos and APIs.'),
-
--- Outils dev IA
-('GitHub Copilot',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'AI-powered coding assistant integrated into IDEs. Generates code suggestions, explains functions and automates repetitive development tasks.'),
-
-('Cursor',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'AI-native IDE built on VS Code that enables vibe coding — writing, refactoring and debugging code through natural language instructions.'),
-
-('OpenAI API',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'REST API providing access to GPT-4o, DALL-E, Whisper and other OpenAI models. Standard integration point for building LLM-powered applications.'),
-
-('Ollama',
- '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true,
- 'Tool for running open-source LLMs locally (Llama, Mistral, Gemma…). Enables private, offline AI inference without cloud dependencies.'),
-
--- Éthique & gouvernance
-('Responsible AI',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Framework for developing AI systems that are fair, transparent, explainable and free from harmful bias. Covers governance, auditability and human oversight.'),
-
-('AI Act compliance',
- 'c3341edb-3c1f-4e3d-bf89-8e795eb13690', true,
- 'Knowledge of the EU AI Act (2024) risk classification, obligations and conformity requirements. Essential for advising clients on compliant AI system deployment in Europe.')
-
-ON CONFLICT ("name") DO NOTHING;
-
-
--- =========================================================
+```sql
 -- ÉTAPE 2 : Tags
 -- =========================================================
 
@@ -1428,10 +1619,10 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'GitHub Copilot', 'Cursor', 'Ollama'
   ) ON CONFLICT DO NOTHING;
 
--- Security / Governance (éthique & conformité)
+-- Security (éthique & conformité / gouvernance)
 INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
   SELECT skill.id, topic.id FROM "public"."Topic" topic
-  JOIN "public"."Skill" skill ON topic.name = 'Management'
+  JOIN "public"."Skill" skill ON topic.name = 'Security'
   WHERE skill.name IN (
     'Responsible AI', 'AI Act compliance'
   ) ON CONFLICT DO NOTHING;
