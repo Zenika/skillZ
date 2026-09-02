@@ -984,7 +984,7 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'Kubeflow',
      -- Frameworks & librairies
     'TensorFlow',
-    'pyTorch',
+    'PyTorch',
     'Keras',
     'Scikit-Learn',
      -- Outils cloud IA
@@ -1056,8 +1056,8 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'DevSecOps',
     'Accelerate',
      -- Outils CI
-    'Gitlab CI',
-    'Github Actions',
+    'GitLab CI',
+    'GitHub Actions',
     'Jenkins',
     'Bamboo',
     'CircleCI',
@@ -1137,8 +1137,8 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'CI CD',
     'Continuous Integration',
     'Continuous Deployment',
-    'Gitlab CI',
-    'Github Actions',
+    'GitLab CI',
+    'GitHub Actions',
     'Jenkins',
     'Bamboo',
     'CircleCI',
@@ -1167,7 +1167,7 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'Kubernetes',
     'Kubespray',
     'k3s',
-    'Openshift',
+    'OpenShift',
     'Rancher',
     -- Containers
     'Docker',
@@ -1226,8 +1226,8 @@ DELETE FROM "public"."SkillTopic"
       'CI CD',
       'Continuous Integration',
       'Continuous Deployment',
-      'Gitlab CI',
-      'Github Actions',
+      'GitLab CI',
+      'GitHub Actions',
       'Jenkins',
       'Bamboo',
       'CircleCI',
@@ -1243,7 +1243,7 @@ DELETE FROM "public"."SkillTopic"
       'Kubernetes',
       'Kubespray',
       'k3s',
-      'Openshift',
+      'OpenShift',
       'Rancher',
       'Docker',
       'Docker Compose',
@@ -1430,11 +1430,11 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'Istio',
     'Linkerd',
     -- Messaging
-    'Kafka',
+    'Apache Kafka',
     'Kafka Streams',
     'RabbitMQ',
     -- Auth / Identity (standards d intégration)
-    'OAuth2',
+    'OAuth 2.0',
     'OpenID Connect',
     'SAML'
   )
@@ -1473,10 +1473,10 @@ INSERT INTO "public"."SkillTopic" ("skillId", "topicId")
     'Playwright',
     'Nightwatch',
     'Gatling',
-    'Jmeter',
+    'JMeter',
     'QuickPerf',
     -- Qualité statique
-    'Sonar',
+    'SonarQube',
     'ecoCode SonarQube Plugin',
     'EcoSonar',
     -- Containers de test
