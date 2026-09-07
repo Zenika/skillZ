@@ -1,9 +1,11 @@
 INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('sensitivity', 'Agile'),
+('sensitivity', 'API & Integration'),
 ('sensitivity', 'Architecture'),
 ('sensitivity', 'Artificial Intelligence'),
 ('domain', 'Backend (servers)'),
 ('generic', 'Business'),
+('sensitivity', 'CI/CD & Automation'),
 ('sensitivity', 'Cloud'),
 ('sensitivity', 'Craftsmanship'),
 ('domain', 'Data engineering'),
@@ -11,18 +13,22 @@ INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('domain', 'Delivery'),
 ('sensitivity', 'Design'),
 ('sensitivity', 'Development process'),
-('sensitivity', 'DevOps'),
+('sensitivity', 'FinOps'),
 ('domain', 'Frontend (UI)'),
 ('sensitivity', 'Green'),
 ('domain', 'Infrastructure / Ops'),
 ('sensitivity', 'Management'),
+('domain', 'Observability'),
 ('domain', 'Organization / Collaboration'),
+('domain', 'Platform Engineering'),
 ('domain', 'Product'),
 ('generic', 'Professional behavior'),
 ('generic', 'Programming language'),
 ('domain', 'Quality assurance'),
 ('sensitivity', 'Security'),
-('generic', 'Spoken language')
+('generic', 'Spoken language'),
+('domain', 'SRE / Reliability'),
+('sensitivity', 'Testing / Quality Engineering')
  ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
 
 DELETE FROM "public"."UserTopic" WHERE "topicId" IN (SELECT "id" FROM "public"."Topic" WHERE "type" IS NULL);
