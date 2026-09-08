@@ -75,8 +75,8 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Benevolent' WHERE tag.name IN ('behavior','influence','strength') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Big Data' WHERE tag.name IN ('architecture','data') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='BigQuery' WHERE tag.name IN ('bi','cloud','data') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Bitbucket' WHERE tag.name IN ('CI/CD','tooling') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Bitrise' WHERE tag.name IN ('CI/CD','devops','mobile','platform') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Bitbucket' WHERE tag.name IN ('ci/cd','tooling') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Bitrise' WHERE tag.name IN ('ci/cd','devops','mobile','platform') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Blockchain' WHERE tag.name IN ('blockchain','data') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Blue Team' WHERE tag.name IN ('consulting','security') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Bootstrap' WHERE tag.name IN ('framework','frontend','web') ON CONFLICT DO NOTHING;
@@ -283,7 +283,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Gatling' WHERE tag.name IN ('backend','java','testing','tooling') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GatsbyJS' WHERE tag.name IN ('framework','frontend','javascript','web') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP' WHERE tag.name IN ('cloud','platform') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP Cloud Build' WHERE tag.name IN ('CI/CD','cloud','devops','gcp') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP Cloud Build' WHERE tag.name IN ('ci/cd','cloud','devops','gcp') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP Cloud Run' WHERE tag.name IN ('cloud','containers','devops','gcp') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP Dataflow' WHERE tag.name IN ('cloud','Data Engineering Pipelines','gcp') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='GCP Security Engineering' WHERE tag.name IN ('cloud','security') ON CONFLICT DO NOTHING;
@@ -514,7 +514,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='PAGIEL' WHERE tag.name IN ('greenit') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Pandas' WHERE tag.name IN ('data','framework','ml','python') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Pentest' WHERE tag.name IN ('hardening','security') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Perforce' WHERE tag.name IN ('CI/CD','tooling') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Perforce' WHERE tag.name IN ('ci/cd','tooling') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Perl' WHERE tag.name IN ('language','programming') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Phase-gate process' WHERE tag.name IN ('delivery') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='PHP' WHERE tag.name IN ('language','php','programming') ON CONFLICT DO NOTHING;
@@ -585,7 +585,7 @@ INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Relational Databases' WHERE tag.name IN ('backend','data','field') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Relationship builder' WHERE tag.name IN ('behavior','relations','strength') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Relationship developper' WHERE tag.name IN ('behavior','relations','strength') ON CONFLICT DO NOTHING;
-INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Release Management' WHERE tag.name IN ('CI/CD') ON CONFLICT DO NOTHING;
+INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Release Management' WHERE tag.name IN ('ci/cd') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Remix' WHERE tag.name IN ('backend','framework','frontend','web') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Resilience' WHERE tag.name IN ('behavior','execution','strength') ON CONFLICT DO NOTHING;
 INSERT INTO public."SkillTag" SELECT skill.id, tag.id FROM public."Tag" tag JOIN public."Skill" skill ON skill.name='Responsible' WHERE tag.name IN ('behavior','execution','strength') ON CONFLICT DO NOTHING;
