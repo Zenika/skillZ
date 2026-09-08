@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="640" viewBox="0 0 820 640" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
-  <rect width="820" height="640" fill="#ffffff"/>
-  <text x="24" y="34" font-size="20" font-weight="700" fill="#1a1a2e">Rôles (25)</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="760" viewBox="0 0 820 760" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+  <rect width="820" height="760" fill="#ffffff"/>
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#1a1a2e">Rôles (29)</text>
   <text x="24" y="54" font-size="13" fill="#6b7280">Rôle d'un·e collaborateur·rice (relation User ↔ Role). Regroupés ici par famille.</text>
 
   <!-- ============ COLONNE GAUCHE ============ -->
@@ -36,33 +36,37 @@
 
   <!-- ============ COLONNE DROITE ============ -->
   <!-- Data & IA -->
-  <rect x="420" y="76" width="376" height="194" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
+  <rect x="420" y="76" width="376" height="308" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
   <text x="436" y="100" font-size="14" font-weight="700" fill="#4338ca">DATA &amp; IA</text>
   <g font-size="13" fill="#312e81">
-    <rect x="436" y="110" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="127">Data Engineer / Scientist</text>
-    <rect x="436" y="140" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="157">ML Engineer</text>
-    <rect x="436" y="170" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="187">AI Engineer</text>
-    <rect x="436" y="200" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="217">AI / ML Architect</text>
-    <rect x="436" y="230" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="247">Responsible AI Lead</text>
+    <rect x="436" y="110" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="127">Data Engineer</text>
+    <rect x="436" y="140" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="157">Data Scientist</text>
+    <rect x="436" y="170" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="187">Analytics Engineer</text>
+    <rect x="436" y="200" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="217">Forward Deployed AI Engineer</text>
+    <rect x="436" y="230" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="247">Data Architect</text>
+    <rect x="436" y="260" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="277">ML Engineer</text>
+    <rect x="436" y="290" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="307">AI Engineer</text>
+    <rect x="436" y="320" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="337">AI / ML Architect</text>
+    <rect x="436" y="350" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="367">Responsible AI Lead</text>
   </g>
 
   <!-- Produit & Design -->
-  <rect x="420" y="286" width="376" height="134" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
-  <text x="436" y="310" font-size="14" font-weight="700" fill="#4338ca">PRODUIT &amp; DESIGN</text>
+  <rect x="420" y="400" width="376" height="134" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
+  <text x="436" y="424" font-size="14" font-weight="700" fill="#4338ca">PRODUIT &amp; DESIGN</text>
   <g font-size="13" fill="#312e81">
-    <rect x="436" y="320" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="337">Product Owner</text>
-    <rect x="436" y="350" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="367">Product Manager</text>
-    <rect x="436" y="380" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="397">UX Designer</text>
+    <rect x="436" y="434" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="451">Product Owner</text>
+    <rect x="436" y="464" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="481">Product Manager</text>
+    <rect x="436" y="494" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="511">UX Designer</text>
   </g>
 
   <!-- Management & Conseil -->
-  <rect x="420" y="436" width="376" height="194" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
-  <text x="436" y="460" font-size="14" font-weight="700" fill="#4338ca">MANAGEMENT &amp; CONSEIL</text>
+  <rect x="420" y="550" width="376" height="194" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
+  <text x="436" y="574" font-size="14" font-weight="700" fill="#4338ca">MANAGEMENT &amp; CONSEIL</text>
   <g font-size="13" fill="#312e81">
-    <rect x="436" y="470" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="487">Engineering Manager</text>
-    <rect x="436" y="500" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="517">Delivery Manager</text>
-    <rect x="436" y="530" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="547">Coach (team, organisation)</text>
-    <rect x="436" y="560" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="577">Scrum Master</text>
-    <rect x="436" y="590" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="607">Consultant / Conseil</text>
+    <rect x="436" y="584" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="601">Engineering Manager</text>
+    <rect x="436" y="614" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="631">Delivery Manager</text>
+    <rect x="436" y="644" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="661">Coach (team, organisation)</text>
+    <rect x="436" y="674" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="691">Scrum Master</text>
+    <rect x="436" y="704" width="344" height="24" rx="12" fill="#e0e7ff"/><text x="448" y="721">Consultant / Conseil</text>
   </g>
 </svg>

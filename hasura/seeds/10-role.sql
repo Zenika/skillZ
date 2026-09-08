@@ -1,13 +1,17 @@
 INSERT INTO "public"."Role" ("name") VALUES ('AI Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('AI / ML Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Analytics Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Cloud Architect') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Coach (team, organisation)') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Consultant / Conseil') ON CONFLICT ("name") DO NOTHING;
-INSERT INTO "public"."Role" ("name") VALUES ('Data Engineer / Scientist') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Scientist') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Delivery Manager') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Developer / Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('DevOps CI-CD Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Engineering Manager') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Forward Deployed AI Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Full Stack Developer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Infra / Ops Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('ML Engineer') ON CONFLICT ("name") DO NOTHING;
