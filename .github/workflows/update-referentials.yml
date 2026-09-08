@@ -35,6 +35,7 @@ jobs:
           node update-skills-referentiel.mjs
           node update-tags-referentiel.mjs
           node update-topics-referentiel.mjs
+          node update-role-referentiel.mjs
           cd ..
           git checkout -b chore/update_referentials
 

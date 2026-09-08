@@ -36,7 +36,7 @@ const roles = rolesData.map((role) => `('${role.name}')`)
 /*
  * WRITE DATA TO FILE
  */
-let writer = fs.createWriteStream('../hasura/seeds/10-roles.sql', {
+let writer = fs.createWriteStream('../hasura/seeds/10-role.sql', {
     flags: 'w',
 })
 
