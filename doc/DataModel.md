@@ -223,6 +223,44 @@ Quelques lignes réelles par table (référentiel).
 Voir la section **Rôles** ci-dessus (29 rôles).
 
 
+## Illustration par domaine
+
+Le même modèle sert des domaines très différents — **mêmes tables, contenus différents**.
+Deux exemples : **Data** et **Platform / Ops**.
+
+### Domaine Data
+
+- **Rôles clé** — `Data Engineer` (pipelines batch/streaming, ingestion, stockage scalable) ·
+  `Analytics Engineer` (couche sémantique, modélisation DWH, dbt) ·
+  `Data Architect` (gouvernance, urbanisation multi-cloud, Data Mesh).
+- **Technos (skills)** — `Snowflake` · `Databricks` · `dbt` · `Apache Spark / PySpark` ·
+  `Apache Kafka` · `Airflow` · `Delta Lake` · `BigQuery` · `Great Expectations` · `Unity Catalog`
+- **Certifications** — Databricks (Data Engineer, ML, GenAI) · Snowflake SnowPro (Core, Advanced) ·
+  dbt (Developer, Architect) · Google Cloud (Professional Data Engineer, Associate Data Practitioner) ·
+  AWS / Azure Data Engineer · Astronomer Airflow · DAMA CDMP · Data Vault 2.0.
+- **Regroupement en topics** —
+  - `Analytics Engineering` : dbt · dbt Semantic Layer · MetricFlow · Cube · dbt Mesh · Jinja ·
+    Dimensional modeling (Kimball) · SCD · Enterprise Data Warehouse · Text-to-SQL
+  - `Data engineering` *(extrait)* : PySpark · Apache Kafka · Apache Flink · Apache Iceberg ·
+    Delta Lake · Debezium · CDC · Airflow · Great Expectations · Medallion architecture · Lakehouse
+
+### Domaine Platform / Ops
+
+- **Rôles clé** — `SRE (Site Reliability Engineer)` (fiabilité, SLO, incidents) ·
+  `Infra / Ops Engineer` (IaC, réseau, systèmes) ·
+  `DevOps CI-CD Engineer` (pipelines, livraison continue, GitOps).
+- **Technos (skills)** — `Kubernetes` · `Docker` · `Terraform` · `Ansible` · `ArgoCD` ·
+  `Helm` · `Prometheus` · `Grafana` · `Jenkins` · `Vault`
+- **Certifications** — CNCF Kubernetes (CKA, CKAD, CKS) · HashiCorp (Terraform, Vault, Consul) ·
+  Red Hat OpenShift (DO180 / DO280) & Ansible Automation · GitLab CI/CD · CloudBees Jenkins ·
+  Docker (Mirantis) · Rancher · Elastic Observability ·
+  Cloud (GCP DevOps / Cloud Architect, AWS DevOps / SysOps, Azure AZ-400 / AZ-305).
+- **Regroupement en topics** —
+  - `CI/CD & Automation` : ArgoCD · FluxCD · Jenkins · GitOps · Helm · Kustomize ·
+    Continuous Integration · Continuous Deployment · DevSecOps · CircleCI · Ansible Molecule
+  - `Observability` : Prometheus · Grafana · Thanos · Datadog · Dynatrace · Elastic Observability ·
+    Fluent Bit · Metrology · Monitoring
+
 ## Volumétrie du référentiel
 
 | Table | Nombre |
