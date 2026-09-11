@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="590" viewBox="0 0 820 590" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+  <rect width="820" height="590" fill="#ffffff"/>
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#1a1a2e">Topics (30)</text>
+  <text x="24" y="54" font-size="13" fill="#6b7280">Chaque skill est rattachée à un ou plusieurs topics, typés domain · sensitivity · generic.</text>
+
+  <!-- DOMAIN -->
+  <rect x="24" y="76" width="250" height="470" rx="10" fill="#f0fdf9" stroke="#5eead4"/>
+  <text x="40" y="104" font-size="15" font-weight="700" fill="#0f766e">DOMAIN · 12</text>
+  <g font-size="13" fill="#134e4a">
+    <rect x="40" y="116" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="133">Backend (servers)</text>
+    <rect x="40" y="148" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="165">Frontend (UI)</text>
+    <rect x="40" y="180" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="197">Data engineering</text>
+    <rect x="40" y="212" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="229">Data Science / Analytics</text>
+    <rect x="40" y="244" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="261">Infrastructure / Ops</text>
+    <rect x="40" y="276" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="293">SRE / Reliability</text>
+    <rect x="40" y="308" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="325">Observability</text>
+    <rect x="40" y="340" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="357">Platform Engineering</text>
+    <rect x="40" y="372" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="389">Quality assurance</text>
+    <rect x="40" y="404" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="421">Delivery</text>
+    <rect x="40" y="436" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="453">Product</text>
+    <rect x="40" y="468" width="218" height="26" rx="13" fill="#ccfbf1"/><text x="52" y="485">Organization / Collaboration</text>
+  </g>
+
+  <!-- SENSITIVITY -->
+  <rect x="286" y="76" width="250" height="470" rx="10" fill="#f5f3ff" stroke="#c4b5fd"/>
+  <text x="302" y="104" font-size="15" font-weight="700" fill="#6d28d9">SENSITIVITY · 14</text>
+  <g font-size="13" fill="#4c1d95">
+    <rect x="302" y="116" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="133">Agile</text>
+    <rect x="302" y="148" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="165">Architecture</text>
+    <rect x="302" y="180" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="197">Artificial Intelligence</text>
+    <rect x="302" y="212" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="229">Cloud</text>
+    <rect x="302" y="244" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="261">Craftsmanship</text>
+    <rect x="302" y="276" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="293">Design</text>
+    <rect x="302" y="308" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="325">Development process</text>
+    <rect x="302" y="340" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="357">CI/CD &amp; Automation</text>
+    <rect x="302" y="372" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="389">FinOps</text>
+    <rect x="302" y="404" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="421">API &amp; Integration</text>
+    <rect x="302" y="436" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="453">Testing / Quality Engineering</text>
+    <rect x="302" y="468" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="485">Green</text>
+    <rect x="302" y="500" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="517">Management</text>
+    <rect x="302" y="532" width="218" height="26" rx="13" fill="#ede9fe"/><text x="314" y="549">Security</text>
+  </g>
+
+  <!-- GENERIC -->
+  <rect x="548" y="76" width="248" height="200" rx="10" fill="#fefce8" stroke="#fde047"/>
+  <text x="564" y="104" font-size="15" font-weight="700" fill="#a16207">GENERIC · 4</text>
+  <g font-size="13" fill="#713f12">
+    <rect x="564" y="116" width="216" height="26" rx="13" fill="#fef9c3"/><text x="576" y="133">Business</text>
+    <rect x="564" y="148" width="216" height="26" rx="13" fill="#fef9c3"/><text x="576" y="165">Professional behavior</text>
+    <rect x="564" y="180" width="216" height="26" rx="13" fill="#fef9c3"/><text x="576" y="197">Programming language</text>
+    <rect x="564" y="212" width="216" height="26" rx="13" fill="#fef9c3"/><text x="576" y="229">Spoken language</text>
+  </g>
+</svg>

@@ -1,13 +1,29 @@
-INSERT INTO "public"."Role" ("name") VALUES
-('Developer / Engineer'),
-('Technical Lead'),
-('Solution Architect'),
-('Technical Expert / Specialist'),
-('Product Owner'),
-('Product Manager'),
-('UX Designer'),
-('Engineering Manager'),
-('Delivery Manager'),
-('Coach (team, organisation)'),
-('Consultant')
- ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('AI Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('AI / ML Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Analytics Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Cloud Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Coach (team, organisation)') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Consultant / Conseil') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Data Scientist') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Delivery Manager') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Developer / Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('DevOps CI-CD Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Engineering Manager') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Forward Deployed AI Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Full Stack Developer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Infra / Ops Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('ML Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Product Manager') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Product Owner') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Responsible AI Lead') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Scrum Master') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Security Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Solution Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('SRE (Site Reliability Engineer)') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Staff / Principal Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Technical Expert / Specialist') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Technical Lead') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Trainer / Formateur') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('UX Designer') ON CONFLICT ("name") DO NOTHING;

@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="740" viewBox="0 0 1060 740" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+  <rect width="1060" height="740" fill="#ffffff"/>
+
+  <!-- bandes -->
+  <rect x="16" y="46" width="1028" height="336" rx="12" fill="#fafafa" stroke="#eeeeee"/>
+  <text x="30" y="68" font-size="12" font-weight="700" letter-spacing="1" fill="#9ca3af">RÉFÉRENTIEL — SKILL AU CENTRE</text>
+  <rect x="16" y="398" width="1028" height="326" rx="12" fill="#f7f8fc" stroke="#eeeeee"/>
+  <text x="30" y="420" font-size="12" font-weight="700" letter-spacing="1" fill="#9ca3af">DONNÉES UTILISATEUR — USER AU CENTRE</text>
+
+  <!-- edges référentiel -->
+  <g stroke="#9ca3af" stroke-width="1.3" fill="none">
+    <path d="M300 132 H360"/>            <!-- Tag — SkillTag -->
+    <path d="M480 132 H540 V180"/>       <!-- SkillTag — Skill -->
+    <path d="M620 180 V130 H700"/>       <!-- Skill — SkillTopic -->
+    <path d="M830 130 H880"/>            <!-- SkillTopic — Topic -->
+    <path d="M640 252 H700"/>            <!-- Skill — CertificationSkill -->
+    <path d="M850 252 H880"/>            <!-- CertificationSkill — Certification -->
+    <path d="M440 290 H250"/>            <!-- Skill — Category (N:1) -->
+  </g>
+  <text x="300" y="284" font-size="11" fill="#6b7280">N:1</text>
+
+  <!-- Tag -->
+  <rect x="150" y="104" width="150" height="56" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/>
+  <text x="164" y="124" font-size="13" font-weight="700" fill="#b45309">Tag</text>
+  <line x1="150" y1="130" x2="300" y2="130" stroke="#f0e6d8"/>
+  <text x="164" y="150" font-size="12" fill="#374151">name (unique)</text>
+
+  <!-- SkillTag pivot -->
+  <rect x="360" y="112" width="120" height="40" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="372" y="130" font-size="12" font-weight="700" fill="#6b7280">SkillTag</text>
+  <text x="372" y="146" font-size="10.5" fill="#6b7280">skillId · tagId</text>
+
+  <!-- Topic -->
+  <rect x="880" y="96" width="160" height="74" rx="8" fill="#fff" stroke="#a16207" stroke-width="1.5"/>
+  <text x="894" y="116" font-size="13" font-weight="700" fill="#a16207">Topic</text>
+  <line x1="880" y1="122" x2="1040" y2="122" stroke="#f0e6d8"/>
+  <text x="894" y="140" font-size="12" fill="#374151">name (unique)</text>
+  <text x="894" y="158" font-size="12" fill="#374151">type · domain/sensitivity/generic</text>
+
+  <!-- SkillTopic pivot -->
+  <rect x="700" y="110" width="130" height="40" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="712" y="128" font-size="12" font-weight="700" fill="#6b7280">SkillTopic</text>
+  <text x="712" y="144" font-size="10.5" fill="#6b7280">skillId · topicId</text>
+
+  <!-- Category -->
+  <rect x="70" y="236" width="180" height="120" rx="8" fill="#fff" stroke="#15803d" stroke-width="1.5"/>
+  <text x="84" y="256" font-size="13" font-weight="700" fill="#15803d">Category</text>
+  <line x1="70" y1="262" x2="250" y2="262" stroke="#dcece1"/>
+  <text x="84" y="281" font-size="12" fill="#374151">label</text>
+  <text x="84" y="299" font-size="12" fill="#374151">index (unique)</text>
+  <text x="84" y="317" font-size="12" fill="#374151">color</text>
+  <text x="84" y="335" font-size="12" fill="#374151">x · y</text>
+
+  <!-- Skill (central) -->
+  <rect x="440" y="180" width="200" height="128" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="2"/>
+  <text x="454" y="201" font-size="14" font-weight="700" fill="#6d28d9">Skill</text>
+  <line x1="440" y1="208" x2="640" y2="208" stroke="#e5ddfa"/>
+  <text x="454" y="227" font-size="12" fill="#374151">id (uuid)</text>
+  <text x="454" y="245" font-size="12" fill="#374151">name (unique)</text>
+  <text x="454" y="263" font-size="12" fill="#374151">description</text>
+  <text x="454" y="281" font-size="12" fill="#374151">verified</text>
+  <text x="454" y="299" font-size="12" fill="#374151">categoryId →</text>
+
+  <!-- CertificationSkill pivot -->
+  <rect x="700" y="232" width="150" height="40" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="712" y="250" font-size="12" font-weight="700" fill="#6b7280">CertificationSkill</text>
+  <text x="712" y="266" font-size="10.5" fill="#6b7280">certId · skillId</text>
+
+  <!-- Certification -->
+  <rect x="880" y="228" width="160" height="110" rx="8" fill="#fff" stroke="#b91c1c" stroke-width="1.5"/>
+  <text x="894" y="248" font-size="13" font-weight="700" fill="#b91c1c">Certification</text>
+  <line x1="880" y1="254" x2="1040" y2="254" stroke="#f3dada"/>
+  <text x="894" y="273" font-size="12" fill="#374151">id</text>
+  <text x="894" y="291" font-size="12" fill="#374151">name (unique)</text>
+  <text x="894" y="309" font-size="12" fill="#374151">certBody</text>
+  <text x="894" y="327" font-size="12" fill="#374151">verified</text>
+
+  <!-- ============ BAND B ============ -->
+  <!-- edges -->
+  <g stroke="#9ca3af" stroke-width="1.3" fill="none">
+    <path d="M540 308 V396"/>            <!-- Skill - UserSkillDesire -->
+    <path d="M540 440 V470"/>            <!-- UserSkillDesire - User -->
+    <path d="M440 512 H420"/><path d="M300 514 H240"/>  <!-- User-UserRole-Role -->
+    <path d="M440 566 H420"/><path d="M300 584 H240"/>  <!-- User-UserAgency-Agency -->
+    <path d="M640 500 H700"/>            <!-- User - UserCertification -->
+    <path d="M640 540 H700"/>            <!-- User - UserTopic -->
+    <path d="M640 590 H700"/>            <!-- User - UserAchievements -->
+  </g>
+
+  <!-- UserSkillDesire (bridge) -->
+  <rect x="448" y="396" width="184" height="46" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-dasharray="3 2"/>
+  <text x="460" y="414" font-size="12" font-weight="700" fill="#4f46e5">UserSkillDesire</text>
+  <text x="460" y="431" font-size="10.5" fill="#4f46e5">skillLevel · desireLevel · created_at</text>
+
+  <!-- User (central) -->
+  <rect x="440" y="470" width="200" height="150" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="454" y="491" font-size="14" font-weight="700" fill="#1d4ed8">User</text>
+  <line x1="440" y1="498" x2="640" y2="498" stroke="#d8e6fb"/>
+  <text x="454" y="517" font-size="12" fill="#374151">email (PK)</text>
+  <text x="454" y="535" font-size="12" fill="#374151">name</text>
+  <text x="454" y="553" font-size="12" fill="#374151">picture</text>
+  <text x="454" y="571" font-size="12" fill="#374151">active</text>
+  <text x="454" y="589" font-size="12" fill="#374151">botNotifications</text>
+  <text x="454" y="607" font-size="12" fill="#374151">last_login</text>
+
+  <!-- Role + UserRole -->
+  <rect x="70" y="482" width="170" height="56" rx="8" fill="#fff" stroke="#4338ca" stroke-width="1.5"/>
+  <text x="84" y="502" font-size="13" font-weight="700" fill="#4338ca">Role</text>
+  <line x1="70" y1="508" x2="240" y2="508" stroke="#dcdcf5"/>
+  <text x="84" y="527" font-size="12" fill="#374151">name (unique)</text>
+  <rect x="300" y="496" width="120" height="36" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="312" y="512" font-size="12" font-weight="700" fill="#6b7280">UserRole</text>
+  <text x="312" y="526" font-size="10" fill="#6b7280">userEmail · roleId</text>
+
+  <!-- Agency + UserAgency -->
+  <rect x="70" y="558" width="170" height="52" rx="8" fill="#fff" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="84" y="578" font-size="13" font-weight="700" fill="#0f766e">Agency</text>
+  <line x1="70" y1="584" x2="240" y2="584" stroke="#d5ebe7"/>
+  <text x="84" y="602" font-size="12" fill="#374151">name (PK)</text>
+  <rect x="300" y="566" width="120" height="36" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="312" y="582" font-size="12" font-weight="700" fill="#6b7280">UserAgency</text>
+  <text x="312" y="596" font-size="10" fill="#6b7280">userEmail · agency</text>
+
+  <!-- UserCertification -->
+  <rect x="700" y="474" width="180" height="52" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="712" y="492" font-size="12" font-weight="700" fill="#6b7280">UserCertification  ↑ Certification</text>
+  <text x="712" y="508" font-size="10" fill="#6b7280">userEmail · certId</text>
+  <text x="712" y="521" font-size="10" fill="#6b7280">from · to · obtained · url</text>
+
+  <!-- UserTopic -->
+  <rect x="700" y="522" width="180" height="36" rx="8" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+  <text x="712" y="538" font-size="12" font-weight="700" fill="#6b7280">UserTopic  ↑ Topic</text>
+  <text x="712" y="551" font-size="10" fill="#6b7280">userEmail · topicId</text>
+
+  <!-- UserAchievements -->
+  <rect x="700" y="572" width="180" height="52" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="712" y="590" font-size="12" font-weight="700" fill="#7c3aed">UserAchievements</text>
+  <text x="712" y="606" font-size="10.5" fill="#374151">label · points · step</text>
+  <text x="712" y="620" font-size="10.5" fill="#374151">userEmail · additionalInfo</text>
+
+  <!-- legend -->
+  <g font-size="11" fill="#6b7280">
+    <rect x="900" y="642" width="14" height="14" rx="3" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="3 2"/>
+    <text x="920" y="653">table de liaison (pivot)</text>
+  </g>
+</svg>

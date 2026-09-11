@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="380" viewBox="0 0 860 380" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+  <rect width="860" height="380" fill="#ffffff"/>
+  <text x="24" y="34" font-size="18" font-weight="700" fill="#1a1a2e">Exemple — la skill « ReactJS »</text>
+  <text x="24" y="54" font-size="13" fill="#6b7280">Une skill = 1 catégorie, N tags, N topics ; l'auto-évaluation d'un·e collaborateur·rice vit dans UserSkillDesire.</text>
+
+  <!-- edges -->
+  <g stroke="#9ca3af" stroke-width="1.3" fill="none">
+    <path d="M350 185 H250"/>                 <!-- Skill - Category -->
+    <path d="M430 150 V120"/>                 <!-- Skill - Tags -->
+    <path d="M510 185 H600"/>                 <!-- Skill - Topic -->
+    <path d="M430 220 V270"/>                 <!-- Skill - UserSkillDesire -->
+  </g>
+  <text x="300" y="178" font-size="10" fill="#6b7280">N:1</text>
+
+  <!-- Tags -->
+  <g font-size="12" fill="#7c4a03">
+    <rect x="120" y="80" width="86" height="24" rx="12" fill="#fde9c8"/><text x="132" y="97">framework</text>
+    <rect x="214" y="80" width="80" height="24" rx="12" fill="#fde9c8"/><text x="226" y="97">frontend</text>
+    <rect x="302" y="80" width="86" height="24" rx="12" fill="#fde9c8"/><text x="314" y="97">javascript</text>
+    <rect x="396" y="80" width="70" height="24" rx="12" fill="#fde9c8"/><text x="408" y="97">library</text>
+    <rect x="474" y="80" width="62" height="24" rx="12" fill="#fde9c8"/><text x="486" y="97">React</text>
+    <rect x="544" y="80" width="104" height="24" rx="12" fill="#fde9c8"/><text x="556" y="97">React Native</text>
+    <rect x="656" y="80" width="86" height="24" rx="12" fill="#fde9c8"/><text x="668" y="97">typescript</text>
+  </g>
+  <text x="120" y="72" font-size="11" font-weight="700" fill="#b45309">7 tags (via SkillTag)</text>
+
+  <!-- Category -->
+  <rect x="90" y="160" width="160" height="52" rx="8" fill="#e8f5e9" stroke="#15803d" stroke-width="1.5"/>
+  <text x="106" y="182" font-size="13" font-weight="700" fill="#15803d">Category</text>
+  <text x="106" y="200" font-size="12" fill="#166534">practices</text>
+
+  <!-- Skill -->
+  <rect x="350" y="150" width="160" height="70" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="2"/>
+  <text x="366" y="175" font-size="14" font-weight="700" fill="#6d28d9">Skill · ReactJS</text>
+  <text x="366" y="196" font-size="11.5" fill="#374151">verified = true</text>
+  <text x="366" y="212" font-size="11.5" fill="#374151">description …</text>
+
+  <!-- Topic -->
+  <rect x="600" y="160" width="190" height="52" rx="8" fill="#ccfbf1" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="616" y="182" font-size="13" font-weight="700" fill="#0f766e">Topic · Frontend (UI)</text>
+  <text x="616" y="200" font-size="11" fill="#134e4a">type = domain (via SkillTopic)</text>
+
+  <!-- UserSkillDesire -->
+  <rect x="300" y="270" width="270" height="72" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="316" y="292" font-size="13" font-weight="700" fill="#4f46e5">UserSkillDesire</text>
+  <text x="316" y="312" font-size="12" fill="#312e81">collaborateur@example.com</text>
+  <text x="316" y="330" font-size="12" fill="#312e81">skillLevel = 4 · desireLevel = 5 · created_at</text>
+</svg>

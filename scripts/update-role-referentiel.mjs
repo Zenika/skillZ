@@ -30,21 +30,29 @@ const { roles: rolesData } = await response.json()
 
 /*
  * FORMAT DATA
+ * One INSERT per role (matches the repository seed format), deterministic
+ * (sorted by name), with single quotes escaped for SQL.
  */
-const roles = rolesData.map((role) => `('${role.name}')`)
+const roles = rolesData
+    .map((role) => role.name)
+    .sort((a, b) => a.localeCompare(b))
+
+const lines = roles.map(
+    (name) =>
+        `INSERT INTO "public"."Role" ("name") VALUES ('${name.replace(
+            /'/g,
+            "''"
+        )}') ON CONFLICT ("name") DO NOTHING;`
+)
 
 /*
  * WRITE DATA TO FILE
  */
-let writer = fs.createWriteStream('../hasura/seeds/10-roles.sql', {
+let writer = fs.createWriteStream('../hasura/seeds/10-role.sql', {
     flags: 'w',
 })
 
-writer.write('INSERT INTO "public"."Role" ("name") VALUES\n')
-
-writer.write(roles.join(',\n'))
-
-writer.write('\n ON CONFLICT ("name") DO NOTHING;')
+writer.write(lines.join('\n') + '\n')
 
 writer.close()
 
