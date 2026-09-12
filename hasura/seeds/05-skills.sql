@@ -830,7 +830,6 @@ Given a story map so arranged, the first horizontal row represents a “walking 
 ('Swagger', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('Swift', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('SwiftUI', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
-('symfony', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', false, ''),
 ('Symfony', '89780de3-4a4c-40c2-bcdf-b5d15a48437a', true, ''),
 ('System Administration', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Activities for the upkeep, configuration, and reliable operation of computer systems, especially multi-user computers, such as servers.'),
 ('System Edge configuration', '06420261-3e78-4a91-bc6a-1a52cad5d6a1', true, 'Proxies, web servers, appliances configurations to maintain the availability of systems at their edges. Different types of load balancing, HTTP2, whitelisting / blacklisting, agent-based client authentication...'),
