@@ -40,8 +40,8 @@ Les tables en pointillés sont des **tables de liaison** (pivots).
 
 Le rôle d'un·e collaborateur·rice (relation `User` ↔ `Role`), regroupé par famille.
 
-**Développement & Architecture** — Developer / Engineer · Technical Lead · Technical Expert / Specialist · Solution Architect · Full Stack Developer · Staff / Principal Engineer  
-**Cloud, Infra & Ops** — SRE (Site Reliability Engineer) · Infra / Ops Engineer · DevOps CI-CD Engineer · Security Engineer · Cloud Architect  
+**Développement & Architecture** — Developer / Engineer · Technical Lead · Technical Expert / Specialist · Solution Architect · Full Stack Developer · Staff / Principal Engineer · Augmented Developer  
+**Cloud, Infra & Ops** — SRE (Site Reliability Engineer) · Infra / Ops Engineer · DevOps CI-CD Engineer · Security Engineer · AI Security Engineer · Cloud Architect  
 **Data & IA** — Data Engineer · Data Scientist · Analytics Engineer · Forward Deployed AI Engineer · Data Architect · ML Engineer · AI Engineer · AI / ML Architect · Responsible AI Lead  
 **Produit & Design** — Product Owner · Product Manager · UX Designer  
 **Management & Conseil** — Engineering Manager · Delivery Manager · Coach (team, organisation) · Scrum Master · Consultant / Conseil  

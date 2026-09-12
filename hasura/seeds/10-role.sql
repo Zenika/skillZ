@@ -1,6 +1,8 @@
 INSERT INTO "public"."Role" ("name") VALUES ('AI Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('AI / ML Architect') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('AI Security Engineer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Analytics Engineer') ON CONFLICT ("name") DO NOTHING;
+INSERT INTO "public"."Role" ("name") VALUES ('Augmented Developer') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Cloud Architect') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Coach (team, organisation)') ON CONFLICT ("name") DO NOTHING;
 INSERT INTO "public"."Role" ("name") VALUES ('Consultant / Conseil') ON CONFLICT ("name") DO NOTHING;
