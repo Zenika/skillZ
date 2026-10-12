@@ -1,5 +1,7 @@
 INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('sensitivity', 'Agile'),
+('domain', 'AI Agentic Engineering'),
+('domain', 'AI for Knowledge Workers'),
 ('domain', 'Analytics Engineering'),
 ('sensitivity', 'API & Integration'),
 ('sensitivity', 'Architecture'),
@@ -31,3 +33,6 @@ INSERT INTO "public"."Topic" ("type", "name") VALUES
 ('domain', 'SRE / Reliability'),
 ('sensitivity', 'Testing / Quality Engineering')
  ON CONFLICT ("name") DO UPDATE SET "type" = EXCLUDED."type";
+
+DELETE FROM "public"."UserTopic" WHERE "topicId" IN (SELECT "id" FROM "public"."Topic" WHERE "type" IS NULL);
+DELETE FROM "public"."Topic" WHERE "type" IS NULL;
