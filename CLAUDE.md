@@ -57,6 +57,33 @@ All global state lives in context providers (`/src/providers/`), stacked in `_ap
 
 Master data (skills, certifications, agencies, categories, tags, topics) lives in `/hasura/seeds/*.sql`. A GitHub Actions workflow (`.github/workflows/update-referentials.yml`) runs weekly on Mondays to fetch approved data from `skills.zenika.com` via `/scripts/update-*-referentiel.mjs` and opens a PR with updated seed files.
 
+### Data Model (tables clés)
+
+Schema in `/hasura/migrations/`. Core tables for "who knows what, where" queries:
+
+- **`User`** (`email` PK, `name`, `picture`, **`active`** bool NOT NULL default true) — `active` = consultant actif/parti. Always filter on it for population counts.
+- **`UserSkillDesire`** (`userEmail`, `skillId`, `skillLevel`, `desireLevel`, `created_at`) — **table qui fait foi pour les compétences** (l'appli y upsert via `insert_UserSkillDesire`, cf. `src/graphql/mutations/skills.ts`). Historisée par `created_at`. `UserSkill` (ancienne, `level`) est quasi abandonnée.
+- **`UserAgency`** (`userEmail`, `agency`→`Agency.name`, `created_at`) — ville/agence, historisée.
+- **Vues « état courant » (à préférer dans les requêtes, même sémantique que l'appli) :**
+  - **`UsersCurrentSkillsAndDesires`** (`skillId`, `categoryId`, `userEmail`, `name`, `skillLevel`, `desireLevel`, `created_at`) — dernier niveau par (user, skill).
+  - **`UserLatestAgency`** (`userEmail`, `agency`) — ville courante par user.
+  - Aussi : `ZenikasAverageCurrentSkillsAndDesires`, `AgenciesAverageCurrentSkillsAndDesires`.
+- **`UserRole`** (`userEmail`, `roleId`→`Role.id`) / **`Role`** (`id`, `name` UNIQUE) — rôles métier (intitulés de poste : *AI Engineer, Cloud Architect, Data Scientist…*), ≠ domaines fonctionnels.
+- **`Skill`** (`id`, `name` UNIQUE, `categoryId`, `description`) ; **`Topic`** (`id`, `name` UNIQUE, `type` ∈ sensitivity/domain/generic) ; pivot **`SkillTopic`** (`skillId`, `topicId`) regroupe les skills par domaine (bien peuplé). Aussi `UserTopic`, `TechnicalAppetite`, `UserCertification`/`Certification`, `UserAchievements`.
+
+Pour compter des consultants **par ville par domaine de compétence** : `UsersCurrentSkillsAndDesires` → `SkillTopic` → `Topic`, filtrer `User.active`, joindre `UserLatestAgency`. Les référentiels (`Role`, `Topic`, `Skill`, `Agency`) sont dans `/hasura/seeds/`.
+
+### RAO — rapprochement des listes clients au référentiel
+
+Quand on reçoit une liste de compétences/solutions/technologies à rapprocher du référentiel
+SkillZ (comptages RAO), **toujours utiliser et enrichir le dictionnaire de synonymes** :
+`tools_rao/skill-synonyms.json` (clé = nom EXACT du skill ; `all_skills` = liste des
+896 skills autorisés ; `synonyms`/`groupings`/`loose_matches`/`absent_du_referentiel`).
+Procédure : normaliser (casse/accents/espaces), consulter le dico, puis **ajouter au dico** les
+nouvelles variantes et les absents rencontrés. Outils dans `tools_rao/` :
+`match_skills.py` (matching liste→référentiel, écrit `rao_outils.sql`) et `build_dict.py`
+(régénère le dico depuis le seed `hasura/seeds/05-skills.sql`). Chemins relatifs au repo.
+
 ### Component Organization
 
 Components follow atomic design: `atoms/` → `molecules/` → `organisms/` → `templates/`. Unit tests mirror this in `/test/unit/`.
