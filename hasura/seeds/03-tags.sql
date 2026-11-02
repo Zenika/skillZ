@@ -34,6 +34,7 @@ INSERT INTO "public"."Tag" ("name") VALUES
 ('coaching individuel'),
 ('conduite du changement'),
 ('confidentiality'),
+('Confluent'),
 ('consulting'),
 ('containers'),
 ('continuous improvement'),
